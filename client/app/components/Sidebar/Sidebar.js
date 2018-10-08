@@ -28,16 +28,16 @@ const Sidebar = ({ ...props }) => {
         if (prop.redirect) return null;
         var activePro = ' ';
         var listItemClasses;
-        // if (prop.path === '/upgrade-to-pro') {
-        //   activePro = classes.activePro + ' ';
-        //   listItemClasses = classNames({
-        //     [' ' + classes[color]]: true,
-        //   });
-        // } else {
+        if (prop.path === '/upgrade-to-pro') {
+          activePro = classes.activePro + ' ';
+          listItemClasses = classNames({
+            [' ' + classes[color]]: true,
+          });
+        } else {
           listItemClasses = classNames({
             [' ' + classes[color]]: activeRoute(prop.path),
           });
-        // }
+        }
         const whiteFontClasses = classNames({
           [' ' + classes.whiteFont]: activeRoute(prop.path),
         });
@@ -69,12 +69,12 @@ const Sidebar = ({ ...props }) => {
   );
   var brand = (
     <div className={classes.logo}>
-      <NavLink to="/wt" className={classes.logoLink}>
+      <a href="https://www.creative-tim.com" className={classes.logoLink}>
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
         </div>
         {logoText}
-      </NavLink>
+      </a>
     </div>
   );
   return (
