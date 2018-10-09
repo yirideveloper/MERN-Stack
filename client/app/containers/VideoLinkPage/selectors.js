@@ -5,9 +5,19 @@ import { initialState } from './reducer';
  * Direct selector to the videoLinkPage state domain
  */
 
-const selectDomain = state => state.get('videoLinkPage', initialState);
+const selectVideoLinkPageDomain = state =>
+  state.get('videoLinkPage', initialState);
 
-export const makeSelectAll = () =>
-  createSelector(selectDomain, state => state.get('all'));
-export const makeSelectOne = () =>
-  createSelector(selectDomain, state => state.get('one'));
+/**
+ * Other specific selectors
+ */
+
+/**
+ * Default selector used by VideoLinkPage
+ */
+
+const makeSelectVideoLinkPage = () =>
+  createSelector(selectVideoLinkPageDomain, substate => substate.toJS());
+
+export default makeSelectVideoLinkPage;
+export { selectVideoLinkPageDomain };
