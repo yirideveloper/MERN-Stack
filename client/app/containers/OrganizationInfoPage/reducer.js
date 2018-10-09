@@ -5,25 +5,14 @@
  */
 
 import { fromJS } from 'immutable';
-import * as types from './constants';
+import { DEFAULT_ACTION } from './constants';
 
-export const initialState = fromJS({
-  all: [],
-  one: {},
-});
+export const initialState = fromJS({});
 
 function organizationInfoPageReducer(state = initialState, action) {
   switch (action.type) {
-    case types.DEFAULT_ACTION:
+    case DEFAULT_ACTION:
       return state;
-    case types.LOAD_ALL_SUCCESS:
-      return state.merge({
-        all: fromJS(action.payload.data),
-      });
-    case types.LOAD_ONE_SUCCESS:
-      return state.merge({
-        one: fromJS(action.payload.data),
-      });
     default:
       return state;
   }
