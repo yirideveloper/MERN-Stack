@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
-import { Input, Button } from '@material-ui/core';
+import Input from '@material-ui/core/Input';
 import styled from 'styled-components';
 
 import registerImg from 'assets/img/register.jpg';
@@ -27,6 +27,7 @@ const FlexDiv = styled.div`
   height: 100%;
   margin: 0;
   display: flex!important;
+  padding: 120px 0;
   position: relative;
   min-height: 100vh;
   align-items: center;
@@ -36,16 +37,11 @@ const FlexDiv = styled.div`
 `;
 
 const FormWrapper = styled.div`
-width:350px;
   z-index: 4;
   margin-left: auto;
-  padding: 15px;
+  padding-left: 15px;
   margin-right: auto;
   padding-right: 15px;
-  background:#fff; border-radius:10px;
-background: #FFFFFF;
-box-shadow: 0 10px 40px 0 rgba(0,0,0,0.5);
-border-radius: 8px;
 `;
 
 class LoginPage extends React.PureComponent {
@@ -110,39 +106,36 @@ class LoginPage extends React.PureComponent {
     return (
       <FlexDiv>
         <FormWrapper>
-          <form onSubmit={this.handleSubmit}>
-            <div className={errors.email ? 'error' : ''}>
-              <Input fullWidth label="Email ID"
-                type="email"
-                name="email"
-                placeholder="E-mail address"
-                onChange={this.handleChange}
-                value={data.email || ''}
-                autoComplete="username"
-              />
-              {!!errors.email && <HelpBlock>{errors.email}</HelpBlock>}
-            </div>
-            <div className={errors.password ? 'error' : ''}>
-              <Input fullWidth label="Password"
-                name="password"
-                type="password"
-                placeholder="Password"
-                onChange={this.handleChange}
-                value={data.password || ''}
-                autoComplete="current-password"
-              />
-              {!!errors.password && <HelpBlock>{errors.password}</HelpBlock>}
-            </div>
-            <br />
-            <Button variant="contained" color="primary" type="submit" disabled={isRequesting}>
-              {isRequesting ? 'loading' : 'Login'}
-            </Button>
-            <br />
-            <br />
-            <a onClick={isRequesting ? () => null : () => this.resetPassword()}>
-              {isRequesting ? 'loading' : 'Reset Password'}
-            </a>
-          </form>
+        <form onSubmit={this.handleSubmit}>
+          <div className={errors.email ? 'error' : ''}>
+            <Input
+              type="email"
+              name="email"
+              placeholder="E-mail address"
+              onChange={this.handleChange}
+              value={data.email || ''}
+              autoComplete="username"
+            />
+            {!!errors.email && <HelpBlock>{errors.email}</HelpBlock>}
+          </div>
+          <div className={errors.password ? 'error' : ''}>
+            <Input
+              name="password"
+              placeholder="Password"
+              type="password"
+              onChange={this.handleChange}
+              value={data.password || ''}
+              autoComplete="current-password"
+            />
+            {!!errors.password && <HelpBlock>{errors.password}</HelpBlock>}
+          </div>
+          <button type="submit" disabled={isRequesting}>
+            {isRequesting ? 'loading' : 'Login'}
+          </button>
+          <a onClick={isRequesting ? () => null : () => this.resetPassword()}>
+            {isRequesting ? 'loading' : 'Reset Password'}
+          </a>
+        </form>
         </FormWrapper>
       </FlexDiv>
     );
