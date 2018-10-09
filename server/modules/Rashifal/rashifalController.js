@@ -16,7 +16,7 @@ rashifalController.SaveRashifal = async (req, res, next) => {
       return otherHelper.sendResponse(res, HttpStatus.OK, true, update, null, 'Rashifal Saved Success !!', null);
     } else {
       const newCat = new RashifalSch(rashifal);
-      newCat.Added_by = req.user.id;
+      newCat.slug = newCat.Rashifal;
       const rashifalSave = await newCat.save();
       return otherHelper.sendResponse(res, HttpStatus.OK, true, rashifalSave, null, 'Rashifal Saved Success !!', null);
     }
@@ -25,8 +25,8 @@ rashifalController.SaveRashifal = async (req, res, next) => {
   }
 };
 rashifalController.GetRashifalDetail = async (req, res, next) => {
-  const _id = req.params._id;
-  const rashifal = await RashifalSch.findOne({ _id: _id });
+  const slug = req.params.slug;
+  const rashifal = await RashifalSch.findOne({ slug: slug });
   return otherHelper.sendResponse(res, HttpStatus.OK, true, rashifal, null, 'Rashifal Get Success !!', null);
 };
 

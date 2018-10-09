@@ -7,7 +7,10 @@ const dModule = require('../../modules/Ads/adsController');
 const authenticationMiddleware = require('../../middleware/authentication.middleware');
 
 router.get('/', dModule.GetAds);
-router.post('/', authenticationMiddleware.authorization, upload.array('file', 1), dModule.SaveAds);
+router.post('/', upload.array('file', 1), dModule.SaveAds);
 router.get('/:slug', dModule.GetAdsDetail);
+// router
+//   .get('/:name',  dModule.getModuleData)
+//   .post('/:name', dModule.saveModuleData);
 
 module.exports = router;
