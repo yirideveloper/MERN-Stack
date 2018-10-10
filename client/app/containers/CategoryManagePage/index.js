@@ -81,45 +81,58 @@ export class CategoryManagePage extends React.Component {
   render() {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
-    const tableData = allLinksObj.map(({ CategoryName, IsActive, slug }) => [
-      CategoryName,
-      'IMAGE',
-      '' + IsActive,
-      <React.Fragment>
-        <Tooltip
-          id="tooltip-top"
-          title="Edit Task"
-          placement="top"
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <IconButton
-            aria-label="Edit"
-            className={classes.tableActionButton}
-            onClick={() => this.handleEdit(slug)}
+    const tableData = allLinksObj.map(
+      ({
+        Category,
+        Organization,
+        PhoneNo,
+        OrganizationEmail,
+        IsActive,
+        IsFeature,
+        slug,
+      }) => [
+        Category,
+        Organization,
+        PhoneNo,
+        OrganizationEmail,
+        '' + IsActive,
+        '' + IsFeature,
+        <React.Fragment>
+          <Tooltip
+            id="tooltip-top"
+            title="Edit Task"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
           >
-            <Edit
-              className={classes.tableActionButtonIcon + ' ' + classes.edit}
-            />
-          </IconButton>
-        </Tooltip>
-        <Tooltip
-          id="tooltip-top-start"
-          title="Remove"
-          placement="top"
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <IconButton
-            aria-label="Close"
-            className={classes.tableActionButton}
-            onClick={() => this.handleDelete(_id)}
+            <IconButton
+              aria-label="Edit"
+              className={classes.tableActionButton}
+              onClick={() => this.handleEdit(slug)}
+            >
+              <Edit
+                className={classes.tableActionButtonIcon + ' ' + classes.edit}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            id="tooltip-top-start"
+            title="Remove"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
           >
-            <Close
-              className={classes.tableActionButtonIcon + ' ' + classes.close}
-            />
-          </IconButton>
-        </Tooltip>
-      </React.Fragment>,
-    ]);
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
+              onClick={() => this.handleDelete(_id)}
+            >
+              <Close
+                className={classes.tableActionButtonIcon + ' ' + classes.close}
+              />
+            </IconButton>
+          </Tooltip>
+        </React.Fragment>,
+      ],
+    );
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
@@ -159,7 +172,15 @@ export class CategoryManagePage extends React.Component {
             <CardBody>
               <Table
                 tableHeaderColor="primary"
-                tableHead={['Title', 'Image', 'IsActive', 'Operations']}
+                tableHead={[
+                  'Title',
+                  'Description',
+                  'Published from',
+                  'Published to',
+                  'Image',
+                  'IsFeatured',
+                  'Operations',
+                ]}
                 tableData={tableData}
               />
               <Button

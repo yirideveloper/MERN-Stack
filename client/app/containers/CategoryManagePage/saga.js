@@ -25,9 +25,8 @@ function* loadOne(action) {
 
 function* addEdit(action) {
   const token = yield select(makeSelectToken());
-  const { CategoryImage, ...data } = action.payload;
-  // const files = {ProfileImage, ProfileImage1};
-  const files = [CategoryImage];
+  const { ProfileImage, ProfileImage1, ...data } = action.payload;
+  const files = {ProfileImage, ProfileImage1};
   yield call(
     Api.multipartPost(
       'category',

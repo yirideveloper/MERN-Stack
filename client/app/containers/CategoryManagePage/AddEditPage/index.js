@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import Dropzone from 'react-dropzone';
+import CKEditor from 'react-ckeditor-component';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import InputLabel from '@material-ui/core/InputLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
@@ -19,15 +14,6 @@ import Card from 'components/Card/Card';
 import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import CardFooter from 'components/Card/CardFooter';
-
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import { IMAGE_BASE } from 'containers/App/constants';
-import noImage from 'assets/img/logo.png';
-import reducer from '../reducer';
-import saga from '../saga';
-import { makeSelectOne } from '../selectors';
-import { loadOneRequest, addEditRequest } from '../actions';
 
 const styles = {
   cardCategoryWhite: {
@@ -49,62 +35,15 @@ const styles = {
 };
 
 class AddEdit extends Component {
-  state = {
-    data: {
-      CategoryName: '',
-      IsActive: false,
-      CategoryImage: null,
-    },
-    images: {
-      CategoryImage: noImage,
-    },
+  state = { services: '', about: '', features: '' };
+  handleEditorChange = (e, name) => {
+    const newContent = e.editor.getData();
+    this.setState({ [name]: newContent });
   };
-  componentDidMount() {
-    if (this.props.match.params && this.props.match.params.id) {
-      this.props.loadOne(this.props.match.params.id);
-    }
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.oneOrganization !== nextProps.oneOrganization) {
-      const oneOrganizationObj = nextProps.oneOrganization.toJS();
-      const CategoryImage =
-        (oneOrganizationObj.CategoryImage &&
-          oneOrganizationObj.CategoryImage.path &&
-          `${IMAGE_BASE}${oneOrganizationObj.CategoryImage.path}`) ||
-        noImage;
-      this.setState(state => ({
-        data: { ...state.data, ...oneOrganizationObj },
-        images: { CategoryImage },
-      }));
-    }
-  }
   handleChange = name => event => {
-    event.persist();
-    this.setState(state => ({
-      data: { ...state.data, [name]: event.target.value },
-    }));
-  };
-  handleCheckedChange = name => event => {
-    event.persist();
-    this.setState(state => ({
-      data: { ...state.data, [name]: event.target.checked },
-    }));
-  };
-  handleSave = () => {
-    this.props.addEdit(this.state.data);
-  };
-  handleGoBack = () => {
-    this.props.history.push('/wt/category-manage');
-  };
-  onDrop = (files, name) => {
-    const file = files[0];
-    this.setState(state => ({
-      data: { ...state.data, [name]: file },
-      images: { ...state.images, [name]: file.preview },
-    }));
+    this.setState({ [name]: event.target.checked });
   };
   render() {
-    const { data, images } = this.state;
     const { classes } = this.props;
     return (
       <div>
@@ -112,19 +51,15 @@ class AddEdit extends Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Category</h4>
-                <p className={classes.cardCategoryWhite}>Category info</p>
+                <h4 className={classes.cardTitleWhite}>Adverisement</h4>
+                <p className={classes.cardCategoryWhite}>Adverisement info</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Category Name"
-                      id="category-name"
-                      inputProps={{
-                        onChange: this.handleChange('CategoryName'),
-                        value: data.CategoryName,
-                      }}
+                      labelText="Advertisement Name"
+                      id="ads-name"
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -133,18 +68,36 @@ class AddEdit extends Component {
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    <Dropzone
-                      onDrop={files => this.onDrop(files, 'CategoryImage')}
-                      multiple={false}
-                    >
-                      <img
-                        className=""
-                        width="200px"
-                        height="200px"
-                        src={images.CategoryImage}
-                        alt="CategoryImage"
-                      />
-                    </Dropzone>
+                    <InputLabel style={{ color: '#AAAAAA' }}>
+                      Advertisement Description
+                    </InputLabel>
+                    <CKEditor
+                      name="about"
+                      content={this.state.about}
+                      events={{
+                        change: e => this.handleEditorChange(e, 'about'),
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="Published From"
+                      id="ads-from-date"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="Published To"
+                      id="ads-to-date"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -155,25 +108,32 @@ class AddEdit extends Component {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={data.IsActive || false}
+                          checked={this.state.isActive || false}
                           tabIndex={-1}
-                          onClick={this.handleCheckedChange('IsActive')}
-                          value="IsActive"
+                          onClick={this.handleChange('isActive')}
+                          value="isActive"
                           color="primary"
                         />
                       }
                       label="Is Active"
                     />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.isFeatured || false}
+                          onClick={this.handleChange('isFeatured')}
+                          value="isFeatured"
+                          color="primary"
+                        />
+                      }
+                      label="Is Featured"
+                    />
                   </GridItem>
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button color="primary" onClick={this.handleSave}>
-                  Save
-                </Button>
-                <Button color="primary" onClick={this.handleGoBack}>
-                  Back
-                </Button>
+                <Button color="primary">Save</Button>
+                <Button color="primary">Back</Button>
               </CardFooter>
             </Card>
           </GridItem>
@@ -183,28 +143,4 @@ class AddEdit extends Component {
   }
 }
 
-const withStyle = withStyles(styles);
-
-const withReducer = injectReducer({ key: 'categoryManagePage', reducer });
-const withSaga = injectSaga({ key: 'categoryManagePage', saga });
-
-const mapStateToProps = createStructuredSelector({
-  oneOrganization: makeSelectOne(),
-});
-
-const mapDispatchToProps = dispatch => ({
-  loadOne: payload => dispatch(loadOneRequest(payload)),
-  addEdit: payload => dispatch(addEditRequest(payload)),
-});
-
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
-export default compose(
-  withRouter,
-  withStyle,
-  withReducer,
-  withSaga,
-  withConnect,
-)(AddEdit);
+export default withStyles(styles)(AddEdit);
