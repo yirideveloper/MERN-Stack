@@ -11,9 +11,3 @@ export const makeSelectAll = () =>
   createSelector(selectDomain, state => state.get('all'));
 export const makeSelectOne = () =>
   createSelector(selectDomain, state => state.get('one'));
-export const makeSelectState = () =>
-  createSelector(selectDomain, state => state.get('state'));
-export const makeSelectDistrict = () =>
-  createSelector(selectDomain, state => state.get('district'));
-export const makeSelectVdc = () =>
-  createSelector(selectDomain, state => state.get('vdc'));
