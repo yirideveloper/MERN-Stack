@@ -10851,10 +10851,15 @@ html {
 body {
   font: 14px/1.4 'Maven Pro',sans-serif;
   min-width: 320px;
-  background:#f5f7fa;
+  background:#fff url(/assets/img/background.jpg);
+  background-size: cover;
 }
 
-.logo img { max-height:80px;}
-.card img { max-width:200px;}
-.search-container { max-width:650px;}
 
+.logo img { max-height:60px; margin:10px 0;}
+.card img { max-width:200px;}
+.search-container { max-width:650px; margin:0 auto;}
+
+.width100 { width:100px; float: left;}
+
+.clearfix { clear:both;}

@@ -1,3 +1,9 @@
+/**
+ *
+ * OrganizationInfoPage
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -25,10 +31,9 @@ import CardFooter from '../../components/Card/CardFooter';
 
 import injectSaga from '../../utils/injectSaga';
 import injectReducer from '../../utils/injectReducer';
+import makeSelectOrganizationInfoPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { loadAllRequest } from './actions';
-import { makeSelectAll } from './selectors';
 
 const styles = theme => ({
   button: {
@@ -64,10 +69,7 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class ArticleListPage extends React.Component {
-  componentDidMount() {
-    this.props.loadAll();
-  }
+export class OrganizationInfoPage extends React.Component {
   handleAdd = () => {
     this.props.history.push('/wt/articles-manage/add');
   };
@@ -79,60 +81,7 @@ export class ArticleListPage extends React.Component {
     // this.props.history.push(`/wt/organization-info/edit/${id}`);
   };
   render() {
-    const { classes, allLinks } = this.props;
-    const allLinksObj = allLinks.toJS();
-    const tableData = allLinksObj.map(
-      ({
-        ArticleName,
-        Description,
-        PublishFrom,
-        Added_by,
-        IsActive,
-        IsFeature,
-        slug,
-      }) => [
-        ArticleName,
-        Description,
-        PublishFrom,
-        Added_by,
-        '' + IsActive,
-        '' + IsFeature,
-        <React.Fragment>
-          <Tooltip
-            id="tooltip-top"
-            title="Edit Task"
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
-          >
-            <IconButton
-              aria-label="Edit"
-              className={classes.tableActionButton}
-              onClick={() => this.handleEdit(slug)}
-            >
-              <Edit
-                className={classes.tableActionButtonIcon + ' ' + classes.edit}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip
-            id="tooltip-top-start"
-            title="Remove"
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
-          >
-            <IconButton
-              aria-label="Close"
-              className={classes.tableActionButton}
-              onClick={() => this.handleDelete(_id)}
-            >
-              <Close
-                className={classes.tableActionButtonIcon + ' ' + classes.close}
-              />
-            </IconButton>
-          </Tooltip>
-        </React.Fragment>,
-      ],
-    );
+    const { classes } = this.props;
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
@@ -181,7 +130,55 @@ export class ArticleListPage extends React.Component {
                   'IsFeatured',
                   'Operations',
                 ]}
-                tableData={tableData}
+                tableData={[
+                  [
+                    'Best rice brand',
+                    'Rice of Shrestha brand',
+                    '2018/09/10',
+                    'devkota@gmail.com',
+                    '1',
+                    '1',
+                    <React.Fragment>
+                      <Tooltip
+                        id="tooltip-top"
+                        title="Edit Task"
+                        placement="top"
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <IconButton
+                          aria-label="Edit"
+                          className={classes.tableActionButton}
+                          onClick={() => this.handleEdit(1)}
+                        >
+                          <Edit
+                            className={
+                              classes.tableActionButtonIcon + ' ' + classes.edit
+                            }
+                          />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip
+                        id="tooltip-top-start"
+                        title="Remove"
+                        placement="top"
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <IconButton
+                          aria-label="Close"
+                          className={classes.tableActionButton}
+                        >
+                          <Close
+                            className={
+                              classes.tableActionButtonIcon +
+                              ' ' +
+                              classes.close
+                            }
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    </React.Fragment>,
+                  ],
+                ]}
               />
               <Button
                 variant="fab"
@@ -201,17 +198,19 @@ export class ArticleListPage extends React.Component {
   }
 }
 
-ArticleListPage.propTypes = {
-  loadAll: PropTypes.func.isRequired,
+OrganizationInfoPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  allLinks: makeSelectAll(),
+  organizationinfopage: makeSelectOrganizationInfoPage(),
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadAll: () => dispatch(loadAllRequest()),
-});
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
 
 const withConnect = connect(
   mapStateToProps,
@@ -229,4 +228,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(ArticleListPage);
+)(OrganizationInfoPage);

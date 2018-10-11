@@ -5,9 +5,19 @@ import { initialState } from './reducer';
  * Direct selector to the rashifalListPage state domain
  */
 
-const selectDomain = state => state.get('rashifalListPage', initialState);
+const selectRashifalListPageDomain = state =>
+  state.get('rashifalListPage', initialState);
 
-export const makeSelectAll = () =>
-  createSelector(selectDomain, state => state.get('all'));
-export const makeSelectOne = () =>
-  createSelector(selectDomain, state => state.get('one'));
+/**
+ * Other specific selectors
+ */
+
+/**
+ * Default selector used by RashifalListPage
+ */
+
+const makeSelectRashifalListPage = () =>
+  createSelector(selectRashifalListPageDomain, substate => substate.toJS());
+
+export default makeSelectRashifalListPage;
+export { selectRashifalListPageDomain };

@@ -1,24 +1,21 @@
+/*
+ *
+ * CategoryManagePage reducer
+ *
+ */
+
 import { fromJS } from 'immutable';
-import * as types from './constants';
+import { DEFAULT_ACTION } from './constants';
 
-export const initialState = fromJS({
-  all: [],
-  one: {},
-});
+export const initialState = fromJS({});
 
-function reducer(state = initialState, action) {
+function categoryManagePageReducer(state = initialState, action) {
   switch (action.type) {
-    case types.LOAD_ALL_SUCCESS:
-      return state.merge({
-        all: fromJS(action.payload.data),
-      });
-    case types.LOAD_ONE_SUCCESS:
-      return state.merge({
-        one: fromJS(action.payload.data),
-      });
+    case DEFAULT_ACTION:
+      return state;
     default:
       return state;
   }
 }
 
-export default reducer;
+export default categoryManagePageReducer;

@@ -5,9 +5,19 @@ import { initialState } from './reducer';
  * Direct selector to the adsListingPage state domain
  */
 
-const selectDomain = state => state.get('adsListingPage', initialState);
+const selectAdsListingPageDomain = state =>
+  state.get('adsListingPage', initialState);
 
-export const makeSelectAll = () =>
-  createSelector(selectDomain, state => state.get('all'));
-export const makeSelectOne = () =>
-  createSelector(selectDomain, state => state.get('one'));
+/**
+ * Other specific selectors
+ */
+
+/**
+ * Default selector used by AdsListingPage
+ */
+
+const makeSelectAdsListingPage = () =>
+  createSelector(selectAdsListingPageDomain, substate => substate.toJS());
+
+export default makeSelectAdsListingPage;
+export { selectAdsListingPageDomain };

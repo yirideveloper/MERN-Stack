@@ -5,9 +5,19 @@ import { initialState } from './reducer';
  * Direct selector to the articleListPage state domain
  */
 
-const selectDomain = state => state.get('articleListPage', initialState);
+const selectArticleListPageDomain = state =>
+  state.get('articleListPage', initialState);
 
-export const makeSelectAll = () =>
-  createSelector(selectDomain, state => state.get('all'));
-export const makeSelectOne = () =>
-  createSelector(selectDomain, state => state.get('one'));
+/**
+ * Other specific selectors
+ */
+
+/**
+ * Default selector used by ArticleListPage
+ */
+
+const makeSelectArticleListPage = () =>
+  createSelector(selectArticleListPageDomain, substate => substate.toJS());
+
+export default makeSelectArticleListPage;
+export { selectArticleListPageDomain };

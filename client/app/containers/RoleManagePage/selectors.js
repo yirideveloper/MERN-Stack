@@ -5,9 +5,19 @@ import { initialState } from './reducer';
  * Direct selector to the roleManagePage state domain
  */
 
-const selectDomain = state => state.get('roleManagePage', initialState);
+const selectRoleManagePageDomain = state =>
+  state.get('roleManagePage', initialState);
 
-export const makeSelectAll = () =>
-  createSelector(selectDomain, state => state.get('all'));
-export const makeSelectOne = () =>
-  createSelector(selectDomain, state => state.get('one'));
+/**
+ * Other specific selectors
+ */
+
+/**
+ * Default selector used by RoleManagePage
+ */
+
+const makeSelectRoleManagePage = () =>
+  createSelector(selectRoleManagePageDomain, substate => substate.toJS());
+
+export default makeSelectRoleManagePage;
+export { selectRoleManagePageDomain };

@@ -1,6 +1,6 @@
 /*
  *
- * AdsListingPage actions
+ * ModuleCreatePage actions
  *
  */
 

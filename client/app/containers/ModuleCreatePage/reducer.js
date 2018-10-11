@@ -1,6 +1,6 @@
 /*
  *
- * ArticleListPage reducer
+ * ModuleCreatePage reducer
  *
  */
 
@@ -9,7 +9,7 @@ import { DEFAULT_ACTION } from './constants';
 
 export const initialState = fromJS({});
 
-function articleListPageReducer(state = initialState, action) {
+function moduleCreatePageReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -18,4 +18,4 @@ function articleListPageReducer(state = initialState, action) {
   }
 }
 
-export default articleListPageReducer;
+export default moduleCreatePageReducer;

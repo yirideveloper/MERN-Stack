@@ -1,3 +1,9 @@
+/**
+ *
+ * OrganizationInfoPage
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -25,10 +31,9 @@ import CardFooter from '../../components/Card/CardFooter';
 
 import injectSaga from '../../utils/injectSaga';
 import injectReducer from '../../utils/injectReducer';
+import makeSelectOrganizationInfoPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { loadAllRequest } from './actions';
-import { makeSelectAll } from './selectors';
 
 const styles = theme => ({
   button: {
@@ -64,75 +69,19 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class RashifalListPage extends React.Component {
-  componentDidMount() {
-    this.props.loadAll();
-  }
+export class OrganizationInfoPage extends React.Component {
   handleAdd = () => {
-    this.props.history.push('/wt/rashifal-manage/add');
+    this.props.history.push('/wt/ads-manage/add');
   };
   handleEdit = id => {
-    this.props.history.push(`/wt/rashifal-manage/edit/${id}`);
+    this.props.history.push(`/wt/ads-manage/edit/${id}`);
   };
   handleDelete = id => {
     // shoe modal && api call
-    // this.props.history.push(`/wt/rashifal-manage/edit/${id}`);
+    // this.props.history.push(`/wt/ads-manage/edit/${id}`);
   };
   render() {
-    const { classes, allLinks } = this.props;
-    const allLinksObj = allLinks.toJS();
-    const tableData = allLinksObj.map(
-      ({
-        Category,
-        Organization,
-        PhoneNo,
-        OrganizationEmail,
-        IsActive,
-        IsFeature,
-        slug,
-      }) => [
-        Category,
-        Organization,
-        PhoneNo,
-        OrganizationEmail,
-        '' + IsActive,
-        '' + IsFeature,
-        <React.Fragment>
-          <Tooltip
-            id="tooltip-top"
-            title="Edit Task"
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
-          >
-            <IconButton
-              aria-label="Edit"
-              className={classes.tableActionButton}
-              onClick={() => this.handleEdit(slug)}
-            >
-              <Edit
-                className={classes.tableActionButtonIcon + ' ' + classes.edit}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip
-            id="tooltip-top-start"
-            title="Remove"
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
-          >
-            <IconButton
-              aria-label="Close"
-              className={classes.tableActionButton}
-              onClick={() => this.handleDelete(_id)}
-            >
-              <Close
-                className={classes.tableActionButtonIcon + ' ' + classes.close}
-              />
-            </IconButton>
-          </Tooltip>
-        </React.Fragment>,
-      ],
-    );
+    const { classes } = this.props;
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
@@ -181,7 +130,55 @@ export class RashifalListPage extends React.Component {
                   'IsFeatured',
                   'Operations',
                 ]}
-                tableData={tableData}
+                tableData={[
+                  [
+                    'rice brand',
+                    'Shrestha Rice',
+                    '2018/09/09',
+                    '2018/12/09',
+                    'img',
+                    '1',
+                    <React.Fragment>
+                      <Tooltip
+                        id="tooltip-top"
+                        title="Edit Task"
+                        placement="top"
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <IconButton
+                          aria-label="Edit"
+                          className={classes.tableActionButton}
+                          onClick={() => this.handleEdit(1)}
+                        >
+                          <Edit
+                            className={
+                              classes.tableActionButtonIcon + ' ' + classes.edit
+                            }
+                          />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip
+                        id="tooltip-top-start"
+                        title="Remove"
+                        placement="top"
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <IconButton
+                          aria-label="Close"
+                          className={classes.tableActionButton}
+                        >
+                          <Close
+                            className={
+                              classes.tableActionButtonIcon +
+                              ' ' +
+                              classes.close
+                            }
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    </React.Fragment>,
+                  ],
+                ]}
               />
               <Button
                 variant="fab"
@@ -201,17 +198,19 @@ export class RashifalListPage extends React.Component {
   }
 }
 
-RashifalListPage.propTypes = {
-  loadAll: PropTypes.func.isRequired,
+OrganizationInfoPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  allLinks: makeSelectAll(),
+  organizationinfopage: makeSelectOrganizationInfoPage(),
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadAll: () => dispatch(loadAllRequest()),
-});
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
 
 const withConnect = connect(
   mapStateToProps,
@@ -229,4 +228,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(RashifalListPage);
+)(OrganizationInfoPage);

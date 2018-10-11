@@ -5,11 +5,11 @@ const { slugify } = require('../../helper/others.helper');
 const ArticleSchema = new Schema({
   ArticleName: { type: String, required: true },
   slug: { type: String, unique: true },
-  Description: { type: String, required: true },
+  Description: { type: String, required: false },
   PublishFrom: { type: Date, required: true },
   IsActive: { type: Boolean, required: true, default: false },
   IsFeature: { type: Boolean, required: true, default: false },
-  ArticleImage: { type: Schema.Types.Mixed, required: true },
+  ArticleImage: { type: String, required: true },
   IsDeleted: { type: Boolean, required: true, default: false },
   Added_by: { type: Schema.Types.ObjectId },
   Added_at: { type: Date, default: Date.now },

@@ -5,9 +5,19 @@ import { initialState } from './reducer';
  * Direct selector to the newsListPage state domain
  */
 
-const selectDomain = state => state.get('newsListPage', initialState);
+const selectNewsListPageDomain = state =>
+  state.get('newsListPage', initialState);
 
-export const makeSelectAll = () =>
-  createSelector(selectDomain, state => state.get('all'));
-export const makeSelectOne = () =>
-  createSelector(selectDomain, state => state.get('one'));
+/**
+ * Other specific selectors
+ */
+
+/**
+ * Default selector used by NewsListPage
+ */
+
+const makeSelectNewsListPage = () =>
+  createSelector(selectNewsListPageDomain, substate => substate.toJS());
+
+export default makeSelectNewsListPage;
+export { selectNewsListPageDomain };
