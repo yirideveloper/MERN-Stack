@@ -37,7 +37,6 @@ import {
   makeSelectState,
   makeSelectDistrict,
   makeSelectVdc,
-  makeSelectCategories,
 } from '../selectors';
 import {
   loadOneRequest,
@@ -45,7 +44,6 @@ import {
   loadStateRequest,
   loadDistrictRequest,
   loadVdcRequest,
-  loadCategoriesRequest,
 } from '../actions';
 
 const styles = {
@@ -129,9 +127,6 @@ class AddEdit extends Component {
     if (this.props.vdcs.size === 0) {
       this.props.loadVdc();
     }
-    if (this.props.categories.size === 0) {
-      this.props.loadCategories();
-    }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.oneOrganization !== nextProps.oneOrganization) {
@@ -183,11 +178,10 @@ class AddEdit extends Component {
   };
   render() {
     const { data, images } = this.state;
-    const { classes, states, districts, vdcs, categories } = this.props;
+    const { classes, states, districts, vdcs } = this.props;
     const statesObj = states.toJS();
     const districtsObj = districts.toJS();
     const vdcsObj = vdcs.toJS();
-    const categoriesObj = categories.toJS();
     return (
       <div>
         <GridContainer>
@@ -213,28 +207,17 @@ class AddEdit extends Component {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
-                    <FormControl className={classes.formControl}>
-                      <InputLabel htmlFor="organization-category">
-                        Category
-                      </InputLabel>
-                      <Select
-                        value={data.Category}
-                        onChange={this.handleChange('Category')}
-                        inputProps={{
-                          name: 'category',
-                          id: 'organization-category',
-                        }}
-                      >
-                        {Object.keys(categoriesObj).map(each => (
-                          <MenuItem
-                            key={categoriesObj[each]._id}
-                            value={categoriesObj[each]._id}
-                          >
-                            {categoriesObj[each].CategoryName}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    <CustomInput
+                      labelText="Category"
+                      id="organization-category"
+                      inputProps={{
+                        onChange: this.handleChange('Category'),
+                        value: data.Category,
+                      }}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -610,7 +593,6 @@ const mapStateToProps = createStructuredSelector({
   states: makeSelectState(),
   districts: makeSelectDistrict(),
   vdcs: makeSelectVdc(),
-  categories: makeSelectCategories(),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -618,7 +600,6 @@ const mapDispatchToProps = dispatch => ({
   loadState: () => dispatch(loadStateRequest()),
   loadDistrict: () => dispatch(loadDistrictRequest()),
   loadVdc: () => dispatch(loadVdcRequest()),
-  loadCategories: () => dispatch(loadCategoriesRequest()),
   addEdit: payload => dispatch(addEditRequest(payload)),
 });
 
