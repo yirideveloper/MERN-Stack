@@ -13,6 +13,54 @@ import { makeSelectToken } from '../App/selectors';
 import * as types from './constants';
 import * as actions from './actions';
 
+function* loadState() {
+  const token = yield select(makeSelectToken());
+  yield call(
+    Api.get(
+      'static/state',
+      actions.loadStateSuccess,
+      actions.loadStateFailure,
+      token,
+    ),
+  );
+}
+
+function* loadDistrict() {
+  const token = yield select(makeSelectToken());
+  yield call(
+    Api.get(
+      'static/district/0',
+      actions.loadDistrictSuccess,
+      actions.loadDistrictFailure,
+      token,
+    ),
+  );
+}
+
+function* loadVdc() {
+  const token = yield select(makeSelectToken());
+  yield call(
+    Api.get(
+      'static/vdc/0',
+      actions.loadVdcSuccess,
+      actions.loadVdcFailure,
+      token,
+    ),
+  );
+}
+
+function* loadCategories(action) {
+  const token = yield select(makeSelectToken());
+  yield call(
+    Api.get(
+      'category',
+      actions.loadCategoriesSuccess,
+      actions.loadCategoriesFailure,
+      token,
+    ),
+  );
+}
+
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
   yield call(
@@ -58,6 +106,10 @@ function* addEdit(action) {
 }
 
 export default function* defaultSaga() {
+  yield takeLatest(types.LOAD_STATE_REQUEST, loadState);
+  yield takeLatest(types.LOAD_DISTRICT_REQUEST, loadDistrict);
+  yield takeLatest(types.LOAD_VDC_REQUEST, loadVdc);
+  yield takeLatest(types.LOAD_CATEGORIES_REQUEST, loadCategories);
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
