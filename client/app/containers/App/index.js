@@ -31,8 +31,6 @@ import StartPage from '../StartPage';
 import Dashboard from '../Dashboard';
 import WtDashboard from '../WtDashboard';
 import CategoryDetailPage from '../CategoryDetailPage';
-import SearchResultsPage from '../SearchResultsPage';
-
 import UserLayout from './layouts/UserLayout';
 
 import {
@@ -57,15 +55,6 @@ const App = props => {
           render={() => (
             <UserLayout>
               <HomePage />
-            </UserLayout>
-          )}
-        />
-        <Route
-          exact
-          path="/search-results"
-          render={() => (
-            <UserLayout>
-              <SearchResultsPage />
             </UserLayout>
           )}
         />

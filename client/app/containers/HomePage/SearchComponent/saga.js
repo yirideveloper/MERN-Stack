@@ -1,9 +1,12 @@
-import { takeLatest, call, select } from 'redux-saga/effects';
+import {
+  takeLatest,
+  call,
+  select,
+} from 'redux-saga/effects';
 import Api from 'utils/Api';
 import { makeSelectToken } from '../../App/selectors';
 import * as types from './constants';
 import * as actions from './actions';
-import { makeSelectSearchCategory, makeSelectSearchText } from './selectors';
 
 function* loadCategories(action) {
   const token = yield select(makeSelectToken());
@@ -17,16 +20,13 @@ function* loadCategories(action) {
   );
 }
 
-function* search(action) {
+function* search({ payload }) {
   const token = yield select(makeSelectToken());
-  const categoryId = yield select(makeSelectSearchCategory());
-  const searchText = yield select(makeSelectSearchText());
-
   yield call(
     Api.get(
-      `home/search/${categoryId}/${searchText}`,
-      actions.searchSuccess,
-      actions.searchFailure,
+      `home/search/${payload.categoryId}/${payload.searchText}`,
+      actions.loadCategoriesSuccess,
+      actions.loadCategoriesFailure,
       token,
     ),
   );
