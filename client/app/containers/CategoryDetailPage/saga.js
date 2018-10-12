@@ -4,7 +4,7 @@ import { makeSelectToken } from '../App/selectors';
 import * as types from './constants';
 import * as actions from './actions';
 
-function* loadCategory({ payload }) {
+function* loadCategory(action) {
   const token = yield select(makeSelectToken());
   yield call(
     Api.get(
