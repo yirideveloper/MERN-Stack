@@ -5,15 +5,13 @@
  */
 
 import { fromJS } from 'immutable';
-import * as types from './constants';
+import { DEFAULT_ACTION } from './constants';
 
-export const initialState = fromJS({
-  category: {},
-});
+export const initialState = fromJS({});
 
 function categoryDetailPageReducer(state = initialState, action) {
   switch (action.type) {
-    case types.LOAD_CATEGORY_SUCCESS:
+    case DEFAULT_ACTION:
       return state;
     default:
       return state;
