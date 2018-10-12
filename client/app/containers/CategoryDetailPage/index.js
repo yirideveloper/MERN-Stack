@@ -29,9 +29,6 @@ export class CategoryDetailPage extends React.Component {
             content="Description of CategoryDetailPage"
           />
         </Helmet>
-
-        Search bar appears
-
       </div>
     );
   }
