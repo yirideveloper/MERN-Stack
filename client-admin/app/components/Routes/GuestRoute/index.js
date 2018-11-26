@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectIsAuthenticated, makeSelectLocation } from '../../../containers/App/selectors';
+import {
+  makeSelectIsAuthenticated,
+  makeSelectLocation,
+} from '../../../containers/App/selectors';
+import OauthConnect from '../../OauthConnect';
 
 const GuestRoute = ({ isAuthenticated, ...rest }) => {
   if (!isAuthenticated) {
-    return <Route {...rest} />;
+    return (
+      <OauthConnect>
+        <Route {...rest} />
+      </OauthConnect>
+    );
   }
   delete rest['component'];
-  return <Route {...rest} render={props => <Redirect to="/admin" />} />;
+  return <Route {...rest} render={props => <Redirect to="/wt" />} />;
 };
 
 GuestRoute.propTypes = {

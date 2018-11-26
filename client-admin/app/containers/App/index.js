@@ -33,7 +33,11 @@ import SearchResultsPage from '../SearchResultsPage';
 import OrganizationDetailPage from '../OrganizationDetailPage';
 import UserLayout from './layouts/UserLayout';
 
-import { makeSelectDialog, makeSelectLocation, makeSelectMessages } from './selectors';
+import {
+  makeSelectDialog,
+  makeSelectLocation,
+  makeSelectMessages,
+} from './selectors';
 import { deleteMessage } from './actions';
 
 const App = props => {
