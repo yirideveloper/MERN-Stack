@@ -13,9 +13,18 @@ otherHelper.generateRandomHexString = len => {
 otherHelper.sendResponse = (res, status, success, data, errors, msg, token, nodataMsg) => {
   const response = {};
   if (success) response.success = success;
-  if (data) response.data = data;
+  console.log(data);
+  if (!data) {
+    status = HttpStatus.NOT_FOUND;
+  } else if (data == {}) {
+    status = HttpStatus.NOT_FOUND;
+  } else if (data == []) {
+    status = HttpStatus.NOT_FOUND;
+  } else {
+    response.data = data;
+  }
   if (errors) response.errors = errors;
-  if (msg) response.msg = msg;
+  if (msg) response.msg = data && data.length ? msg : nodataMsg;
   if (token) response.token = token;
   return res.status(status).json(response);
 };
