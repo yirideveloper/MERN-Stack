@@ -1,12 +1,4 @@
-import {
-  takeLatest,
-  take,
-  call,
-  fork,
-  put,
-  select,
-  cancel,
-} from 'redux-saga/effects';
+import { takeLatest, take, call, fork, put, select, cancel } from 'redux-saga/effects';
 import { push, LOCATION_CHANGE } from 'react-router-redux';
 import Api from 'utils/Api';
 import { makeSelectToken } from '../App/selectors';
@@ -15,43 +7,24 @@ import * as actions from './actions';
 
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
-  yield call(
-    Api.get('role', actions.loadAllSuccess, actions.loadAllFailure, token),
-  );
+  yield call(Api.get('role/role', actions.loadAllSuccess, actions.loadAllFailure, token));
 }
 
 function* loadOne(action) {
   const token = yield select(makeSelectToken());
-  yield call(
-    Api.get(
-      `role/${action.payload}`,
-      actions.loadOneSuccess,
-      actions.loadOneFailure,
-      token,
-    ),
-  );
+  yield call(Api.get(`role/role/${action.payload}`, actions.loadOneSuccess, actions.loadOneFailure, token));
 }
 
 function* redirectOnSuccess() {
   yield take(types.ADD_EDIT_SUCCESS);
-  yield put(push('/wt/rashifal-manage'));
+  yield put(push('/wt/role-manage'));
 }
 
 function* addEdit(action) {
   const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
-  const { ProfileImage, ProfileImage1, ...data } = action.payload;
-  const files = { ProfileImage, ProfileImage1 };
-  yield fork(
-    Api.multipartPost(
-      'role',
-      actions.addEditSuccess,
-      actions.addEditFailure,
-      data,
-      files,
-      token,
-    ),
-  );
+  const { ...data } = action.payload;
+  yield fork(Api.post('role/role', actions.addEditSuccess, actions.addEditFailure, data, token));
   yield take([LOCATION_CHANGE, types.ADD_EDIT_FAILURE]);
   yield cancel(successWatcher);
 }
