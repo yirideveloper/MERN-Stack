@@ -23,8 +23,6 @@ import saga from '../saga';
 import { makeSelectOne } from '../selectors';
 import { loadOneRequest, addEditRequest } from '../actions';
 
-const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
-
 const styles = {
   cardCategoryWhite: {
     color: 'rgba(255,255,255,.62)',
@@ -45,79 +43,16 @@ const styles = {
 };
 
 class AddEdit extends Component {
-  state = { ModuleName: '', Path: [] };
+  state = { RolesTitle: '', Description: '', IsActive: false };
   handleEditorChange = (e, name) => {
     const newContent = e.editor.getData();
     this.setState({ [name]: newContent });
   };
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-  handleAccessTypeChange = id => event => {
-    event.persist();
-
-    this.setState(state => ({
-      Path: [
-        ...state.Path.map(eachPath => {
-          if (eachPath._id === id) {
-            const newPath = { ...eachPath, AccessType: event.target.value };
-            return newPath;
-          }
-          return eachPath;
-        }),
-      ],
-    }));
-  };
-  handleAdminRoutesChange = (id, index) => event => {
-    event.persist();
-    this.setState(state => ({
-      Path: [
-        ...state.Path.map(eachPath => {
-          if (eachPath._id === id) {
-            let { AdminRoutes } = eachPath;
-            AdminRoutes[index] = event.target.value;
-            const newPath = { ...eachPath, AdminRoutes };
-            return newPath;
-          }
-          return eachPath;
-        }),
-      ],
-    }));
-  };
-  handleServerRoutesMethodChange = (id, index) => event => {
-    event.persist();
-    this.setState(state => ({
-      Path: [
-        ...state.Path.map(eachPath => {
-          if (eachPath._id === id) {
-            let { ServerRoutes } = eachPath;
-            ServerRoutes[index].method = event.target.value;
-            const newPath = { ...eachPath, ServerRoutes };
-            return newPath;
-          }
-          return eachPath;
-        }),
-      ],
-    }));
-  };
-  handleServerRoutesRouteChange = (id, index) => event => {
-    event.persist();
-    this.setState(state => ({
-      Path: [
-        ...state.Path.map(eachPath => {
-          if (eachPath._id === id) {
-            let { ServerRoutes } = eachPath;
-            ServerRoutes[index].route = event.target.value;
-            const newPath = { ...eachPath, ServerRoutes };
-            return newPath;
-          }
-          return eachPath;
-        }),
-      ],
-    }));
+    this.setState({ [name]: event.target.checked });
   };
   handleGoBack = () => {
-    this.props.history.push('/wt/module-manage');
+    this.props.history.push('/wt/role-manage');
   };
   componentDidMount() {
     if (this.props.match.params && this.props.match.params.id) {
@@ -125,123 +60,64 @@ class AddEdit extends Component {
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.one !== nextProps.one) {
-      const oneObj = nextProps.one.toJS();
+    if (this.props.oneOrganization !== nextProps.oneOrganization) {
+      const oneOrganizationObj = nextProps.oneOrganization.toJS();
       this.setState(state => ({
-        ...oneObj,
+        ...oneOrganizationObj,
       }));
     }
   }
   render() {
     const { classes } = this.props;
-    const { ModuleName, Path } = this.state;
-    console.log(Path);
     return (
       <div>
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Add/Edit Module</h4>
+                <h4 className={classes.cardTitleWhite}>Add/Edit Role</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Module Name"
-                      id="module-name"
+                      labelText="Role Title"
+                      id="role-title"
                       formControlProps={{
                         fullWidth: true,
                       }}
-                      inputProps={{ value: ModuleName, onChange: this.handleChange('ModuleName') }}
+                      inputProps={{ value: this.state.RolesTitle }}
+                      onChange={this.handleChange('RolesTitle')}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    {Path.map(each => (
-                      <Card key={each._id}>
-                        <GridContainer>
-                          <GridItem xs={3} sm={3} md={3}>
-                            <h6>
-                              <CustomInput
-                                labelText="Access Type"
-                                id={`${each._id}-access-type`}
-                                formControlProps={{
-                                  fullWidth: false,
-                                }}
-                                inputProps={{
-                                  value: each.AccessType,
-                                  onChange: this.handleAccessTypeChange(each._id),
-                                }}
-                              />
-                            </h6>
-                          </GridItem>
-                          <GridItem xs={3} sm={3} md={3}>
-                            <div>Client Routes:</div>
-                            <ul>
-                              {each.AdminRoutes.map((eachAdminRoute, index) => (
-                                <li key={`${each._id}-each-admin-route-${index}`}>
-                                  <CustomInput
-                                    labelText="Client Routes"
-                                    id={`${each._id}-each-admin-route-access-type-${index}`}
-                                    formControlProps={{
-                                      fullWidth: false,
-                                    }}
-                                    inputProps={{
-                                      value: eachAdminRoute,
-                                      onChange: this.handleAdminRoutesChange(each._id, index),
-                                    }}
-                                  />
-                                </li>
-                              ))}
-                            </ul>
-                          </GridItem>
-                          <GridItem xs={6} sm={6} md={6}>
-                            <div>Server Routes:</div>
-                            <ul>
-                              {each.ServerRoutes.map((eachServerRoute, index) => (
-                                <li
-                                  key={`${each._id}-${
-                                    eachServerRoute._id
-                                  }-each-server-route-${index}`}
-                                >
-                                  <CustomInput
-                                    labelText="Method"
-                                    id={`${each._id}-${
-                                      eachServerRoute._id
-                                    }-each-admin-server-route-method-access-type-${index}`}
-                                    formControlProps={{
-                                      fullWidth: false,
-                                    }}
-                                    inputProps={{
-                                      value: eachServerRoute.method,
-                                      onChange: this.handleServerRoutesMethodChange(
-                                        each._id,
-                                        index,
-                                      ),
-                                    }}
-                                  />
-                                  <CustomInput
-                                    labelText="Route"
-                                    id={`${each._id}-${
-                                      eachServerRoute._id
-                                    }-each-admin-server-route-route-access-type-${index}`}
-                                    formControlProps={{
-                                      fullWidth: false,
-                                    }}
-                                    inputProps={{
-                                      value: eachServerRoute.route,
-                                      onChange: this.handleServerRoutesRouteChange(each._id, index),
-                                    }}
-                                  />
-                                </li>
-                              ))}
-                            </ul>
-                          </GridItem>
-                        </GridContainer>
-                      </Card>
-                    ))}
+                    <CustomInput
+                      labelText="Description"
+                      id="role-description"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      inputProps={{ value: this.state.Description }}
+                      onChange={this.handleChange('Description')}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.IsActive || false}
+                          tabIndex={-1}
+                          onClick={this.handleChange('IsActive')}
+                          value="IsActive"
+                          color="primary"
+                        />
+                      }
+                      label="Is Active"
+                    />
                   </GridItem>
                 </GridContainer>
               </CardBody>
@@ -265,7 +141,7 @@ const withReducer = injectReducer({ key: 'moduleManagePage', reducer });
 const withSaga = injectSaga({ key: 'moduleManagePage', saga });
 
 const mapStateToProps = createStructuredSelector({
-  one: makeSelectOne(),
+  oneOrganization: makeSelectOne(),
 });
 
 const mapDispatchToProps = dispatch => ({
