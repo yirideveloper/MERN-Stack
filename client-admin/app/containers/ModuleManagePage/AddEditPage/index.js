@@ -49,16 +49,10 @@ class AddEdit extends Component {
     this.setState({ [name]: newContent });
   };
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-  handleChecked = name => event => {
     this.setState({ [name]: event.target.checked });
   };
   handleGoBack = () => {
     this.props.history.push('/wt/role-manage');
-  };
-  handleSave = () => {
-    this.props.addEdit(this.state);
   };
   componentDidMount() {
     if (this.props.match.params && this.props.match.params.id) {
@@ -92,7 +86,8 @@ class AddEdit extends Component {
                       formControlProps={{
                         fullWidth: true,
                       }}
-                      inputProps={{ value: this.state.RolesTitle, onChange: this.handleChange('RolesTitle') }}
+                      inputProps={{ value: this.state.RolesTitle }}
+                      onChange={this.handleChange('RolesTitle')}
                     />
                   </GridItem>
                 </GridContainer>
@@ -104,20 +99,30 @@ class AddEdit extends Component {
                       formControlProps={{
                         fullWidth: true,
                       }}
-                      inputProps={{ value: this.state.Description, onChange: this.handleChange('Description') }}
+                      inputProps={{ value: this.state.Description }}
+                      onChange={this.handleChange('Description')}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    <FormControlLabel control={<Checkbox checked={this.state.IsActive || false} tabIndex={-1} onClick={this.handleChecked('IsActive')} value="IsActive" color="primary" />} label="Is Active" />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.IsActive || false}
+                          tabIndex={-1}
+                          onClick={this.handleChange('IsActive')}
+                          value="IsActive"
+                          color="primary"
+                        />
+                      }
+                      label="Is Active"
+                    />
                   </GridItem>
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button color="primary" onClick={this.handleSave}>
-                  Save
-                </Button>
+                <Button color="primary">Save</Button>
                 <Button color="primary" onClick={this.handleGoBack}>
                   Back
                 </Button>
@@ -132,8 +137,8 @@ class AddEdit extends Component {
 
 const withStyle = withStyles(styles);
 
-const withReducer = injectReducer({ key: 'roleManagePage', reducer });
-const withSaga = injectSaga({ key: 'roleManagePage', saga });
+const withReducer = injectReducer({ key: 'moduleManagePage', reducer });
+const withSaga = injectSaga({ key: 'moduleManagePage', saga });
 
 const mapStateToProps = createStructuredSelector({
   oneOrganization: makeSelectOne(),

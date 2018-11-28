@@ -25,8 +25,18 @@ function* redirectOnSuccess() {
 function* addEdit(action) {
   const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
-  const { ...data } = action.payload;
-  yield fork(Api.post('role/module', actions.addEditSuccess, actions.addEditFailure, data, token));
+  const { ProfileImage, ProfileImage1, ...data } = action.payload;
+  const files = { ProfileImage, ProfileImage1 };
+  yield fork(
+    Api.multipartPost(
+      'role/module',
+      actions.addEditSuccess,
+      actions.addEditFailure,
+      data,
+      files,
+      token,
+    ),
+  );
   yield take([LOCATION_CHANGE, types.ADD_EDIT_FAILURE]);
   yield cancel(successWatcher);
 }
