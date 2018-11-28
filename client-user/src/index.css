@@ -8,15 +8,8 @@ body {
 }
 
 .header {
-  background: #0eb7cf;
+  background: #3ec5d8;
   padding: 10px 0 5px;
-}
-.header .input-group-text {
-  color: white;
-}
-.form-control:focus,
-.form-control:active {
-  outline: none;
 }
 
 .post {
@@ -68,10 +61,6 @@ body {
 .height20 {
   height: 20px;
 }
-
-h1 {
-  font-size: 24px;
-}
 h2 {
   font-size: 20px;
 }
@@ -95,34 +84,13 @@ h2 {
 
 .image-container {
   position: relative;
-  overflow: hidden;
-}
-.image-container img {
-  transition: transform 0.2s ease-in-out;
-}
-
-a.containsDiv:hover .image-container img {
-  transform: scale(1.05);
-}
-
-.img-pagination {
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-  color: #fff;
 }
 .text-sm {
   font-size: 0.7rem;
 }
-.text-lg {
-  font-size: 1.3rem;
-}
-.lh-1 {
-  line-height: 1;
-}
 
 .input-search {
-  background: #20a2b4;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
 .input-search .input-group-text,
@@ -184,9 +152,4 @@ ul.navList li a.active {
 }
 .alignItemCenter {
   align-items: center;
-}
-a.containsDiv,
-a.containsDiv:hover {
-  color: #555;
-  text-decoration: none;
 }

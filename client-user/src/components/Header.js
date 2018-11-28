@@ -10,7 +10,7 @@ export default class Header extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-3">
-              <Link to="/" className="d-block mt-1">
+              <Link to="/" className="">
                 <img alt="pics" src={Logo} />
               </Link>
             </div>
@@ -23,14 +23,14 @@ export default class Header extends Component {
                 </div>
                 <input
                   type="text"
-                  className="form-control color-white"
+                  className="form-control"
                   placeholder="Search Trips"
                 />
               </div>
             </div>
             <div className="col-md-3">
               <div className="float-right">
-                <Link to="/" className="nav-link color-white">
+                <Link to="/" className="nav-link">
                   <img alt="pics" className="maxWidth20" src={profilepic} />
                   <ion-icon name="arrow-dropdown" />
                 </Link>

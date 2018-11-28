@@ -7,8 +7,6 @@ import NavLeft from "./components/Nav";
 import HomePage from "./pages/HomePage";
 import TripDetailPage from "./pages/TripDetailPage";
 import GuestDetailPage from "./pages/GuestDetailPage";
-import UpcomingTrips from "./pages/UpcomingTrips";
-import PastTrips from "./pages/PastTrips";
 
 class App extends Component {
   render() {
@@ -22,8 +20,6 @@ class App extends Component {
               <Route path="/" exact component={HomePage} />
               <Route path="/trip-detail" exact component={TripDetailPage} />
               <Route path="/guest-detail" exact component={GuestDetailPage} />
-              <Route path="/upcoming-trips" exact component={UpcomingTrips} />
-              <Route path="/past-trips" exact component={PastTrips} />
               <Route path="/about/" component={HomePage} />
               <Route path="/users/" component={HomePage} />
             </div>
