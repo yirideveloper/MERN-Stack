@@ -1,12 +1,9 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import "./App.css";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import './App.css';
 
-import Header from "./components/Header";
-import NavLeft from "./components/Nav";
-import HomePage from "./pages/HomePage";
-import TripDetailPage from "./pages/TripDetailPage";
-import GuestDetailPage from "./pages/GuestDetailPage";
+import Header from './components/Header';
+import HomePage from './pages/HomePage';
 
 class App extends Component {
   render() {
@@ -14,16 +11,10 @@ class App extends Component {
       <Router>
         <div className="App">
           <Header />
-          <div className="container">
-            <div className="row">
-              <NavLeft />
-              <Route path="/" exact component={HomePage} />
-              <Route path="/trip-detail" exact component={TripDetailPage} />
-              <Route path="/guest-detail" exact component={GuestDetailPage} />
-              <Route path="/about/" component={HomePage} />
-              <Route path="/users/" component={HomePage} />
-            </div>
-          </div>
+
+          <Route path="/" exact component={HomePage} />
+          <Route path="/about/" component={HomePage} />
+          <Route path="/users/" component={HomePage} />
         </div>
       </Router>
     );
