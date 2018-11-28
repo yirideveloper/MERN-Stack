@@ -19,7 +19,7 @@ import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import CardFooter from 'components/Card/CardFooter';
 
-import noImage from 'assets/img/logo.png';
+import noImage from 'assets/img/logo.svg';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import reducer from '../reducer';
@@ -48,7 +48,7 @@ const styles = {
 class AddEdit extends Component {
   state = {
     data: {
-      email: '',
+      email: 'manoj',
       email_verified: true,
       name: '',
       roles: [],
@@ -58,15 +58,6 @@ class AddEdit extends Component {
   componentDidMount() {
     if (this.props.match.params && this.props.match.params.id) {
       this.props.loadOne(this.props.match.params.id);
-    }
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.one !== nextProps.one) {
-      console.log('data', nextProps.one);
-      const oneObj = nextProps.one.toJS();
-      this.setState(state => ({
-        ...oneObj,
-      }));
     }
   }
   handleChange = name => event => {
@@ -82,14 +73,13 @@ class AddEdit extends Component {
     }));
   };
   handleSave = () => {
-    this.props.addEdit(this.state);
+    this.props.addEdit(this.state.data);
   };
   handleGoBack = () => {
     this.props.history.push('/wt/user-manage');
   };
   render() {
     const { data } = this.state;
-    console.log(data);
     const { classes } = this.props;
     return (
       <div>
@@ -105,10 +95,9 @@ class AddEdit extends Component {
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="User Email"
-                      id="user-email"
+                      id="email"
                       inputProps={{
-                        value: this.state.data.email,
-                        onChange: this.handleChange('email'),
+                        value: data.email,
                       }}
                       formControlProps={{
                         fullWidth: true,
@@ -130,14 +119,30 @@ class AddEdit extends Component {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <img className="" width="200px" height="200px" src={data.avtar} alt="ProfileImage" />
+                    <img
+                      className=""
+                      width="200px"
+                      height="200px"
+                      src={data.avtar}
+                      alt="ProfileImage"
+                    />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={4}>
                     <InputLabel style={{ color: '#AAAAAA' }}>Status</InputLabel>
                     <GridItem xs={12} sm={12} md={8} />
-                    <FormControlLabel control={<Checkbox checked={data.email_verified || false} tabIndex={-1} value="isActive" color="primary" />} label="Is Email Verified" />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={data.email_verified || false}
+                          tabIndex={-1}
+                          value="isActive"
+                          color="primary"
+                        />
+                      }
+                      label="Is Email Verified"
+                    />
                   </GridItem>
                 </GridContainer>
               </CardBody>
@@ -159,7 +164,7 @@ const withReducer = injectReducer({ key: 'userManagePage', reducer });
 const withSaga = injectSaga({ key: 'userManagePage', saga });
 
 const mapStateToProps = createStructuredSelector({
-  one: makeSelectOne(),
+  oneOrganization: makeSelectOne(),
 });
 
 const mapDispatchToProps = dispatch => ({
