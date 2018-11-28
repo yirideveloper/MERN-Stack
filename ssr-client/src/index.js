@@ -12,7 +12,7 @@ const app = express();
 
 const port = process.env.PORT || 5013;
 
-export const API_URL = 'https://api.ask4trip.in';
+export const API_URL = 'https://demo3.wafttech.com';
 
 app.use(expressip().getIpInfoMiddleware);
 
