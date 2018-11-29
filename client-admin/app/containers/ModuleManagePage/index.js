@@ -62,7 +62,7 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class ModuleManagePage extends React.Component {
+export class RoleManagePage extends React.Component {
   componentDidMount() {
     this.props.loadAll();
   }
@@ -144,7 +144,7 @@ export class ModuleManagePage extends React.Component {
   }
 }
 
-ModuleManagePage.propTypes = {
+RoleManagePage.propTypes = {
   loadAll: PropTypes.func.isRequired,
 };
 
@@ -172,4 +172,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(ModuleManagePage);
+)(RoleManagePage);
