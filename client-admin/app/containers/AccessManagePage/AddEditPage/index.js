@@ -211,7 +211,7 @@ class AddEdit extends Component {
     this.props.addEdit(this.state);
   };
   handleGoBack = () => {
-    this.props.history.push('/wt/module-manage');
+    this.props.history.push('/wt/access-manage');
   };
   componentDidMount() {
     if (this.props.match.params && this.props.match.params.id) {
@@ -422,8 +422,8 @@ class AddEdit extends Component {
 
 const withStyle = withStyles(styles);
 
-const withReducer = injectReducer({ key: 'moduleManagePage', reducer });
-const withSaga = injectSaga({ key: 'moduleManagePage', saga });
+const withReducer = injectReducer({ key: 'accessManagePage', reducer });
+const withSaga = injectSaga({ key: 'accessManagePage', saga });
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
