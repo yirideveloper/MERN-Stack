@@ -3,12 +3,9 @@ const Schema = mongoose.Schema;
 
 const ModuleSchema = new Schema({
   ModuleName: { type: String, required: true, unique: true },
-  Description: { type: String },
-  Order: { Type: Number },
   Path: [
     {
-      AccessType: { type: String, required: true },
-      AccessTypeDescription: { type: String },
+      AccessType: { type: String, required: true, enum: ['VIEW', 'VIEWALL', 'VIEWDETAIL', 'UPDATE', 'DELETE', , 'ADD'] },
       AdminRoutes: [{ type: String, required: true }],
       ServerRoutes: [{ route: { type: String, required: true }, method: { type: String, require: true } }],
     },
