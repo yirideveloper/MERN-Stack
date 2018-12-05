@@ -22,5 +22,10 @@
   "app.containers.UserManagePage.emailVerified": "ईमेल प्रमाणित",
   "app.containers.UserManagePage.roles": "भूमिकाहरू",
   "app.containers.UserManagePage.avtar": "अवतार",
-  "app.containers.UserManagePage.operations": "सञ्चालन"
+  "app.containers.UserManagePage.operations": "सञ्चालन",
+
+  "app.containers.RoleManagePage.roleTitle": "शीर्षक",
+  "app.containers.RoleManagePage.roleDescription": "विवरण",
+  "app.containers.RoleManagePage.roleIsActive": "सक्रिय छ",
+  "app.containers.RoleManagePage.roleAction": "कार्य"
 }
