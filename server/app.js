@@ -9,31 +9,39 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const hpp = require('hpp');
-const validator = require('express-validator');
 const HttpStatus = require('http-status');
 const { mongoURI } = require('./config/keys');
-const routes = require('./routes');
+const routes = require('./routes/index');
 const otherHelper = require('./helper/others.helper');
 
 const auth = require('./helper/auth.helper');
 
+
+
+const validator = require('express-validator');
+
+
 const app = express();
+
+//express-validator
+app.use(validator());
+
+
 auth(passport);
 // Logger middleware
 app.use(logger('dev'));
 
 // Body parser middleware
-
-// create application/json parser
-app.use(bodyParser.json({limit: '50mb'}));
 // create application/x-www-form-urlencoded parser
-app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  }),
+);
+// create application/json parser
+app.use(bodyParser.json());
 // protect against HTTP Parameter Pollution attacks
 app.use(hpp());
-//validate the post requests
-app.use(validator());
-//manage the object, array etc
-// app.use(lodash());
 
 app.use(
   cookieSession({
@@ -98,5 +106,9 @@ app.use((err, req, res, next) => {
   //   error: app.get('env') === 'development' ? err : {},
   // });
 });
+
+
+
+
 
 module.exports = app;

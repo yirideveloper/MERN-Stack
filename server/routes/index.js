@@ -19,11 +19,12 @@ router.use('/module', dmodule);
 // All route of Static Data from DB Module
 const staticRoutes = require('./api/static');
 router.use('/static', staticRoutes);
-// All routes of blog here
+//All route of Blog 
 const blogRoutes = require('./api/blog');
 router.use('/blog', blogRoutes);
-// All routes of fiscals here
-const fiscalRoutes = require('./api/fiscal');
-router.use('/fiscal', fiscalRoutes);
+//All route of registration
+const registrationRoutes = require('./api/registration');
+router.use('/registration', registrationRoutes);
+
 
 module.exports = router;
