@@ -11,21 +11,18 @@ const passport = require('passport');
 const hpp = require('hpp');
 const HttpStatus = require('http-status');
 const { mongoURI } = require('./config/keys');
-const routes = require('./routes/index');
+const routes = require('./routes');
 const otherHelper = require('./helper/others.helper');
 
 const auth = require('./helper/auth.helper');
 
-
-
 const validator = require('express-validator');
+
 
 
 const app = express();
 
-//express-validator
 app.use(validator());
-
 
 auth(passport);
 // Logger middleware
@@ -106,9 +103,5 @@ app.use((err, req, res, next) => {
   //   error: app.get('env') === 'development' ? err : {},
   // });
 });
-
-
-
-
 
 module.exports = app;
