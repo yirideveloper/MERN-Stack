@@ -1,59 +1,59 @@
 /*
  *
- * FiscalYear actions
+ * RegistrationPage actions
  *
  */
 
-import * as types from "./constants";
+import * as types from './constants';
 
 export const loadAllRequest = payload => ({
   type: types.LOAD_ALL_REQUEST,
-  payload
+  payload,
 });
 export const loadAllSuccess = payload => ({
   type: types.LOAD_ALL_SUCCESS,
-  payload
+  payload,
 });
 export const loadAllFailure = payload => ({
   type: types.LOAD_ALL_FAILURE,
-  payload
+  payload,
 });
 
 export const loadOneRequest = payload => ({
   type: types.LOAD_ONE_REQUEST,
-  payload
+  payload,
 });
 export const loadOneSuccess = payload => ({
   type: types.LOAD_ONE_SUCCESS,
-  payload
+  payload,
 });
 export const loadOneFailure = payload => ({
   type: types.LOAD_ONE_FAILURE,
-  payload
+  payload,
 });
 
 export const addEditRequest = payload => ({
   type: types.ADD_EDIT_REQUEST,
-  payload
+  payload,
 });
 export const addEditSuccess = payload => ({
   type: types.ADD_EDIT_SUCCESS,
-  payload
+  payload,
 });
 export const addEditFailure = payload => ({
   type: types.ADD_EDIT_FAILURE,
-  payload
+  payload,
 });
 
 export const deleteOneRequest = payload => ({
   type: types.DELETE_ONE_REQUEST,
-  payload
+  payload,
 });
 export const deleteOneSuccess = payload => ({
   type: types.DELETE_ONE_SUCCESS,
-  payload
+  payload,
 });
 export const deleteOneFailure = payload => ({
   type: types.DELETE_ONE_FAILURE,
-  payload
+  payload,
 });

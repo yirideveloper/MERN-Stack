@@ -64,15 +64,15 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class RoleManagePage extends React.Component {
+export class RegistrationPage extends React.Component {
   componentDidMount() {
     this.props.loadAll();
   }
   handleAdd = () => {
-    this.props.history.push('/wt/role-manage/add');
+    this.props.history.push('/wt/registration-manage/add');
   };
   handleEdit = id => {
-    this.props.history.push(`/wt/role-manage/edit/${id}`);
+    this.props.history.push(`/wt/registration-manage/edit/${id}`);
   };
   handleDelete = id => {
     // shoe modal && api call
@@ -81,7 +81,9 @@ export class RoleManagePage extends React.Component {
   render() {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
-    const tableData = allLinksObj.map(({ _id, RolesTitle, Description, IsActive }) => [
+    const tableData = allLinksObj.map(({
+      _id, RolesTitle, Description, IsActive
+    }) => [
       RolesTitle,
       Description,
       '' + IsActive,
@@ -119,7 +121,7 @@ export class RoleManagePage extends React.Component {
   }
 }
 
-RoleManagePage.propTypes = {
+RegistrationPage.propTypes = {
   loadAll: PropTypes.func.isRequired,
 };
 
@@ -136,8 +138,8 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'roleManagePage', reducer });
-const withSaga = injectSaga({ key: 'roleManagePage', saga });
+const withReducer = injectReducer({ key: 'registrationPage', reducer });
+const withSaga = injectSaga({ key: 'registrationPage', saga });
 
 const withStyle = withStyles(styles);
 
@@ -147,4 +149,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(RoleManagePage);
+)(RegistrationPage);

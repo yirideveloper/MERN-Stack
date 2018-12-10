@@ -7,24 +7,24 @@ import * as actions from './actions';
 
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
-  yield call(Api.get('blog', actions.loadAllSuccess, actions.loadAllFailure, token));
+  yield call(Api.get('registration', actions.loadAllSuccess, actions.loadAllFailure, token));
 }
 
 function* loadOne(action) {
   const token = yield select(makeSelectToken());
-  yield call(Api.get(`blog/${action.payload}`, actions.loadOneSuccess, actions.loadOneFailure, token));
+  yield call(Api.get(`registration/${action.payload}`, actions.loadOneSuccess, actions.loadOneFailure, token));
 }
 
 function* redirectOnSuccess() {
   yield take(types.ADD_EDIT_SUCCESS);
-  yield put(push('/wt/blog-manage'));
+  yield put(push('/wt/registration-manage'));
 }
 
 function* addEdit(action) {
   const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
   const { ...data } = action.payload;
-  yield fork(Api.post('blog/', actions.addEditSuccess, actions.addEditFailure, data, token));
+  yield fork(Api.post('registration', actions.addEditSuccess, actions.addEditFailure, data, token));
   yield take([LOCATION_CHANGE, types.ADD_EDIT_FAILURE]);
   yield cancel(successWatcher);
 }
