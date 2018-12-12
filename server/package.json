@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "awesome-phonenumber": "^2.3.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
@@ -22,6 +21,7 @@
     "gravatar": "^1.6.0",
     "hpp": "^0.2.2",
     "http-status": "^1.2.0",
+    "joi": "^14.3.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
     "mongoose": "^5.2.4",
