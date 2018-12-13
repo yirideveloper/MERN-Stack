@@ -8,29 +8,22 @@ const registrationModel = require('./registration');
 const registrationConfig = require('./registrationConfig');
 
 // validation helper
-const validationhelper = require('./../../helper/validate.helper');
+const { validate, sanitize } = require('./../../helper/validate.helper');
 
 const registrationValidation = {};
 
 registrationValidation.validate = async (req, res, next) => {
-  // let errors = await validationhelper.validateArray([
-  //   { data: req.body.Subject, message: registrationConfig.validationMessage.subjectRequired, condition: { min: 2, max: 50 }, message2: registrationConfig.validationMessage.subjectInvalidLength },
-  //   { data: req.body.RegistrationNo, message: registrationConfig.validationMessage.registrationNoRequired, condition: { min: 2, max: 50 }, message2: registrationConfig.validationMessage.registrationInvalidLength },
-  //   { data: req.body.SenderName, message: registrationConfig.validationMessage.senderRequired, condition: { min: 2, max: 50 }, message2: registrationConfig.validationMessage.senderInvalidLength },
-  //   { data: req.body.ReceiverName, message: registrationConfig.validationMessage.receiverRequired, condition: { min: 2, max: 50 }, message2: registrationConfig.validationMessage.receiverInvalidLength },
-  // ]);
-
-  let errors = await validationhelper.validate(req.body, [
+  let errors = await validate(req.body, [
     {
       field: 'Subject',
       validate: [
         {
           condition: 'IsEmpty',
-          msg: 'Subject should not be empty',
+          msg: registrationConfig.validationMessage.subjectRequired,
         },
         {
-          condition: 'MinCheck',
-          msg: 'Subject shoud not be less than 5',
+          condition: 'String',
+          msg: registrationConfig.validationMessage.subjectInvalidLength,
           options: {
             min: 5,
           },
@@ -42,11 +35,11 @@ registrationValidation.validate = async (req, res, next) => {
       validate: [
         {
           condition: 'IsEmpty',
-          msg: 'Registration No should not be empty',
+          msg: registrationConfig.validationMessage.registrationNoRequired,
         },
         {
-          condition: 'MinCheck',
-          msg: 'Registration No shoud not be less than 5',
+          condition: 'String',
+          msg: registrationConfig.validationMessage.receiverInvalidLength,
           options: {
             min: 5,
           },
@@ -58,13 +51,14 @@ registrationValidation.validate = async (req, res, next) => {
       validate: [
         {
           condition: 'IsEmpty',
-          msg: 'Sender Name should not be empty',
+          msg: registrationConfig.validationMessage.senderRequired,
         },
         {
-          condition: 'MinCheck',
-          msg: 'Sender Name shoud not be less than 5',
+          condition: 'String',
+          msg: registrationConfig.validationMessage.senderInvalidLength,
           options: {
             min: 5,
+            max: 30,
           },
         },
       ],
@@ -74,11 +68,24 @@ registrationValidation.validate = async (req, res, next) => {
       validate: [
         {
           condition: 'IsEmpty',
-          msg: 'Receiver Name should not be empty',
+          msg: registrationConfig.validationMessage.receiverRequired,
         },
         {
-          condition: 'MinCheck',
-          msg: 'Receiver Name shoud not be less than 5',
+          condition: 'String',
+          msg: registrationConfig.validationMessage.receiverInvalidLength,
+          options: {
+            min: 5,
+            max: 30,
+          },
+        },
+      ],
+    },
+    {
+      field: 'Remarks',
+      validate: [
+        {
+          condition: 'String',
+          msg: registrationConfig.validationMessage.remarksInvalidLength,
           options: {
             min: 5,
           },
@@ -88,11 +95,44 @@ registrationValidation.validate = async (req, res, next) => {
   ]);
 
   if (!isEmpty(errors)) {
-    console.log('errors from registrationValidation: ', errors);
     return otherHelper.sendResponse(res, HttpStatus.BAD_REQUEST, false, null, errors, 'Validation Error.', null);
   } else {
     return next();
   }
+};
+
+registrationValidation.sanitize = async (req, res, next) => {
+  await sanitize(req, [
+    {
+      field: 'Subject',
+      sanitize: {
+        trim: true,
+        escape: true,
+      },
+    },
+    {
+      field: 'SenderName',
+      sanitize: {
+        trim: true,
+        escape: true,
+      },
+    },
+    {
+      field: 'ReceiverName',
+      sanitize: {
+        trim: true,
+        escape: true,
+      },
+    },
+    {
+      field: 'Remarks',
+      sanitize: {
+        trim: true,
+        escape: true,
+      },
+    },
+  ]);
+  next();
 };
 
 registrationValidation.duplicateValidation = async (req, res, next) => {
