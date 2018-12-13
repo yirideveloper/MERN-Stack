@@ -42,8 +42,8 @@ const styles = {
   }
 };
 
-class AddEdit extends Component {
-  state = { Designation: "", UpdateDate: "", IsActive: false };
+class BlogAddEditPage extends Component {
+  state = { BlogTitle: "", Description: "", IsActive: false };
   handleEditorChange = (e, name) => {
     const newContent = e.editor.getData();
     this.setState({ [name]: newContent });
@@ -55,7 +55,7 @@ class AddEdit extends Component {
     this.setState({ [name]: event.target.checked });
   };
   handleGoBack = () => {
-    this.props.history.push("/wt/designation-manage");
+    this.props.history.push("/wt/blog-manage");
   };
   handleSave = () => {
     this.props.addEdit(this.state);
@@ -81,20 +81,20 @@ class AddEdit extends Component {
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Add/Edit Designation</h4>
+                <h4 className={classes.cardTitleWhite}>Add/Edit Blog</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Designation"
-                      id="designation"
+                      labelText="Blog Title"
+                      id="blog-title"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
-                        value: this.state.Designation,
-                        onChange: this.handleChange("Designation")
+                        value: this.state.BlogTitle,
+                        onChange: this.handleChange("BlogTitle")
                       }}
                     />
                   </GridItem>
@@ -102,14 +102,14 @@ class AddEdit extends Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="UpdateDate"
-                      id="update-date"
+                      labelText="Description"
+                      id="blog-description"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
-                        value: this.state.UpdateDate,
-                        onChange: this.handleChange("UpdateDate")
+                        value: this.state.Description,
+                        onChange: this.handleChange("Description")
                       }}
                     />
                   </GridItem>
@@ -149,8 +149,8 @@ class AddEdit extends Component {
 
 const withStyle = withStyles(styles);
 
-const withReducer = injectReducer({ key: "designationPage", reducer });
-const withSaga = injectSaga({ key: "designationPage", saga });
+const withReducer = injectReducer({ key: "blogManagePage", reducer });
+const withSaga = injectSaga({ key: "blogManagePage", saga });
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne()
@@ -171,4 +171,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect
-)(AddEdit);
+)(BlogAddEditPage);
