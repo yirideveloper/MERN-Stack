@@ -29,10 +29,7 @@ authMiddleware.authentication = async (req, res, next) => {
     // return next();
     const user = req.user;
     const role = await rolesSch.find({ _id: { $in: user.roles } }, { _id: 1 });
-    let path = req.baseUrl + req.route.path;
-    if (path.substr(path.length - 1) === '/') {
-      path = path.slice(0, path.length - 1);
-    }
+    const path = req.baseUrl + req.route.path;
     const method = req.method;
     const GetModuleFilter = {
       'Path.ServerRoutes.method': method,
