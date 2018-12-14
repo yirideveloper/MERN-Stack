@@ -1,7 +1,6 @@
 'use strict';
 var crypto = require('crypto');
 const Validator = require('validator');
-const isEmpty = require('../validation/isEmpty');
 const PhoneNumber = require('awesome-phonenumber');
 const HttpStatus = require('http-status');
 const otherHelper = {};
@@ -25,7 +24,6 @@ otherHelper.sendResponse = (res, status, success, data, errors, msg, token, noda
 otherHelper.sanitize = (req, sanitizeArray) => {
   sanitizeArray.forEach(sanitizeObj => {
     const sanitization = sanitizeObj.sanitize;
-    // console.log('sanitize', sanitizeObj);
     if (sanitization.rtrim) {
       req.body[sanitizeObj.field] = Validator.rtrim(req.body[sanitizeObj.field]);
     }
@@ -60,13 +58,12 @@ otherHelper.sanitize = (req, sanitizeArray) => {
       req.body[sanitizeObj.field] = Validator.toDate(req.body[sanitizeObj.field]);
     }
   });
-  return;
+  return true;
 };
 otherHelper.validation = (data, validationArray) => {
   let errors = {};
   validationArray.forEach(validationObj => {
-    let value = data[validationObj.field];
-    value = !isEmpty(value) ? value : '';
+    const value = data[validationObj.field];
     const validation = validationObj.validate;
     for (let i = 0; i < validation.length; i++) {
       const val = validation[i];
