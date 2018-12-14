@@ -1,6 +1,6 @@
 /*
  *
- * DesignationPage reducer
+ * RoleManagePage reducer
  *
  */
 import { fromJS } from "immutable";

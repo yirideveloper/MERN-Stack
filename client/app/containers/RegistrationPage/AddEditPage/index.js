@@ -43,7 +43,7 @@ const styles = {
 };
 
 class AddEdit extends Component {
-  state = { RegistrationNo: "", RegistrationDate: "" };
+  state = { RolesTitle: "", Description: "", IsActive: false };
   handleEditorChange = (e, name) => {
     const newContent = e.editor.getData();
     this.setState({ [name]: newContent });
@@ -55,7 +55,7 @@ class AddEdit extends Component {
     this.setState({ [name]: event.target.checked });
   };
   handleGoBack = () => {
-    this.props.history.push("/wt/registration-manage");
+    this.props.history.push("/wt/role-manage");
   };
   handleSave = () => {
     this.props.addEdit(this.state);
@@ -81,20 +81,20 @@ class AddEdit extends Component {
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Add/Edit Registration</h4>
+                <h4 className={classes.cardTitleWhite}>Add/Edit Role</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Registration No"
-                      id="registration-no"
+                      labelText="Role Title"
+                      id="role-title"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
-                        value: this.state.RegistrationNo,
-                        onChange: this.handleChange("RegistrationNo")
+                        value: this.state.RolesTitle,
+                        onChange: this.handleChange("RolesTitle")
                       }}
                     />
                   </GridItem>
@@ -102,19 +102,34 @@ class AddEdit extends Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="RegistrationDate"
-                      id="registration-date"
+                      labelText="Description"
+                      id="role-description"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
-                        value: this.state.RegistrationDate,
-                        onChange: this.handleChange("RegistrationDate")
+                        value: this.state.Description,
+                        onChange: this.handleChange("Description")
                       }}
                     />
                   </GridItem>
                 </GridContainer>
-
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.IsActive || false}
+                          tabIndex={-1}
+                          onClick={this.handleChecked("IsActive")}
+                          value="IsActive"
+                          color="primary"
+                        />
+                      }
+                      label="Is Active"
+                    />
+                  </GridItem>
+                </GridContainer>
               </CardBody>
               <CardFooter>
                 <Button color="primary" onClick={this.handleSave}>

@@ -1,6 +1,6 @@
 /*
  *
- * RegistrationPage constants
+ * RoleManagePage constants
  *
  */
 
