@@ -30,8 +30,4 @@ export default defineMessages({
     id: 'app.containers.LoginPage.loading',
     defaultMessage: 'LOADING',
   },
-  resetPassword: {
-    id: 'app.containers.LoginPage.resetPassword',
-    defaultMessage: 'Reset Password',
-  },
 });
