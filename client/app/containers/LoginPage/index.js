@@ -176,7 +176,7 @@ class LoginPage extends React.PureComponent {
                 {isRequesting ? (
                   <FormattedMessage {...messages.loading} />
                 ) : (
-                  <FormattedMessage {...messages.resetPassword} />
+                  "Reset Password"
                 )}
               </a>
             </form>
