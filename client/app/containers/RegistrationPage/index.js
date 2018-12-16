@@ -83,18 +83,10 @@ export class RegistrationPage extends React.Component {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
     const tableData = allLinksObj.map(
-      ({
+      ({ RegistrationNo, SenderName, ReceiverName, RegisterDate, _id }) => [
         RegistrationNo,
         SenderName,
         ReceiverName,
-        Subject,
-        RegisterDate,
-        _id
-      }) => [
-        RegistrationNo,
-        SenderName,
-        ReceiverName,
-        Subject,
         moment(RegisterDate).format("MMM Do YY"),
         <React.Fragment>
           <Tooltip
@@ -137,9 +129,7 @@ export class RegistrationPage extends React.Component {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>
-                Registration Management
-              </h4>
+              <h4 className={classes.cardTitleWhite}>Registration Management</h4>
               <p className={classes.cardCategoryWhite}>
                 Here are the list of registrations
               </p>
@@ -151,7 +141,6 @@ export class RegistrationPage extends React.Component {
                   <FormattedMessage {...messages.registrationNo} />,
                   <FormattedMessage {...messages.senderName} />,
                   <FormattedMessage {...messages.receiverName} />,
-                  <FormattedMessage {...messages.subject} />,
                   <FormattedMessage {...messages.registerDate} />
                 ]}
                 tableData={tableData}
