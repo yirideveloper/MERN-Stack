@@ -32,15 +32,16 @@ otherHelper.paginationSendResponse = (res, status, data, msg, pageno, pagesize, 
   return res.status(status).json(response);
 };
 
-otherHelper.getquerySendResponse = async (Model, page, size, sortq, findquery, selectquery, next) => {
+otherHelper.getquerySendResponse = async (registrationModel, page, size, sortq, findquery, selectquery, next) => {
   let datas = {};
   try {
-    datas.data = await Model.find(findquery)
+    datas.data = await registrationModel
+      .find(findquery)
       .select(selectquery)
       .sort(sortq)
       .skip((page - 1) * size)
       .limit(size * 1);
-    datas.totaldata = await Model.countDocuments(selectquery);
+    datas.totaldata = await registrationModel.countDocuments(selectquery);
   } catch (err) {
     next(err);
   }

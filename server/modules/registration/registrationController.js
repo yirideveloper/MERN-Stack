@@ -61,16 +61,15 @@ registrationController.getData = async (req, res, next) => {
       sortq = '';
     }
   }
-  // if (req.query.search) {
-  //   let searchvars = req.query.search.split('_');
-  //   let searchfield = searchvars[0];
-  //   let searchkey = searchvars[1];
-  //   searchq = { [searchfield]: { $regex: searchkey, $options: 'i x' }, IsDeleted: false };
-  // } else {
-  //   searchq = {};
-  // }
-
-  selectq = 'Subject SenderName ReceiverName RegistrationNo Added_date RegisterDate Remarks Docuname Added_by';
+  if (req.query.search) {
+    let searchvars = req.query.search.split('_');
+    let searchfield = searchvars[0];
+    let searchkey = searchvars[1];
+    searchq = { [searchfield]: { $regex: searchkey, $options: 'i x' }, IsDeleted: false };
+  } else {
+    searchq = {};
+  }
+  selectq = { IsDeleted: 0, Deleted_by: 0, Deleted_at: 0 };
 
   let datas = await otherHelper.getquerySendResponse(registrationModel, page, size, sortq, searchq, selectq, next);
 
