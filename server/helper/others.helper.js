@@ -22,16 +22,17 @@ otherHelper.sendResponse = (res, status, success, data, errors, msg, token, noda
   if (token) response.token = token;
   return res.status(status).json(response);
 };
-otherHelper.paginationSendResponse = (res, status, data, msg, pageno, pagesize, totaldata) => {
+otherHelper.paginationSendResponse = (res, status, success, data, errors, msg, pageno, pagesize, totaldata) => {
   const response = {};
+  if (success) response.success = success;
   if (data) response.data = data;
+  if (errors) response.errors = errors;
   if (msg) response.msg = msg;
-  if (pageno) response.page = pageno;
-  if (pagesize) response.size = pagesize;
+  if (pageno) response.pageno = pageno;
+  if (pagesize) response.pagesize = pagesize;
   if (totaldata) response.totaldata = totaldata;
   return res.status(status).json(response);
 };
-
 otherHelper.sanitize = (req, sanitizeArray) => {
   sanitizeArray.forEach(sanitizeObj => {
     let vals = req.body[sanitizeObj.field];
