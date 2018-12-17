@@ -36,26 +36,27 @@ FiscalController.GetFiscal = async (req, res, next) => {
       sortquery = '';
     }
   }
-  if (req.query) {
-    let data = req.query;
-    console.log('keys:', data.find_FiscalYear);
-    let values = Object.keys(data);
-    console.log('values:', values);
-    let result = values.forEach(value => {
-      let data = value.split('_');
-      let fields = {};
-      if (data[0] == 'find') {
-        fields = data[1];
-        let searchfields = fields;
-        let searchkeys;
-        let searchq = { [searchfields]: { $regex: searchkeys, $options: 'i x' }, IsDeleted: false };
-        console.log('fields:', searchfields);
-        console.log('keys:', searchkeys);
-      }
-    });
-  }
-  console.log('page no:', page);
-  console.log('size:', size);
+  // if (req.query) {
+  //   let data = req.query;
+  //   console.log('keys:', data.find_FiscalYear);
+  //   let values = Object.keys(data);
+  //   console.log('values:', values);
+  //   let results = values.forEach(value => {
+  //     let result = value.split('_');
+  //     let fields = {};
+  //     if (result[0] == 'find') {
+  //       fields = result[1];
+  //       let searchfields = fields;
+  //       let searchkeys = data[value];
+  //       let searchq = { [searchfields]: { $regex: searchkeys, $options: 'i x' }, IsDeleted: false };
+  //       console.log('searchq:', searchq);
+  //       console.log('fields:', searchfields);
+  //       console.log('keys:', searchkeys);
+  //     }
+  //   });
+  // }
+  // console.log('page no:', page);
+  // console.log('size:', size);
 
   try {
     const fiscaldata = await FiscalSch.find({ IsDeleted: false }, { IsDeleted: 0, Deleted_at: 0, Deleted_by: 0, CreatedDate: 0, __v: 0 })
