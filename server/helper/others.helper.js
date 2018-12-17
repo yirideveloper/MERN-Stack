@@ -1,28 +1,19 @@
-"use strict";
-var crypto = require("crypto");
-const Validator = require("validator");
-const isEmpty = require("../validation/isEmpty");
-const PhoneNumber = require("awesome-phonenumber");
-const HttpStatus = require("http-status");
+'use strict';
+var crypto = require('crypto');
+const Validator = require('validator');
+const isEmpty = require('../validation/isEmpty');
+const PhoneNumber = require('awesome-phonenumber');
+const HttpStatus = require('http-status');
 const otherHelper = {};
 
 otherHelper.generateRandomHexString = len => {
   return crypto
     .randomBytes(Math.ceil(len / 2))
-    .toString("hex") // convert to hexadecimal format
+    .toString('hex') // convert to hexadecimal format
     .slice(0, len)
     .toUpperCase(); // return required number of characters
 };
-otherHelper.sendResponse = (
-  res,
-  status,
-  success,
-  data,
-  errors,
-  msg,
-  token,
-  nodataMsg
-) => {
+otherHelper.sendResponse = (res, status, success, data, errors, msg, token, nodataMsg) => {
   const response = {};
   if (success) response.success = success;
   if (data) response.data = data;
@@ -50,7 +41,7 @@ otherHelper.getquerySendResponse = async (registrationModel, page, size, sortq, 
       .sort(sortq)
       .skip((page - 1) * size)
       .limit(size * 1);
-    datas.totaldata = await registrationModel.countDocuments({ IsDeleted: false });
+    datas.totaldata = await registrationModel.countDocuments(selectquery);
   } catch (err) {
     next(err);
   }
@@ -61,10 +52,10 @@ otherHelper.slugify = text => {
   return text
     .toString()
     .toLowerCase()
-    .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(/[^\w\-]+/g, "") // Remove all non-word chars
-    .replace(/\-\-+/g, "-") // Replace multiple - with single -
-    .replace(/^-+/, "") // Trim - from start of text
-    .replace(/-+$/, ""); // Trim - from end of text
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
 };
 module.exports = otherHelper;
