@@ -27,7 +27,7 @@ import injectSaga from "../../utils/injectSaga";
 import injectReducer from "../../utils/injectReducer";
 import reducer from "./reducer";
 import saga from "./saga";
-import { loadAllRequest, deleteOneRequest } from "./actions";
+import { loadAllRequest } from "./actions";
 import { makeSelectAll } from "./selectors";
 import { FormattedMessage } from "react-intl";
 import messages from "./messages";
@@ -78,7 +78,6 @@ export class ContentsListingPage extends React.Component {
   };
   handleDelete = id => {
     // shoe modal && api call
-    this.props.deleteOne(id);
     // this.props.history.push(`/wt/contents-manage/edit/${id}`);
   };
   render() {
@@ -219,8 +218,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadAll: () => dispatch(loadAllRequest()),
-  deleteOne: (id) => dispatch(deleteOneRequest(id))
+  loadAll: () => dispatch(loadAllRequest())
 });
 
 const withConnect = connect(
