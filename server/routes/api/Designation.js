@@ -1,22 +1,45 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const DesignationModule = require('../../modules/Designation/DesignationController');
+const dModule = require("../../modules/Designation/DesignationController");
 
-const validator = require('validator');
-const isEmpty = require('../../validation/isEmpty');
+const Validator = require("validator");
+const isEmpty = require("../../validation/isEmpty");
 
-const HttpStatus = require('http-status');
-const OtherHelper = require('../../helper/others.helper');
+const HttpStatus = require("http-status");
+const OtherHelper = require("../../helper/others.helper");
 
-const DesignationValidation = require('./../../modules/Designation/DesignationValidation');
+router.get("/", dModule.GetDesignation);
 
-router.get('/', DesignationModule.GetDesignation);
+router.get("/:id", dModule.GetDesignationDetail);
 
-router.get('/:id', DesignationModule.getDataByID);
+router.post("/", validateDesignationInput, dModule.AddDesignation);
 
-router.post('/', DesignationValidation.Designation, DesignationModule.AddDesignation);
+router.delete("/:id", dModule.DeleteDesignation);
 
-router.delete('/:id', DesignationModule.deletebyID);
+function validateDesignationInput(req, res, next) {
+  const data = req.body;
+  let errors = {};
+
+  data.Designation = !isEmpty(data.Designation) ? data.Designation : "";
+
+  !validator.isEmpty(data.Designation)
+    ? (errors.Designation = "Designation is invalid")
+    : null;
+
+  if (!isEmpty(errors)) {
+    return otherHelper.sendResponse(
+      res,
+      HttpStatus.BAD_REQUEST,
+      false,
+      null,
+      errors,
+      "validation Error.",
+      null
+    );
+  } else {
+    next();
+  }
+}
 
 module.exports = router;
