@@ -26,7 +26,7 @@ import injectSaga from "../../utils/injectSaga";
 import injectReducer from "../../utils/injectReducer";
 import reducer from "./reducer";
 import saga from "./saga";
-import { loadAllRequest, deleteOneRequest } from "./actions";
+import { loadAllRequest } from "./actions";
 import { makeSelectAll } from "./selectors";
 import { FormattedMessage } from "react-intl";
 import messages from "./messages";
@@ -66,19 +66,9 @@ const styles = theme => ({
 
 /* eslint-disable react/prefer-stateless-function */
 export class DesignationPage extends React.Component {
-  state = { query: {} };
   componentDidMount() {
     this.props.loadAll();
   }
-  handleQueryChange = e => {
-    e.persist();
-    this.setState(state => ({
-      query: {
-        ...state.query,
-        [e.target.name]: e.target.value
-      }
-    }));
-  };
   handleAdd = () => {
     this.props.history.push("/wt/designation-manage/add");
   };
@@ -87,12 +77,7 @@ export class DesignationPage extends React.Component {
   };
   handleDelete = id => {
     // shoe modal && api call
-    this.props.deleteOne(id);
     // this.props.history.push(`/wt/link-manage/edit/${id}`);
-  };
-  handleSearch = () => {
-    this.props.loadAll(this.state.query);
-    this.setState({ query: {} });
   };
   render() {
     const { classes, allLinks } = this.props;
@@ -140,21 +125,6 @@ export class DesignationPage extends React.Component {
     );
     return (
       <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
-            <input
-              name="Designation"
-              value={this.state.query.Designation || ""}
-              onChange={this.handleQueryChange}
-              placeholder="Search By Designation"
-            />
-
-            <button onClick={this.handleSearch}>Search</button>
-          </CardHeader>
-        </Card>
-      </GridItem>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
@@ -200,8 +170,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadAll: query => dispatch(loadAllRequest(query)),
-  deleteOne: (id) => dispatch(deleteOneRequest(id))
+  loadAll: () => dispatch(loadAllRequest())
 });
 
 const withConnect = connect(

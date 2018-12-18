@@ -12,7 +12,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
-import TextField from '@material-ui/core/TextField';
 
 // core components
 import GridItem from "../../components/Grid/GridItem";
@@ -27,7 +26,7 @@ import injectSaga from "../../utils/injectSaga";
 import injectReducer from "../../utils/injectReducer";
 import reducer from "./reducer";
 import saga from "./saga";
-import { loadAllRequest, deleteOneRequest } from "./actions";
+import { loadAllRequest } from "./actions";
 import { makeSelectAll } from "./selectors";
 import { FormattedMessage } from "react-intl";
 import messages from "./messages";
@@ -67,20 +66,9 @@ const styles = theme => ({
 
 /* eslint-disable react/prefer-stateless-function */
 export class FiscalYearPage extends React.Component {
-  state = { query: {}, name: "" };
   componentDidMount() {
     this.props.loadAll();
   }
-
-  handleQueryChange = e => {
-    e.persist();
-    this.setState(state => ({
-      query: {
-        ...state.query,
-        [e.target.name]: e.target.value
-      }
-    }));
-  };
   handleAdd = () => {
     this.props.history.push("/wt/fiscal-manage/add");
   };
@@ -89,12 +77,7 @@ export class FiscalYearPage extends React.Component {
   };
   handleDelete = id => {
     // shoe modal && api call
-    this.props.deleteOne(id);
     // this.props.history.push(`/wt/link-manage/edit/${id}`);
-  };
-  handleSearch = () => {
-    this.props.loadAll(this.state.query);
-    this.setState({ query: {} });
   };
   render() {
     const { classes, allLinks } = this.props;
@@ -102,8 +85,8 @@ export class FiscalYearPage extends React.Component {
     const tableData = allLinksObj.map(
       ({ _id, FiscalYear, From, To, IsCurrent, IsActive }) => [
         FiscalYear,
-        moment(From).format("MMMM Do YYYY, h:mm:ss a"),
-        moment(To).format("MMMM Do YYYY, h:mm:ss a"),
+        moment(From).format("MMMM Do YYYY"),
+        moment(To).format("MMMM Do YYYY"),
         "" + IsCurrent,
         "" + IsActive,
 
@@ -145,59 +128,6 @@ export class FiscalYearPage extends React.Component {
     );
     return (
       <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
-            <input
-              name="fiscalyear"
-              value={this.state.query.fiscalyear || ""}
-              onChange={this.handleQueryChange}
-              placeholder="Search By Fiscal Year"
-            />
-
-
-            {/* <input
-              name="From"
-              value={this.state.query.From || ""}
-              onChange={this.handleQueryChange}
-              placeholder="Search From"
-            />
-            <input
-              name="To"
-              value={this.state.query.To || ""}
-              onChange={this.handleQueryChange}
-              placeholder="Search To"
-
-            /> */}
-
-             <TextField
-                id="date"
-                name="from"
-                label="From"
-                type="date"
-                value={this.state.query.from || ""}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={this.handleQueryChange}
-              />
-             <TextField
-                id="date"
-                name="to"
-                label="To"
-                type="date"
-                value={this.state.query.to || ""}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={this.handleQueryChange}
-              />
-
-            <button onClick={this.handleSearch}>Search</button>
-          </CardHeader>
-        </Card>
-      </GridItem>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
@@ -245,8 +175,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadAll: query => dispatch(loadAllRequest(query)),
-  deleteOne: (id) => dispatch(deleteOneRequest(id))
+  loadAll: () => dispatch(loadAllRequest())
 });
 
 const withConnect = connect(
