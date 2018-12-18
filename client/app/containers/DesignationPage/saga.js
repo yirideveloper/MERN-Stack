@@ -15,9 +15,15 @@ import * as actions from "./actions";
 
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
+  let search = "";
+  if (action.payload) {
+    Object.keys(action.payload).map(each => {
+      search = `${each}=${action.payload[each]}${search}`;
+    });
+  }
   yield call(
     Api.get(
-      "designation",
+      `designation?find_${search}&page=1&size=10`,
       actions.loadAllSuccess,
       actions.loadAllFailure,
       token
@@ -32,6 +38,17 @@ function* loadOne(action) {
       `designation/${action.payload}`,
       actions.loadOneSuccess,
       actions.loadOneFailure,
+      token
+    )
+  );
+}
+function* deleteOne(action) {
+  const token = yield select(makeSelectToken());
+  yield call(
+    Api.delete(
+      `designation/${action.payload}`,
+      actions.deleteOneSuccess,
+      actions.deleteOneFailure,
       token
     )
   );
@@ -63,4 +80,5 @@ export default function* defaultSaga() {
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
+  yield takeLatest(types.DELETE_ONE_REQUEST, deleteOne);
 }

@@ -12,7 +12,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
-
+import TextField from '@material-ui/core/TextField';
 // core components
 import GridItem from "../../components/Grid/GridItem";
 import GridContainer from "../../components/Grid/GridContainer";
@@ -94,6 +94,11 @@ export class RegistrationPage extends React.Component {
     this.props.loadAll(this.state.query);
     this.setState({ query: {} });
   };
+
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
   render() {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
@@ -156,15 +161,49 @@ export class RegistrationPage extends React.Component {
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
               <input
+                name="RegistrationNo"
+                value={this.state.query.RegistrationNo || ""}
+                onChange={this.handleQueryChange}
+                placeholder="Search By Registration No"
+              />
+              <input
                 name="Subject"
                 value={this.state.query.Subject || ""}
                 onChange={this.handleQueryChange}
+                placeholder="Search By Subject"
               />
+              <input
+                name="SenderName"
+                value={this.state.query.SenderName || ""}
+                onChange={this.handleQueryChange}
+                placeholder="Search By SenderName"
+              />
+
               <input
                 name="ReceiverName"
                 value={this.state.query.ReceiverName || ""}
                 onChange={this.handleQueryChange}
+                placeholder="Search By ReceiverName"
               />
+              {/* <input
+                name="RegisterDate"
+                value={this.state.query.RegisterDate || ""}
+                onChange={this.handleQueryChange}
+                placeholder="Search By RegisterDate"
+
+              /> */}
+              <TextField
+                id="date"
+                name="RegisterDate"
+                label="RegistrationDate"
+                type="date"
+                value={this.state.query.RegisterDate || ""}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={this.handleQueryChange}
+              />
+
               <button onClick={this.handleSearch}>Search</button>
             </CardHeader>
           </Card>
@@ -219,8 +258,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadAll: () => dispatch(loadAllRequest()),
-  deleteOne: (id) => dispatch(deleteOneRequest(id))
+  loadAll: query => dispatch(loadAllRequest(query)),
+  deleteOne: id => dispatch(deleteOneRequest(id))
 });
 
 const withConnect = connect(
@@ -240,3 +279,5 @@ export default compose(
   withSaga,
   withConnect
 )(RegistrationPage);
+
+
