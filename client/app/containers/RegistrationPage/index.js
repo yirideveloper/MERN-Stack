@@ -66,7 +66,7 @@ const styles = theme => ({
 
 /* eslint-disable react/prefer-stateless-function */
 export class RegistrationPage extends React.Component {
-  state = { query: {}, name: "" };
+  state = { query: {} };
   componentDidMount() {
     this.props.loadAll();
   }
@@ -94,11 +94,6 @@ export class RegistrationPage extends React.Component {
     this.props.loadAll(this.state.query);
     this.setState({ query: {} });
   };
-
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-
   render() {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
@@ -161,37 +156,15 @@ export class RegistrationPage extends React.Component {
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
               <input
-                name="RegistrationNo"
-                value={this.state.query.RegistrationNo || ""}
-                onChange={this.handleQueryChange}
-                placeholder="Search By Registration No"
-              />
-              <input
                 name="Subject"
                 value={this.state.query.Subject || ""}
                 onChange={this.handleQueryChange}
-                placeholder="Search By Subject"
               />
-              <input
-                name="SenderName"
-                value={this.state.query.SenderName || ""}
-                onChange={this.handleQueryChange}
-                placeholder="Search By SenderName"
-              />
-
               <input
                 name="ReceiverName"
                 value={this.state.query.ReceiverName || ""}
                 onChange={this.handleQueryChange}
-                placeholder="Search By ReceiverName"
               />
-              <input
-                name="RegisterDate"
-                value={this.state.query.RegisterDate || ""}
-                onChange={this.handleQueryChange}
-                placeholder="Search By RegisterDate"
-              />
-
               <button onClick={this.handleSearch}>Search</button>
             </CardHeader>
           </Card>
@@ -246,8 +219,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadAll: query => dispatch(loadAllRequest(query)),
-  deleteOne: id => dispatch(deleteOneRequest(id))
+  loadAll: () => dispatch(loadAllRequest()),
+  deleteOne: (id) => dispatch(deleteOneRequest(id))
 });
 
 const withConnect = connect(
@@ -267,9 +240,3 @@ export default compose(
   withSaga,
   withConnect
 )(RegistrationPage);
-
-//registration no
-//subject\
-//sendername
-//receivername
-//register date
