@@ -99,9 +99,6 @@ export class RegistrationPage extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
-  registrationCall = () => {
-    console.log("registration number pressed");
-  };
   render() {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
@@ -213,9 +210,7 @@ export class RegistrationPage extends React.Component {
               <Table
                 tableHeaderColor="primary"
                 tableHead={[
-                  <FormattedMessage {...messages.registrationNo}>
-                    {txt => <span onClick={this.registrationCall}>{txt}</span>}
-                  </FormattedMessage>,
+                  <FormattedMessage {...messages.registrationNo} />,
                   <FormattedMessage {...messages.senderName} />,
                   <FormattedMessage {...messages.receiverName} />,
                   <FormattedMessage {...messages.subject} />,
@@ -272,3 +267,9 @@ export default compose(
   withSaga,
   withConnect
 )(RegistrationPage);
+
+//registration no
+//subject\
+//sendername
+//receivername
+//register date
