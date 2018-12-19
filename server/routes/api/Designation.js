@@ -1,16 +1,45 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const DesignationModule = require('../../modules/Designation/DesignationController');
+const dModule = require("../../modules/Designation/DesignationController");
 
-const DesignationValidation = require('./../../modules/Designation/DesignationValidation');
+const Validator = require("validator");
+const isEmpty = require("../../validation/isEmpty");
 
-router.get('/', DesignationModule.GetDesignation);
+const HttpStatus = require("http-status");
+const OtherHelper = require("../../helper/others.helper");
 
-router.get('/:id', DesignationModule.GetDesignationDetail);
+router.get("/", dModule.GetDesignation);
 
-router.post('/', DesignationValidation.Designation, DesignationModule.AddDesignation);
+router.get("/:id", dModule.GetDesignationDetail);
 
-router.delete('/:id', DesignationModule.deletebyID);
+router.post("/", validateDesignationInput, dModule.AddDesignation);
+
+router.delete("/:id", dModule.DeleteDesignation);
+
+function validateDesignationInput(req, res, next) {
+  const data = req.body;
+  let errors = {};
+
+  data.Designation = !isEmpty(data.Designation) ? data.Designation : "";
+
+  !validator.isEmpty(data.Designation)
+    ? (errors.Designation = "Designation is invalid")
+    : null;
+
+  if (!isEmpty(errors)) {
+    return otherHelper.sendResponse(
+      res,
+      HttpStatus.BAD_REQUEST,
+      false,
+      null,
+      errors,
+      "validation Error.",
+      null
+    );
+  } else {
+    next();
+  }
+}
 
 module.exports = router;
