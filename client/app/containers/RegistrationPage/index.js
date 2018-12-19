@@ -66,7 +66,7 @@ const styles = theme => ({
 
 /* eslint-disable react/prefer-stateless-function */
 export class RegistrationPage extends React.Component {
-  state = { query: {}, sortToggle: 0, sortSymbol: "D" };
+  state = { query: {}, name: "" };
   componentDidMount() {
     this.props.loadAll();
   }
@@ -99,14 +99,6 @@ export class RegistrationPage extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
-  registrationCall = title => {
-    if (!!this.state.sortToggle) {
-      this.setState({ sortToggle: 0, sortSymbol: "D" });
-    } else if (!this.state.sortToggle) {
-      this.setState({ sortToggle: 1, sortSymbol: "A" });
-    }
-    this.props.loadAll(`${this.state.sortToggle}${title}`);
-  };
   render() {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
@@ -218,63 +210,15 @@ export class RegistrationPage extends React.Component {
               <Table
                 tableHeaderColor="primary"
                 tableHead={[
-                  <FormattedMessage {...messages.registrationNo}>
-                    <div>
-                      {txt => (
-                        <span
-                          onClick={() =>
-                            this.registrationCall("RegistrationNo")
-                          }
-                        >
-                          {txt}
-                        </span>
-                      )}
-                      <h3>{this.state.sortSymbol}</h3>
-                    </div>
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.senderName}>
-                    {txt => (
-                      <span onClick={() => this.registrationCall("SenderName")}>
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.receiverName}>
-                    {txt => (
-                      <span
-                        onClick={() => this.registrationCall("ReceiverName")}
-                      >
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.subject}>
-                    {txt => (
-                      <span onClick={() => this.registrationCall("Subject")}>
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.registerDate}>
-                    {txt => (
-                      <span
-                        onClick={() => this.registrationCall("RegisterDate")}
-                      >
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.remarks}>
-                    {txt => (
-                      <span onClick={() => this.registrationCall("Remarks")}>
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>
+                  <FormattedMessage {...messages.registrationNo} />,
+                  <FormattedMessage {...messages.senderName} />,
+                  <FormattedMessage {...messages.receiverName} />,
+                  <FormattedMessage {...messages.subject} />,
+                  <FormattedMessage {...messages.registerDate} />,
+                  <FormattedMessage {...messages.remarks} />
                 ]}
                 tableData={tableData}
               />
-              <h3>{this.state.sortSymbol}</h3>
               <Button
                 variant="fab"
                 color="primary"
@@ -323,3 +267,9 @@ export default compose(
   withSaga,
   withConnect
 )(RegistrationPage);
+
+//registration no
+//subject\
+//sendername
+//receivername
+//register date

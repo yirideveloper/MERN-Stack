@@ -16,7 +16,6 @@ import * as actions from "./actions";
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
   let search = "";
-  let sort = `${action.payload}`;
   if (action.payload) {
     // {name: 'sailesh', }
     Object.keys(action.payload).map(each => {
@@ -25,7 +24,7 @@ function* loadAll(action) {
   }
   yield call(
     Api.get(
-      `registration?find_${search}&page=1&perpage=10&sort=${sort}`,
+      `registration?find_${search}&page=1&perpage=10`,
       actions.loadAllSuccess,
       actions.loadAllFailure,
       token
