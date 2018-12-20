@@ -45,8 +45,8 @@ const styles = {
   }
 };
 
-class FiscalAddEdit extends Component {
-  state = { FiscalYear: "", From: null, To: null };
+class LeaveTypeAddEdit extends Component {
+  state = { LeaveName: "", From: null, To: null };
   handleEditorChange = (e, name) => {
     const newContent = e.editor.getData();
     this.setState({ [name]: newContent });
@@ -58,7 +58,7 @@ class FiscalAddEdit extends Component {
     this.setState({ [name]: event.target.checked });
   };
   handleGoBack = () => {
-    this.props.history.push("/wt/fiscal-manage");
+    this.props.history.push("/wt/leaveType-manage");
   };
   handleSave = () => {
     this.props.addEdit(this.state);
@@ -91,20 +91,20 @@ class FiscalAddEdit extends Component {
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Add/Edit Fiscal</h4>
+                <h4 className={classes.cardTitleWhite}>Add/Edit LeaveType</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Fiscal Year"
-                      id="fiscal-year"
+                      labelText="Leave Name"
+                      id="leaveName"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
-                        value: this.state.FiscalYear,
-                        onChange: this.handleChange("FiscalYear")
+                        value: this.state.LeaveName,
+                        onChange: this.handleChange("LeaveName")
                       }}
                     />
 
@@ -188,8 +188,8 @@ class FiscalAddEdit extends Component {
 
 const withStyle = withStyles(styles);
 
-const withReducer = injectReducer({ key: "fiscalYearPage", reducer });
-const withSaga = injectSaga({ key: "fiscalYearPage", saga });
+const withReducer = injectReducer({ key: "leaveTypePage", reducer });
+const withSaga = injectSaga({ key: "leaveTypePage", saga });
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne()
@@ -210,9 +210,17 @@ export default compose(
   withReducer,
   withSaga,
   withConnect
-)(FiscalAddEdit);
+)(LeaveTypeAddEdit);
 
 {
   /* <input onChange={this.handleChange} />
 <input onChange={event => this.handleChange(event)} /> */
 }
+
+//leavename
+//is trans bool
+// is paid bool
+//applicable radio
+//no of days
+//is replacement bool
+//created by

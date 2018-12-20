@@ -19,11 +19,11 @@ LeaveApplicationValidation.validate = async (req, res, next) => {
         {
           condition: 'IsInt',
           msg: LeaveApplicationConfig.ValidationMessage.NoOfDaysInvalid,
-          options: {
-            min: 1,
-          },
-        },
-      ],
+          options:{
+            min: 1
+          }
+        }
+      ]
     },
     {
       field: 'SubmittedTo',
@@ -35,8 +35,8 @@ LeaveApplicationValidation.validate = async (req, res, next) => {
         {
           condition: 'String',
           msg: LeaveApplicationConfig.ValidationMessage.SubmittedToInvalid,
-        },
-      ],
+        }
+      ]
     },
     {
       field: 'SubmittedBy',
@@ -48,8 +48,8 @@ LeaveApplicationValidation.validate = async (req, res, next) => {
         {
           condition: 'String',
           msg: LeaveApplicationConfig.ValidationMessage.SubmittedByInvalid,
-        },
-      ],
+        }
+      ]
     },
     {
       field: 'Added_by',
@@ -61,24 +61,15 @@ LeaveApplicationValidation.validate = async (req, res, next) => {
         {
           condition: 'String',
           msg: LeaveApplicationConfig.ValidationMessage.Added_byInvalid,
-        },
-      ],
-    },
-    {
-      field: 'To',
-      Validate: [
-        {
-          condition: 'IsEmpty',
-          msg: LeaveApplicationConfig.ValidationMessage.SubmittedToRequired,
-        },
-      ],
-    },
-  ]);
-  if (!isEmpty(errors)) {
-    return otherHelper.sendResponse(res, HttpStatus.BAD_REQUEST, false, null, errors, 'Validation Error', null);
-  } else {
-    next();
-  }
+        }
+      ]
+    }
+  ])
+if (!isEmpty(errors)) {
+  return otherHelper.sendResponse(res, HttpStatus.BAD_REQUEST, false, null, errors, 'Validation Error', null);
+} else {
+  next();
+}
 };
 
 module.exports = LeaveApplicationValidation;

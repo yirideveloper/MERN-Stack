@@ -67,11 +67,12 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class DesignationPage extends React.Component {
-  state = { query: {}, sortToggle: 0, sortSymbol: "D" };
+export class LeaveType extends React.Component {
+  state = { query: {}, name: "", sortToggle: 0, sortSymbol: "D" };
   componentDidMount() {
     this.props.loadAll({ query: {} });
   }
+
   handleQueryChange = e => {
     e.persist();
     this.setState(state => ({
@@ -82,10 +83,10 @@ export class DesignationPage extends React.Component {
     }));
   };
   handleAdd = () => {
-    this.props.history.push("/wt/designation-manage/add");
+    this.props.history.push("/wt/leaveType-manage/add");
   };
   handleEdit = id => {
-    this.props.history.push(`/wt/designation-manage/edit/${id}`);
+    this.props.history.push(`/wt/leaveType-manage/edit/${id}`);
   };
   handleDelete = id => {
     // shoe modal && api call
@@ -97,7 +98,7 @@ export class DesignationPage extends React.Component {
     this.setState({ query: {} });
   };
 
-  designationSort = title => {
+  fiscalCall = title => {
     if (!!this.state.sortToggle) {
       this.setState({ sortToggle: 0, sortSymbol: "D" });
     } else if (!this.state.sortToggle) {
@@ -109,10 +110,20 @@ export class DesignationPage extends React.Component {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
     const tableData = allLinksObj.map(
-      ({ Designation, update_date, IsActive, _id }) => [
-        Designation,
-        moment(update_date).format("MMM Do YY"),
-        IsActive,
+      ({
+        _id,
+        LeaveName,
+        NoOfDays,
+        ApplicableGender,
+        IsTransferrable,
+        IsPaidLeave
+      }) => [
+        LeaveName,
+        NoOfDays,
+        ApplicableGender,
+        "" + IsTransferrable,
+        "" + IsPaidLeave,
+
         <React.Fragment>
           <Tooltip
             id="tooltip-top"
@@ -155,13 +166,35 @@ export class DesignationPage extends React.Component {
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
-
               <TextField
-                name="Designation"
-                value={this.state.query.Designation || ""}
+                name="fiscalyear"
+                value={this.state.query.fiscalyear || ""}
                 onChange={this.handleQueryChange}
                 margin="normal"
-                placeholder="Search By Designation"
+                placeholder="Search By Fiscal Year"
+              />
+
+              <TextField
+                id="date"
+                name="from"
+                label="From"
+                type="date"
+                value={this.state.query.from || ""}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.handleQueryChange}
+              />
+              <TextField
+                id="date"
+                name="to"
+                label="To"
+                type="date"
+                value={this.state.query.to || ""}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.handleQueryChange}
               />
 
               <Button
@@ -179,25 +212,42 @@ export class DesignationPage extends React.Component {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Designation Management</h4>
+              <h4 className={classes.cardTitleWhite}>Fiscal Management</h4>
               <p className={classes.cardCategoryWhite}>
-                Here are the list of Designation
+                Here are the list of fiscal
               </p>
             </CardHeader>
             <CardBody>
               <Table
                 tableHeaderColor="primary"
                 tableHead={[
-                  <FormattedMessage {...messages.designation}>
+                  <FormattedMessage {...messages.leaveName}>
                     {txt => (
-                      <span onClick={() => this.designationSort("Designation")}>
+                      <span onClick={() => this.fiscalCall("FiscalYear")}>
                         {txt}
                       </span>
                     )}
                   </FormattedMessage>,
-                  <FormattedMessage {...messages.updateDate}>
+                  <FormattedMessage {...messages.noOfDays}>
                     {txt => (
-                      <span onClick={() => this.designationSort("update_date")}>
+                      <span onClick={() => this.fiscalCall("From")}>{txt}</span>
+                    )}
+                  </FormattedMessage>,
+                  <FormattedMessage {...messages.applicableGender}>
+                    {txt => (
+                      <span onClick={() => this.fiscalCall("To")}>{txt}</span>
+                    )}
+                  </FormattedMessage>,
+                  <FormattedMessage {...messages.isTransferrable}>
+                    {txt => (
+                      <span onClick={() => this.fiscalCall("IsCurrent")}>
+                        {txt}
+                      </span>
+                    )}
+                  </FormattedMessage>,
+                  <FormattedMessage {...messages.isPaidLeave}>
+                    {txt => (
+                      <span onClick={() => this.fiscalCall("IsActive")}>
                         {txt}
                       </span>
                     )}
@@ -223,7 +273,7 @@ export class DesignationPage extends React.Component {
   }
 }
 
-DesignationPage.propTypes = {
+LeaveType.propTypes = {
   loadAll: PropTypes.func.isRequired
 };
 
@@ -232,7 +282,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadAll: query => dispatch(loadAllRequest(query)),
+  loadAll: payload => dispatch(loadAllRequest(payload)),
   deleteOne: id => dispatch(deleteOneRequest(id))
 });
 
@@ -241,8 +291,8 @@ const withConnect = connect(
   mapDispatchToProps
 );
 
-const withReducer = injectReducer({ key: "designationPage", reducer });
-const withSaga = injectSaga({ key: "designationPage", saga });
+const withReducer = injectReducer({ key: "leaveTypePage", reducer });
+const withSaga = injectSaga({ key: "leaveTypePage", saga });
 
 const withStyle = withStyles(styles);
 
@@ -252,4 +302,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect
-)(DesignationPage);
+)(LeaveType);
