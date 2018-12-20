@@ -12,8 +12,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
-import TextField from "@material-ui/core/TextField";
-import Search from "@material-ui/icons/Search";
 
 // core components
 import GridItem from "../../components/Grid/GridItem";
@@ -68,7 +66,7 @@ const styles = theme => ({
 
 /* eslint-disable react/prefer-stateless-function */
 export class RegistrationPage extends React.Component {
-  state = { query: {}, sortToggle: 0, sortSymbol: "D" };
+  state = { query: {}, name: "" };
   componentDidMount() {
     this.props.loadAll();
   }
@@ -101,14 +99,6 @@ export class RegistrationPage extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
-  registrationCall = title => {
-    if (!!this.state.sortToggle) {
-      this.setState({ sortToggle: 0, sortSymbol: "D" });
-    } else if (!this.state.sortToggle) {
-      this.setState({ sortToggle: 1, sortSymbol: "A" });
-    }
-    this.props.loadAll(`${this.state.sortToggle}${title}`);
-  };
   render() {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
@@ -170,67 +160,39 @@ export class RegistrationPage extends React.Component {
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
-
-              <TextField
+              <input
                 name="RegistrationNo"
                 value={this.state.query.RegistrationNo || ""}
                 onChange={this.handleQueryChange}
-                margin="normal"
                 placeholder="Search By Registration No"
               />
-
-              <TextField
+              <input
                 name="Subject"
                 value={this.state.query.Subject || ""}
                 onChange={this.handleQueryChange}
-                margin="normal"
                 placeholder="Search By Subject"
               />
-
-              <TextField
+              <input
                 name="SenderName"
                 value={this.state.query.SenderName || ""}
                 onChange={this.handleQueryChange}
-                margin="normal"
                 placeholder="Search By SenderName"
               />
 
-              <TextField
+              <input
                 name="ReceiverName"
                 value={this.state.query.ReceiverName || ""}
                 onChange={this.handleQueryChange}
-                margin="normal"
                 placeholder="Search By ReceiverName"
               />
-
-              {/* <input
+              <input
                 name="RegisterDate"
                 value={this.state.query.RegisterDate || ""}
                 onChange={this.handleQueryChange}
                 placeholder="Search By RegisterDate"
-
-              /> */}
-              <TextField
-                id="date"
-                name="RegisterDate"
-                label="RegistrationDate"
-                type="date"
-                value={this.state.query.RegisterDate || ""}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                onChange={this.handleQueryChange}
               />
 
-              <Button
-                color="Black"
-                aria-label="edit"
-                justIcon
-                round
-                onClick={this.handleSearch}
-              >
-                <Search />
-              </Button>
+              <button onClick={this.handleSearch}>Search</button>
             </CardHeader>
           </Card>
         </GridItem>
@@ -248,63 +210,15 @@ export class RegistrationPage extends React.Component {
               <Table
                 tableHeaderColor="primary"
                 tableHead={[
-                  <FormattedMessage {...messages.registrationNo}>
-                    <div>
-                      {txt => (
-                        <span
-                          onClick={() =>
-                            this.registrationCall("RegistrationNo")
-                          }
-                        >
-                          {txt}
-                        </span>
-                      )}
-                      <h3>{this.state.sortSymbol}</h3>
-                    </div>
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.senderName}>
-                    {txt => (
-                      <span onClick={() => this.registrationCall("SenderName")}>
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.receiverName}>
-                    {txt => (
-                      <span
-                        onClick={() => this.registrationCall("ReceiverName")}
-                      >
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.subject}>
-                    {txt => (
-                      <span onClick={() => this.registrationCall("Subject")}>
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.registerDate}>
-                    {txt => (
-                      <span
-                        onClick={() => this.registrationCall("RegisterDate")}
-                      >
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.remarks}>
-                    {txt => (
-                      <span onClick={() => this.registrationCall("Remarks")}>
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>
+                  <FormattedMessage {...messages.registrationNo} />,
+                  <FormattedMessage {...messages.senderName} />,
+                  <FormattedMessage {...messages.receiverName} />,
+                  <FormattedMessage {...messages.subject} />,
+                  <FormattedMessage {...messages.registerDate} />,
+                  <FormattedMessage {...messages.remarks} />
                 ]}
                 tableData={tableData}
               />
-              <h3>{this.state.sortSymbol}</h3>
               <Button
                 variant="fab"
                 color="primary"
@@ -353,3 +267,9 @@ export default compose(
   withSaga,
   withConnect
 )(RegistrationPage);
+
+//registration no
+//subject\
+//sendername
+//receivername
+//register date
