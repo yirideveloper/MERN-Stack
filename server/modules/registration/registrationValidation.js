@@ -130,7 +130,7 @@ registrationValidation.duplicateValidation = async (req, res, next) => {
   }
   let dstatus = await registrationModel.findOne(filter);
   if (dstatus != null) {
-    let errors = { RegistrationNo: registrationConfig.validationMessage.emailNoexists };
+    let errors = { RegistrationNo: registrationConfig.validationMessage.registrationNoexists };
     return otherHelper.sendResponse(res, HttpStatus.CONFLICT, false, null, errors, 'Validation Error.', null);
   } else {
     return next();

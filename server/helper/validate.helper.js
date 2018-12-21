@@ -4,21 +4,20 @@ const PhoneNumber = require('awesome-phonenumber');
 
 const validationHelper = {};
 
-validationHelper.validate = (data1, val) => {
+validationHelper.validate = (data, val) => {
   const errors = {};
   let fdata;
   for (i = 0; i < val.length; i++) {
     let field = val[i].field;
     let validate = val[i].validate;
-    let data = data1;
 
     if (field && field.split('.').length > 1) {
       for (let k = 0; k < field.split('.').length; k++) {
         data = !isEmpty(data[field.split('.')[k]]) ? data[field.split('.')[k]] : '';
       }
-      fdata = '' + data;
+      fdata = data;
     } else {
-      fdata = !isEmpty(data[field]) ? '' + data[field] : '';
+      fdata = !isEmpty(data[field]) ? data[field] : '';
     }
 
     for (j = 0; j < validate.length; j++) {
@@ -70,9 +69,7 @@ validationHelper.validate = (data1, val) => {
           }
           break;
         case 'IsMONGOID':
-          if (!isEmpty(fdata)) {
-            !Validator.isMongoId(fdata) ? (errors[field] = validate[j].msg) : null;
-          }
+          !Validator.isMongoId(fdata) ? (errors[field] = validate[j].msg) : null;
           break;
         case 'IsNumeric':
           !Validator.isNumeric(fdata) ? (errors[field] = validate[j].msg) : null;
@@ -85,9 +82,6 @@ validationHelper.validate = (data1, val) => {
           break;
         case 'IsInt':
           !Validator.isInt(fdata, validate[j].options) ? (errors[field] = validate[j].msg) : null;
-          break;
-        case 'IsBoolean':
-          !Validator.isBoolean(fdata, validate[j].options) ? (errors[field] = validate[j].msg) : null;
           break;
         default:
           break;
