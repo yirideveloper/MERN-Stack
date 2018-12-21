@@ -8,6 +8,6 @@ const LeaveTypeValidation = require('./../../modules/LeaveType/LeaveTypeValidati
 router.get('/', LeaveTypeModule.GetLeaveType);
 router.get('/:id', LeaveTypeModule.GetLeaveTypeByID);
 router.post('/', authorization, LeaveTypeValidation.validate, LeaveTypeModule.AddLeaveType);
-router.delete('/:id', authorization, LeaveTypeModule.DeleteByID);
+router.delete('/:id', LeaveTypeModule.DeleteByID);
 
 module.exports = router;
