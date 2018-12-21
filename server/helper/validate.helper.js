@@ -4,21 +4,19 @@ const PhoneNumber = require('awesome-phonenumber');
 
 const validationHelper = {};
 
-validationHelper.validate = (data1, val) => {
+validationHelper.validate = (data, val) => {
   const errors = {};
   let fdata;
   for (i = 0; i < val.length; i++) {
     let field = val[i].field;
     let validate = val[i].validate;
-    let data = data1;
 
     //data[field] = !isEmpty(data[field]) ? data[field] : '';
-    // console.log(field);
-    // console.log(field.split('.').length);
-    //console.log(`loop ${i}: `, data);
+    console.log(field);
+    console.log(field.split('.').length);
     if (field && field.split('.').length > 1) {
       for (let k = 0; k < field.split('.').length; k++) {
-        // console.log(data);
+        console.log(data);
         // data = data[field.split('.')[k]];
         data = !isEmpty(data[field.split('.')[k]]) ? data[field.split('.')[k]] : '';
       }
@@ -27,7 +25,7 @@ validationHelper.validate = (data1, val) => {
       fdata = !isEmpty(data[field]) ? data[field] : '';
     }
 
-    //console.log(field, validate, fdata);
+    if (i == 2) console.log(field, validate, fdata);
 
     // if (typeof data[field] == 'object') {
     //   data = data[field];
@@ -83,11 +81,7 @@ validationHelper.validate = (data1, val) => {
           }
           break;
         case 'IsMONGOID':
-          //console.log('for mongoid: ', fdata);
-          //console.log(isEmpty(fdata));
-          if (!isEmpty(fdata)) {
-            !Validator.isMongoId(fdata) ? (errors[field] = validate[j].msg) : null;
-          }
+          !Validator.isMongoId(fdata) ? (errors[field] = validate[j].msg) : null;
           break;
         case 'IsNumeric':
           !Validator.isNumeric(fdata) ? (errors[field] = validate[j].msg) : null;
