@@ -50,8 +50,4 @@ router.use('/holiday', holidayRoutes);
 const companyroutes = require('./api/company');
 router.use('/company', companyroutes);
 
-// For Branch
-const BranchRoutes = require('./api/Branch');
-router.use('/Branch', BranchRoutes);
-
 module.exports = router;
