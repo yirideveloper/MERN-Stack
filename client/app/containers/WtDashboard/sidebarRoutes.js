@@ -15,10 +15,6 @@ import RoleManagePage from "../RoleManagePage";
 import RoleManageAddEditPage from "../RoleManagePage/AddEditPage";
 import FiscalYearPage from "../FiscalYearPage";
 import FiscalYearAddEditPage from "../FiscalYearPage/AddEditPage";
-import LeaveTypePage from "../LeaveTypePage";
-import LeaveTypeAddEditPage from "../LeaveTypePage/AddEditPage";
-import LeaveApplicationPage from "../LeaveApplicationPage";
-import LeaveApplicationAddEditPage from "../LeaveApplicationPage/AddEditPage";
 import DesignationPage from "../DesignationPage";
 import DesignationAddEditPage from "../DesignationPage/AddEditPage";
 import RegistrationPage from "../RegistrationPage";
@@ -136,52 +132,6 @@ const dashboardRoutes = [
     component: FiscalYearPage
   },
 
-  {
-    path: "/wt/leaveType-manage/add",
-    sidebarName: <FormattedMessage {...messages.leaveTypeManage} />,
-    navbarName: <FormattedMessage {...messages.leaveTypeManage} />,
-    icon: PermContactCalendar,
-    component: LeaveTypeAddEditPage,
-    hide: true
-  },
-  {
-    path: "/wt/leaveType-manage/edit/:id",
-    sidebarName: <FormattedMessage {...messages.leaveTypeManage} />,
-    navbarName: <FormattedMessage {...messages.leaveTypeManage} />,
-    icon: PermContactCalendar,
-    component: LeaveTypeAddEditPage,
-    hide: true
-  },
-  {
-    path: "/wt/leaveType-manage",
-    sidebarName: <FormattedMessage {...messages.leaveTypeManage} />,
-    navbarName: <FormattedMessage {...messages.leaveTypeManage} />,
-    icon: PermContactCalendar,
-    component: LeaveTypePage
-  },
-  {
-    path: "/wt/leaveApplication-manage/add",
-    sidebarName: <FormattedMessage {...messages.leaveApplicationManage} />,
-    navbarName: <FormattedMessage {...messages.leaveApplicationManage} />,
-    icon: PermContactCalendar,
-    component: LeaveApplicationAddEditPage,
-    hide: true
-  },
-  {
-    path: "/wt/leaveApplication-manage/edit/:id",
-    sidebarName: <FormattedMessage {...messages.leaveApplicationManage} />,
-    navbarName: <FormattedMessage {...messages.leaveApplicationManage} />,
-    icon: PermContactCalendar,
-    component: LeaveApplicationAddEditPage,
-    hide: true
-  },
-  {
-    path: "/wt/leaveApplication-manage",
-    sidebarName: <FormattedMessage {...messages.leaveApplicationManage} />,
-    navbarName: <FormattedMessage {...messages.leaveApplicationManage} />,
-    icon: PermContactCalendar,
-    component: LeaveApplicationPage
-  },
 
   {
     path: "/wt/module-manage/add",
