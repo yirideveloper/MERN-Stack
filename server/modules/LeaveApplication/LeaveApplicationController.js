@@ -22,7 +22,8 @@ LeaveApplicationController.GetLeaveApplication = async (req, res, next) => {
   }
   if (req.query.sort) {
     let sortfield = req.query.sort.slice(1);
-    let sortby = req.query.sort.charAt(0);
+    let sortby = req.query.sort.charAt(1);
+
     if (sortby == 1 && !isNaN(sortby)) {
       //1 is for asscending
       sortquery = sortfield;
@@ -33,7 +34,7 @@ LeaveApplicationController.GetLeaveApplication = async (req, res, next) => {
       sortquery = '';
     }
   }
-  searchquery = { IsDeleted: false };
+  searchquery = {};
   if (req.query.find_IsHalfDay) {
     if (req.query.find_IsHalfDay == 0) {
       //0 for true
