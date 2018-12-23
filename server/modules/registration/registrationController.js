@@ -95,6 +95,8 @@ registrationController.getData = async (req, res, next) => {
   }
 
   selectq = 'Subject SenderName ReceiverName RegistrationNo Added_date RegisterDate Remarks Docuname Added_by';
+  console.log(searchq);
+  console.log(selectq);
 
   let datas = await otherHelper.getquerySendResponse(registrationModel, page, size, sortq, searchq, selectq, next);
 
