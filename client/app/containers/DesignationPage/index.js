@@ -195,7 +195,6 @@ export class DesignationPage extends React.Component {
                       </span>
                     )}
                   </FormattedMessage>,
-                  <FormattedMessage {...messages.designation} />,
                   <FormattedMessage {...messages.updateDate}>
                     {txt => (
                       <span onClick={() => this.designationSort("update_date")}>

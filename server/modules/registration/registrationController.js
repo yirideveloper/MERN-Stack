@@ -64,8 +64,6 @@ registrationController.getData = async (req, res, next) => {
     }
   }
 
-  let populate = { path: 'Added_by', select: '_id name' };
-
   searchq = { IsDeleted: false };
 
   if (req.query.find_Subject) {
@@ -98,7 +96,7 @@ registrationController.getData = async (req, res, next) => {
 
   selectq = 'Subject SenderName ReceiverName RegistrationNo Added_date RegisterDate Remarks Docuname Added_by';
 
-  let datas = await otherHelper.getquerySendResponse(registrationModel, page, size, sortq, searchq, selectq, next, populate);
+  let datas = await otherHelper.getquerySendResponse(registrationModel, page, size, sortq, searchq, selectq, next);
 
   return otherHelper.paginationSendResponse(res, HttpStatus.OK, true, datas.data, 'Registration data delivered successfully!!', page, size, datas.totaldata);
 };
