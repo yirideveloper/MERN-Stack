@@ -109,9 +109,8 @@ export class DesignationPage extends React.Component {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
     const tableData = allLinksObj.map(
-      ({ Designation, DesignationNepali, update_date, IsActive, _id }) => [
+      ({ Designation, update_date, IsActive, _id }) => [
         Designation,
-        DesignationNepali,
         moment(update_date).format("MMM Do YY"),
         IsActive,
         <React.Fragment>
@@ -196,7 +195,6 @@ export class DesignationPage extends React.Component {
                       </span>
                     )}
                   </FormattedMessage>,
-                  <FormattedMessage {...messages.designationNepali} />,
                   <FormattedMessage {...messages.updateDate}>
                     {txt => (
                       <span onClick={() => this.designationSort("update_date")}>

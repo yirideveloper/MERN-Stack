@@ -170,68 +170,60 @@ export class RegistrationPage extends React.Component {
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
-              <GridContainer>
-                <GridItem xs={6} sm={6} md={6}>
-                  <TextField
-                    name="RegistrationNo"
-                    value={this.state.query.RegistrationNo || ""}
-                    onChange={this.handleQueryChange}
-                    margin="normal"
-                    placeholder="Search By Registration No"
-                  />
-                </GridItem>
-                <GridItem xs={6} sm={6} md={6}>
-                  <TextField
-                    name="Subject"
-                    value={this.state.query.Subject || ""}
-                    onChange={this.handleQueryChange}
-                    margin="normal"
-                    placeholder="Search By Subject"
-                  />
-                </GridItem>
-                <GridItem xs={6} sm={6} md={6}>
-                  <TextField
-                    name="SenderName"
-                    value={this.state.query.SenderName || ""}
-                    onChange={this.handleQueryChange}
-                    margin="normal"
-                    placeholder="Search By SenderName"
-                  />
-                </GridItem>
-                <GridItem xs={6} sm={6} md={6}>
-                  <TextField
-                    name="ReceiverName"
-                    value={this.state.query.ReceiverName || ""}
-                    onChange={this.handleQueryChange}
-                    margin="normal"
-                    placeholder="Search By ReceiverName"
-                  />
-                </GridItem>
 
-                {/* <input
+              <TextField
+                name="RegistrationNo"
+                value={this.state.query.RegistrationNo || ""}
+                onChange={this.handleQueryChange}
+                margin="normal"
+                placeholder="Search By Registration No"
+              />
+
+              <TextField
+                name="Subject"
+                value={this.state.query.Subject || ""}
+                onChange={this.handleQueryChange}
+                margin="normal"
+                placeholder="Search By Subject"
+              />
+
+              <TextField
+                name="SenderName"
+                value={this.state.query.SenderName || ""}
+                onChange={this.handleQueryChange}
+                margin="normal"
+                placeholder="Search By SenderName"
+              />
+
+              <TextField
+                name="ReceiverName"
+                value={this.state.query.ReceiverName || ""}
+                onChange={this.handleQueryChange}
+                margin="normal"
+                placeholder="Search By ReceiverName"
+              />
+
+              {/* <input
                 name="RegisterDate"
                 value={this.state.query.RegisterDate || ""}
                 onChange={this.handleQueryChange}
                 placeholder="Search By RegisterDate"
 
               /> */}
-                <GridItem xs={6} sm={6} md={6}>
-                  <TextField
-                    id="date"
-                    name="RegisterDate"
-                    label="RegistrationDate"
-                    type="date"
-                    value={this.state.query.RegisterDate || ""}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={this.handleQueryChange}
-                  />
-                </GridItem>
-              </GridContainer>
+              <TextField
+                id="date"
+                name="RegisterDate"
+                label="RegistrationDate"
+                type="date"
+                value={this.state.query.RegisterDate || ""}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.handleQueryChange}
+              />
 
               <Button
-                color="primary"
+                color="Black"
                 aria-label="edit"
                 justIcon
                 round
