@@ -17,4 +17,3 @@ const FiscalSchema = new Schema({
 });
 
 module.exports = Fiscal = mongoose.model('fiscal', FiscalSchema);
-
