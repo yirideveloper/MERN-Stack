@@ -58,8 +58,4 @@ router.use('/department', departmentroutes);
 const BranchRoutes = require('./api/Branch');
 router.use('/Branch', BranchRoutes);
 
-// For Notification
-const NotificationRoutes = require('./api/Notification');
-router.use('/notification', NotificationRoutes);
-
 module.exports = router;

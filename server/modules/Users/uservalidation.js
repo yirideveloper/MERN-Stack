@@ -37,20 +37,6 @@ uservalidation.validate = async (req, res, next) => {
       ],
     },
     {
-      field: 'Gender',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: LeaveTypeConfig.ValidationMessage.GenderRequired,
-        },
-        {
-          condition: 'Contains',
-          msg: LeaveTypeConfig.ValidationMessage.GenderInvalid,
-          options: ['Male', 'Female', 'Other'],
-        },
-      ],
-    },
-    {
       field: 'email',
       validate: [
         {
@@ -86,20 +72,6 @@ uservalidation.validate = async (req, res, next) => {
             min: 6,
             max: 30,
           },
-        },
-      ],
-    },
-
-    {
-      field: 'ReporterID',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: userConfig.validationMessage.ReporterIDRequired,
-        },
-        {
-          condition: 'IsMONGOID',
-          msg: userConfig.validationMessage.ReporterIDInvalid,
         },
       ],
     },
