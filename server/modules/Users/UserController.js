@@ -72,14 +72,14 @@ userController.getAllUser = async (req, res, next) => {
     searchq = { name: { $regex: req.query.find_name, $options: 'i x' }, ...searchq };
   }
 
-  if (req.query.find_ApplicableGender) {
-    searchquery = { ApplicableGender: req.query.find_ApplicableGender, ...searchquery };
+  if (req.query.find_gender) {
+    searchq = { gender: req.query.find_gender, ...searchq };
   }
 
   if (req.query.find_email) {
     searchq = { email: { $regex: req.query.find_email, $options: 'i x' }, ...searchq };
   }
-  selectq = 'name nameNepali ReporterID email Gender permanentaddress tempaddress is_active avatar updated_at added_at added_by roles';
+  selectq = 'name nameNepali ReporterID email gender permanentaddress tempaddress is_active avatar updated_at added_at added_by roles';
 
   populate = { path: 'roles', select: '_id RolesTitle' };
 
@@ -96,7 +96,7 @@ userController.getAllUser = async (req, res, next) => {
 };
 userController.getUserDetail = async (req, res, next) => {
   try {
-    const users = await User.findOne({ _id: req.params.id, IsDeleted: false }, 'name nameNepali ReporterID email Gender permanentaddress tempaddress is_active avatar updated_at added_at added_by roles').populate({ path: 'roles', select: '_id RolesTitle' });
+    const users = await User.findOne({ _id: req.params.id, IsDeleted: false }, 'name nameNepali ReporterID email gender permanentaddress tempaddress is_active avatar updated_at added_at added_by roles').populate({ path: 'roles', select: '_id RolesTitle' });
     return otherHelper.sendResponse(res, HttpStatus.OK, true, users, null, 'User Detail Get Success', null);
   } catch (err) {
     next(err);
@@ -200,7 +200,7 @@ userController.updateUserDetail = async (req, res, next) => {
     }
     const user = req.body;
     const id = req.params.id;
-    const updateUser = await User.findByIdAndUpdate(id, { $set: user });
+    const updateUser = await User.findByIdAndUpdate(id, { $set: user }, { new: true });
     const msg = 'User Update Success';
     return otherHelper.sendResponse(res, HttpStatus.OK, true, updateUser, null, msg, null);
   } catch (err) {
@@ -272,12 +272,16 @@ userController.forgotPassword = async (req, res, next) => {
     const tempalte_path = `${__dirname}/../email/template/passwordreset.pug`;
     const dataTemplate = { name: user.name, email: user.email, code: user.password_reset_code };
     emailTemplate.render(tempalte_path, dataTemplate, mailOptions);
-    const update = await User.findByIdAndUpdate(user._id, {
-      $set: {
-        password_reset_code: user.password_reset_code,
-        password_reset_request_date: user.password_reset_request_date,
+    const update = await User.findByIdAndUpdate(
+      user._id,
+      {
+        $set: {
+          password_reset_code: user.password_reset_code,
+          password_reset_request_date: user.password_reset_request_date,
+        },
       },
-    });
+      { new: true },
+    );
     const msg = `Password Reset Code For<b> ${email} </b> is sent to email`;
     return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, msg, null);
   } catch (err) {
@@ -364,7 +368,6 @@ userController.login = async (req, res) => {
           email: user.email,
           email_verified: user.email_verified,
           roles: user.roles,
-          // access: access,
         };
         // Sign Token
         jwt.sign(
@@ -479,4 +482,17 @@ userController.requestSocialOAuthApiDataHelper = async (req, next, request_url, 
     return next(err);
   }
 };
+
+//to get all the users in reporterid
+userController.getUnderUserList = async (req, res, next) => {
+  let myID = req.user.id;
+  let datas;
+  try {
+    datas = await User.find({ ReporterID: { $eq: myID } }).select('name _id');
+  } catch (err) {
+    next(err);
+  }
+  return otherHelper.sendResponse(res, HttpStatus.OK, true, datas, null, 'Employee list Successfully delivered !!', null);
+};
+
 module.exports = userController;

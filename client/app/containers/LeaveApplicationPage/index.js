@@ -110,27 +110,12 @@ export class LeaveApplication extends React.Component {
     const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
     const tableData = allLinksObj.map(
-      ({
-        _id,
-        Added_by,
-        NoOfDays,
-        SubmittedTo,
-        SubmittedBy,
-        IsHalfDay,
-        FromIsHalfDay,
-        ToIsHalfDay,
-        Remarks,
-        Status
-      }) => [
+      ({ _id, Added_by, NoOfDays, SubmittedTo, SubmittedBy, IsHalfDay }) => [
         Added_by,
         NoOfDays,
         SubmittedTo,
         SubmittedBy,
         "" + IsHalfDay,
-        "" + FromIsHalfDay,
-        "" + ToIsHalfDay,
-        Remarks[0].Remark,
-        Status,
 
         <React.Fragment>
           <Tooltip
@@ -289,40 +274,6 @@ export class LeaveApplication extends React.Component {
                       <span
                         onClick={() => this.LeaveApplicationSort("IsHalfDay")}
                       >
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.fromIsHalfDay}>
-                    {txt => (
-                      <span
-                        onClick={() =>
-                          this.LeaveApplicationSort("FromIsHalfDay")
-                        }
-                      >
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.toIsHalfDay}>
-                    {txt => (
-                      <span
-                        onClick={() => this.LeaveApplicationSort("ToIsHalfDay")}
-                      >
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.remark}>
-                    {txt => (
-                      <span onClick={() => this.LeaveApplicationSort("Remark")}>
-                        {txt}
-                      </span>
-                    )}
-                  </FormattedMessage>,
-                  <FormattedMessage {...messages.status}>
-                    {txt => (
-                      <span onClick={() => this.LeaveApplicationSort("Status")}>
                         {txt}
                       </span>
                     )}

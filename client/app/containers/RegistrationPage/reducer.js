@@ -10,8 +10,7 @@ export const initialState = fromJS({
   all: [],
   one: {},
   errors: {},
-  isRequesting: false,
-  page: []
+  isRequesting: false
 });
 
 function reducer(state = initialState, action) {
@@ -31,8 +30,7 @@ function reducer(state = initialState, action) {
     case types.LOAD_ALL_SUCCESS:
       return state.merge({
         all: fromJS(action.payload.data),
-        isRequesting: false,
-        page: fromJS(action.payload)
+        isRequesting: false
       });
     case types.LOAD_ONE_SUCCESS:
       return state.merge({

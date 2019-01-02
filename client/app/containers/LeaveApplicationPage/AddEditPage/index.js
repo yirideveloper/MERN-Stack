@@ -57,10 +57,7 @@ class LeaveApplication extends Component {
     Added_by: "",
     IsHalfDay: true,
     From: null,
-    To: null,
-    FromIsHalfDay: null,
-    ToIsHalfDay: null,
-    Remarks: [{ Date: moment(new Date()).format("YYYY-MM-DD"), Remark: "" }]
+    To: null
   };
 
   componentDidMount() {
@@ -84,14 +81,6 @@ class LeaveApplication extends Component {
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
-  handleRemarkChange = index => event => {
-    event.persist();
-    this.setState(state => {
-      let { Remarks } = state;
-      Remarks[index].Remark = event.target.value;
-      return { Remarks };
-    });
-  };
   handleNumberChange = name => event => {
     this.setState({ [name]: Number(event.target.value) });
   };
@@ -107,7 +96,6 @@ class LeaveApplication extends Component {
     this.setState({ [name]: event.target.value === "true" });
   };
   render() {
-    const { Remarks } = this.state;
     const { classes } = this.props;
     return (
       <div>
@@ -123,7 +111,7 @@ class LeaveApplication extends Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Employee Name"
+                      labelText="Added By"
                       id="Added_by"
                       formControlProps={{
                         fullWidth: true
@@ -134,8 +122,6 @@ class LeaveApplication extends Component {
                       }}
                     />
                   </GridItem>
-
-                             
 
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
@@ -182,7 +168,6 @@ class LeaveApplication extends Component {
                     <FormControl
                       component="fieldset"
                       className={classes.formControl}
-                      margin="normal"
                     >
                       <FormLabel component="legend">Is HalfDay</FormLabel>
                       <RadioGroup
@@ -205,53 +190,6 @@ class LeaveApplication extends Component {
                       </RadioGroup>
                     </FormControl>
                   </GridItem>
-                  <GridItem xs={4} sm={4} md={4}>
-                    <FormControl margin="normal">
-                      <FormLabel component="legend">From IsHalfDay</FormLabel>
-                      <RadioGroup
-                        aria-label="FromIsHalfDay"
-                        name="FromIsHalfDay"
-                        className={classes.group}
-                        value={this.state.FromIsHalfDay}
-                        onChange={this.handleBooleanChange("FromIsHalfDay")}
-                      >
-                        <FormControlLabel
-                          value={true}
-                          control={<Radio />}
-                          label="True"
-                        />
-                        <FormControlLabel
-                          value={false}
-                          control={<Radio />}
-                          label="False"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem xs={4} sm={4} md={4}>
-                    <FormControl margin="normal">
-                      <FormLabel component="legend">To IsHalfDay</FormLabel>
-                      <RadioGroup
-                        aria-label="ToIsHalfDay"
-                        name="ToIsHalfDay"
-                        className={classes.group}
-                        value={this.state.ToIsHalfDay}
-                        onChange={this.handleBooleanChange("ToIsHalfDay")}
-                      >
-                        <FormControlLabel
-                          value={true}
-                          control={<Radio />}
-                          label="True"
-                        />
-                        <FormControlLabel
-                          value={false}
-                          control={<Radio />}
-                          label="False"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </GridItem>
-
                   <GridItem xs={12} sm={12} md={12}>
                     <TextField
                       id="date"
@@ -266,7 +204,6 @@ class LeaveApplication extends Component {
                       InputLabelProps={{
                         shrink: true
                       }}
-                      margin="normal"
                       //this.handleQueryChange
                     />
                   </GridItem>
@@ -283,26 +220,7 @@ class LeaveApplication extends Component {
                       InputLabelProps={{
                         shrink: true
                       }}
-                      margin="normal"
                     />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    {Remarks.map((each, index) => (
-                      <CustomInput
-                        key={`remark-${index}`}
-                        labelText="Remarks"
-                        id="Remarks"
-                        name="Remarks"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: each.Remark,
-                          onChange: this.handleRemarkChange(index)
-                        }}
-                        margin="normal"
-                      />
-                    ))}
                   </GridItem>
                 </GridContainer>
               </CardBody>

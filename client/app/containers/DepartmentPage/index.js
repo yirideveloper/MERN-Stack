@@ -29,7 +29,7 @@ import injectReducer from "../../utils/injectReducer";
 import reducer from "./reducer";
 import saga from "./saga";
 import { loadAllRequest, deleteOneRequest } from "./actions";
-import { makeSelectAll, makeSelectPage } from "./selectors";
+import { makeSelectAll } from "./selectors";
 import { FormattedMessage } from "react-intl";
 import messages from "./messages";
 
@@ -68,14 +68,7 @@ const styles = theme => ({
 
 /* eslint-disable react/prefer-stateless-function */
 export class Department extends React.Component {
-  state = {
-    query: {},
-    name: "",
-    sortToggle: 0,
-    sortSymbol: "D",
-    page: 1,
-    rowsPerPage: 10
-  };
+  state = { query: {}, name: "", sortToggle: 0, sortSymbol: "D" };
   componentDidMount() {
     this.props.loadAll({ query: {} });
   }
@@ -101,11 +94,7 @@ export class Department extends React.Component {
     // this.props.history.push(`/wt/link-manage/edit/${id}`);
   };
   handleSearch = () => {
-    this.props.loadAll({
-      query: this.state.query,
-      page: this.state.page,
-      rowsPerPage: this.state.rowsPerPage
-    });
+    this.props.loadAll({ query: this.state.query });
     this.setState({ query: {} });
   };
 
@@ -115,34 +104,11 @@ export class Department extends React.Component {
     } else if (!this.state.sortToggle) {
       this.setState({ sortToggle: 1, sortSymbol: "A" });
     }
-    this.props.loadAll({
-      sort: `${this.state.sortToggle}${title}`,
-      page: this.state.page,
-      rowsPerPage: this.state.rowsPerPage
-    });
-  };
-  //Pagination
-  handleChangePage = (event, page) => {
-    this.setState({ page: page + 1 }, () => {
-      this.props.loadAll({
-        page: this.state.page,
-        rowsPerPage: this.state.rowsPerPage
-      });
-    });
-  };
-  handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value }, () => {
-      this.props.loadAll({
-        // page: this.state.page,
-        rowsPerPage: this.state.rowsPerPage
-      });
-    });
+    this.props.loadAll({ sort: `${this.state.sortToggle}${title}` });
   };
   render() {
-    const { classes, allLinks, pageItem } = this.props;
+    const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
-    const pageObj = pageItem.toJS();
-    const { page = 1, size = 10, totaldata = 20 } = pageObj;
     const tableData = allLinksObj.map(
       ({ _id, departmentName, numberofStaff, departmentNameNepali }) => [
         departmentName,
@@ -257,11 +223,6 @@ export class Department extends React.Component {
                   </FormattedMessage>
                 ]}
                 tableData={tableData}
-                page={page}
-                size={size}
-                totaldata={totaldata}
-                handleChangePage={this.handleChangePage}
-                handleChangeRowsPerPage={this.handleChangeRowsPerPage}
               />
               <Button
                 variant="fab"
@@ -286,8 +247,7 @@ Department.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  allLinks: makeSelectAll(),
-  pageItem: makeSelectPage()
+  allLinks: makeSelectAll()
 });
 
 const mapDispatchToProps = dispatch => ({
