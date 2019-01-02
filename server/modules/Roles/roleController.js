@@ -17,7 +17,7 @@ roleController.AddRoles = async (req, res, next) => {
   try {
     const role = req.body;
     if (role._id) {
-      const update = await RoleSch.findByIdAndUpdate(role._id, { $set: role }, { new: true });
+      const update = await RoleSch.findByIdAndUpdate(role._id, { $set: role });
       return otherHelper.sendResponse(res, HttpStatus.OK, true, update, null, 'Role Saved Success !!', null);
     } else {
       role.Added_by = req.user.id;
@@ -42,7 +42,7 @@ roleController.AddModulList = async (req, res, next) => {
   try {
     const modules = req.body;
     if (modules._id) {
-      const update = await ModuleSch.findByIdAndUpdate(modules._id, { $set: modules }, { new: true });
+      const update = await ModuleSch.findByIdAndUpdate(modules._id, { $set: modules });
       return otherHelper.sendResponse(res, HttpStatus.OK, true, update, null, 'Module Saved Success !!', null);
     } else {
       modules.Added_by = req.user.id;
@@ -66,7 +66,7 @@ roleController.SaveAccessList = async (req, res, next) => {
   try {
     const access = req.body;
     if (access._id) {
-      const update = await AccessSch.findByIdAndUpdate(access._id, { $set: access }, { new: true });
+      const update = await AccessSch.findByIdAndUpdate(access._id, { $set: access });
       return otherHelper.sendResponse(res, HttpStatus.OK, true, update, null, 'Access Saved Success !!', null);
     } else {
       access.Added_by = req.user.id;
@@ -86,7 +86,7 @@ roleController.SaveAccessListFromRole = async (req, res, next) => {
       for (let i = 0; i < access.length; i++) {
         if (access[i]._id) {
           access[i].RoleId = roleid;
-          await AccessSch.findByIdAndUpdate(access[i]._id, { $set: access[i] }, { new: true });
+          await AccessSch.findByIdAndUpdate(access[i]._id, { $set: access[i] });
         } else {
           access[i].RoleId = roleid;
           access[i].Added_by = req.user.id;
@@ -110,7 +110,7 @@ roleController.SaveAccessListForModule = async (req, res, next) => {
       for (let i = 0; i < access.length; i++) {
         if (access[i]._id) {
           access[i].ModuleId = moduleid;
-          await AccessSch.findByIdAndUpdate(access[i]._id, { $set: access[i] }, { new: true });
+          await AccessSch.findByIdAndUpdate(access[i]._id, { $set: access[i] });
         } else {
           access[i].ModuleId = moduleid;
           access[i].Added_by = req.user.id;

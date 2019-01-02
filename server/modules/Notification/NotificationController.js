@@ -55,14 +55,14 @@ NotificationController.GetNotification = async (req, res, next) => {
     }
   }
 
-  selectquery = 'Module Description IsSeen AddedAt IsRead UserID';
+  selectquery = 'Module Description IsSeen AddedAt IsRead';
   let datas = await otherHelper.getquerySendResponse(NotificationModel, page, size, sortquery, searchquery, selectquery, next);
 
   return otherHelper.paginationSendResponse(res, HttpStatus.OK, true, datas.data, 'Notification Data delivered successfully', page, size, datas.totaldata);
 };
 NotificationController.GetNotificationByID = async (req, res, next) => {
   try {
-    let data = await NotificationModel.findOne({ _id: req.params.id }).select('Module Description IsSeen AddedAt IsRead UserID');
+    let data = await NotificationModel.findOne({ _id: req.params.id }).select('Module Description IsSeen AddedAt IsRead');
     //console.log('data:', data);
     return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, 'Notification data delivered successfully', null);
   } catch (err) {
