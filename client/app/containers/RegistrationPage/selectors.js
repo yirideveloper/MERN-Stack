@@ -13,5 +13,3 @@ export const makeSelectOne = () =>
   createSelector(selectDomain, state => state.get("one"));
 export const makeSelectError = () =>
   createSelector(selectDomain, state => state.get("errors"));
-export const makeSelectPage = () =>
-  createSelector(selectDomain, state => state.get("page"));
