@@ -10,6 +10,23 @@ const LeaveApplicationValidation = {};
 LeaveApplicationValidation.validate = async (req, res, next) => {
   let errors = await validationhelper.validate(req.body, [
     {
+      field: 'NoOfDays',
+      validate: [
+        {
+          condition: 'IsNumeric',
+          msg: LeaveApplicationConfig.ValidationMessage.NoOfDaysRequired,
+        },
+        {
+          condition: 'IsInt',
+          msg: LeaveApplicationConfig.ValidationMessage.NoOfDaysInvalid,
+          options: {
+            min: 1,
+          },
+        },
+      ],
+    },
+
+    {
       field: 'Remarks.Status',
       validate: [
         {
@@ -40,25 +57,61 @@ LeaveApplicationValidation.validate = async (req, res, next) => {
       ],
     },
 
-    // {
-    //   field: 'Remarks.UserID',
-    //   validate: [
-    //     {
-    //       condition: 'IsMONGOID',
-    //       msg: LeaveApplicationConfig.ValidationMessage.UserIDRequired,
-    //     },
-    //   ],
-    // },
+    {
+      field: 'Remarks.UserID',
+      validate: [
+        {
+          condition: 'IsMONGOID',
+          msg: LeaveApplicationConfig.ValidationMessage.UserIDRequired,
+        },
+      ],
+    },
+
+    {
+      field: 'SubmittedTo',
+      validate: [
+        {
+          condition: 'IsEmpty',
+          msg: LeaveApplicationConfig.ValidationMessage.SubmittedToRequired,
+        },
+        {
+          condition: 'String',
+          msg: LeaveApplicationConfig.ValidationMessage.SubmittedToInvalid,
+        },
+      ],
+    },
+    {
+      field: 'SubmittedBy',
+      validate: [
+        {
+          condition: 'IsEmpty',
+          msg: LeaveApplicationConfig.ValidationMessage.SubmittedByRequired,
+        },
+        {
+          condition: 'String',
+          msg: LeaveApplicationConfig.ValidationMessage.SubmittedByInvalid,
+        },
+      ],
+    },
+    {
+      field: 'Added_by',
+      validate: [
+        {
+          condition: 'IsEmpty',
+          msg: LeaveApplicationConfig.ValidationMessage.Added_byRequired,
+        },
+        {
+          condition: 'String',
+          msg: LeaveApplicationConfig.ValidationMessage.Added_byInvalid,
+        },
+      ],
+    },
     {
       field: 'To',
       validate: [
         {
           condition: 'IsEmpty',
           msg: LeaveApplicationConfig.ValidationMessage.ToRequired,
-        },
-        {
-          condition: 'IsDate',
-          msg: LeaveApplicationConfig.ValidationMessage.ToInvalid,
         },
       ],
     },
@@ -68,52 +121,6 @@ LeaveApplicationValidation.validate = async (req, res, next) => {
         {
           condition: 'IsEmpty',
           msg: LeaveApplicationConfig.ValidationMessage.FromRequired,
-        },
-        {
-          condition: 'IsDate',
-          msg: LeaveApplicationConfig.ValidationMessage.FromInvalid,
-        },
-      ],
-    },
-    {
-      field: 'NoOfDays',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: LeaveApplicationConfig.ValidationMessage.NoOfDaysRequired,
-        },
-        {
-          condition: 'IsNumeric',
-          msg: LeaveApplicationConfig.ValidationMessage.FromInvalid,
-        },
-        {
-          condition: IsInt,
-          msg: LeaveApplicationConfig.ValidationMessage.FromInvalid,
-          options: {
-            min: 1,
-          },
-        },
-      ],
-    },
-    {
-      field: 'EmployID',
-      validate: [
-        {
-          condition: 'IsMONGOID',
-          msg: LeaveApplicationConfig.ValidationMessage.EmployIDInvalid,
-        },
-      ],
-    },
-    {
-      field: 'LeaveTypeID',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: LeaveApplicationConfig.ValidationMessage.LeaveTypeIDRequired,
-        },
-        {
-          condition: 'IsMONGOID',
-          msg: LeaveApplicationConfig.ValidationMessage.LeaveTypeIDInvalid,
         },
       ],
     },
