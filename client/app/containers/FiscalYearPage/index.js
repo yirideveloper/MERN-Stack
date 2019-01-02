@@ -159,53 +159,46 @@ export class FiscalYearPage extends React.Component {
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
-              <GridContainer>
-                <GridItem xs={4} sm={4} md={4}>
-                  <TextField
-                    name="fiscalyear"
-                    value={this.state.query.fiscalyear || ""}
-                    onChange={this.handleQueryChange}
-                    margin="normal"
-                    placeholder="Search By Fiscal Year"
-                  />
-                </GridItem>
-                <GridItem xs={4} sm={4} md={4}>
-                  <TextField
-                    id="date"
-                    name="from"
-                    label="From"
-                    type="date"
-                    value={this.state.query.from || ""}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={this.handleQueryChange}
-                  />
-                </GridItem>
-                <GridItem xs={4} sm={4} md={4}>
-                  <TextField
-                    id="date"
-                    name="to"
-                    label="To"
-                    type="date"
-                    value={this.state.query.to || ""}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={this.handleQueryChange}
-                  />
-                </GridItem>
+              <TextField
+                name="fiscalyear"
+                value={this.state.query.fiscalyear || ""}
+                onChange={this.handleQueryChange}
+                margin="normal"
+                placeholder="Search By Fiscal Year"
+              />
 
-                <Button
-                  color="Black"
-                  aria-label="edit"
-                  justIcon
-                  round
-                  onClick={this.handleSearch}
-                >
-                  <Search />
-                </Button>
-              </GridContainer>
+              <TextField
+                id="date"
+                name="from"
+                label="From"
+                type="date"
+                value={this.state.query.from || ""}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.handleQueryChange}
+              />
+              <TextField
+                id="date"
+                name="to"
+                label="To"
+                type="date"
+                value={this.state.query.to || ""}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.handleQueryChange}
+              />
+
+              <Button
+                color="Black"
+                aria-label="edit"
+                justIcon
+                round
+                onClick={this.handleSearch}
+              >
+                <Search />
+              </Button>
             </CardHeader>
           </Card>
         </GridItem>
