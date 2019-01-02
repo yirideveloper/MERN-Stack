@@ -12,6 +12,8 @@ const emailTemplate = require('../../helper/email-render-template');
 const auth = require('../../helper/auth.helper');
 const thirdPartyApiRequesterHelper = require('../../helper/apicall.helper');
 const otherHelper = require('../../helper/others.helper');
+const AccessSch = require('../Roles/access');
+const ModuleSch = require('../Roles/module');
 const { secretOrKey, oauthConfig, tokenExpireTime } = require('../../config/keys');
 
 const userController = {};
@@ -70,14 +72,14 @@ userController.getAllUser = async (req, res, next) => {
     searchq = { name: { $regex: req.query.find_name, $options: 'i x' }, ...searchq };
   }
 
-  if (req.query.find_gender) {
-    searchq = { gender: req.query.find_gender, ...searchq };
+  if (req.query.find_ApplicableGender) {
+    searchquery = { ApplicableGender: req.query.find_ApplicableGender, ...searchquery };
   }
 
   if (req.query.find_email) {
     searchq = { email: { $regex: req.query.find_email, $options: 'i x' }, ...searchq };
   }
-  selectq = 'name nameNepali ReporterID email gender permanentaddress tempaddress is_active avatar updated_at added_at added_by roles';
+  selectq = 'name nameNepali ReporterID email Gender permanentaddress tempaddress is_active avatar updated_at added_at added_by roles';
 
   populate = { path: 'roles', select: '_id RolesTitle' };
 
@@ -94,7 +96,7 @@ userController.getAllUser = async (req, res, next) => {
 };
 userController.getUserDetail = async (req, res, next) => {
   try {
-    const users = await User.findOne({ _id: req.params.id, IsDeleted: false }, 'name nameNepali ReporterID email gender permanentaddress tempaddress is_active avatar updated_at added_at added_by roles').populate({ path: 'roles', select: '_id RolesTitle' });
+    const users = await User.findOne({ _id: req.params.id, IsDeleted: false }, 'name nameNepali ReporterID email Gender permanentaddress tempaddress is_active avatar updated_at added_at added_by roles').populate({ path: 'roles', select: '_id RolesTitle' });
     return otherHelper.sendResponse(res, HttpStatus.OK, true, users, null, 'User Detail Get Success', null);
   } catch (err) {
     next(err);
@@ -319,7 +321,7 @@ userController.resetPassword = async (req, res, next) => {
   }
 };
 
-userController.login = (req, res) => {
+userController.login = async (req, res) => {
   // Check validation
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
@@ -337,10 +339,23 @@ userController.login = (req, res) => {
     }
 
     // Check Password
-    bcrypt.compare(password, user.password).then(isMatch => {
+    bcrypt.compare(password, user.password).then(async isMatch => {
       if (isMatch) {
         // User Matched
-
+        let accesses = await AccessSch.find({ RoleId: user.roles, IsActive: true }, { AccessType: 1, _id: 0 });
+        const access = accesses.map(a => a.AccessType).reduce((acc, curr) => [...curr, ...acc]);
+        console.log(access);
+        const routers = await ModuleSch.find({ 'Path._id': access }, { 'Path.AdminRoutes': 1, 'Path.AccessType': 1 });
+        let routes = [];
+        for (let i = 0; i < routers.length; i++) {
+          for (let j = 0; j < routers[i].Path.length; j++) {
+            // for (let k = 0; k < routers[i].Path[j].AdminRoutes.length; k++) {
+            routes.push(routers[i].Path[j]);
+            // }
+          }
+        }
+        // routes = routes.map(a => a.AdminRoutes);
+        console.log(routes);
         // Create JWT payload
         const payload = {
           id: user._id,
@@ -349,6 +364,7 @@ userController.login = (req, res) => {
           email: user.email,
           email_verified: user.email_verified,
           roles: user.roles,
+          // access: access,
         };
         // Sign Token
         jwt.sign(
@@ -359,6 +375,8 @@ userController.login = (req, res) => {
           },
           (err, token) => {
             token = `Bearer ${token}`;
+            console.log(token);
+            payload.routes = routes;
             return otherHelper.sendResponse(res, HttpStatus.OK, true, payload, null, null, token);
           },
         );
@@ -461,17 +479,4 @@ userController.requestSocialOAuthApiDataHelper = async (req, next, request_url, 
     return next(err);
   }
 };
-
-//to get all the users in reporterid
-userController.getUnderUserList = async (req, res, next) => {
-  let myID = req.user.id;
-  let datas;
-  try {
-    datas = await User.find({ ReporterID: { $eq: myID } }).select('name _id');
-  } catch (err) {
-    next(err);
-  }
-  return otherHelper.sendResponse(res, HttpStatus.OK, true, datas, null, 'Employee list Successfully delivered !!', null);
-};
-
 module.exports = userController;
