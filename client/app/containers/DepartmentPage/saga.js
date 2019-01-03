@@ -17,8 +17,6 @@ function* loadAll(action) {
   const token = yield select(makeSelectToken());
   let search = "";
   let sort = "";
-  let pageNumber = "";
-  let sizeOfPage = "";
   if (action.payload.query) {
     // {payload, metadata}
     //{payload: {query, sort}}
@@ -26,18 +24,12 @@ function* loadAll(action) {
       search = `${each}=${action.payload.query[each]}&${search}`;
     });
     search = `&find_${search}`;
-  }
-  if (action.payload.sort) {
-    sort = `&sort=${action.payload.sort}`;
-  }
-  if (action.payload) {
-    pageNumber = `&page=${action.payload.page}&size=${
-      action.payload.rowsPerPage
-    }`;
+  } else if (action.payload.sort) {
+    sort = `${action.payload.sort}`;
   }
   yield call(
     Api.get(
-      `department?${search}${sort}${sizeOfPage}${pageNumber}`,
+      `department?${search}&sort=${sort}`,
       actions.loadAllSuccess,
       actions.loadAllFailure,
       token
