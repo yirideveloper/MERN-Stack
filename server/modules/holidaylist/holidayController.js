@@ -1,18 +1,13 @@
 const HttpStatus = require('http-status');
 const otherHelper = require('./../../helper/others.helper');
 const holidaymodel = require('./holiday');
-const moment = require('moment');
 const holidayController = {};
 const Internal = {};
-
-const UserInfoInternal = require('./../Users/UserController').Internal;
 
 holidayController.saveData = async (req, res, next) => {
   try {
     let data = req.body;
     data.addedBy = req.user.id;
-    data.holidayDay = moment(data.date).weekday();
-    console.log(data.holidayDay);
     if (data._id) {
       let updated = await holidaymodel.findByIdAndUpdate(data._id, data);
       return otherHelper.sendResponse(res, HttpStatus.OK, true, updated, null, 'Holiday updated!!!', null);
@@ -109,24 +104,15 @@ holidayController.deleteById = async (req, res, next) => {
 };
 
 Internal.getHolidayInBetween = async (fromdDate, toDate, employeeID) => {
+  let retobj = {};
   let data;
 
   try {
-    let employdata = await UserInfoInternal.getEmployeeInfo(employeeID);
-    // console.log(employdata);
-    data = await holidaymodel.find(
-      {
-        date: { $gte: fromdDate, $lte: toDate },
-        $and: [{ $or: [{ applicableTo: 'All' }, { applicableTo: employdata.gender }] }, { $or: [{ applicableReligion: 'All' }, { applicableReligion: employdata.religion }] }],
-        IsDeleted: false,
-        isHalfDay: false,
-      },
-      'date title applicableTo applicableReligion -_id',
-    );
+    //  let employdata = await
+     data = await holidaymodel.find({date:{ $gte: fromdDate,$lte: toDate } });
   } catch (err) {
-    console.log('error: ', err);
+    next(err);
   }
-  return data;
 };
 
 module.exports = { holidayController, Internal };

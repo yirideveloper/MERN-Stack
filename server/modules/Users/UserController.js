@@ -17,7 +17,7 @@ const ModuleSch = require('../Roles/module');
 const { secretOrKey, oauthConfig, tokenExpireTime } = require('../../config/keys');
 
 const userController = {};
-const Internal = {};
+
 userController.checkMail = async (req, res) => {
   // Check validation
   const { errors, isValid } = validateUserScanInput(req.body);
@@ -495,15 +495,4 @@ userController.getUnderUserList = async (req, res, next) => {
   return otherHelper.sendResponse(res, HttpStatus.OK, true, datas, null, 'Employee list Successfully delivered !!', null);
 };
 
-//to fetch info internally
-Internal.getEmployeeInfo = async EmployeeId => {
-  let datas;
-  try {
-    datas = await User.find({ _id: EmployeeId });
-  } catch (err) {
-    next(err);
-  }
-  return datas;
-};
-
-module.exports = { userController, Internal };
+module.exports = userController;
