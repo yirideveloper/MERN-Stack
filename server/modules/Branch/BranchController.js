@@ -1,7 +1,6 @@
 const HttpStatus = require('http-status');
 const otherHelper = require('../../helper/others.helper');
 const BranchModel = require('./Branch');
-const BranchConfig = require('./BranchConfig');
 const BranchController = {};
 
 BranchController.GetBranch = async (req, res, next) => {
@@ -57,14 +56,14 @@ BranchController.GetBranch = async (req, res, next) => {
 
   let datas = await otherHelper.getquerySendResponse(BranchModel, page, size, sortquery, searchquery, selectquery, next);
 
-  return otherHelper.paginationSendResponse(res, HttpStatus.OK, true, datas.data, BranchConfig.validationMessage.GetBranch, page, size, datas.totaldata);
+  return otherHelper.paginationSendResponse(res, HttpStatus.OK, true, datas.data, 'Branch Data delivered successfully', page, size, datas.totaldata);
 };
 
 BranchController.GetBranchDetail = async (req, res, next) => {
   try {
     let data = await BranchModel.findOne({ _id: req.params.id, IsDeleted: false }).select('BranchName BranchNameNepali Address ContactNo Email');
     // console.log('data:', data);
-    return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, BranchConfig.validationMessage.GetBranch, null);
+    return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, 'Branch data delivered successfully', null);
   } catch (err) {
     next(err);
   }
@@ -76,12 +75,12 @@ BranchController.AddBranch = async (req, res, next) => {
     Branch.Add_by = req.user.id;
     if (Branch._id) {
       let update = await BranchModel.findByIdAndUpdate(Branch._id, { $set: Branch });
-      return otherHelper.sendResponse(res, HttpStatus.OK, true, update, null, BranchConfig.validationMessage.AddBranch, null);
+      return otherHelper.sendResponse(res, HttpStatus.OK, true, update, null, 'Branch Saved Success !!', null);
     } else {
       // LeaveType.Added_by = req.user.id;
       let newBranch = new BranchModel(Branch);
       await newBranch.save();
-      return otherHelper.sendResponse(res, HttpStatus.OK, true, newBranch, null, BranchConfig.validationMessage.AddBranch, null);
+      return otherHelper.sendResponse(res, HttpStatus.OK, true, newBranch, null, 'Branch Saved Success !!', null);
     }
   } catch (err) {
     next(err);
@@ -92,7 +91,7 @@ BranchController.DeleteByID = async (req, res, next) => {
   try {
     const id = req.params.id;
     const data = await BranchModel.findByIdAndUpdate(id, { $set: { IsDeleted: true, Deleted_By: req.user.id, Deleted_At: new Date() } });
-    return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, BranchConfig.validationMessage.DeleteByID, null);
+    return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, 'Branch Data delete Success', null);
   } catch (err) {
     next(err);
   }

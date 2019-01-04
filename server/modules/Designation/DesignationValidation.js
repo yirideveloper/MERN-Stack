@@ -2,6 +2,7 @@ const isEmpty = require('../../validation/isEmpty');
 const otherHelper = require('../../helper/others.helper');
 const Validator = require('validator');
 const HttpStatus = require('http-status');
+
 const DesignationSch = require('./Designation');
 
 const DesignationConfig = require('./DesignationConfig');
@@ -19,11 +20,11 @@ DesignationValidation.Designation = async (req, res, next) => {
       validate: [
         {
           condition: 'IsEmpty',
-          msg: DesignationConfig.validationMessage.DesignationRequired,
+          msg: 'Designation must be entered',
         },
         {
           condition: 'String',
-          msg: DesignationConfig.validationMessage.DesignationInvalidlength,
+          msg: 'Designation must be atleast 5 characters, maximum limit is 10',
           options: {
             min: 5,
             max: 10,
@@ -35,7 +36,7 @@ DesignationValidation.Designation = async (req, res, next) => {
 
   if (!isEmpty(errors)) {
     //console.log(errors);
-    return otherHelper.sendResponse(res, HttpStatus.BAD_REQUEST, false, null, errors, DesignationConfig.validationMessage.ValidationError, null);
+    return otherHelper.sendResponse(res, HttpStatus.BAD_REQUEST, false, null, errors, 'Validation Error.', null);
   } else {
     next();
   }

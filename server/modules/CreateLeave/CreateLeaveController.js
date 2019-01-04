@@ -4,7 +4,6 @@ const AssignedLeave = require('./../AssignedLeave/AssignedLeave');
 const UsersModel = require('./../Users/User');
 const LeaveTypeModel = require('./../LeaveType/LeaveType');
 const isEmpty = require('../../validation/isEmpty');
-const CreateLeaveConfig = require('./CreateLeaveConfig');
 
 const CreateLeaveController = {};
 const Internal = {};
@@ -20,7 +19,7 @@ CreateLeaveController.getData = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-  return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, CreateLeaveConfig.ValidateMessage.GetData, null);
+  return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, 'CreateLeave data delivered successfully!!!', null);
 };
 
 CreateLeaveController.saveData = async (req, res, next) => {
@@ -53,7 +52,7 @@ CreateLeaveController.saveData = async (req, res, next) => {
     }
   }
 
-  return otherHelper.sendResponse(res, HttpStatus.OK, true, returndata, null, CreateLeaveConfig.ValidateMessage.SaveData, null);
+  return otherHelper.sendResponse(res, HttpStatus.OK, true, returndata, null, 'Leave added for employee!!!', null);
 };
 
 Internal.LeaveRequest = async (LeaveType, FiscalYear, EmployeeId, AppliedLeave) => {
@@ -64,7 +63,7 @@ Internal.LeaveRequest = async (LeaveType, FiscalYear, EmployeeId, AppliedLeave) 
     let LeaveRemaining = data.LeaveRemaining;
     if (LeaveRemaining < AppliedLeave) {
       status.status = false;
-      status.error = { NoOfDays: CreateLeaveConfig.ValidateMessage.NotEnoughLeave };
+      status.error = { NoOfDays: 'Sorry, you donot have enough leave remaining!!!' };
       return status; //no leave remaining
     } else {
       try {
@@ -77,7 +76,7 @@ Internal.LeaveRequest = async (LeaveType, FiscalYear, EmployeeId, AppliedLeave) 
     }
   } else {
     status.status = false;
-    status.error = { NoOfDays: CreateLeaveConfig.ValidateMessage.NoLeave };
+    status.error = { NoOfDays: 'Sorry, No leave has been assigned for you!!!!' };
     return status; //no leave created
   }
 };

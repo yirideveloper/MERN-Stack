@@ -1,7 +1,6 @@
-const HttpStatus = require('http-status');
-const otherHelper = require('../../helper/others.helper');
-const LeaveTypeModel = require('./LeaveType');
-const LeaveTypeConfig = require('./LeaveTypeConfig');
+const HttpStatus = require("http-status");
+const otherHelper = require("../../helper/others.helper");
+const LeaveTypeModel = require("./LeaveType");
 const LeaveTypeController = {};
 const Internal = {};
 
@@ -98,11 +97,29 @@ LeaveTypeController.GetLeaveType = async (req, res, next) => {
     }
   }
 
-  selectquery = 'LeaveName LeaveNameNepali IsTransferrable IsPaidLeave IsCarryOver ApplicableGender NoOfDays IsHolidayCount ApplicableReligion IsReplacementLeave Added_by';
+  selectquery =
+    "LeaveName LeaveNameNepali IsTransferrable IsPaidLeave IsCarryOver ApplicableGender NoOfDays IsHolidayCount ApplicableReligion IsReplacementLeave Added_by";
 
-  let datas = await otherHelper.getquerySendResponse(LeaveTypeModel, page, size, sortquery, searchquery, selectquery, next);
+  let datas = await otherHelper.getquerySendResponse(
+    LeaveTypeModel,
+    page,
+    size,
+    sortquery,
+    searchquery,
+    selectquery,
+    next
+  );
 
-  return otherHelper.paginationSendResponse(res, HttpStatus.OK, true, datas.data, LeaveTypeConfig.ValidationMessage.GetLeaveType, page, size, datas.totaldata);
+  return otherHelper.paginationSendResponse(
+    res,
+    HttpStatus.OK,
+    true,
+    datas.data,
+    "Leave Type Data delivered successfully",
+    page,
+    size,
+    datas.totaldata
+  );
 };
 
 LeaveTypeController.GetLeaveTypeByID = async (req, res, next) => {
@@ -114,7 +131,15 @@ LeaveTypeController.GetLeaveTypeByID = async (req, res, next) => {
       "LeaveName LeaveNameNepali IsTransferrable IsActive IsPaidLeave ApplicableGender  IsCarryOver NoOfDays ApplicableReligion IsReplacementLeave IsHolidayCount Added_By"
     );
     //console.log('data:', data);
-    return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, LeaveTypeConfig.ValidationMessage.GetLeaveType, null);
+    return otherHelper.sendResponse(
+      res,
+      HttpStatus.OK,
+      true,
+      data,
+      null,
+      "Leave Type data delivered successfully",
+      null
+    );
   } catch (err) {
     next(err);
   }
@@ -125,13 +150,31 @@ LeaveTypeController.AddLeaveType = async (req, res, next) => {
     let LeaveType = req.body;
     LeaveType.Add_by = req.user.id;
     if (LeaveType._id) {
-      let update = await LeaveTypeModel.findByIdAndUpdate(LeaveType._id, { $set: LeaveType });
-      return otherHelper.sendResponse(res, HttpStatus.OK, true, update, null, LeaveTypeConfig.ValidationMessage.EditLeaveType, null);
+      let update = await LeaveTypeModel.findByIdAndUpdate(LeaveType._id, {
+        $set: LeaveType
+      });
+      return otherHelper.sendResponse(
+        res,
+        HttpStatus.OK,
+        true,
+        update,
+        null,
+        "Leave Type Edit Success !!",
+        null
+      );
     } else {
       // LeaveType.Added_by = req.user.id;
       let newLeaveType = new LeaveTypeModel(LeaveType);
       await newLeaveType.save();
-      return otherHelper.sendResponse(res, HttpStatus.OK, true, newLeaveType, null, LeaveTypeConfig.ValidationMessage.SaveLeaveType, null);
+      return otherHelper.sendResponse(
+        res,
+        HttpStatus.OK,
+        true,
+        newLeaveType,
+        null,
+        "Leave Type Saved Success !!",
+        null
+      );
     }
   } catch (err) {
     next(err);
@@ -141,8 +184,18 @@ LeaveTypeController.AddLeaveType = async (req, res, next) => {
 LeaveTypeController.DeleteByID = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const data = await LeaveTypeModel.findByIdAndUpdate(id, { $set: { IsDeleted: true, Deleted_By: req.user.id, Deleted_At: new Date() } });
-    return otherHelper.sendResponse(res, HttpStatus.OK, true, data, null, LeaveTypeConfig.ValidationMessage.DeleteByID, null);
+    const data = await LeaveTypeModel.findByIdAndUpdate(id, {
+      $set: { IsDeleted: true, Deleted_By: req.user.id, Deleted_At: new Date() }
+    });
+    return otherHelper.sendResponse(
+      res,
+      HttpStatus.OK,
+      true,
+      data,
+      null,
+      "Leave Type Data delete Success",
+      null
+    );
   } catch (err) {
     next(err);
   }
