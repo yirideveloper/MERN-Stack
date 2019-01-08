@@ -73,10 +73,3 @@ body {
   color: #999;
   line-height: 1.5;
 }
-
-.search {
-  transition: all 0.2s ease-in-out;
-}
-.search:hover {
-  transform: scale(1.3);
-}
