@@ -29,7 +29,7 @@ import injectReducer from "../../utils/injectReducer";
 import reducer from "./reducer";
 import saga from "./saga";
 import { loadAllRequest, deleteOneRequest } from "./actions";
-import { makeSelectAll, makeSelectPage } from "./selectors";
+import { makeSelectAll } from "./selectors";
 import { FormattedMessage } from "react-intl";
 import messages from "./messages";
 
@@ -94,11 +94,7 @@ export class FiscalYearPage extends React.Component {
     // this.props.history.push(`/wt/link-manage/edit/${id}`);
   };
   handleSearch = () => {
-    this.props.loadAll({
-      query: this.state.query,
-      page: this.state.page,
-      rowsPerPage: this.state.rowsPerPage
-    });
+    this.props.loadAll({ query: this.state.query });
     this.setState({ query: {} });
   };
 
@@ -108,35 +104,11 @@ export class FiscalYearPage extends React.Component {
     } else if (!this.state.sortToggle) {
       this.setState({ sortToggle: 1, sortSymbol: "A" });
     }
-    this.props.loadAll({
-      sort: `${this.state.sortToggle}${title}`,
-      page: this.state.page,
-      rowsPerPage: this.state.rowsPerPage
-    });
-  };
-
-  //Pagination
-  handleChangePage = (event, page) => {
-    this.setState({ page: page + 1 }, () => {
-      this.props.loadAll({
-        page: this.state.page,
-        rowsPerPage: this.state.rowsPerPage
-      });
-    });
-  };
-  handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value }, () => {
-      this.props.loadAll({
-        // page: this.state.page,
-        rowsPerPage: this.state.rowsPerPage
-      });
-    });
+    this.props.loadAll({ sort: `${this.state.sortToggle}${title}` });
   };
   render() {
-    const { classes, allLinks, pageItem } = this.props;
+    const { classes, allLinks } = this.props;
     const allLinksObj = allLinks.toJS();
-    const pageObj = pageItem.toJS();
-    const { page = 1, size = 10, totaldata = 20 } = pageObj;
     const tableData = allLinksObj.map(
       ({ _id, FiscalYear, From, To, IsCurrent, IsActive }) => [
         FiscalYear,
@@ -187,53 +159,46 @@ export class FiscalYearPage extends React.Component {
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
-              <GridContainer>
-                <GridItem xs={4} sm={4} md={4}>
-                  <TextField
-                    name="fiscalyear"
-                    value={this.state.query.fiscalyear || ""}
-                    onChange={this.handleQueryChange}
-                    margin="normal"
-                    placeholder="Search By Fiscal Year"
-                  />
-                </GridItem>
-                <GridItem xs={4} sm={4} md={4}>
-                  <TextField
-                    id="date"
-                    name="from"
-                    label="From"
-                    type="date"
-                    value={this.state.query.from || ""}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={this.handleQueryChange}
-                  />
-                </GridItem>
-                <GridItem xs={4} sm={4} md={4}>
-                  <TextField
-                    id="date"
-                    name="to"
-                    label="To"
-                    type="date"
-                    value={this.state.query.to || ""}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={this.handleQueryChange}
-                  />
-                </GridItem>
+              <TextField
+                name="fiscalyear"
+                value={this.state.query.fiscalyear || ""}
+                onChange={this.handleQueryChange}
+                margin="normal"
+                placeholder="Search By Fiscal Year"
+              />
 
-                <Button
-                  color="Black"
-                  aria-label="edit"
-                  justIcon
-                  round
-                  onClick={this.handleSearch}
-                >
-                  <Search />
-                </Button>
-              </GridContainer>
+              <TextField
+                id="date"
+                name="from"
+                label="From"
+                type="date"
+                value={this.state.query.from || ""}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.handleQueryChange}
+              />
+              <TextField
+                id="date"
+                name="to"
+                label="To"
+                type="date"
+                value={this.state.query.to || ""}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                onChange={this.handleQueryChange}
+              />
+
+              <Button
+                color="Black"
+                aria-label="edit"
+                justIcon
+                round
+                onClick={this.handleSearch}
+              >
+                <Search />
+              </Button>
             </CardHeader>
           </Card>
         </GridItem>
@@ -282,11 +247,6 @@ export class FiscalYearPage extends React.Component {
                   </FormattedMessage>
                 ]}
                 tableData={tableData}
-                page={page}
-                size={size}
-                totaldata={totaldata}
-                handleChangePage={this.handleChangePage}
-                handleChangeRowsPerPage={this.handleChangeRowsPerPage}
               />
               <Button
                 variant="fab"
@@ -311,8 +271,7 @@ FiscalYearPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  allLinks: makeSelectAll(),
-  pageItem: makeSelectPage()
+  allLinks: makeSelectAll()
 });
 
 const mapDispatchToProps = dispatch => ({

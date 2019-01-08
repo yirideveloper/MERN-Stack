@@ -70,9 +70,4 @@ router.use('/createleave', CreateLeave);
 const NotificationRoutes = require('./api/Notification');
 router.use('/notification', NotificationRoutes);
 
-//For settings
-const settingsRoutes = require('./api/settings');
-router.use('/settings', settingsRoutes);
-
-
 module.exports = router;

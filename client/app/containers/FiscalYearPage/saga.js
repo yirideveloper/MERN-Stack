@@ -17,8 +17,6 @@ function* loadAll(action) {
   const token = yield select(makeSelectToken());
   let search = "";
   let sort = "";
-  let pageNumber = "";
-  let sizeOfPage = "";
   if (action.payload.query) {
     // {payload, metadata}
     //{payload: {query, sort}}
@@ -26,18 +24,12 @@ function* loadAll(action) {
       search = `${each}=${action.payload.query[each]}&${search}`;
     });
     search = `&find_${search}`;
-  }
-  if (action.payload.sort) {
-    sort = `&sort=${action.payload.sort}`;
-  }
-  if (action.payload) {
-    pageNumber = `&page=${action.payload.page}&size=${
-      action.payload.rowsPerPage
-    }`;
+  } else if (action.payload.sort) {
+    sort = `${action.payload.sort}`;
   }
   yield call(
     Api.get(
-      `fiscal?${search}${sort}${pageNumber}`,
+      `fiscal?page=1&size=10${search}&sort=${sort}`,
       actions.loadAllSuccess,
       actions.loadAllFailure,
       token
@@ -97,28 +89,3 @@ export default function* defaultSaga() {
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
   yield takeLatest(types.DELETE_ONE_REQUEST, deleteOne);
 }
-
-/*function* loadAll(action) {
-  const token = yield select(makeSelectToken());
-  let search = "";
-  let sort = "";
-  if (action.payload.query) {
-    // {payload, metadata}
-    //{payload: {query, sort}}
-    Object.keys(action.payload.query).map(each => {
-      search = `${each}=${action.payload.query[each]}&${search}`;
-    });
-    search = `&find_${search}`;
-  } else if (action.payload.sort) {
-    sort = `${action.payload.sort}`;
-  }
-  yield call(
-    Api.get(
-      `fiscal?page=1&size=10${search}&sort=${sort}`,
-      actions.loadAllSuccess,
-      actions.loadAllFailure,
-      token
-    )
-  );
-}
- */
