@@ -487,7 +487,11 @@ userController.requestSocialOAuthApiDataHelper = async (req, next, request_url, 
 userController.getUnderUserList = async (req, res, next) => {
   let myID = req.user.id;
   let datas;
-  datas = await getUnderlistFunction(myID);
+  try {
+    datas = await User.find({ ReporterID: { $eq: myID } }).select('name _id');
+  } catch (err) {
+    next(err);
+  }
   return otherHelper.sendResponse(res, HttpStatus.OK, true, datas, null, 'Employee list Successfully delivered !!', null);
 };
 
@@ -498,21 +502,6 @@ Internal.getEmployeeInfo = async EmployeeId => {
     datas = await User.find({ _id: EmployeeId });
   } catch (err) {
     next(err);
-  }
-  return datas;
-};
-
-////to get all the users in reporterid internally
-Internal.getUnderUserList = async EmployeeID => {
-  let datas = await getUnderlistFunction(EmployeeID);
-  return datas;
-};
-
-let getUnderlistFunction = async EmployeeId => {
-  try {
-    datas = await User.find({ ReporterID: { $eq: EmployeeId } }).select('name nameNepali _id');
-  } catch (err) {
-    console.log('Error in User Controller: ', err);
   }
   return datas;
 };
