@@ -19,7 +19,3 @@ export const makeSelectLeaveDays = () =>
   createSelector(selectDomain, state => state.get("totalLeaveDays"));
 export const makeSelectPage = () =>
   createSelector(selectDomain, state => state.get("page"));
-export const makeSuccessSelect = () =>
-  createSelector(selectDomain, state => state.get("success"));
-export const makeErrorSelect = () =>
-  createSelector(selectDomain, state => state.get("error"));
