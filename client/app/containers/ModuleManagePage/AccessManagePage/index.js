@@ -95,7 +95,6 @@ class AccessManagePage extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.access !== nextProps.access) {
       const accessObj = nextProps.access.toJS();
-      console.log(accessObj);
       this.setState(state => {
         let AccessType = [];
         if (accessObj.Access.length) {
@@ -188,7 +187,7 @@ class AccessManagePage extends Component {
 const withStyle = withStyles(styles);
 
 const withReducer = injectReducer({ key: 'moduleManagePage', reducer });
-const withSaga = injectSaga({ key: 'moduleManagePage', saga });
+const withSaga = injectSaga({ key: 'moduleManagePageAccessManage', saga });
 
 const mapStateToProps = createStructuredSelector({
   access: makeSelectAccess(),
