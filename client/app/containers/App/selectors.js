@@ -1,31 +1,25 @@
-import { createSelector } from "reselect";
-import { initialState } from "./reducer";
+import { createSelector } from 'reselect';
 
-const selectRoute = state => state.get("route");
-const selectGlobal = state => state.get("global");
+const selectRoute = state => state.get('route');
+const selectGlobal = state => state.get('global');
 
 const makeSelectLocation = () =>
-  createSelector(selectRoute, routeState => routeState.get("location").toJS());
-
-const selectDomain = state => state.get("notification", initialState);
-
-export const makeSelectAll = () =>
-  createSelector(selectGlobal, state => state.get("all"));
+  createSelector(selectRoute, routeState => routeState.get('location').toJS());
 
 const makeSelectIsAuthenticated = () =>
-  createSelector(selectGlobal, state => !!state.get("token"));
+  createSelector(selectGlobal, state => !!state.get('token'));
 const makeSelectToken = () =>
-  createSelector(selectGlobal, state => state.get("token"));
+  createSelector(selectGlobal, state => state.get('token'));
 const makeSelectUser = () =>
-  createSelector(selectGlobal, state => state.get("user"));
+  createSelector(selectGlobal, state => state.get('user'));
 const makeSelectDialog = () =>
-  createSelector(selectGlobal, state => state.get("dialog"));
+  createSelector(selectGlobal, state => state.get('dialog'));
 const makeSelectRequesting = () =>
-  createSelector(selectGlobal, state => state.get("requesting"));
+  createSelector(selectGlobal, state => state.get('requesting'));
 const makeSelectSuccess = () =>
-  createSelector(selectGlobal, state => state.get("success"));
+  createSelector(selectGlobal, state => state.get('success'));
 const makeSelectMessages = () =>
-  createSelector(selectGlobal, state => state.get("messages"));
+  createSelector(selectGlobal, state => state.get('messages'));
 
 export {
   makeSelectLocation,
@@ -35,5 +29,5 @@ export {
   makeSelectDialog,
   makeSelectRequesting,
   makeSelectSuccess,
-  makeSelectMessages
+  makeSelectMessages,
 };

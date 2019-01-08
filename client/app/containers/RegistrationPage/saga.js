@@ -16,28 +16,15 @@ import * as actions from "./actions";
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
   let search = "";
-  let sort = "";
-  let pageNumber = "";
-  let sizeOfPage = "";
-  if (action.payload.query) {
-    // {payload, metadata}
-    //{payload: {query, sort}}
-    Object.keys(action.payload.query).map(each => {
-      search = `${each}=${action.payload.query[each]}&${search}`;
-    });
-    search = `&find_${search}`;
-  }
-  if (action.payload.sort) {
-    sort = `&sort=${action.payload.sort}`;
-  }
+  let sort = `${action.payload}`;
   if (action.payload) {
-    pageNumber = `&page=${action.payload.page}&size=${
-      action.payload.rowsPerPage
-    }`;
+    Object.keys(action.payload).map(each => {
+      search = `${each}=${action.payload[each]}${search}`;
+    });
   }
   yield call(
     Api.get(
-      `registration?${search}${sort}${sizeOfPage}${pageNumber}`,
+      `registration?find_${search}&page=1&perpage=10&sort=${sort}`,
       actions.loadAllSuccess,
       actions.loadAllFailure,
       token

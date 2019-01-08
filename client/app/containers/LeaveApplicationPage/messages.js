@@ -10,39 +10,20 @@ export default defineMessages({
     id: "app.containers.LeaveTypePage.added_by",
     defaultMessage: "Added By"
   },
-
-  appliedTime: {
-    id: "app.containers.LeaveTypePage.appliedTime",
-    defaultMessage: "Applied Time"
-  },
-
-  Employee: {
-    id: "app.containers.LeaveTypePage.Employee",
-    defaultMessage: "Employee"
-  },
-  LeaveType: {
-    id: "app.containers.LeaveTypePage.LeaveType",
-    defaultMessage: "Leave Type"
-  },
-
-  fromIsHalfDay: {
-    id: "app.containers.LeaveTypePage.fromIsHalfDay",
-    defaultMessage: "From"
-  },
-  toIsHalfDay: {
-    id: "app.containers.LeaveTypePage.toIsHalfDay",
-    defaultMessage: "To"
-  },
   noOfDays: {
     id: "app.containers.LeaveTypePage.noOfDays",
     defaultMessage: "Number of Days"
   },
-  remark: {
-    id: "app.containers.LeaveTypePage.Remark",
-    defaultMessage: "Remark"
+  submittedTo: {
+    id: "app.containers.LeaveTypePage.submittedTo",
+    defaultMessage: "Submitted To"
   },
-  status: {
-    id: "app.containers.LeaveTypePage.status",
-    defaultMessage: "Status"
+  submittedBy: {
+    id: "app.containers.LeaveTypePage.submittedBy",
+    defaultMessage: "Submitted By"
+  },
+  isHalfDay: {
+    id: "app.containers.LeaveTypePage.isHalfDay",
+    defaultMessage: "Is HalfDay"
   }
 });

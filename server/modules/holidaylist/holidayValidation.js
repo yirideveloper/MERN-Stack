@@ -53,20 +53,6 @@ holidayValidation.validate = async (req, res, next) => {
       ],
     },
     {
-      field: 'ApplicableReligion',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: holidayConfig.validationMessage.applicableReligionRequired,
-        },
-        {
-          condition: 'Contains',
-          msg: holidayConfig.validationMessage.applicableReligionoInvalid,
-          options: ['All', 'Hindu', 'Muslim', 'Christian', 'Buddisht', 'Other'],
-        },
-      ],
-    },
-    {
       field: 'applicableTo',
       validate: [
         {
