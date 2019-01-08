@@ -68,107 +68,138 @@ class AddEdit extends Component {
       Path: [...state.Path.slice(0, index), ...state.Path.slice(index + 1)],
     }));
   };
-  handleAccessTypeChange = pathIndex => event => {
+  handleAccessTypeChange = id => event => {
     event.persist();
 
-    this.setState(state => {
-      let currentPathArr = [...state.Path];
-      currentPathArr[pathIndex] = { ...currentPathArr[pathIndex], AccessType: event.target.value };
-      return { Path: currentPathArr };
-    });
+    this.setState(state => ({
+      Path: [
+        ...state.Path.map(eachPath => {
+          if (eachPath._id === id) {
+            const newPath = { ...eachPath, AccessType: event.target.value };
+            return newPath;
+          }
+          return eachPath;
+        }),
+      ],
+    }));
   };
-  handleAdminRoutesChange = (index, pathIndex) => event => {
+  handleAdminRoutesChange = (id, index) => event => {
     event.persist();
+    this.setState(state => ({
+      Path: [
+        ...state.Path.map(eachPath => {
+          if (eachPath._id === id) {
+            let { AdminRoutes } = eachPath;
+            AdminRoutes[index] = event.target.value;
+            const newPath = { ...eachPath, AdminRoutes };
+            return newPath;
+          }
+          return eachPath;
+        }),
+      ],
+    }));
+  };
+  handleRemoveAdminRoute = (id, index) => event => {
+    event.persist();
+    this.setState(state => ({
+      Path: [
+        ...state.Path.map(eachPath => {
+          if (eachPath._id === id) {
+            let { AdminRoutes } = eachPath;
+            const newPath = {
+              ...eachPath,
+              AdminRoutes: [...AdminRoutes.slice(0, index), ...AdminRoutes.slice(index + 1)],
+            };
+            return newPath;
+          }
+          return eachPath;
+        }),
+      ],
+    }));
+  };
 
-    this.setState(state => {
-      let currentPathArr = [...state.Path];
-      let { AdminRoutes } = currentPathArr[pathIndex];
-      AdminRoutes[index] = event.target.value;
-
-      currentPathArr[pathIndex] = {
-        ...currentPathArr[pathIndex],
-        AdminRoutes,
-      };
-      return { Path: currentPathArr };
-    });
-  };
-  handleRemoveAdminRoute = (index, pathIndex) => event => {
+  handleAddAdminRoute = id => event => {
     event.persist();
-    this.setState(state => {
-      let currentPathArr = [...state.Path];
-      let { AdminRoutes } = currentPathArr[pathIndex];
-      currentPathArr[pathIndex] = {
-        ...currentPathArr[pathIndex],
-        AdminRoutes: [...AdminRoutes.slice(0, index), ...AdminRoutes.slice(index + 1)],
-      };
-      return { Path: currentPathArr };
-    });
+    this.setState(state => ({
+      Path: [
+        ...state.Path.map(eachPath => {
+          if (eachPath._id === id) {
+            let { AdminRoutes } = eachPath;
+            const newPath = { ...eachPath, AdminRoutes: [...AdminRoutes, ''] };
+            return newPath;
+          }
+          return eachPath;
+        }),
+      ],
+    }));
   };
-
-  handleAddAdminRoute = pathIndex => event => {
+  handleServerRoutesMethodChange = (id, index) => event => {
     event.persist();
-    this.setState(state => {
-      let currentPathArr = [...state.Path];
-      let { AdminRoutes } = currentPathArr[pathIndex];
-      currentPathArr[pathIndex] = {
-        ...currentPathArr[pathIndex],
-        AdminRoutes: [...AdminRoutes, ''],
-      };
-      return { Path: currentPathArr };
-    });
+    this.setState(state => ({
+      Path: [
+        ...state.Path.map(eachPath => {
+          if (eachPath._id === id) {
+            let { ServerRoutes } = eachPath;
+            ServerRoutes[index].method = event.target.value;
+            const newPath = { ...eachPath, ServerRoutes };
+            return newPath;
+          }
+          return eachPath;
+        }),
+      ],
+    }));
   };
-  handleServerRoutesMethodChange = (index, pathIndex) => event => {
+  handleServerRoutesRouteChange = (id, index) => event => {
     event.persist();
-    this.setState(state => {
-      let currentPathArr = [...state.Path];
-      let { ServerRoutes } = currentPathArr[pathIndex];
-      ServerRoutes[index].method = event.target.value;
-
-      currentPathArr[pathIndex] = {
-        ...currentPathArr[pathIndex],
-        ServerRoutes,
-      };
-      return { Path: currentPathArr };
-    });
+    this.setState(state => ({
+      Path: [
+        ...state.Path.map(eachPath => {
+          if (eachPath._id === id) {
+            let { ServerRoutes } = eachPath;
+            ServerRoutes[index].route = event.target.value;
+            const newPath = { ...eachPath, ServerRoutes };
+            return newPath;
+          }
+          return eachPath;
+        }),
+      ],
+    }));
   };
-  handleServerRoutesRouteChange = (index, pathIndex) => event => {
+  handleAddServerRoute = id => event => {
     event.persist();
-    this.setState(state => {
-      let currentPathArr = [...state.Path];
-      let { ServerRoutes } = currentPathArr[pathIndex];
-      ServerRoutes[index].route = event.target.value;
-
-      currentPathArr[pathIndex] = {
-        ...currentPathArr[pathIndex],
-        ServerRoutes,
-      };
-      return { Path: currentPathArr };
-    });
+    this.setState(state => ({
+      Path: [
+        ...state.Path.map(eachPath => {
+          if (eachPath._id === id) {
+            let { ServerRoutes } = eachPath;
+            const newPath = {
+              ...eachPath,
+              ServerRoutes: [...ServerRoutes, { route: '', method: '' }],
+            };
+            return newPath;
+          }
+          return eachPath;
+        }),
+      ],
+    }));
   };
-  handleAddServerRoute = pathIndex => event => {
+  handleRemoveServerRoute = (id, index) => event => {
     event.persist();
-
-    this.setState(state => {
-      let currentPathArr = [...state.Path];
-      let { ServerRoutes } = currentPathArr[pathIndex];
-      currentPathArr[pathIndex] = {
-        ...currentPathArr[pathIndex],
-        ServerRoutes: [...ServerRoutes, { route: '', method: '' }],
-      };
-      return { Path: currentPathArr };
-    });
-  };
-  handleRemoveServerRoute = (index, pathIndex) => event => {
-    event.persist();
-    this.setState(state => {
-      let currentPathArr = [...state.Path];
-      let { ServerRoutes } = currentPathArr[pathIndex];
-      currentPathArr[pathIndex] = {
-        ...currentPathArr[pathIndex],
-        ServerRoutes: [...ServerRoutes.slice(0, index), ...ServerRoutes.slice(index + 1)],
-      };
-      return { Path: currentPathArr };
-    });
+    this.setState(state => ({
+      Path: [
+        ...state.Path.map(eachPath => {
+          if (eachPath._id === id) {
+            let { ServerRoutes } = eachPath;
+            const newPath = {
+              ...eachPath,
+              ServerRoutes: [...ServerRoutes.slice(0, index), ...ServerRoutes.slice(index + 1)],
+            };
+            return newPath;
+          }
+          return eachPath;
+        }),
+      ],
+    }));
   };
   handleSave = () => {
     this.props.addEdit(this.state);
@@ -261,7 +292,7 @@ class AddEdit extends Component {
 const withStyle = withStyles(styles);
 
 const withReducer = injectReducer({ key: 'moduleManagePage', reducer });
-const withSaga = injectSaga({ key: 'moduleManagePageAddEdit', saga });
+const withSaga = injectSaga({ key: 'moduleManagePage', saga });
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
