@@ -22,7 +22,6 @@ export const makeSelectMsg = () =>
 export const makeSelectErrorMsg = () =>
   createSelector(selectGlobal, state => state.get('errorMessage'));
 export const makeSelectContent = () => createSelector(selectGlobal, state => state.get('contents'));
-export const makeSelectMedia = () => createSelector(selectGlobal, state => state.get('media'));
 
 export {
   makeSelectLocation,

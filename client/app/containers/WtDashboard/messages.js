@@ -43,8 +43,4 @@ export default defineMessages({
     id: 'app.containers.WtDashboard.errorManage',
     defaultMessage: 'Error Manage',
   },
-  sliderManage: {
-    id: 'app.containers.WtDashboard.sliderManage',
-    defaultMessage: 'Slider Manage',
-  },
 });
