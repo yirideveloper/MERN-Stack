@@ -61,18 +61,18 @@ export class BlogPage extends React.Component {
     return (
       <div className="container">
         <Helmet>
-          <title>{blogObj.title}</title>
+          <title>{blogObj.Title}</title>
         </Helmet>
 
         {/* <Grid container spacing={8}> */}
         <h1 className="pageTitle">
-          <span>{blogObj.title}</span>
+          <span>{blogObj.Title}</span>
         </h1>
         <div className="img">
-          <img src={blogObj.image} />
+          <img src={blogObj.Image} />
         </div>
 
-        <div dangerouslySetInnerHTML={{ __html: blogObj.description }} />
+        <div dangerouslySetInnerHTML={{ __html: blogObj.Description }} />
 
         <div>
           {' '}

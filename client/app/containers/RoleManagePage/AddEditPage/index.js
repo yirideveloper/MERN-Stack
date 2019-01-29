@@ -43,7 +43,7 @@ const styles = {
 };
 
 class AddEdit extends Component {
-  state = { roles_title: '', description: '', is_active: false };
+  state = { RolesTitle: '', Description: '', IsActive: false };
   handleEditorChange = (e, name) => {
     const newContent = e.editor.getData();
     this.setState({ [name]: newContent });
@@ -93,8 +93,8 @@ class AddEdit extends Component {
                         fullWidth: true,
                       }}
                       inputProps={{
-                        value: this.state.roles_title,
-                        onChange: this.handleChange('roles_title'),
+                        value: this.state.RolesTitle,
+                        onChange: this.handleChange('RolesTitle'),
                       }}
                     />
                   </GridItem>
@@ -102,14 +102,14 @@ class AddEdit extends Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="description"
+                      labelText="Description"
                       id="role-description"
                       formControlProps={{
                         fullWidth: true,
                       }}
                       inputProps={{
-                        value: this.state.description,
-                        onChange: this.handleChange('description'),
+                        value: this.state.Description,
+                        onChange: this.handleChange('Description'),
                       }}
                     />
                   </GridItem>
@@ -119,10 +119,10 @@ class AddEdit extends Component {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={this.state.is_active || false}
+                          checked={this.state.IsActive || false}
                           tabIndex={-1}
-                          onClick={this.handleChecked('is_active')}
-                          value="is_active"
+                          onClick={this.handleChecked('IsActive')}
+                          value="IsActive"
                           color="primary"
                         />
                       }

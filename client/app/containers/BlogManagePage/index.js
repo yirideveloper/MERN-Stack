@@ -129,14 +129,14 @@ export class BlogManagePage extends React.Component {
     const pageObj = pageItem.toJS();
     const { page = 1, size = 10, totaldata = 20 } = pageObj;
     const tableData = allLinksObj.map(
-      ({ title, Category, published_on, added_at, is_published, is_active, _id, slug_url }) => [
-        title,
+      ({ Title, Category, PublishedOn, Added_at, IsPublished, IsActive, _id, SlugUrl }) => [
+        Title,
         (Category && Category.title) || 'No',
-        moment(published_on).format('MMM Do YY'),
+        moment(PublishedOn).format('MMM Do YY'),
 
-        moment(added_at).format('MMM Do YY'),
-        '' + is_published,
-        '' + is_active,
+        moment(Added_at).format('MMM Do YY'),
+        '' + IsPublished,
+        '' + IsActive,
         <React.Fragment>
           <Tooltip
             id="tooltip-top"
@@ -176,8 +176,8 @@ export class BlogManagePage extends React.Component {
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Search and Filter</h4>
               <input
-                name="title"
-                value={this.state.query.title || ''}
+                name="Title"
+                value={this.state.query.Title || ''}
                 onChange={this.handleQueryChange}
                 placeholder="Search By Blog Title"
               />
@@ -196,14 +196,14 @@ export class BlogManagePage extends React.Component {
                 tableHeaderColor="primary"
                 tableHead={[
                   <FormattedMessage {...messages.title}>
-                    {txt => <span onClick={() => this.blogSort('title')}>{txt}</span>}
+                    {txt => <span onClick={() => this.blogSort('Title')}>{txt}</span>}
                   </FormattedMessage>,
                   <FormattedMessage {...messages.category} />,
                   <FormattedMessage {...messages.publishedOn}>
-                    {txt => <span onClick={() => this.blogSort('published_on')}>{txt}</span>}
+                    {txt => <span onClick={() => this.blogSort('PublishedOn')}>{txt}</span>}
                   </FormattedMessage>,
                   <FormattedMessage {...messages.addedAt}>
-                    {txt => <span onClick={() => this.blogSort('added_at')}>{txt}</span>}
+                    {txt => <span onClick={() => this.blogSort('Added_at')}>{txt}</span>}
                   </FormattedMessage>,
                   <FormattedMessage {...messages.isPublished} />,
                   <FormattedMessage {...messages.isActive} />,

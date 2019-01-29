@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { FormattedMessage } from 'react-intl';
-import moment from 'moment';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
@@ -116,7 +115,7 @@ export class CategoryManagePage extends React.Component {
 
     const tableData = allLinksObj.map(({ title, added_at, slug_url }) => [
       title,
-      moment(added_at).format('MMM Do YY'),
+      added_at,
       <React.Fragment>
         <Tooltip
           id="tooltip-top"

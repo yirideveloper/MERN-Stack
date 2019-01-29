@@ -11,7 +11,9 @@ function* loadError(action) {
   if (action.payload) {
     pageNumber = `&page=${action.payload.page}&size=${action.payload.rowsPerPage}`;
   }
-  yield call(Api.get('bug', actions.loadErrorSuccess, actions.loadErrorFailure, token));
+  yield call(
+    Api.get(`bugs?${pageNumber}`, actions.loadErrorSuccess, actions.loadErrorFailure, token),
+  );
 }
 // function* deleteOne(action) {
 //   const token = yield select(makeSelectToken());
