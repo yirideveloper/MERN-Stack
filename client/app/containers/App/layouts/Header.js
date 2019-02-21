@@ -48,9 +48,6 @@ export default class Header extends Component {
                     <Link className="plainLink" to="/contact-us">
                       Contact
                     </Link>
-                    <Link className="plainLink" to="/faq">
-                      FAQ
-                    </Link>
                   </Grid>
                 </Grid>
               </div>

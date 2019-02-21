@@ -27,7 +27,6 @@ import NotFoundPage from '../NotFoundPage';
 import WtDashboard from '../WtDashboard';
 import UserLayout from './layouts/UserLayout';
 import HomePage from '../HomePage';
-import FAQPage from '../FAQPage';
 import ErrorBoundary from '../../ErrorBoundary';
 import { makeSelectDialog, makeSelectLocation, makeSelectContent } from './selectors';
 import ContactUs from '../ContactUs';
@@ -35,11 +34,8 @@ import AboutUs from '../AboutUs';
 import BlogList from '../BlogList';
 import { loadContentRequest } from './actions';
 import BlogPage from '../BlogPage';
-import VideosPage from '../VideosPage';
 import CategoryListingPage from '../CategoryListingPage';
 import CategoryDetailPage from '../CategoryDetailPage';
-import VideoLibraryListingPage from '../VideoLibraryListingPage';
-import VideoDetailPage from '../VideoDetailPage';
 import saga from './saga';
 import injectSaga from 'utils/injectSaga';
 import { createStructuredSelector } from 'reselect';
@@ -56,7 +52,6 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            connect
             render={() => (
               <UserLayout>
                 <HomePage />
@@ -124,49 +119,6 @@ class App extends React.Component {
                 <Helmet>
                   <title>Blog Categories</title>
                 </Helmet>
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/videos"
-            render={() => (
-              <div>
-                <UserLayout>
-                  <VideoLibraryListingPage />
-                </UserLayout>
-                <Helmet>
-                  <title>Available Videos</title>
-                </Helmet>
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/video/:id"
-            render={props => (
-              <UserLayout>
-                <VideosPage {...props} />
-              </UserLayout>
-            )}
-          />
-          <Route
-            exact
-            path="/video/link/:id"
-            render={props => (
-              <UserLayout>
-                <VideoDetailPage {...props} />
-              </UserLayout>
-            )}
-          />
-          <Route
-            exact
-            path="/faq"
-            render={() => (
-              <div>
-                <UserLayout>
-                  <FAQPage />
-                </UserLayout>
               </div>
             )}
           />

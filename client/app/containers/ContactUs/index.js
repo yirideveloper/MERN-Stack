@@ -20,7 +20,13 @@ import CardBody from 'components/Card/CardBody';
 import CardFooter from 'components/Card/CardFooter';
 import saga from './saga';
 import reducer from './reducer';
-import { makeSelectIsRequesting, makeSelectSuccess, makeSelectMsg, makeSelectErrorMsg, makeSelectContactDetail } from './selectors';
+import {
+  makeSelectIsRequesting,
+  makeSelectSuccess,
+  makeSelectMsg,
+  makeSelectErrorMsg,
+  makeSelectContactDetail,
+} from './selectors';
 import { saveContactRequest, contactDetailRequest } from './actions';
 
 const styles = {
@@ -141,7 +147,11 @@ class ContactUs extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
                       <form onSubmit={this.onSubmit}>
-                        <ReCAPTCHA ref={recaptchaRef} sitekey="6LftqoQUAAAAAOnGULHOWhdUACVQYeHFggJdRojU" onChange={this.onChange} />
+                        <ReCAPTCHA
+                          ref={recaptchaRef}
+                          sitekey="6LftqoQUAAAAAOnGULHOWhdUACVQYeHFggJdRojU"
+                          onChange={this.onChange}
+                        />
                       </form>
                     </GridItem>
                   </GridContainer>
@@ -161,7 +171,9 @@ class ContactUs extends React.Component {
               </Card>
             </GridItem>
             <GridItem xs={6} sm={6} md={6}>
-              {contactDetailObj.Description && <div dangerouslySetInnerHTML={{ __html: contactDetailObj.Description }} />}
+              {contactDetailObj.Description && (
+                <div dangerouslySetInnerHTML={{ __html: contactDetailObj.Description }} />
+              )}
             </GridItem>
           </GridContainer>
         </div>

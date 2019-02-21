@@ -31,10 +31,6 @@ export default defineMessages({
     id: 'app.containers.WtDashboard.blogManage',
     defaultMessage: 'Blog Manage',
   },
-  faqManage: {
-    id: 'app.containers.WtDashboard.faqManage',
-    defaultMessage: 'FAQ Manage',
-  },
   categoryManage: {
     id: 'app.containers.WtDashboard.categoryManage',
     defaultMessage: 'Category Manage',
@@ -42,10 +38,6 @@ export default defineMessages({
   mediaManage: {
     id: 'app.containers.WtDashboard.mediaManage',
     defaultMessage: 'Media Manage',
-  },
-  videoManage: {
-    id: 'app.containers.WtDashboard.videoManage',
-    defaultMessage: 'Video Manage',
   },
   errorManage: {
     id: 'app.containers.WtDashboard.errorManage',
