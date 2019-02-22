@@ -83,7 +83,7 @@ const signupPageStyle = {
     padding: '0',
   },
   inputIconsColor: {
-    color: '#e211ab',
+    color: '#495057',
   },
 };
 
