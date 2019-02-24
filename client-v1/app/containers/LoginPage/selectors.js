@@ -6,9 +6,5 @@ import { initialState } from './reducer';
  */
 const selectDomain = state => state.get('loginPage', initialState);
 
-export const makeSelectEmail = () => createSelector(selectDomain, state => state.get('email'));
+export const makeSelectUsername = () => createSelector(selectDomain, state => state.get('username'));
 export const makeSelectPassword = () => createSelector(selectDomain, state => state.get('password'));
-export const makeSelectErrors = () => createSelector(selectDomain, state => state.get('errors'));
-export const makeSelectEmailError = () => createSelector(makeSelectErrors(), state => state.get('email'));
-export const makeSelectPasswordError = () => createSelector(makeSelectErrors(), state => state.get('password'));
-export const makeSelectLoading = () => createSelector(selectDomain, state => state.get('loading'));

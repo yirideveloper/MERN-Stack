@@ -46,6 +46,15 @@ const signupPageStyle = {
   form: {
     margin: '0',
   },
+  formControl: {
+    margin: '0',
+    minWidth: 120,
+  },
+  dropdowns: {
+    position: 'absolute',
+    right: '0',
+    top: '15px',
+  },
   cardHeader: {
     width: 'auto',
     textAlign: 'center',
@@ -83,7 +92,7 @@ const signupPageStyle = {
     padding: '0',
   },
   inputIconsColor: {
-    color: '#495057',
+    color: '#e211ab',
   },
 };
 
