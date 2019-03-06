@@ -46,6 +46,9 @@ import saga from './saga';
 import reducer from './reducer';
 
 class App extends React.PureComponent {
+  componentDidMount() {
+    this.props.loadContent();
+  }
 
   render() {
     const { location } = this.props;
@@ -271,7 +274,7 @@ const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
 export default compose(
+  withConnect,
   withReducer,
   withSaga,
-  withConnect,
 )(App);
