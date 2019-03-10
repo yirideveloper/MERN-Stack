@@ -7,20 +7,21 @@ import { makeSelectIsAuthenticated, makeSelectLocation } from '../../../containe
 
 const UserRoute = ({ isAuthenticated, ...rest }) => {
   if (isAuthenticated) return <Route {...rest} />;
-  delete rest.component;
-  return (
-    <Route
-      {...rest}
-      render={props => (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: { from: props.location },
-          }}
-        />
-      )}
-    />
-  );
+  return null;
+  // delete rest.component;
+  // return (
+  //   <Route
+  //     {...rest}
+  //     render={props => (
+  //       <Redirect
+  //         to={{
+  //           pathname: '/login',
+  //           state: { from: props.location },
+  //         }}
+  //       />
+  //     )}
+  //   />
+  // );
 };
 
 UserRoute.propTypes = {

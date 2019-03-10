@@ -19,7 +19,6 @@ import injectReducer from 'utils/injectReducer';
 // import { createStructuredSelector } from 'reselect';
 import AdminRoute from '../../components/Routes/AdminRoute';
 import GuestRoute from '../../components/Routes/GuestRoute';
-import UserRoute from '../../components/Routes/UserRoute';
 // import UserRoute from 'components/Routes/UserRoute';
 // import LoginPage from '../LoginPage';
 // import AdminLoginPage from '../AdminLoginPage';
@@ -43,7 +42,6 @@ import UserRoute from '../../components/Routes/UserRoute';
 // import WaftEngineDashboard from '../WaftEngineDashboard';
 import Public from '../../layouts/Public';
 import Guest from '../../layouts/Guest';
-import User from '../../layouts/User';
 import Admin from '../../layouts/Admin';
 import saga from './saga';
 import reducer from './reducer';
@@ -51,8 +49,7 @@ import reducer from './reducer';
 const App = () => (
   <>
     <AdminRoute path="/admin" component={Admin} />
-    <GuestRoute path="/auth" component={Guest} />
-    <UserRoute path="/user" component={User} />
+    <GuestRoute path="/" component={Guest} />
     <Route path="/" component={Public} />
   </>
 );
