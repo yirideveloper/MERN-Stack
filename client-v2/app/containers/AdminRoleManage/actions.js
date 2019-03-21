@@ -1,10 +1,16 @@
 /*
  *
- * AdsListingPage actions
+ * AdminRoleManage actions
  *
  */
 
 import * as types from './constants';
+
+export function defaultAction() {
+  return {
+    type: types.DEFAULT_ACTION,
+  };
+}
 
 export const loadAllRequest = payload => ({
   type: types.LOAD_ALL_REQUEST,

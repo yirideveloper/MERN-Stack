@@ -1,26 +1,25 @@
-import Dashboard from '@material-ui/icons/Dashboard';
-import ContentManagePage from '../containers/ContentListingPage';
-import DashboardPage from '../containers/AdminDashboard';
+import DashboardPage from '../containers/AdminDashboard/Loadable';
+import RoleManagePage from '../containers/AdminRoleManage/Loadable';
+import RoleManageEditPage from '../containers/AdminRoleManage/AddEditPage';
 
 const routes = [
   {
     path: '/admin/dashboard',
     name: 'Dashboard',
-    icon: Dashboard,
     component: DashboardPage,
   },
   {
-    path: '/admin/content-manage',
-    name: 'Content Manage',
-    icon: Dashboard,
-    component: ContentManagePage,
+    path: '/admin/role-manage',
+    name: 'Role Manage',
+    component: RoleManagePage,
+    exact: true,
   },
-  // {
-  //   path: '/admin/role-manage',
-  //   name: 'Role Manage',
-  //   icon: Dashboard,
-  //   component: RoleManagePage,
-  // },
+  {
+    path: '/admin/role-manage/edit/:id',
+    name: 'Role Manage',
+    component: RoleManageEditPage,
+    exact: true,
+  },
 ];
 
 export default routes;
