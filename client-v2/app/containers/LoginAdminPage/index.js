@@ -43,6 +43,7 @@ class LoginAdminPage extends React.Component {
         <div className={classes.container}>
           <form className={classes.form}>
             <UsernameInput classes={classes} />
+            <br />
             <PasswordInput classes={classes} />
             <div className={classes.redirect}>
               <h4>Forgot Password?</h4>
