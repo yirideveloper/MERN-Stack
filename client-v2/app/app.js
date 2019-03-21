@@ -13,8 +13,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import jwtDecode from 'jwt-decode';
-
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
@@ -29,7 +27,6 @@ import 'file-loader?name=.htaccess!./.htaccess';
 
 // Import root app
 import App from './containers/App';
-import { setUser, setToken } from './containers/App/actions';
 
 import configureStore from './configureStore';
 
@@ -40,34 +37,6 @@ import { translationMessages } from './i18n';
 const initialState = {};
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
-
-const tokenWithBearer = localStorage.getItem('token');
-if (tokenWithBearer) {
-  const token = tokenWithBearer.split(' ')[1];
-  try {
-    const decoded = jwtDecode(token);
-    if (
-      !(
-        typeof decoded === 'object' &&
-        typeof decoded.exp === 'number' &&
-        decoded.exp > Date.now() / 1000
-      )
-    ) {
-      localStorage.removeItem('token');
-    } else {
-      const user = {
-        id: decoded.id,
-        name: decoded.name,
-        avatar: decoded.avatar,
-        email: decoded.email,
-      };
-      store.dispatch(setToken(tokenWithBearer));
-      store.dispatch(setUser(user));
-    }
-  } catch (error) {
-    localStorage.removeItem('token');
-  }
-}
 
 const render = messages => {
   ReactDOM.render(
