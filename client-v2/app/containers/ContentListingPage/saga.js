@@ -15,16 +15,15 @@ import * as actions from './actions';
 
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
-  let query = '';
+  let pageNumber = '';
   if (action.payload) {
-    Object.keys(action.payload).map(each => {
-      query = `${query}&${each}=${action.payload[each]}`;
-      return null;
-    });
+    pageNumber = `&page=${action.payload.page}&size=${
+      action.payload.rowsPerPage
+    }`;
   }
   yield call(
     Api.get(
-      `contents?find_${query}`,
+      `contents?${pageNumber}`,
       actions.loadAllSuccess,
       actions.loadAllFailure,
       token,

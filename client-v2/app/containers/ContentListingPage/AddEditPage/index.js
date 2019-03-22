@@ -11,19 +11,20 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 // core components
-import GridItem from '@material-ui/core/Grid';
-import CustomInput from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardBody from '@material-ui/core/CardContent';
-import CardFooter from '@material-ui/core/CardActions';
+import GridItem from 'components/Grid/GridItem';
+import GridContainer from 'components/Grid/GridContainer';
+import CustomInput from 'components/CustomInput/CustomInput';
+import Button from 'components/CustomButtons/Button';
+import Card from 'components/Card/Card';
+import CardHeader from 'components/Card/CardHeader';
+import CardBody from 'components/Card/CardBody';
+import CardFooter from 'components/Card/CardFooter';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import reducer from '../reducer';
 import saga from '../saga';
 import { makeSelectOne } from '../selectors';
-import * as mapDispatchToProps from '../actions';
+import { loadOneRequest, addEditRequest } from '../actions';
 
 const styles = {
   cardCategoryWhite: {
@@ -78,20 +79,20 @@ class AddEdit extends Component {
   //   }));
   // };
   handleGoBack = () => {
-    this.props.history.push('/admin/content-manage');
+    this.props.history.push('/wt/content-manage');
   };
   handleSave = () => {
-    this.props.addEditRequest(this.state);
-    this.props.history.push('/admin/content-manage');
+    this.props.addEdit(this.state);
+    this.props.history.push('/wt/content-manage');
   };
   componentDidMount() {
     if (this.props.match.params && this.props.match.params.id) {
-      this.props.loadOneRequest(this.props.match.params.id);
+      this.props.loadOne(this.props.match.params.id);
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.one !== nextProps.one) {
-      const oneObj = nextProps.one;
+      const oneObj = nextProps.one.toJS();
       this.setState(state => ({
         ...oneObj,
       }));
@@ -99,45 +100,46 @@ class AddEdit extends Component {
   }
   render() {
     const { classes } = this.props;
+    // const { data } = this.state;
     return (
       <div>
-        <GridItem>
+        <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
             <Card>
-              <CardHeader color="primary"
-                title="Content"
-                subheader="Content info"
-              />
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>Content </h4>
+                <p className={classes.cardCategoryWhite}>Content info</p>
+              </CardHeader>
               <CardBody>
-                <GridItem>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      name="Content Name"
+                      labelText="Content Name"
                       id="contents-name"
-                      formControl={true}
-                      fullWidth = {true}
-                      placeholder = "name of the content"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
                       inputProps={{
                         value: this.state.name,
                         onChange: this.handleChange('name'),
                       }}
                     />
                   </GridItem>
-                </GridItem>
-                <GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      name="key"
+                      labelText="key"
                       id="contents-key"
-                      formControl={true}
-                      fullWidth={true}
-                      placeholder="name of the content key"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
                       inputProps={{ value: this.state.key, onChange: this.handleChange('key') }}
                     />
                   </GridItem>
-                </GridItem>
+                </GridContainer>
 
-                <GridItem>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <InputLabel style={{ color: '#AAAAAA' }}>Content Description</InputLabel>
                     <CKEditor
@@ -146,19 +148,20 @@ class AddEdit extends Component {
                       events={{
                         change: e => this.handleEditorChange(e, 'description'),
                         value: this.state.description,
+                        // onChange: this.handleChange('Description'),
                       }}
                     />
                   </GridItem>
-                </GridItem>
+                </GridContainer>
 
-                <GridItem>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      name="Published From"
+                      labelText="Published From"
                       id="contents-from-date"
-                      formControl={true}
-                      fullWidth={true}
-                      placeholder="published from"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
                       inputProps={{
                         value: this.state.publish_from,
                         onChange: this.handleChange('publish_from'),
@@ -167,19 +170,19 @@ class AddEdit extends Component {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      name="Published To"
+                      labelText="Published To"
                       id="contents-to-date"
-                      formControl={true}
-                      fullWidth={true}
-                      placeholder="publish to"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
                       inputProps={{
                         value: this.state.publish_to,
                         onChange: this.handleChange('publish_to'),
                       }}
                     />
                   </GridItem>
-                </GridItem>
-                <GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <InputLabel style={{ color: '#AAAAAA' }}>Activity Type</InputLabel>
                     <FormControlLabel
@@ -206,7 +209,7 @@ class AddEdit extends Component {
                       label="Is Feature"
                     />
                   </GridItem>
-                </GridItem>
+                </GridContainer>
               </CardBody>
               <CardFooter>
                 <Button color="primary" onClick={this.handleSave}>
@@ -218,7 +221,7 @@ class AddEdit extends Component {
               </CardFooter>
             </Card>
           </GridItem>
-        </GridItem>
+        </GridContainer>
       </div>
     );
   }
@@ -230,6 +233,11 @@ const withSaga = injectSaga({ key: 'contentManagePageAddEdit', saga });
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  loadOne: payload => dispatch(loadOneRequest(payload)),
+  addEdit: payload => dispatch(addEditRequest(payload)),
 });
 
 const withConnect = connect(
