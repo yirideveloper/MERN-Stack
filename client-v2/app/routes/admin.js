@@ -2,6 +2,7 @@ import DashboardPage from '../containers/AdminDashboard/Loadable';
 import RoleManagePage from '../containers/AdminRoleManage/Loadable';
 import RoleManageEditPage from '../containers/AdminRoleManage/AddEditPage';
 import ContentManagePage from '../containers/ContentListingPage/Loadable';
+import ContentManageAddEdit from '../containers/ContentListingPage/AddEditPage';
 
 const routes = [
   {
@@ -22,10 +23,9 @@ const routes = [
     exact: true,
   },
   {
-    path: '/admin/role-manage/add',
-    name: 'Role Manage',
-    component: RoleManageEditPage,
-    exact: true,
+    path: '/admin/content-manage/edit/:id',
+    name: 'Content Manage',
+    component: ContentManageAddEdit,
   },
   {
     path: '/admin/content-manage',
