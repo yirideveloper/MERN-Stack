@@ -114,6 +114,7 @@ class AddEdit extends Component {
                     <CustomInput
                       name="Content Name"
                       id="contents-name"
+                      formControl={true}
                       fullWidth = {true}
                       placeholder = "name of the content"
                       inputProps={{
@@ -128,6 +129,7 @@ class AddEdit extends Component {
                     <CustomInput
                       name="key"
                       id="contents-key"
+                      formControl={true}
                       fullWidth={true}
                       placeholder="name of the content key"
                       inputProps={{ value: this.state.key, onChange: this.handleChange('key') }}
@@ -154,6 +156,7 @@ class AddEdit extends Component {
                     <CustomInput
                       name="Published From"
                       id="contents-from-date"
+                      formControl={true}
                       fullWidth={true}
                       placeholder="published from"
                       inputProps={{
@@ -166,6 +169,7 @@ class AddEdit extends Component {
                     <CustomInput
                       name="Published To"
                       id="contents-to-date"
+                      formControl={true}
                       fullWidth={true}
                       placeholder="publish to"
                       inputProps={{

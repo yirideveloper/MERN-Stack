@@ -16,9 +16,8 @@ import SearchIcon from '@material-ui/icons/Search';
 
 // core components
 import Fab from '@material-ui/core/Fab';
-import CustomInput from '@material-ui/core/Input';
 import Table from 'components/Table';
-import { Paper, Divider } from '@material-ui/core';
+import { Paper, InputBase, Divider } from '@material-ui/core';
 
 
 import PageHeader from '../../components/PageHeader/PageHeader';
@@ -77,7 +76,7 @@ export class FAQManagePage extends React.Component {
   };
   handleDelete = id => {
     // shoe modal && api call
-    // this.props.history.push(`/admin/faq-manage/delete/${id}`);
+    // this.props.history.push(`/wt/link-manage/edit/${id}`);
   };
   handleSearch = () => {
     this.props.loadAllRequest(this.state.query);
@@ -150,10 +149,10 @@ export class FAQManagePage extends React.Component {
       </PageHeader>
       <PageContent>
         <Paper style={{padding:20, overflow:'auto', display:'flex'}}>
-          <CustomInput name="find_question"
+          <InputBase name="find_question"
                     id="question-name"
-                    fullWidth={true}
                     placeholder="Search FAQs"
+                    fullWidth={true}
                     value={this.state.query.find_question}
                     onChange={this.handleQueryChange} />
           <Divider style={{ width: 1,
