@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import moment from 'moment';
+
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
@@ -15,20 +16,25 @@ import Close from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/Search';
 
 // core components
-import Fab from '@material-ui/core/Fab';
+import Grid from '@material-ui/core/Grid';
 import CustomInput from '@material-ui/core/Input';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 import Table from 'components/Table';
-import { Paper, Divider } from '@material-ui/core';
 
-
-import PageHeader from '../../components/PageHeader/PageHeader';
-import PageContent from '../../components/PageContent/PageContent';
 import injectSaga from '../../utils/injectSaga';
 import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
 import { makeSelectAll } from './selectors';
+
+import Fab from '@material-ui/core/Fab';
+import Button from '../../components/CustomButtons/Button';
+import PageHeader from '../../components/PageHeader/PageHeader';
+import PageContent from '../../components/PageContent/PageContent';
+import { Paper, Divider } from '@material-ui/core';
 
 const styles = theme => ({
   button: {
@@ -42,7 +48,7 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class FAQManagePage extends React.Component {
+export class ContentsListingPage extends React.Component {
   state = {
     all: {
       data: [],
@@ -50,86 +56,63 @@ export class FAQManagePage extends React.Component {
       size: 10,
       totaldata: 0,
     },
-    query: { find_question: '' }
-  }
+    query: { find_name: '' }
+  };
 
   static getDerivedStateFromProps(nextProps) {
     return { all: nextProps.all };
   }
 
   componentDidMount() {
-    this.props.loadAllRequest({ query: {} });
-  }
+    this.props.loadAllRequest();
+  };
+
+  handleAdd = () => {
+    this.props.history.push('/admin/content-manage/add');
+  };
+
+  handleEdit = id => {
+    this.props.history.push(`/admin/content-manage/edit/${id}`);
+  };
   handleQueryChange = e => {
     e.persist();
-    this.setState(state => ({
+    this.setState( state=> ({
       query: {
         ...state.query,
         [e.target.name]: e.target.value,
       },
     }));
   };
-  handleAdd = () => {
-    this.props.history.push('/admin/faq-manage/add');
-  };
-  handleEdit = _id => {
-    this.props.history.push(`/admin/faq-manage/edit/${_id}`);
-  };
-  handleDelete = id => {
-    // shoe modal && api call
-    // this.props.history.push(`/admin/faq-manage/delete/${id}`);
-  };
+
   handleSearch = () => {
     this.props.loadAllRequest(this.state.query);
     this.setState({ query: {} });
   };
-  // faqSort = title => {
-  //   if (!!this.state.sortToggle) {
-  //     this.setState({ sortToggle: 0 });
-  //   } else if (!this.state.sortToggle) {
-  //     this.setState({ sortToggle: 1 });
-  //   }
-  //   this.props.loadAllRequest({
-  //     sort: `${this.state.sortToggle}${title}`,
-      // page: this.state.page,
-      // rowsPerPage: this.state.rowsPerPage
-  //   });
-  // };
 
-  handleChangePage = (event, page) => {
-    this.setState({ page: page + 1 }, () => {
-      this.props.loadAllRequest({
-        page: this.state.all.page,
-        // rowsPerPage: this.state.rowsPerPage,
-      });
-    });
+  handleDelete = id => {
+    // shoe modal && api call
+    // this.props.history.push(`/wt/contents-manage/edit/${id}`);
   };
 
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
   };
-  // handleChangeRowsPerPage = event => {
-  //   this.setState({ rowsPerPage: event.target.value }, () => {
-  //     this.props.loadAllRequest({
-  //       // page: this.state.page,
-  //       rowsPerPage: this.state.rowsPerPage,
-  //     });
-  //   });
-  // };
 
   render() {
     const { classes } = this.props;
     const {
-      all: { data, page, size, totaldata}
+      all: { data, page, size, totaldata },
     } = this.state;
     const tablePagination = { page, size, totaldata };
-    const tableData = data.map(({ question, title, category, added_at, updated_at, _id }) => [
-      question,
-      title,
-      (category && category.title) || 'No',
+    const tableData = data.map(({ name, key, publish_from, publish_to, is_active, is_feature, added_at, _id }) => [
+      name,
+      key,
+      moment(publish_from).format('MMM Do YY'),
+      moment(publish_to).format('MMM Do YY'),
+      '' + is_active,
+      '' + is_feature,
       moment(added_at).format('MMM Do YY'),
-
-      moment(updated_at).format('MMM Do YY'),
+      ,
       <React.Fragment>
         <Tooltip id="tooltip-top" title="Edit Task" placement="top" classes={{ tooltip: classes.tooltip }}>
           <IconButton aria-label="Edit" className={classes.tableActionButton} onClick={() => this.handleEdit(_id)}>
@@ -144,58 +127,58 @@ export class FAQManagePage extends React.Component {
       </React.Fragment>,
     ]);
     return (
-      <>
-      <PageHeader>
-        FAQ Manage
-      </PageHeader>
-      <PageContent>
+      <React.Fragment>
+        <PageHeader>
+        Content Manage
+        </PageHeader>
+        <PageContent>
         <Paper style={{padding:20, overflow:'auto', display:'flex'}}>
-          <CustomInput name="find_question"
-                    id="question-name"
+      <CustomInput name="find_name"
+                    id="contents-name"
                     fullWidth={true}
-                    placeholder="Search FAQs"
-                    value={this.state.query.find_question}
+                    placeholder="Search Contents"
+                    value={this.state.query.find_name}
                     onChange={this.handleQueryChange} />
-          <Divider style={{ width: 1,
-            height: 40,
-            margin: 4,}} />
-          <IconButton aria-label="Search" onClick={this.handleSearch} >
-            <SearchIcon />
-          </IconButton>
-        </Paper>
+      <Divider style={{ width: 1,
+    height: 40,
+    margin: 4,}} />
+      <IconButton aria-label="Search" onClick={this.handleSearch} >
+        <SearchIcon />
+      </IconButton>
+    </Paper>
 
-        <br/>
-        <Paper style={{padding:0, overflow:'auto', borderRadius:4, boxShadow:'0 0 0 1px rgba(0,0,0,.2)', display:'flex'}} elevation={0}>
-          <Table
-            tableHead={['Question', 'Answer', 'Category', 'Added At', 'Updated At']}
-            tableData={tableData}
-            pagination={tablePagination}
-            handlePagination={this.handlePagination}
-          />
-          <Fab
-            color="primary"
-            aria-label="Add"
-            className={classes.fab}
-            round="true"
-            onClick={this.handleAdd}
-            elevation={0}
-          >
-          <AddIcon />
-          </Fab>
-        </Paper>
-      </PageContent>
-      </>
+            <br/>
+            <Paper style={{padding:0, overflow:'auto', borderRadius:4, boxShadow:'0 0 0 1px rgba(0,0,0,.2)', display:'flex'}} elevation={0}>
+            <Table
+          tableHead={['Name', 'Key', 'Pub From', 'Pub To', 'is Active', 'is feature', 'Added at']}
+          tableData={tableData}
+          pagination={tablePagination}
+          handlePagination={this.handlePagination}
+        />
+              <Fab
+                color="primary"
+                aria-label="Add"
+                className={classes.fab}
+                round="true"
+                onClick={this.handleAdd}
+                elevation={0}
+              >
+                <AddIcon />
+              </Fab>
+              </Paper>
+          </PageContent>
+            </React.Fragment>
+          
     );
   }
 }
 
-FAQManagePage.propTypes = {
+ContentsListingPage.propTypes = {
   loadAllRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
-  // category: makeSelectCategory(),
 });
 
 const withConnect = connect(
@@ -203,8 +186,8 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'faqManagePage', reducer });
-const withSaga = injectSaga({ key: 'faqManagePage', saga });
+const withReducer = injectReducer({ key: 'contentsListingPage', reducer });
+const withSaga = injectSaga({ key: 'contentsListingPage', saga });
 
 const withStyle = withStyles(styles);
 
@@ -214,4 +197,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(FAQManagePage);
+)(ContentsListingPage);

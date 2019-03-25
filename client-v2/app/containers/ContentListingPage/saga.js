@@ -12,14 +12,13 @@ import Api from 'utils/Api';
 import { makeSelectToken } from '../App/selectors';
 import * as types from './constants';
 import * as actions from './actions';
-import { makeSelectOne } from './selectors';
 
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
   let query = '';
   if (action.payload) {
     Object.keys(action.payload).map(each => {
-      query = `${query}&${each}=${action.payload[each]}`;
+      query = `${query}${each}=${action.payload[each]}`;
       return null;
     });
   }
@@ -50,10 +49,11 @@ function* redirectOnSuccess() {
   yield put(push('/admin/contents-manage'));
 }
 
-function* addEdit() {
+function* addEdit(action) {
   const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
-  const data = yield select(makeSelectOne());
+  const { ...data } = action.payload;
+  // const files = { ProfileImage, ProfileImage1 };
   yield fork(
     Api.post(
       'contents',

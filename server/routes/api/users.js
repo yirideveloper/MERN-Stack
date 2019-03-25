@@ -3,9 +3,6 @@ const router = express.Router();
 const passport = require('passport');
 const validateRegisterInput = require('../../modules/user/userValidations');
 
-const loginlogs = require('../../modules/user/loginlogs/loginlogController').loginlogController;
-
-const path = require('path');
 const multer = require('multer');
 const upload = multer({
   dest: 'public/user/',
@@ -22,7 +19,7 @@ const upload = multer({
 });
 
 const userModule = require('../../modules/user/userController');
-const { authorization, authentication, getClientInfo } = require('../../middleware/authentication.middleware');
+const { authorization, authentication } = require('../../middleware/authentication.middleware');
 /**
  * @route GET api/user/test
  * @description Tests users route
@@ -36,23 +33,23 @@ router.get('/test', (req, res) =>
 
 /**
  * @route GET api/user
- * @description Check user is returning user or new  || for admin
+ * @description Check user is returning user or new
  * @access Public
  */
 router.get('/', authorization, authentication, userModule.GetAllUser);
 
 /**
  * @route GET api/user
- * @description Check user is returning user or new || for admin
+ * @description Check user is returning user or new
  * @access Public
  */
 router.get('/detail/:id', authorization, authentication, userModule.GetUserDetail);
 /**
  * @route GET api/user
- * @description Check user is returning user or new || for admin
+ * @description Check user is returning user or new
  * @access Public
  */
-router.post('/detail/:id', authorization, authentication, upload.single('file'), validateRegisterInput.sanitizeUpdateProfile, validateRegisterInput.validateUpdateProfile, userModule.UpdateUserDetail);
+router.post('/detail/:id', authorization, authentication, upload.single('file'), validateRegisterInput.sanitizeRegister, validateRegisterInput.validateRegisterInput, userModule.UpdateUserDetail);
 /**
  * @route POST api/user
  * @description Check user is returning user or new
@@ -66,10 +63,9 @@ router.post('/', userModule.CheckMail);
  * @access Public
  */
 router.post('/register', validateRegisterInput.sanitizeRegister, validateRegisterInput.validateRegisterInput, userModule.Register);
-
 /**
  * @route POST api/user/register
- * @description Register user route || for admin
+ * @description Register user route
  * @access Public
  */
 router.post('/register/admin', authorization, authentication, upload.single('file'), validateRegisterInput.sanitizeRegister, validateRegisterInput.validateRegisterInput, userModule.RegisterFromAdmin);
@@ -86,7 +82,7 @@ router.post('/verifymail', userModule.Verifymail);
  * @description Login user / Returning JWT Token
  * @access Public
  */
-router.post('/login', validateRegisterInput.sanitizeLogin, validateRegisterInput.validateLoginInput, getClientInfo, userModule.Login);
+router.post('/login', userModule.Login);
 
 /**
  * @route POST api/user/forgotpassword
@@ -101,13 +97,6 @@ router.post('/forgotpassword', userModule.ForgotPassword);
  * @access Public
  */
 router.post('/resetpassword', userModule.ResetPassword);
-
-/**
- * @route POST api/user/changepassword
- * @description change Password
- * @access Public
- */
-router.post('/changepassword', authorization, validateRegisterInput.validatechangePassword, userModule.changePassword);
 
 /**
  * @route POST api/user/login/github
@@ -129,40 +118,5 @@ router.post('/login/google/:access_token', userModule.OauthCodeToToken, userModu
  * @access Public
  */
 router.get('/info', authorization, userModule.Info);
-
-/**
- * @route POST api/user/loginlogs
- * @description returns the loginlogs
- * @access Private
- */
-router.get('/loginlogs', authorization, loginlogs.getLogList);
-
-/**
- * @route POST api/user/loginlogs/logout
- * @description remove token from loginlog
- * @access Private
- */
-router.post('/loginlogs/logout', authorization, validateRegisterInput.validateLoginlogsLogut, loginlogs.removeToken);
-
-/**
- * @route POST api/user/logout
- * @description remove token from loginlog
- * @access Public
- */
-router.get('/logout', authorization, loginlogs.logout);
-
-/**
- * @route GET api/user/profile
- * @description get user profile info
- * @access Public
- */
-router.get('/profile', authorization, userModule.GetProfile);
-
-/**
- * @route POST api/user/profile
- * @description POST user profile info
- * @access Public
- */
-router.post('/profile', authorization, upload.single('file'), validateRegisterInput.sanitizeUpdateUserProfile, validateRegisterInput.validateUpdateUserProfile, userModule.postProfile);
 
 module.exports = router;

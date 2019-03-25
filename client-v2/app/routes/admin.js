@@ -6,8 +6,8 @@ import ModuleManageEditPage from '../containers/AdminModuleManagePage/AddEditPag
 import ModuleAccessManagePage from '../containers/AdminModuleManagePage/AccessManagePage/Loadable';
 import UserManagePage from '../containers/AdminUserManagePage/Loadable';
 import UserManageEditPage from '../containers/AdminUserManagePage/AddEditPage/Loadable';
-import ContentManagePage from '../containers/AdminContentListingPage/Loadable';
-import ContentManageAddEdit from '../containers/AdminContentListingPage/AddEditPage/Loadable';
+import ContentManagePage from '../containers/ContentListingPage/Loadable';
+import ContentManageAddEdit from '../containers/ContentListingPage/AddEditPage';
 import FaqManagePage from '../containers/FAQManagePage/Loadable';
 import FaqManageAddEdit from '../containers/FAQManagePage/AddEditPage';
 
@@ -39,11 +39,6 @@ const routes = [
   {
     path: '/admin/content-manage/add',
     component: ContentManageAddEdit,
-    exact: true,
-  },
-  {
-    path: '/admin/content-manage',
-    component: ContentManagePage,
     exact: true,
   },
   {
@@ -82,11 +77,28 @@ const routes = [
     exact: true,
   },
   {
+    path: '/admin/content-manage/edit/:id',
+    component: ContentManageAddEdit,
+    exact: true,
+  },
+
+  {
+    path: '/admin/content-manage',
+    component: ContentManagePage,
+    exact: true,
+  },
+  {
     path: '/admin/faq-manage/edit/:id',
     name: 'FAQ Manage',
     component: FaqManageAddEdit,
     exact: true,
   },
+  // {
+  //   path: '/admin/faq-manage/delete/:id',
+  //   name: 'FAQ Manage',
+  //   component: FaqManageAddEdit,
+  //   exact: true,
+  // },
   {
     path: '/admin/faq-manage/add',
     name: 'FAQ Manage',
