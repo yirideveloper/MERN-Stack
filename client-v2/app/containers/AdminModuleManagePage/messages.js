@@ -1,16 +1,16 @@
 /*
- * AdminModuleManagePage Messages
+ * AdminRoleManage Messages
  *
- * This contains all the text for the AdminModuleManagePage container.
+ * This contains all the text for the AdminRoleManage container.
  */
 
 import { defineMessages } from 'react-intl';
 
-export const scope = 'app.containers.AdminModuleManagePage';
+export const scope = 'app.containers.AdminRoleManage';
 
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'This is the AdminModuleManagePage container!',
+    defaultMessage: 'This is the AdminRoleManage container!',
   },
 });

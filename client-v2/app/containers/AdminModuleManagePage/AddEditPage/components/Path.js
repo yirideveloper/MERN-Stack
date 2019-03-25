@@ -12,6 +12,7 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import TrashIcon from '@material-ui/icons/Delete';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
@@ -55,9 +56,14 @@ const Path = props => {
       <TextField
         className="mt-0"
         label="Access Type"
-        id={`${each._id}-access-type-${pathIndex}`}
-        value={each.access_type}
-        onChange={handleAccessTypeChange(pathIndex)}
+        id={`${each._id}-access-type`}
+        formControlProps={{
+          fullWidth: false,
+        }}
+        inputProps={{
+          value: each.access_type,
+          onChange: handleAccessTypeChange(each._id),
+        }}
       />
       <ul className="customUL">
         {(each.admin_routes || []).map((eachAdminRoute, index) => (
@@ -65,22 +71,31 @@ const Path = props => {
             <TextField
               label="Client Route"
               id={`${each._id}-each-admin-route-access-type-${index}`}
-              value={eachAdminRoute}
-              onChange={handleAdminRoutesChange(pathIndex, index)}
+              formControlProps={{
+                fullWidth: false,
+              }}
+              inputProps={{
+                value: eachAdminRoute,
+                onChange: handleAdminRoutesChange(each._id, index),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Delete client route"
+                      onClick={handleRemoveAdminRoute(each._id, index)}
+                    >
+                      <TrashIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
-            <IconButton
-              aria-label="Delete client route"
-              onClick={handleRemoveAdminRoute(pathIndex, index)}
-            >
-              <TrashIcon fontSize="small" />
-            </IconButton>
           </li>
         ))}
       </ul>
       <Button
-        size="small"
+        size="sm"
         aria-label="Add Client Route"
-        onClick={handleAddAdminRoute(pathIndex)}
+        onClick={handleAddAdminRoute(each._id)}
       >
         Add Client Route
       </Button>
@@ -103,7 +118,7 @@ const Path = props => {
               <Select
                 placeholder="Method"
                 value={eachServerRoute.method}
-                onChange={handleServerRoutesMethodChange(pathIndex, index)}
+                onChange={handleServerRoutesMethodChange(each._id, index)}
                 inputProps={{
                   name: 'Method',
                   id: `${each._id}-${
@@ -128,14 +143,17 @@ const Path = props => {
               id={`${each._id}-${
                 eachServerRoute._id
               }-each-admin-server-route-route-access-type-${index}`}
+              formControlProps={{
+                fullWidth: false,
+              }}
               inputProps={{
                 value: eachServerRoute.route,
-                onChange: handleServerRoutesRouteChange(pathIndex, index),
+                onChange: handleServerRoutesRouteChange(each._id, index),
               }}
             />
             <IconButton
               aria-label="Delete Server Route"
-              onClick={handleRemoveServerRoute(pathIndex, index)}
+              onClick={handleRemoveServerRoute(each._id, index)}
             >
               <TrashIcon fontSize="small" />
             </IconButton>
@@ -143,7 +161,7 @@ const Path = props => {
         ))}
       </ul>
       <Button
-        size="small"
+        size="sm"
         aria-label="Add Server Route"
         onClick={handleAddServerRoute(pathIndex)}
       >

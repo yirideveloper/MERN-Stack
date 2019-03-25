@@ -1,24 +1,10 @@
 /*
  *
- * AdminRoleManage actions
+ * BlogManagePage actions
  *
  */
 
 import * as types from './constants';
-
-export function defaultAction() {
-  return {
-    type: types.DEFAULT_ACTION,
-  };
-}
-
-export const setOneValue = payload => ({
-  type: types.SET_ONE_VALUE,
-  payload,
-});
-export const clearOne = () => ({
-  type: types.CLEAR_ONE,
-});
 
 export const loadAllRequest = payload => ({
   type: types.LOAD_ALL_REQUEST,
@@ -69,5 +55,30 @@ export const deleteOneSuccess = payload => ({
 });
 export const deleteOneFailure = payload => ({
   type: types.DELETE_ONE_FAILURE,
+  payload,
+});
+
+// export const loadBlogRequest = payload => ({
+//   type: types.LOAD_BLOG_REQUEST,
+//   payload,
+// });
+// export const loadBlogSuccess = payload => ({
+//   type: types.LOAD_BLOG_SUCCESS,
+//   payload,
+// });
+// export const loadBlogFailure = payload => ({
+//   type: types.LOAD_BLOG_FAILURE,
+//   payload,
+// });
+export const loadCategoryRequest = payload => ({
+  type: types.LOAD_CATEGORY_REQUEST,
+  payload,
+});
+export const loadCategorySuccess = payload => ({
+  type: types.LOAD_CATEGORY_SUCCESS,
+  payload,
+});
+export const loadCategoryFailure = payload => ({
+  type: types.LOAD_CATEGORY_FAILURE,
   payload,
 });

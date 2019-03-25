@@ -12,20 +12,38 @@ import Api from 'utils/Api';
 import { makeSelectToken } from '../App/selectors';
 import * as types from './constants';
 import * as actions from './actions';
-import { makeSelectOne } from './selectors';
+
+function* loadCategory(action) {
+  const token = yield select(makeSelectToken());
+
+  yield call(
+    Api.get(
+      'faq/cat',
+      actions.loadCategorySuccess,
+      actions.loadCategoryFailure,
+      token,
+    ),
+  );
+}
 
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
   let query = '';
+  // let sort = '';
+
   if (action.payload) {
+    // pageNumber = `&page=${action.payload.page}&size=${action.payload.rowsPerPage}`;
     Object.keys(action.payload).map(each => {
-      query = `${query}&${each}=${action.payload[each]}`;
-      return null;
+      query = `${query}${each}=${action.payload[each]}`;
     });
+  }
+
+  if (action.payload.sort) {
+    sort = `&sort=${action.payload.sort}`;
   }
   yield call(
     Api.get(
-      `role/module?${query}`,
+      `faq?${query}`,
       actions.loadAllSuccess,
       actions.loadAllFailure,
       token,
@@ -37,7 +55,7 @@ function* loadOne(action) {
   const token = yield select(makeSelectToken());
   yield call(
     Api.get(
-      `role/module/${action.payload}`,
+      `faq/${action.payload}`,
       actions.loadOneSuccess,
       actions.loadOneFailure,
       token,
@@ -47,16 +65,16 @@ function* loadOne(action) {
 
 function* redirectOnSuccess() {
   yield take(types.ADD_EDIT_SUCCESS);
-  yield put(push('/admin/module-manage'));
+  yield put(push('/admin/faq-manage'));
 }
 
-function* addEdit() {
+function* addEdit(action) {
   const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
-  const data = yield select(makeSelectOne());
+  const { ...data } = action.payload;
   yield fork(
     Api.post(
-      'role/module',
+      'faq',
       actions.addEditSuccess,
       actions.addEditFailure,
       data,
@@ -67,8 +85,10 @@ function* addEdit() {
   yield cancel(successWatcher);
 }
 
-export default function* adminRoleManageSaga() {
+export default function* defaultSaga() {
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
+
+  yield takeLatest(types.LOAD_CATEGORY_REQUEST, loadCategory);
 }

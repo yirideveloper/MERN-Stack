@@ -19,47 +19,45 @@ import * as mapDispatchToProps from './actions';
 import styles from './styles';
 import UsernameInput from './components/UsernameInput';
 import PasswordInput from './components/PasswordInput';
-import Button from '../../components/CustomButtons/Button';
+import Button from '../../components/CustomButtons/Button'
 
-const LoginAdminPage = ({ classes, loginRequest }) => {
-  const handleSubmit = e => {
-    e.preventDefault();
-    loginRequest();
+class LoginAdminPage extends React.Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    loginRequest: PropTypes.func.isRequired,
+    // history: PropTypes.object.isRequired,
   };
 
-  const handleRedirect = () => {
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.loginRequest();
+  };
+
+  handleRedirect = () => {
     // this.props.history.push('/reset-password');
   };
 
-  return (
-    <div className={classes.pageHeader}>
-      <div className={classes.container}>
-        <form className={classes.form}>
-          <UsernameInput classes={classes} />
-          <br />
-          <PasswordInput classes={classes} />
-          <div
-            className={classes.redirect}
-            onClick={handleRedirect}
-            onKeyDown={handleRedirect}
-            role="link"
-            aria-hidden
-          >
-            <h4>Forgot Password?</h4>
-          </div>
-          <Button onClick={handleSubmit} type="submit">
-            Get started
-          </Button>
-        </form>
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.pageHeader}>
+        <div className={classes.container}>
+          <form className={classes.form}>
+            <UsernameInput classes={classes} />
+            <br />
+            <PasswordInput classes={classes} />
+            <div className={classes.redirect}>
+              <h4>Forgot Password?</h4>
+            </div>
+            <Button onClick={this.handleSubmit} type="submit">
+              Get started
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
-  );
-};
-
-LoginAdminPage.propTypes = {
-  classes: PropTypes.object.isRequired,
-  loginRequest: PropTypes.func.isRequired,
-};
+    );
+  }
+}
 
 const mapStateToProps = null;
 
