@@ -12,7 +12,7 @@ export const initialState = {
     data: [],
     page: 1,
     size: 10,
-    totaldata: 0,
+    totaldata: 20,
   },
   one: {},
 };
