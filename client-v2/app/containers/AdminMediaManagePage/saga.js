@@ -12,19 +12,20 @@ import Api from 'utils/Api';
 import { makeSelectToken } from '../App/selectors';
 import * as types from './constants';
 import * as actions from './actions';
+import { makeSelectOne } from './selectors';
 
 function* loadAll(action) {
   const token = yield select(makeSelectToken());
   let query = '';
   if (action.payload) {
     Object.keys(action.payload).map(each => {
-      query = `${query}${each}=${action.payload[each]}`;
+      query = `${query}&${each}=${action.payload[each]}`;
       return null;
     });
   }
   yield call(
     Api.get(
-      `contents?${query}`,
+      `media?${query}`,
       actions.loadAllSuccess,
       actions.loadAllFailure,
       token,
@@ -36,7 +37,7 @@ function* loadOne(action) {
   const token = yield select(makeSelectToken());
   yield call(
     Api.get(
-      `contents/${action.payload}`,
+      `media/${action.payload}`,
       actions.loadOneSuccess,
       actions.loadOneFailure,
       token,
@@ -46,17 +47,16 @@ function* loadOne(action) {
 
 function* redirectOnSuccess() {
   yield take(types.ADD_EDIT_SUCCESS);
-  yield put(push('/admin/contents-manage'));
+  yield put(push('/admin/media-manage'));
 }
 
-function* addEdit(action) {
+function* addEdit() {
   const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
-  const { ...data } = action.payload;
-  // const files = { ProfileImage, ProfileImage1 };
+  const data = yield select(makeSelectOne());
   yield fork(
     Api.post(
-      'contents',
+      'media',
       actions.addEditSuccess,
       actions.addEditFailure,
       data,

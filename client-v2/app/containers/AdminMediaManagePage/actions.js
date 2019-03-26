@@ -1,6 +1,6 @@
 /*
  *
- * AdsListingPage actions
+ * AdminMediaManagePage actions
  *
  */
 
@@ -56,4 +56,20 @@ export const deleteOneSuccess = payload => ({
 export const deleteOneFailure = payload => ({
   type: types.DELETE_ONE_FAILURE,
   payload,
+});
+
+export const setOneValue = payload => ({
+  type: types.SET_ONE_VALUE,
+  payload,
+});
+export const clearOne = () => ({
+  type: types.CLEAR_ONE,
+});
+
+export const setQueryValue = payload => ({
+  type: types.SET_QUERY_VALUE,
+  payload,
+});
+export const clearQuery = () => ({
+  type: types.CLEAR_QUERY,
 });

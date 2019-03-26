@@ -10,8 +10,6 @@ const UsernameInput = props => {
   const { email, setStoreValue, error } = props;
   return (
     <Input
-      fullWidth
-      placeholder="Enter Email"
       error={error}
       inputProps={{
         value: email,
