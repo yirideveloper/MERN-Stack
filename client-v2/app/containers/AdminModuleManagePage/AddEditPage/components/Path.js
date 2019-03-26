@@ -52,8 +52,6 @@ const Path = props => {
   } = props;
   return (
     <Card>
-      <Grid container spacing={24}>
-<Grid item xs={12}>
       <TextField
         className="mt-0"
         label="Access Type"
@@ -61,8 +59,6 @@ const Path = props => {
         value={each.access_type}
         onChange={handleAccessTypeChange(pathIndex)}
       />
-      </Grid>
-      <Grid item xs={12}>
       <ul className="customUL">
         {(each.admin_routes || []).map((eachAdminRoute, index) => (
           <li key={`${each._id}-${pathIndex}-each-admin-route-${index}`}>
@@ -88,8 +84,6 @@ const Path = props => {
       >
         Add Client Route
       </Button>
-      </Grid>
-      <Grid item xs={12}>
       <ul className="customUL">
         {(each.server_routes || []).map((eachServerRoute, index) => (
           <li
@@ -148,14 +142,13 @@ const Path = props => {
           </li>
         ))}
       </ul>
-    
       <Button
         size="small"
         aria-label="Add Server Route"
         onClick={handleAddServerRoute(pathIndex)}
       >
         Add Server Route
-      </Button></Grid></Grid>
+      </Button>
       <IconButton
         className="btn-circle"
         color="secondary"
@@ -163,7 +156,7 @@ const Path = props => {
         onClick={handleRemovePath(pathIndex)}
       >
         <TrashIcon size="small" />
-      </IconButton> 
+      </IconButton>
     </Card>
   );
 };
