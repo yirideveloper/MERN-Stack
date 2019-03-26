@@ -60,7 +60,9 @@ class AddEdit extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.props.loadOneRequest(this.props.match.params.id);
+    if (this.props.match.params && this.props.match.params.id) {
+      this.props.loadOneRequest(this.props.match.params.id);
+    }
   }
 
   handleEditorChange = (e, name) => {
@@ -93,23 +95,17 @@ class AddEdit extends React.PureComponent {
         <PageHeader>Edit Content</PageHeader>
         <PageContent>
           <Card>
-            {/* <CardHeader
-            color="primary"
-            title="Content"
-            subheader="Content info"
-          /> */}
             <CardBody>
               <div>
                 <TextField
-                  label="Content Name"
                   name="Content Name"
                   id="contents-name"
                   fullWidth
+                  placeholder="name of the content"
                   inputProps={{
                     value: one.name,
                     onChange: this.handleChange('name'),
                   }}
-                  margin="normal"
                 />
               </div>
               <div>
@@ -117,19 +113,21 @@ class AddEdit extends React.PureComponent {
                   name="key"
                   id="contents-key"
                   fullWidth
-                  label="Content Key"
+                  placeholder="name of the content key"
                   inputProps={{
                     value: one.key,
                     onChange: this.handleChange('key'),
                   }}
-                  margin="normal"
                 />
               </div>
-              <div m={2}>
-                {/* <InputLabel>Content Description</InputLabel> */}
+              <div>
+                <InputLabel style={{ color: '#AAAAAA' }}>
+                  Content Description
+                </InputLabel>
                 <CKEditor
                   name="description"
                   content={one.description}
+                  config={{ allowedContent: true }}
                   events={{
                     change: e => this.handleEditorChange(e, 'description'),
                     value: one.description,
@@ -141,12 +139,11 @@ class AddEdit extends React.PureComponent {
                   name="Published From"
                   id="contents-from-date"
                   fullWidth
-                  label="publish from"
+                  placeholder="published from"
                   inputProps={{
                     value: one.publish_from,
                     onChange: this.handleChange('publish_from'),
                   }}
-                  margin="normal"
                 />
               </div>
               <div sm={12} md={6}>
@@ -154,18 +151,17 @@ class AddEdit extends React.PureComponent {
                   name="Published To"
                   id="contents-to-date"
                   fullWidth
-                  label="publish to"
+                  placeholder="publish to"
                   inputProps={{
                     value: one.publish_to,
                     onChange: this.handleChange('publish_to'),
                   }}
-                  margin="normal"
                 />
               </div>
               <div>
-                {/* <InputLabel style={{ color: '#AAAAAA' }}>
+                <InputLabel style={{ color: '#AAAAAA' }}>
                   Activity Type
-                </InputLabel> */}
+                </InputLabel>
                 <FormControlLabel
                   control={
                     <Checkbox
