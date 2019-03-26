@@ -7,8 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
 // import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -27,7 +25,7 @@ import FormatSizeIcon from '@material-ui/icons/FormatSize';
 import PeopleIcon from '@material-ui/icons/People';
 import InsertChartIcon from '@material-ui/icons/InsertChart';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import SliderIcon from '@material-ui/icons/Slideshow';
+import Logo from '../../images/logo.png';
 
 import LayersIcon from '@material-ui/icons/Layers';
 // import { mainListItems, secondaryListItems } from './listItems';
@@ -55,6 +53,7 @@ const styles = theme => ({
   toolbar: {
     paddingRight: 24, // keep right padding `when drawer closed
   },
+  imgFluid: { maxWidth:'100%'},
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
@@ -199,34 +198,6 @@ const mainListItems = (
         <ListItemText primary="FAQ Manage" />
       </ListItem>
     </Link>
-    <Link to="/admin/media-manage">
-      <ListItem
-        style={{
-          textDecoration: 'none',
-          fontSize: '0.8em',
-          textTransform: 'uppercase',
-        }}
-      >
-        <ListItemIcon>
-          <QuestionAnswerIcon />
-        </ListItemIcon>
-        <ListItemText primary="Media Manage" />
-      </ListItem>
-    </Link>
-    <Link to="/admin/slider-manage">
-      <ListItem
-        style={{
-          textDecoration: 'none',
-          fontSize: '0.8em',
-          textTransform: 'uppercase',
-        }}
-      >
-        <ListItemIcon>
-          <SliderIcon />
-        </ListItemIcon>
-        <ListItemText primary="Slider Manage" />
-      </ListItem>
-    </Link>
     <Link to="/">
       <ListItem>
         <ListItemIcon>
@@ -248,15 +219,6 @@ const mainListItems = (
 
 const AdminLayout = ({ classes }) => {
   const [open, setOpen] = useState(true);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const anchorOpen = Boolean(anchorEl);
-
-  const handleMenu = event => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -288,34 +250,9 @@ const AdminLayout = ({ classes }) => {
           </IconButton>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
-            <IconButton color="inherit" onClick={handleMenu}>
+            <IconButton color="inherit">
               <AccountCircle />
             </IconButton>
-            {/* <IconButton
-                    aria-owns={open ? 'menu-appbar' : undefined}
-                    aria-haspopup="true"
-                    onClick={handleMenu}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton> */}
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={anchorOpen}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>Dashboard</MenuItem>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-            </Menu>
           </div>
         </Toolbar>
       </AppBar>
@@ -329,6 +266,7 @@ const AdminLayout = ({ classes }) => {
         open={open}
       >
         <div className={classes.toolbarIcon}>
+        <img className={classes.imgFluid} src={Logo} alt="waft engine" />
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>

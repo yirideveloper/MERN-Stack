@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import jwtDecode from 'jwt-decode';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import pink from '@material-ui/core/colors/pink';
 
 import history from 'utils/history';
 
@@ -70,9 +71,6 @@ if (tokenWithBearer) {
 }
 
 const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true,
-  },
   // palette: {
   //   primary: pink,
   // },
