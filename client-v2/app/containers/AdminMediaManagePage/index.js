@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { push } from 'connected-react-router';
 import { compose } from 'redux';
+import { push } from 'connected-react-router';
 import moment from 'moment';
 
 // @material-ui/core components
@@ -12,15 +11,13 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 import Edit from '@material-ui/icons/Edit';
-import Close from '@material-ui/icons/Close';
+import SearchIcon from '@material-ui/icons/Search';
+import Fab from '@material-ui/core/Fab';
+import { Paper, InputBase, Divider } from '@material-ui/core';
 
 // core components
-import CustomInput from '@material-ui/core/Input';
-import { Paper, Divider } from '@material-ui/core';
-import Fab from '@material-ui/core/Fab';
-import Table from 'components/Table/Table';
+import Table from 'components/Table';
 
 import injectSaga from '../../utils/injectSaga';
 import injectReducer from '../../utils/injectReducer';
@@ -44,7 +41,7 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class SliderManagePage extends React.Component {
+export class AdminMediaManagePage extends React.Component {
   static propTypes = {
     loadAllRequest: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
@@ -57,29 +54,31 @@ export class SliderManagePage extends React.Component {
       size: PropTypes.number.isRequired,
       totaldata: PropTypes.number.isRequired,
     }),
-  }
+  };
+
   componentDidMount() {
     this.props.loadAllRequest(this.props.query);
   }
+
   handleAdd = () => {
-    this.props.push('/admin/slider-manage/add');
+    // this.props.push('/admin/media-manage/add');
   };
-  handleEdit = id => {
-    this.props.push(`/admin/slider-manage/edit/${id}`);
+
+  handleDelete = id => {
+    // this.props.push(`/admin/media-manage/edit/${id}`);
   };
+
   handleQueryChange = e => {
     e.persist();
     this.props.setQueryValue({ key: e.target.name, value: e.target.value });
-  }
+  };
+
   handleSearch = () => {
     this.props.loadAllRequest(this.props.query);
   };
+
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
-  };
-  handleDelete = id => {
-    // shoe modal && api call
-    // this.props.history.push(`/wt/contents-manage/edit/${id}`);
   };
 
   render() {
@@ -88,37 +87,56 @@ export class SliderManagePage extends React.Component {
       all: { data, page, size, totaldata },
       query,
     } = this.props;
-    const tablePagination = {page, size, totaldata};
-    const tableData = data.map(({ slider_name, slider_key, images, added_at, _id }) => [
-      slider_name,
-      slider_key,
-      images.length,
-      moment(added_at).format('MMM Do YY'),
-
-      <React.Fragment>
-        <Tooltip id="tooltip-top" title="Edit Task" placement="top" classes={{ tooltip: classes.tooltip }}>
-          <IconButton aria-label="Edit" className={classes.tableActionButton} onClick={() => this.handleEdit(_id)}>
-            <Edit className={classes.tableActionButtonIcon + ' ' + classes.edit} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip id="tooltip-top-start" title="Remove" placement="top" classes={{ tooltip: classes.tooltip }}>
-          <IconButton aria-label="Close" className={classes.tableActionButton} onClick={() => this.handleDelete(_id)}>
-            <Close className={classes.tableActionButtonIcon + ' ' + classes.close} />
-          </IconButton>
-        </Tooltip>
-      </React.Fragment>,
-    ]);
+    const tablePagination = { page, size, totaldata };
+    const tableData = data.map(
+      ({
+        name,
+        key,
+        publish_from,
+        publish_to,
+        is_active,
+        is_feature,
+        added_at,
+        _id,
+      }) => [
+        name,
+        key,
+        moment(publish_from).format('MMM Do YY'),
+        moment(publish_to).format('MMM Do YY'),
+        `${is_active}`,
+        `${is_feature}`,
+        moment(added_at).format('MMM Do YY'),
+        <>
+          <Tooltip
+            id="tooltip-top"
+            title="Delete Media"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Edit"
+              className={classes.tableActionButton}
+              onClick={() => this.handleDelete(_id)}
+            >
+              <Edit
+                className={`${classes.tableActionButtonIcon} ${classes.edit}`}
+              />
+            </IconButton>
+          </Tooltip>
+        </>,
+      ],
+    );
     return (
       <>
-        <PageHeader>Slider Manage</PageHeader>
+        <PageHeader>Media Manage</PageHeader>
         <PageContent>
           <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
-            <CustomInput
-              name="find_slider_name"
-              id="slider-name"
-              placeholder="Search Slider"
+            <InputBase
+              name="find_name"
+              id="contents-name"
+              placeholder="Search Contents"
               fullWidth
-              value={query.find_slider_name}
+              value={query.find_name}
               onChange={this.handleQueryChange}
             />
             <Divider style={{ width: 1, height: 40, margin: 4 }} />
@@ -139,9 +157,12 @@ export class SliderManagePage extends React.Component {
           >
             <Table
               tableHead={[
-                'Slider Name',
-                'Slider Key',
-                'Images',
+                'Name',
+                'Key',
+                'Pub From',
+                'Pub To',
+                'is Active',
+                'is feature',
                 'Added at',
               ]}
               tableData={tableData}
@@ -175,15 +196,14 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-const withReducer = injectReducer({ key: 'sliderManagePage', reducer });
-const withSaga = injectSaga({ key: 'sliderManagePage', saga });
+const withReducer = injectReducer({ key: 'adminMediaManagePage', reducer });
+const withSaga = injectSaga({ key: 'adminMediaManagePage', saga });
 
 const withStyle = withStyles(styles);
 
 export default compose(
-  withRouter,
   withStyle,
   withReducer,
   withSaga,
   withConnect,
-)(SliderManagePage);
+)(AdminMediaManagePage);

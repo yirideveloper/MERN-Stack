@@ -10,8 +10,8 @@ import ContentManagePage from '../containers/AdminContentListingPage/Loadable';
 import ContentManageAddEdit from '../containers/AdminContentListingPage/AddEditPage/Loadable';
 import FaqManagePage from '../containers/FAQManagePage/Loadable';
 import FaqManageAddEdit from '../containers/FAQManagePage/AddEditPage';
-import SliderManagePage from '../containers/SliderManagePage/Loadable';
-import SliderManageAddEdit from '../containers/SliderManagePage/AddEditPage/Loadable';
+import MediaManagePage from '../containers/AdminMediaManagePage/Loadable';
+
 const routes = [
   {
     path: '/admin/dashboard',
@@ -101,21 +101,8 @@ const routes = [
     exact: true,
   },
   {
-    path: '/admin/slider-manage/edit/:id',
-    name: 'Slider Manage',
-    component: SliderManageAddEdit,
-    exact: true,
-  },
-  {
-    path: '/admin/slider-manage/add',
-    name: 'Slider Manage',
-    component: SliderManageAddEdit,
-    exact: true,
-  },
-  {
-    path: '/admin/slider-manage',
-    name: 'Slider Manage',
-    component: SliderManagePage,
+    path: '/admin/media-manage',
+    component: MediaManagePage,
     exact: true,
   },
 ];

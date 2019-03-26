@@ -47,7 +47,7 @@ function* loadOne(action) {
 
 function* redirectOnSuccess() {
   yield take(types.ADD_EDIT_SUCCESS);
-  yield put(push('/admin/content-manage'));
+  yield put(push('/admin/contents-manage'));
 }
 
 function* addEdit() {

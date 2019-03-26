@@ -97,10 +97,10 @@ sliderController.SaveSlider = async (req, res, next) => {
     next(err);
   }
 };
-sliderController.GetSliderById = async (req, res, next) => {
-  const id = req.params.id;
+sliderController.GetSliderBySlug = async (req, res, next) => {
+  const slug = req.params.slug;
   const slider = await sliderSch.findOne({
-    _id: id,
+    slug_url: slug,
     is_deleted: false,
   });
   return otherHelper.sendResponse(res, httpStatus.OK, true, slider, null, sliderConfig.get, null);
