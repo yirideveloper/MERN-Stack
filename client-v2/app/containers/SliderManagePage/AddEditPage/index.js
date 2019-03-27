@@ -6,42 +6,26 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 
+import Dropzone from 'react-dropzone';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 // core components
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
+import CustomInput from '@material-ui/core/Input';
 import Fab from '@material-ui/core/Fab';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardBody from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-import MediaElement from '../../../components/MediaElement';
-
+import CardFooter from '@material-ui/core/CardActions';
 import reducer from '../reducer';
 import saga from '../saga';
-import { makeSelectOne, makeSelectMedia } from '../selectors';
+import { makeSelectOne } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import { IMAGE_BASE } from '../../App/constants';
 
-const styles = theme => ({
-  paper: {
-    position: 'absolute',
-    // width: '90%',
-    // height: '70%',
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-    outline: 'none',
-  },
+const styles = {
   cardCategoryWhite: {
     color: 'rgba(255,255,255,.62)',
     margin: '0',
@@ -58,88 +42,28 @@ const styles = theme => ({
     marginBottom: '3px',
     textDecoration: 'none',
   },
-  card: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 140,
-  },
-});
+};
 
 class AddEdit extends React.PureComponent {
   static propTypes = {
     loadOneRequest: PropTypes.func.isRequired,
-    loadMediaRequest: PropTypes.func.isRequired,
     addEditRequest: PropTypes.func.isRequired,
     setOneValue: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.object,
     }),
-    classes: PropTypes.object.isRequired,
+    // classes: PropTypes.object.isRequired,
     one: PropTypes.object.isRequired,
     push: PropTypes.func.isRequired,
-    media: PropTypes.shape({
-      data: PropTypes.array.isRequired,
-      page: PropTypes.number.isRequired,
-      size: PropTypes.number.isRequired,
-      totaldata: PropTypes.number.isRequired,
-    }),
   };
-
-  state = { open: false, index: -1 };
 
   componentDidMount() {
     this.props.loadOneRequest(this.props.match.params.id);
-    this.props.loadMediaRequest();
   }
-
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
 
   handleChange = name => event => {
     event.persist();
     this.props.setOneValue({ key: name, value: event.target.value });
-  };
-
-  handleImageCaptionChange = index => event => {
-    event.persist();
-    const tempImages = [...this.props.one.images];
-    tempImages[index].caption = event.target.value;
-    this.props.setOneValue({ key: 'images', value: tempImages });
-  };
-
-  handleImageImageChange = id => {
-    const tempImages = [...this.props.one.images];
-    tempImages[this.state.index].image = id;
-    this.props.setOneValue({ key: 'images', value: tempImages });
-    this.setState({ open: false, index: -1 });
-  };
-
-  handleAddSlide = () => {
-    const tempImages = [...this.props.one.images];
-    const newSlide = { image: '', caption: '' };
-    this.props.setOneValue({
-      key: 'images',
-      value: [newSlide, ...tempImages],
-    });
-  };
-
-  handleRemoveSlide = index => {
-    const tempImages = [...this.props.one.images];
-    this.props.setOneValue({
-      key: 'images',
-      value: [...tempImages.slice(0, index), ...tempImages.slice(index + 1)],
-    });
-  };
-
-  handleSetImage = index => () => {
-    this.setState({ index });
-    this.handleOpen();
   };
 
   handleGoBack = () => {
@@ -147,52 +71,17 @@ class AddEdit extends React.PureComponent {
   };
 
   handleSave = () => {
-    this.props.addEditRequest();
+    this.props.addEdit(this.props.one);
   };
 
+  // onDrop = (files, name) => event => {
+  //   this.props.setOneValue({ key: name, value: files });
+  // };
+
   render() {
-    const { one, classes, media } = this.props;
+    const { one } = this.props;
     return (
-      <>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.open}
-          onClose={this.handleClose}
-        >
-          <div
-            style={{
-              top: `${10}%`,
-              left: `${10}%`,
-              transform: `translate(-${10}%, -${10}%)`,
-            }}
-            className={classes.paper}
-          >
-            <Grid container>
-              {media.data.map(each => (
-                <Grid item key={each._id}>
-                  <Card className={classes.card}>
-                    <CardActionArea>
-                      <CardMedia
-                        className={classes.media}
-                        image={`${IMAGE_BASE}${each.path}`}
-                      />
-                    </CardActionArea>
-                    <CardActions>
-                      <Button
-                        size="small"
-                        color="primary"
-                        onClick={() => this.handleImageImageChange(each._id)}
-                      >
-                        Select
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-        </Modal>
+      <div>
         <Card>
           <CardHeader color="primary" title="Slider" subheader="Slider info" />
           <CardBody>
@@ -220,45 +109,37 @@ class AddEdit extends React.PureComponent {
                 }}
               />
             </div>
-            {one.images.map((each, index) => (
-              <div key={`${each._id}-media-${index}`}>
-                {each.image ? (
-                  <Button onClick={this.handleSetImage(index)}>
-                    <MediaElement mediaKey={each.image} />
-                  </Button>
-                ) : (
-                  <Fab color="primary" onClick={this.handleSetImage(index)}>
-                    Add Image
-                  </Fab>
-                )}
-                <TextField
-                  id={`slider-caption-${index}`}
-                  placeholder="Caption"
-                  value={each.caption}
-                  onChange={this.handleImageCaptionChange(index)}
-                />
-                <Fab
-                  color="primary"
-                  onClick={() => this.handleRemoveSlide(index)}
-                >
-                  <DeleteIcon />
-                </Fab>
-              </div>
-            ))}
-            <Fab color="primary" onClick={this.handleAddSlide}>
-              Add Slide
-            </Fab>
+            {/* <div>
+                    <Dropzone onDrop={files => this.onDrop(files, 'images')} multiple={true} />
+                  </div> */}
+            {/* <div>
+                  {one.images.map((each, index) => (
+                    <div key={`${index}-added`} >
+                    <img src={each.preview}/>
+                    <CustomInput
+                      name="caption"
+                      id="caption"
+                      fullWidth={true}
+                      placeholder="Caption"
+                      inputProps={{
+                        value: each.caption,
+                        onChange: this.handleChange('caption'),
+                      }}
+                    />
+                    </div>
+                  ))}
+                </div> */}
           </CardBody>
-          <CardActions>
+          <CardFooter>
             <Fab color="primary" onClick={this.handleSave}>
               Save
             </Fab>
             <Fab color="secondary" onClick={this.handleGoBack}>
               Back
             </Fab>
-          </CardActions>
+          </CardFooter>
         </Card>
-      </>
+      </div>
     );
   }
 }
@@ -266,11 +147,10 @@ class AddEdit extends React.PureComponent {
 const withStyle = withStyles(styles);
 
 const withReducer = injectReducer({ key: 'sliderManagePage', reducer });
-const withSaga = injectSaga({ key: 'sliderManagePage', saga });
+const withSaga = injectSaga({ key: 'sliderManagePageAddEdit', saga });
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
-  media: makeSelectMedia(),
 });
 
 const withConnect = connect(

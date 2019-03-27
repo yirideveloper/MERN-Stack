@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Link from 'react-router-dom/NavLink';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -20,8 +17,8 @@ import LayersIcon from '@material-ui/icons/Layers';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import { makeSelectLocation } from '../../../containers/App/selectors';
 
 const styles = theme => ({
   root: {
@@ -34,7 +31,7 @@ const styles = theme => ({
   },
 });
 
-const MainListItems = ({ classes, location: { pathname } }) => {
+const MainListItems = ({ classes }) => {
   const [openFirstSet, setOpenFirstSet] = useState(false);
   const [openSecondSet, setOpenSecondSet] = useState(false);
   const [openThirdSet, setOpenThirdSet] = useState(false);
@@ -61,7 +58,7 @@ const MainListItems = ({ classes, location: { pathname } }) => {
       <Collapse in={openFirstSet} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <Link to="/admin/dashboard" className={classes.nested}>
-            <ListItem button selected={pathname === '/admin/dashboard'}>
+            <ListItem button>
               <ListItemIcon>
                 <DashboardIcon />
               </ListItemIcon>
@@ -69,7 +66,7 @@ const MainListItems = ({ classes, location: { pathname } }) => {
             </ListItem>
           </Link>
           <Link to="/admin/role-manage" className={classes.nested}>
-            <ListItem button selected={pathname === '/admin/role-manage'}>
+            <ListItem button>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
@@ -77,7 +74,7 @@ const MainListItems = ({ classes, location: { pathname } }) => {
             </ListItem>
           </Link>
           <Link to="/admin/module-manage" className={classes.nested}>
-            <ListItem button selected={pathname === '/admin/module-manage'}>
+            <ListItem button>
               <ListItemIcon>
                 <ExtensionIcon />
               </ListItemIcon>
@@ -86,6 +83,7 @@ const MainListItems = ({ classes, location: { pathname } }) => {
           </Link>
         </List>
       </Collapse>
+
       <ListItem button onClick={handleSecondSetClick}>
         <ListItemIcon>
           <InboxIcon />
@@ -96,7 +94,7 @@ const MainListItems = ({ classes, location: { pathname } }) => {
       <Collapse in={openSecondSet} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <Link to="/admin/user-manage" className={classes.nested}>
-            <ListItem button selected={pathname === '/admin/user-manage'}>
+            <ListItem button>
               <ListItemIcon>
                 <ExtensionIcon />
               </ListItemIcon>
@@ -110,7 +108,6 @@ const MainListItems = ({ classes, location: { pathname } }) => {
                 fontSize: '0.8em',
                 textTransform: 'uppercase',
               }}
-              selected={pathname === '/admin/content-manage'}
             >
               <ListItemIcon>
                 <FormatSizeIcon />
@@ -125,7 +122,6 @@ const MainListItems = ({ classes, location: { pathname } }) => {
                 fontSize: '0.8em',
                 textTransform: 'uppercase',
               }}
-              selected={pathname === '/admin/faq-manage'}
             >
               <ListItemIcon>
                 <QuestionAnswerIcon />
@@ -152,7 +148,6 @@ const MainListItems = ({ classes, location: { pathname } }) => {
                 fontSize: '0.8em',
                 textTransform: 'uppercase',
               }}
-              selected={pathname === '/admin/media-manage'}
             >
               <ListItemIcon>
                 <QuestionAnswerIcon />
@@ -167,7 +162,6 @@ const MainListItems = ({ classes, location: { pathname } }) => {
                 fontSize: '0.8em',
                 textTransform: 'uppercase',
               }}
-              selected={pathname === '/admin/slider-manage'}
             >
               <ListItemIcon>
                 <SliderIcon />
@@ -175,16 +169,16 @@ const MainListItems = ({ classes, location: { pathname } }) => {
               <ListItemText primary="Slider Manage" />
             </ListItem>
           </Link>
-          <Link to="/admin/reports" className={classes.nested}>
-            <ListItem button selected={pathname === '/admin/reports'}>
+          <Link to="/" className={classes.nested}>
+            <ListItem>
               <ListItemIcon>
                 <InsertChartIcon />
               </ListItemIcon>
               <ListItemText primary="Reports" />
             </ListItem>
           </Link>
-          <Link to="/admin/integration" className={classes.nested}>
-            <ListItem button selected={pathname === '/admin/integration'}>
+          <Link to="/" className={classes.nested}>
+            <ListItem>
               <ListItemIcon>
                 <LayersIcon />
               </ListItemIcon>
@@ -199,17 +193,6 @@ const MainListItems = ({ classes, location: { pathname } }) => {
 
 MainListItems.propTypes = {
   classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  location: makeSelectLocation(),
-});
-
-const withConnect = connect(mapStateToProps);
-const withStyle = withStyles(styles);
-
-export default compose(
-  withConnect,
-  withStyle,
-)(MainListItems);
+export default withStyles(styles)(MainListItems);
