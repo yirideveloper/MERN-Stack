@@ -9,9 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Button from '@material-ui/core/Button';
 
-import Link from 'react-router-dom/Link';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
@@ -20,34 +18,38 @@ import * as mapDispatchToProps from './actions';
 
 import UsernameInput from './components/UsernameInput';
 import PasswordInput from './components/PasswordInput';
-import logo from '../../images/logo.png';
+import Button from '../../components/CustomButtons/Button';
 
 const LoginUserPage = ({ classes, loginRequest }) => {
   const handleSubmit = e => {
     e.preventDefault();
     loginRequest();
   };
+
+  const handleRedirect = () => {
+    // this.props.history.push('/reset-password');
+  };
+
   return (
-    <div className={classes.container}>
-      <div className={classes.card}>
-        <img className={classes.logo} src={logo} alt="logo" />
-        <h3>LOGIN</h3>
-        <form className={classes.form} onSubmit={handleSubmit}>
+    <div className={classes.pageHeader}>
+      <div className={classes.container}>
+        <form className={classes.form}>
           <UsernameInput />
-          <PasswordInput />
           <br />
-          <Button variant="contained" color="primary" type="submit">
-            LOGIN
+          <PasswordInput />
+          <div
+            className={classes.redirect}
+            onClick={handleRedirect}
+            onKeyDown={handleRedirect}
+            role="link"
+            aria-hidden
+          >
+            <h4>Forgot Password?</h4>
+          </div>
+          <Button onClick={handleSubmit} type="submit">
+            Get started
           </Button>
         </form>
-        <br />
-        <br />
-        <Link className={classes.smallFont} to="/forgot-password-user">
-          Forgot Password?
-        </Link>
-        <Link className={classes.smallFont} to="/signup-user">
-          Not a user?
-        </Link>
       </div>
     </div>
   );
@@ -73,18 +75,41 @@ const styles = {
     zIndex: '2',
     position: 'relative',
     paddingTop: '20vh',
-    background: '#EFEFF4',
+    color: '#FFFFFF',
+  },
+  pageHeader: {
     minHeight: '100vh',
+    height: 'auto',
+    display: 'inherit',
+    position: 'relative',
+    margin: '0',
+    padding: '0',
+    border: '0',
+    alignItems: 'center',
+    '&:before': {
+      background: 'rgba(0, 0, 0, 0.5)',
+    },
+    '&:before,&:after': {
+      position: 'absolute',
+      zIndex: '1',
+      width: '100%',
+      height: '100%',
+      display: 'block',
+      left: '0',
+      top: '0',
+      content: '""',
+    },
+    '& footer li a,& footer li a:hover,& footer li a:active': {
+      color: '#FFFFFF',
+    },
+    '& footer': {
+      position: 'absolute',
+      bottom: '0',
+      width: '100%',
+    },
   },
-  card: {
-    background: '#fff',
-    padding: 40,
-    width: 350,
-    margin: '0 auto',
-  },
-  smallFont: {
-    fontSize: 12,
-    textDecoration: 'none',
+  form: {
+    margin: '0',
   },
   cardHeader: {
     width: 'auto',
@@ -125,7 +150,6 @@ const styles = {
   inputIconsColor: {
     color: '#495057',
   },
-  logo: { maxWidth: '100%' },
 };
 
 const withStyle = withStyles(styles);

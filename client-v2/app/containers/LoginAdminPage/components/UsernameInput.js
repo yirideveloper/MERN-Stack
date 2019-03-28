@@ -2,27 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
 import { makeSelectEmail, makeSelectEmailError } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 
-const EmailInput = props => {
+const UsernameInput = props => {
   const { email, setStoreValue, error } = props;
-  const handleChange = e =>
-    setStoreValue({ key: 'email', value: e.target.value });
-  const hasError = Boolean(error);
   return (
-    <TextField
-      error={hasError}
-      label={error || 'email'}
-      value={email}
-      onChange={handleChange}
-      margin="normal"
+    <Input
+      fullWidth
+      placeholder="Enter Email"
+      error={error}
+      inputProps={{
+        value: email,
+        onChange: e => setStoreValue({ key: 'email', value: e.target.value }),
+        type: 'email',
+      }}
     />
   );
 };
 
-EmailInput.propTypes = {
+UsernameInput.propTypes = {
   email: PropTypes.string.isRequired,
   setStoreValue: PropTypes.func.isRequired,
   error: PropTypes.string,
@@ -36,4 +36,4 @@ const mapStateToProps = createStructuredSelector({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(EmailInput);
+)(UsernameInput);

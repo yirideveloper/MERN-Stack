@@ -44,7 +44,6 @@ const styles = theme => ({
 export class ContentsListingPage extends React.Component {
   static propTypes = {
     loadAllRequest: PropTypes.func.isRequired,
-    clearOne: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
@@ -62,7 +61,6 @@ export class ContentsListingPage extends React.Component {
   }
 
   handleAdd = () => {
-    this.props.clearOne();
     this.props.push('/admin/content-manage/add');
   };
 

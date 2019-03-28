@@ -29,12 +29,6 @@ export const makeSelectUser = () =>
     state => state.user,
   );
 
-export const makeSelectUserIsAdmin = () =>
-  createSelector(
-    makeSelectUser(),
-    state => state.isAdmin,
-  );
-
 export const makeSelectContent = () =>
   createSelector(
     selectGlobal,
@@ -45,10 +39,4 @@ export const makeSelectMedia = () =>
   createSelector(
     selectGlobal,
     state => state.media,
-  );
-
-export const makeSelectNotifications = () =>
-  createSelector(
-    selectGlobal,
-    state => state.notifications,
   );
