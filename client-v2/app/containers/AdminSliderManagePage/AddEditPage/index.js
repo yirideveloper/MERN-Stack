@@ -89,9 +89,7 @@ class AddEdit extends React.PureComponent {
   state = { open: false, index: -1 };
 
   componentDidMount() {
-    if (this.props.match.params && this.props.match.params.id) {
-      this.props.loadOneRequest(this.props.match.params.id);
-    }
+    this.props.loadOneRequest(this.props.match.params.id);
     this.props.loadMediaRequest();
   }
 
@@ -140,7 +138,8 @@ class AddEdit extends React.PureComponent {
   };
 
   handleSetImage = index => () => {
-    this.setState({ open: true, index });
+    this.setState({ index });
+    this.handleOpen();
   };
 
   handleGoBack = () => {
@@ -186,7 +185,9 @@ class AddEdit extends React.PureComponent {
                     <CardActionArea>
                       <img
                         className={classes.media}
-                        src={`${IMAGE_BASE}${each.path}`}
+                        src={`${IMAGE_BASE}public/100-100/media/${
+                          each.filename
+                        }`}
                         alt={each.caption}
                       />
                     </CardActionArea>
@@ -260,7 +261,7 @@ class AddEdit extends React.PureComponent {
               <div key={`${each._id}-media-${index}`}>
                 {each.image ? (
                   <Button onClick={this.handleSetImage(index)}>
-                    <MediaElement mediaKey={each.image} />
+                    <MediaElement mediaKey={each.image} size="100-100" />
                   </Button>
                 ) : (
                   <Fab color="primary" onClick={this.handleSetImage(index)}>
