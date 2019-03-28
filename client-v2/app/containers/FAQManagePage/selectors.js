@@ -2,10 +2,10 @@ import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
 /**
- * Direct selector to the offerManagePage state domain
+ * Direct selector to the faqManagePage state domain
  */
 
-const selectDomain = state => state.blogManagePage || initialState;
+const selectDomain = state => state.faqManagePage || initialState;
 
 export const makeSelectAll = () =>
   createSelector(
@@ -21,9 +21,4 @@ export const makeSelectCategory = () =>
   createSelector(
     selectDomain,
     state => state.category,
-  );
-export const makeSelectQuery = () =>
-  createSelector(
-    selectDomain,
-    state => state.query,
   );

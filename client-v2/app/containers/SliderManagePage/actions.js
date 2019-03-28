@@ -1,25 +1,11 @@
-/*
- *
- * BlogManagePage actions
- *
- */
-
 import * as types from './constants';
 
-export const setOneValue = payload => ({
-  type: types.SET_ONE_VALUE,
-  payload,
-});
 export const setQueryValue = payload => ({
   type: types.SET_QUERY_VALUE,
   payload,
 });
-export const clearOne = payload => ({
-  type: types.CLEAR_ONE,
-  payload,
-});
-export const clearQuery = payload => ({
-  type: types.CLEAR_QUERY,
+export const setOneValue = payload => ({
+  type: types.SET_ONE_VALUE,
   payload,
 });
 export const loadAllRequest = payload => ({
@@ -47,6 +33,18 @@ export const loadOneFailure = payload => ({
   type: types.LOAD_ONE_FAILURE,
   payload,
 });
+export const loadMediaRequest = payload => ({
+  type: types.LOAD_MEDIA_REQUEST,
+  payload,
+});
+export const loadMediaSuccess = payload => ({
+  type: types.LOAD_MEDIA_SUCCESS,
+  payload,
+});
+export const loadMediaFailure = payload => ({
+  type: types.LOAD_MEDIA_FAILURE,
+  payload,
+});
 
 export const addEditRequest = payload => ({
   type: types.ADD_EDIT_REQUEST,
@@ -71,30 +69,5 @@ export const deleteOneSuccess = payload => ({
 });
 export const deleteOneFailure = payload => ({
   type: types.DELETE_ONE_FAILURE,
-  payload,
-});
-
-// export const loadBlogRequest = payload => ({
-//   type: types.LOAD_BLOG_REQUEST,
-//   payload,
-// });
-// export const loadBlogSuccess = payload => ({
-//   type: types.LOAD_BLOG_SUCCESS,
-//   payload,
-// });
-// export const loadBlogFailure = payload => ({
-//   type: types.LOAD_BLOG_FAILURE,
-//   payload,
-// });
-export const loadCategoryRequest = payload => ({
-  type: types.LOAD_CATEGORY_REQUEST,
-  payload,
-});
-export const loadCategorySuccess = payload => ({
-  type: types.LOAD_CATEGORY_SUCCESS,
-  payload,
-});
-export const loadCategoryFailure = payload => ({
-  type: types.LOAD_CATEGORY_FAILURE,
   payload,
 });

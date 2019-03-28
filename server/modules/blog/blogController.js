@@ -256,13 +256,10 @@ blogcontroller.SaveBlogCategory = async (req, res, next) => {
 
 blogcontroller.GetBlogDetail = async (req, res, next) => {
   const id = req.params.id;
-  const populate = [];
-  const blog = await blogSch
-    .findOne({
-      _id: id,
-      is_deleted: false,
-    })
-    .populate(populate);
+  const blog = await blogSch.findOne({
+    _id: id,
+    is_deleted: false,
+  });
   return otherHelper.sendResponse(res, httpStatus.OK, true, blog, null, blogConfig.get, null);
 };
 
