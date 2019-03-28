@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import moment from 'moment';
 import { push } from 'connected-react-router';
+import moment from 'moment';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
@@ -13,22 +13,20 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
-import Close from '@material-ui/icons/Close';
 import Fab from '@material-ui/core/Fab';
-import { Paper, InputBase, Divider } from '@material-ui/core';
-
-// core components
+import CustomInput from '@material-ui/core/Input';
 import Table from 'components/Table';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
+import PageHeader from '../../components/PageHeader/PageHeader';
+import PageContent from '../../components/PageContent/PageContent';
 import injectSaga from '../../utils/injectSaga';
 import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import { makeSelectAll, makeSelectQuery, makeSelectCategory } from './selectors';
-
-import PageHeader from '../../components/PageHeader/PageHeader';
-import PageContent from '../../components/PageContent/PageContent';
+import { makeSelectAll, makeSelectQuery } from './selectors';
 
 const styles = theme => ({
   button: {
@@ -42,11 +40,11 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class BlogManagePage extends React.Component {
+export class FAQManagePage extends React.PureComponent {
   static propTypes = {
     loadAllRequest: PropTypes.func.isRequired,
-    clearOne: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
+    clearOne: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
@@ -57,17 +55,18 @@ export class BlogManagePage extends React.Component {
       totaldata: PropTypes.number.isRequired,
     }),
   };
+
   componentDidMount() {
     this.props.loadAllRequest(this.props.query);
   }
+
   handleAdd = () => {
     this.props.clearOne();
-    this.props.push('/admin/blog-manage/add');
+    this.props.push('/admin/faq-manage/add');
   };
-  handleEdit = _id => {
-    this.props.push(`/admin/blog-manage/edit/${_id}`);
-  };
-  handleDelete = id => {
+
+  handleEdit = id => {
+    this.props.push(`/admin/faq-manage/edit/${id}`);
   };
 
   handleQueryChange = e => {
@@ -90,41 +89,53 @@ export class BlogManagePage extends React.Component {
       query,
     } = this.props;
     const tablePagination = { page, size, totaldata };
-    const tableData = data.map(({ title, category, published_on, added_at, is_published, is_active, _id }) => [
-      title,
-      (category && category.title) || 'No',
-      moment(published_on).format('MMM Do YY'),
-
-      moment(added_at).format('MMM Do YY'),
-      '' + is_published,
-      '' + is_active,
-      <React.Fragment>
-        <Tooltip id="tooltip-top" title="Edit Task" placement="top" classes={{ tooltip: classes.tooltip }}>
-          <IconButton aria-label="Edit" className={classes.tableActionButton} onClick={() => this.handleEdit(_id)}>
-            <Edit className={classes.tableActionButtonIcon + ' ' + classes.edit} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip id="tooltip-top-start" title="Remove" placement="top" classes={{ tooltip: classes.tooltip }}>
-          <IconButton aria-label="Close" className={classes.tableActionButton} onClick={() => this.handleDelete(_id)}>
-            <Close className={classes.tableActionButtonIcon + ' ' + classes.close} />
-          </IconButton>
-        </Tooltip>
-      </React.Fragment>,
-    ]);
+    const tableData = data.map(
+      ({ question, title, category, added_at, updated_at, _id }) => [
+        question,
+        title,
+        (category && category.title) || 'No',
+        moment(added_at).format('MMM Do YY'),
+        moment(updated_at).format('MMM Do YY'),
+        <>
+          <Tooltip
+            id="tooltip-top"
+            title="Edit Task"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Edit"
+              className={classes.tableActionButton}
+              onClick={() => this.handleEdit(_id)}
+            >
+              <Edit
+                className={`${classes.tableActionButtonIcon} ${classes.edit}`}
+              />
+            </IconButton>
+          </Tooltip>
+        </>,
+      ],
+    );
     return (
       <>
-        <PageHeader>Blog Manage</PageHeader>
+        <PageHeader>FAQ Manage</PageHeader>
         <PageContent>
           <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
-            <InputBase
-              name="find_title"
-              id="blog-title"
-              placeholder="Search Blogs"
+            <CustomInput
+              name="find_question"
+              id="question-name"
               fullWidth
-              value={query.find_title}
+              placeholder="Search FAQs"
+              value={query.find_question}
               onChange={this.handleQueryChange}
             />
-            <Divider style={{ width: 1, height: 40, margin: 4 }} />
+            <Divider
+              style={{
+                width: 1,
+                height: 40,
+                margin: 4,
+              }}
+            />
             <IconButton aria-label="Search" onClick={this.handleSearch}>
               <SearchIcon />
             </IconButton>
@@ -142,12 +153,11 @@ export class BlogManagePage extends React.Component {
           >
             <Table
               tableHead={[
-                'Title',
+                'Question',
+                'Answer',
                 'Category',
-                'Published On',
                 'Added At',
-                'Is Published',
-                'Is Active'
+                'Updated At',
               ]}
               tableData={tableData}
               pagination={tablePagination}
@@ -170,9 +180,12 @@ export class BlogManagePage extends React.Component {
   }
 }
 
+FAQManagePage.propTypes = {
+  loadAllRequest: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
-  category: makeSelectCategory(),
   query: makeSelectQuery(),
 });
 
@@ -181,8 +194,8 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-const withReducer = injectReducer({ key: 'blogManagePage', reducer });
-const withSaga = injectSaga({ key: 'blogManagePage', saga });
+const withReducer = injectReducer({ key: 'faqManagePage', reducer });
+const withSaga = injectSaga({ key: 'faqManagePage', saga });
 
 const withStyle = withStyles(styles);
 
@@ -192,4 +205,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(BlogManagePage);
+)(FAQManagePage);
