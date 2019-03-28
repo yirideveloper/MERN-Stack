@@ -4,6 +4,10 @@ export const setQueryValue = payload => ({
   type: types.SET_QUERY_VALUE,
   payload,
 });
+export const clearOne = payload => ({
+  type: types.CLEAR_ONE,
+  payload,
+});
 export const setOneValue = payload => ({
   type: types.SET_ONE_VALUE,
   payload,
