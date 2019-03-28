@@ -6,6 +6,7 @@ import {
   take,
   cancel,
 } from 'redux-saga/effects';
+import { fromJS } from 'immutable';
 import Api from 'utils/Api';
 import { LOCATION_CHANGE, push } from 'connected-react-router';
 import * as types from './constants';
@@ -24,8 +25,6 @@ export const validate = data => {
   const errors = {};
   if (!data.email) errors.email = 'email is required';
   if (!data.password) errors.password = 'password is required';
-  if (!data.gender) errors.gender = 'gender is required';
-  if (!data.name) errors.name = 'name is required';
   return { errors, isValid: !Object.keys(errors).length };
 };
 
@@ -62,7 +61,9 @@ export function* signupAction(action) {
     yield take([LOCATION_CHANGE, types.SIGNUP_FAILURE]);
     yield cancel(successWatcher);
   } else {
-    yield put(actions.setStoreValue({ key: 'errors', value: errors.errors }));
+    yield put(
+      actions.setStoreValue({ key: 'errors', value: fromJS(errors.errors) }),
+    );
   }
 }
 
