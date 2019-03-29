@@ -46,9 +46,3 @@ export const makeSelectMedia = () =>
     selectGlobal,
     state => state.media,
   );
-
-export const makeSelectNotifications = () =>
-  createSelector(
-    selectGlobal,
-    state => state.notifications,
-  );
