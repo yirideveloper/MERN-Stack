@@ -14,7 +14,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TrashIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import { Grid } from '@material-ui/core';
 
 const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
@@ -35,18 +34,11 @@ const styles = {
     marginBottom: '3px',
     textDecoration: 'none',
   },
-  box: {
-    padding: 20,
-    border: '1px solid #ccc',
-    marginBottom: 20,
-    borderRadius: 6,
-  },
 };
 
 const Path = props => {
   const {
     each,
-    classes,
     pathIndex,
     handleAccessTypeChange,
     handleAdminRoutesChange,
@@ -59,126 +51,120 @@ const Path = props => {
     handleRemovePath,
   } = props;
   return (
-    <section className={classes.box}>
+    <Card>
       <Grid container spacing={24}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            margin="normal"
-            className="mt-0"
-            label="Access Type"
-            id={`${each._id}-access-type-${pathIndex}`}
-            value={each.access_type}
-            onChange={handleAccessTypeChange(pathIndex)}
-          />
-        </Grid>
-        <Grid className="justify-end" item xs={12} md={6}>
-          <Button
-            size="sm"
-            className=""
-            aria-label="Delete"
-            onClick={handleRemovePath(pathIndex)}
-          >
-            Delete Access Type
-          </Button>
-        </Grid>
+<Grid item xs={12}>
+      <TextField
+        className="mt-0"
+        label="Access Type"
+        id={`${each._id}-access-type-${pathIndex}`}
+        value={each.access_type}
+        onChange={handleAccessTypeChange(pathIndex)}
+      />
       </Grid>
-      <Grid container spacing={24}>
-        <Grid item xs={12} md={5}>
-          {(each.admin_routes || []).map((eachAdminRoute, index) => (
-            <div key={`${each._id}-${pathIndex}-each-admin-route-${index}`}>
-              <TextField
-                fullWidth
-                margin="normal"
-                label="Client Route"
-                id={`${each._id}-each-admin-route-access-type-${index}`}
-                value={eachAdminRoute}
-                onChange={handleAdminRoutesChange(pathIndex, index)}
-              />
-              <IconButton
-                aria-label="Delete client route"
-                onClick={handleRemoveAdminRoute(pathIndex, index)}
-              >
-                <TrashIcon fontSize="small" />
-              </IconButton>
-            </div>
-          ))}
-          <Button
-            size="small"
-            aria-label="Add Client Route"
-            onClick={handleAddAdminRoute(pathIndex)}
-          >
-            Add Client Route
-          </Button>
-        </Grid>
-        <Grid item xs={12} md={5}>
-          {(each.server_routes || []).map((eachServerRoute, index) => (
-            <div
-              key={`${each._id}-${pathIndex}-${
-                eachServerRoute._id
-              }-each-server-route-${index}`}
+      <Grid item xs={12}>
+      <ul className="customUL">
+        {(each.admin_routes || []).map((eachAdminRoute, index) => (
+          <li key={`${each._id}-${pathIndex}-each-admin-route-${index}`}>
+            <TextField
+              label="Client Route"
+              id={`${each._id}-each-admin-route-access-type-${index}`}
+              value={eachAdminRoute}
+              onChange={handleAdminRoutesChange(pathIndex, index)}
+            />
+            <IconButton
+              aria-label="Delete client route"
+              onClick={handleRemoveAdminRoute(pathIndex, index)}
             >
-              <FormControl className="selectbox methodInput">
-                <InputLabel
-                  htmlFor={`${each._id}-${
-                    eachServerRoute._id
-                  }-each-server-route-${index}-method`}
-                >
-                  Method
-                </InputLabel>
-
-                <Select
-                  placeholder="Method"
-                  value={eachServerRoute.method}
-                  onChange={handleServerRoutesMethodChange(pathIndex, index)}
-                  inputProps={{
-                    name: 'Method',
-                    id: `${each._id}-${
-                      eachServerRoute._id
-                    }-each-server-route-${index}-method`,
-                  }}
-                >
-                  {methods.map(eachMethod => (
-                    <MenuItem
-                      key={`${eachMethod._id}-${pathIndex}-${
-                        eachServerRoute._id
-                      }-each-server-route-method-${eachMethod}`}
-                      value={eachMethod}
-                    >
-                      {eachMethod}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <TextField
-                label="Server Route"
-                id={`${each._id}-${
-                  eachServerRoute._id
-                }-each-admin-server-route-route-access-type-${index}`}
-                inputProps={{
-                  value: eachServerRoute.route,
-                  onChange: handleServerRoutesRouteChange(pathIndex, index),
-                }}
-              />
-              <IconButton
-                aria-label="Delete Server Route"
-                onClick={handleRemoveServerRoute(pathIndex, index)}
-              >
-                <TrashIcon fontSize="small" />
-              </IconButton>
-            </div>
-          ))}
-
-          <Button
-            size="small"
-            aria-label="Add Server Route"
-            onClick={handleAddServerRoute(pathIndex)}
-          >
-            Add Server Route
-          </Button>
-        </Grid>
+              <TrashIcon fontSize="small" />
+            </IconButton>
+          </li>
+        ))}
+      </ul>
+      <Button
+        size="small"
+        aria-label="Add Client Route"
+        onClick={handleAddAdminRoute(pathIndex)}
+      >
+        Add Client Route
+      </Button>
       </Grid>
-    </section>
+      <Grid item xs={12}>
+      <ul className="customUL">
+        {(each.server_routes || []).map((eachServerRoute, index) => (
+          <li
+            key={`${each._id}-${pathIndex}-${
+              eachServerRoute._id
+            }-each-server-route-${index}`}
+          >
+            <FormControl className="selectbox methodInput">
+              <InputLabel
+                htmlFor={`${each._id}-${
+                  eachServerRoute._id
+                }-each-server-route-${index}-method`}
+              >
+                Method
+              </InputLabel>
+
+              <Select
+                placeholder="Method"
+                value={eachServerRoute.method}
+                onChange={handleServerRoutesMethodChange(pathIndex, index)}
+                inputProps={{
+                  name: 'Method',
+                  id: `${each._id}-${
+                    eachServerRoute._id
+                  }-each-server-route-${index}-method`,
+                }}
+              >
+                {methods.map(eachMethod => (
+                  <MenuItem
+                    key={`${eachMethod._id}-${pathIndex}-${
+                      eachServerRoute._id
+                    }-each-server-route-method-${eachMethod}`}
+                    value={eachMethod}
+                  >
+                    {eachMethod}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              label="Server Route"
+              id={`${each._id}-${
+                eachServerRoute._id
+              }-each-admin-server-route-route-access-type-${index}`}
+              inputProps={{
+                value: eachServerRoute.route,
+                onChange: handleServerRoutesRouteChange(pathIndex, index),
+              }}
+            />
+            <IconButton
+              aria-label="Delete Server Route"
+              onClick={handleRemoveServerRoute(pathIndex, index)}
+            >
+              <TrashIcon fontSize="small" />
+            </IconButton>
+          </li>
+        ))}
+      </ul>
+    
+      <Button
+        size="small"
+        aria-label="Add Server Route"
+        onClick={handleAddServerRoute(pathIndex)}
+      >
+        Add Server Route
+      </Button></Grid></Grid>
+      <IconButton
+        className="btn-circle"
+        color="secondary"
+        aria-label="Delete"
+        onClick={handleRemovePath(pathIndex)}
+      >
+        <TrashIcon size="small" />
+      </IconButton> 
+    </Card>
   );
 };
 
