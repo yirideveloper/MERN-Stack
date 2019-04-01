@@ -111,15 +111,11 @@ class AddEdit extends React.PureComponent {
                   name="Blog Title"
                   id="blog-title"
                   fullWidth
-                  label="Title"
+                  placeholder="title of the blog"
                   inputProps={{
                     value: one.title,
                     onChange: this.handleChange('title'),
                   }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  margin="normal"
                 />
               </div>
               <div>

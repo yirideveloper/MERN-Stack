@@ -14,7 +14,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import jwtDecode from 'jwt-decode';
-
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
 
@@ -77,7 +76,7 @@ const theme = createMuiTheme({
     useNextVariants: true,
   },
   // palette: {
-  //   primary: '#333',
+  //   primary: pink,
   // },
 });
 

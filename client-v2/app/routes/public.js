@@ -7,8 +7,9 @@ import FaqPage from '../containers/FAQPage/Loadable';
 import BlogListPage from '../containers/BlogList/Loadable';
 import CategoryListingPage from '../containers/CategoryListingPage/Loadable';
 import CategoryDetailPage from '../containers/CategoryDetailPage/Loadable';
-import ContactPage from '../containers/ContactPage/index';
-import SubscribePage from '../containers/SubscribePage/index';
+import AboutUsPage from '../containers/AboutUsPage/Loadable';
+import BlogDetailPage from '../containers/BlogPage/Loadable';
+import ContactUsPage from '../containers/ContactUs/Loadable';
 
 const publicRoutes = [
   {
@@ -56,26 +57,22 @@ const publicRoutes = [
     path: '/blog-category/:id',
     component: CategoryDetailPage,
   },
+
   {
     exact: true,
-    path: '/contact',
-    component: ContactPage,
+    path: '/blog/:id',
+    component: BlogDetailPage,
   },
   {
     exact: true,
-    path: '/subscribe',
-    component: SubscribePage,
+    path: '/about-us',
+    component: AboutUsPage,
   },
-  // {
-  //   exact: true,
-  //   path: '/about-us',
-  //   component: AboutUs,
-  // },
-  // {
-  //   exact: true,
-  //   path: '/videos',
-  //   component: Videos,
-  // },
+  {
+    exact: true,
+    path: '/contact-us',
+    component: ContactUsPage,
+  },
   // {
   //   exact: true,
   //   path: '/video/:id',
