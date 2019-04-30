@@ -39,7 +39,7 @@ const MainListItems = ({ classes, location: { pathname } }) => {
   const [openFirstSet, setOpenFirstSet] = useState(false);
   const [openSecondSet, setOpenSecondSet] = useState(false);
   const [openThirdSet, setOpenThirdSet] = useState(false);
-  const [openFourthSet, setOpenFourthSet] = useState(false);
+  const [openFourSet, setOpenFourSet] = useState(false);
 
   const handleFirstSetClick = () => {
     setOpenFirstSet(openFirstSetVal => !openFirstSetVal);
@@ -50,13 +50,13 @@ const MainListItems = ({ classes, location: { pathname } }) => {
   const handleThirdSetClick = () => {
     setOpenThirdSet(openThirdSetVal => !openThirdSetVal);
   };
-  const handleFourthSetClick = () => {
-    setOpenFourthSet(openFourthSetVal => !openFourthSetVal);
+  const handleFourSetClick = () => {
+    setOpenFourSet(openFourSetVal => !openFourSetVal);
   };
 
   return (
     <List component="nav">
-      <Link to="/admin/dashboard">
+      <Link to="/admin/dashboard" className={classes.nested}>
         <ListItem button selected={pathname === '/admin/dashboard'}>
           <ListItemIcon>
             <DashboardIcon />
@@ -213,14 +213,14 @@ const MainListItems = ({ classes, location: { pathname } }) => {
           </Link>
         </List>
       </Collapse>
-      <ListItem button onClick={handleFourthSetClick}>
+      <ListItem button onClick={handleFourSetClick}>
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
         <ListItemText inset primary="Reports" />
-        {openFourthSet ? <ExpandLess /> : <ExpandMore />}
+        {openFourSet ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Collapse in={openFourthSet} timeout="auto" unmountOnExit>
+      <Collapse in={openFourSet} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <Link to="/admin/reports" className={classes.nested}>
             <ListItem button selected={pathname === '/admin/reports'}>
