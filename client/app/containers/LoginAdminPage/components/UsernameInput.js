@@ -19,11 +19,6 @@ const EmailInput = props => {
       name="username"
       onChange={handleChange}
       margin="normal"
-      variant="outlined"
-      fullWidth
-      InputLabelProps={{
-        shrink:true
-      }}
     />
   );
 };

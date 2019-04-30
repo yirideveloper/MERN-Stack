@@ -27,8 +27,6 @@ import { makeSelectOne, makeSelectCategory } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
-import ArrowBack from '@material-ui/icons/ArrowBack';
-
 
 const styles = theme => ({
   p20: { padding: 20 },
@@ -88,9 +86,7 @@ class AddEdit extends React.PureComponent {
     // const { data, category_id } = this.state;
     return (
       <div>
-        <PageHeader>
-        <ArrowBack className="cursor-pointer" onClick={this.handleGoBack}/>
-         </PageHeader>
+        <PageHeader> Add/Edit FAQs</PageHeader>
         <PageContent>
           <Grid container>
             <Grid item xs={12} md={6}>
@@ -108,8 +104,6 @@ class AddEdit extends React.PureComponent {
                 }}
               />
               <TextField
-                multiline
-                rows="5"
                 name="Answer"
                 id="faq-answer"
                 label="Answer"
@@ -125,7 +119,7 @@ class AddEdit extends React.PureComponent {
 
               <TextField
                 select
-                label="Select Category"
+                label="Select"
                 value={one.category}
                 onChange={this.handleChange('category')}
                 onChange={this.handleChange('currency')}
@@ -149,15 +143,19 @@ class AddEdit extends React.PureComponent {
               </TextField>
 
               <Button
-              className="mt-4"
-                fullWidth
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 onClick={this.handleSave}
               >
                 Save
               </Button>
-              
+              {/* <Button
+              variant="contained"
+              color="secondary"
+              onClick={this.handleGoBack}
+            >
+              Back
+            </Button> */}
             </Grid>
           </Grid>
         </PageContent>

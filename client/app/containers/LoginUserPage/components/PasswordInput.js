@@ -29,11 +29,6 @@ const PasswordInput = props => {
     <FormControl
       className={`${classes.margin} ${classes.textField}`}
       error={hasError}
-      variant="outlined"
-      fullWidth
-      InputLabelProps={{
-        shrink: true,
-      }}
     >
       <InputLabel htmlFor="adornment-password">
         {error || 'Password'}
