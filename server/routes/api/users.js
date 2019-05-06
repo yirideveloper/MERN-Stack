@@ -65,21 +65,35 @@ router.post('/', userModule.CheckMail);
  * @description Register user route
  * @access Public
  */
-router.post('/register', validateRegisterInput.sanitizeRegister, validateRegisterInput.validateRegisterInput, getClientInfo, userModule.Register);
+router.post('/register', validateRegisterInput.sanitizeRegister, validateRegisterInput.validateRegisterInput, userModule.Register);
 
 /**
- * @route POST api/user/login/google/
+ * @route POST api/user/login/google
+ * @description Register/login user route
+ * @access Public
+ */
+router.get('/login/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+
+/**
+ * @route POST api/user/callback/goauth
  * @description Register user route
  * @access Public
  */
-router.post('/login/google/', getClientInfo, passport.authenticate('google-token'), userModule.loginGOath);
+router.get('/callback/goauth/', getClientInfo, passport.authenticate('google'), userModule.loginGOath);
 
 /**
- * @route POST api/user/login/facebook/
+ * @route POST api/user/login/facebook
+ * @description Register/login user route
+ * @access Public
+ */
+router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+
+/**
+ * @route POST api/user/callback/facebook
  * @description Register user route
  * @access Public
  */
-router.post('/login/facebook/', getClientInfo, passport.authenticate('facebook-token'), userModule.loginGOath);
+router.get('/callback/facebook', getClientInfo, passport.authenticate('facebook'), userModule.loginGOath);
 
 /**
  * @route POST api/user/register
