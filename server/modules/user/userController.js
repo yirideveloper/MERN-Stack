@@ -100,7 +100,7 @@ userController.GetUserDetail = async (req, res, next) => {
   }
 };
 
-userController.Register = async (req, res) => {
+userController.Register = async (req, res, next) => {
   const user = await users.findOne({ email: req.body.email });
   if (user) {
     const errors = { email: 'Email already exists' };
@@ -153,13 +153,30 @@ userController.Register = async (req, res) => {
           roles: user.roles,
           gender: user.gender,
         };
+
+        let accesses = await accessSch.find({ role_id: user.roles, is_active: true }, { access_type: 1, _id: 0 });
+
+        let routes = [];
+        if (accesses && accesses.length) {
+          const access = accesses.map(a => a.access_type).reduce((acc, curr) => [...curr, ...acc]);
+          const routers = await moduleSch.find({ 'path._id': access }, { 'path.admin_routes': 1, 'path.access_type': 1 });
+          for (let i = 0; i < routers.length; i++) {
+            for (let j = 0; j < routers[i].path.length; j++) {
+              // for (let k = 0; k < routers[i].Path[j].AdminRoutes.length; k++) {
+              routes.push(routers[i].path[j]);
+              // }
+            }
+          }
+        }
+
         // Sign Token
-        jwt.sign(payload, secretOrKey, { expiresIn: tokenExpireTime }, (err, token) => {
-          loginlogs.addloginlog(req, token, next);
-          const msg = config.registerUser;
-          token = `Bearer ${token}`;
-          return otherHelper.sendResponse(res, httpStatus.OK, true, payload, null, msg, token);
+        let token = jwt.sign(payload, secretOrKey, {
+          expiresIn: tokenExpireTime,
         });
+        await loginlogs.addloginlog(req, token, next);
+        token = `Bearer ${token}`;
+        payload.routes = routes;
+        return otherHelper.sendResponse(res, httpStatus.OK, true, payload, null, null, token);
       });
     });
   }
@@ -172,7 +189,16 @@ userController.RegisterFromAdmin = async (req, res, next) => {
       const data = { email: req.body.email };
       return otherHelper.sendResponse(res, httpStatus.CONFLICT, false, data, errors, errors.email, null);
     } else {
-      if (req.file && req.file[0]) {
+      if (req.file) {
+        req.file.destination =
+          req.file.destination
+            .split('\\')
+            .join('/')
+            .split('server/')[1] + '/';
+        req.file.path = req.file.path
+          .split('\\')
+          .join('/')
+          .split('server/')[1];
         req.body.image = req.file;
       }
       const { name, email, password, date_of_birth, bio, location, phone, description, is_active, email_verified, roles, image, company_name, company_location, company_established, company_phone_no } = req.body;
@@ -214,7 +240,20 @@ userController.UpdateUserDetail = async (req, res, next) => {
 
     let newdatas = { name, date_of_birth, email_verified, roles, bio, description, phone, location, company_name, company_location, company_established, company_phone_no, updated_at: new Date() };
 
+    // if (req.file) {
+    //   newdatas.image = req.file;
+    // }
+
     if (req.file) {
+      req.file.destination =
+        req.file.destination
+          .split('\\')
+          .join('/')
+          .split('server/')[1] + '/';
+      req.file.path = req.file.path
+        .split('\\')
+        .join('/')
+        .split('server/')[1];
       newdatas.image = req.file;
     }
 
@@ -474,12 +513,24 @@ userController.GetProfile = async (req, res, next) => {
 
 userController.postProfile = async (req, res, next) => {
   try {
-    const { name, date_of_birth, bio, description, phone, location, company_name, company_location, company_established, company_phone_no } = req.body;
-    const updateUser = await users.findByIdAndUpdate(req.user.id, { $set: { name, date_of_birth, bio, description, phone, location, company_name, company_location, company_established, company_phone_no, updated_at: new Date() } }, { new: true });
+    if (req.file) {
+      req.file.destination =
+        req.file.destination
+          .split('\\')
+          .join('/')
+          .split('server/')[1] + '/';
+      req.file.path = req.file.path
+        .split('\\')
+        .join('/')
+        .split('server/')[1];
+      req.body.image = req.file;
+    }
+    const { name, date_of_birth, bio, description, image, phone, location, company_name, company_location, company_established, company_phone_no } = req.body;
+    const updateUser = await users.findByIdAndUpdate(req.user.id, { $set: { name, date_of_birth, bio, image, description, phone, location, company_name, company_location, company_established, company_phone_no, updated_at: new Date() } }, { new: true });
     const msg = 'User Update Success';
     const msgfail = 'User not found.';
     if (updateUser) {
-      return otherHelper.sendResponse(res, httpStatus.OK, true, { name, date_of_birth, bio, description, phone, location, company_name, company_location, company_established, company_phone_no }, null, msg, null);
+      return otherHelper.sendResponse(res, httpStatus.OK, true, { name, date_of_birth, bio, image, description, phone, location, company_name, company_location, company_established, company_phone_no }, null, msg, null);
     } else {
       return otherHelper.sendResponse(res, httpStatus.NOT_FOUND, false, null, null, msgfail, null);
     }
