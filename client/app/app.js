@@ -32,9 +32,10 @@ import 'file-loader?name=.htaccess!./.htaccess';
 // Import root app
 import App from './containers/App';
 import { setUser, setToken } from './containers/App/actions';
-import './assets/tailwind.min.css';
 
 import configureStore from './configureStore';
+
+import './styles.css';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
