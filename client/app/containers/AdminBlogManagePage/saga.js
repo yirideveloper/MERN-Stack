@@ -70,17 +70,16 @@ function* redirectOnSuccess() {
   yield put(push('/admin/blog-manage'));
 }
 
-function* addEdit() {
+function* addEdit(action) {
   const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
   const data = yield select(makeSelectOne());
   yield fork(
-    Api.multipartPost(
+    Api.post(
       'blog',
       actions.addEditSuccess,
       actions.addEditFailure,
       data,
-      { file: data.image },
       token,
     ),
   );

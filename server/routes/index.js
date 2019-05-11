@@ -42,8 +42,5 @@ router.use('/subscribe', subscribeRoutes);
 // All route of Static Data from DB Module
 const staticRoutes = require('./api/static');
 router.use('/static', staticRoutes);
-// All route of templates (email)
-const template = require('./api/template');
-router.use('/template', template);
 
 module.exports = router;

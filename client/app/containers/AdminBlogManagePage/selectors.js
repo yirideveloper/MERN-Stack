@@ -27,13 +27,3 @@ export const makeSelectQuery = () =>
     selectDomain,
     state => state.query,
   );
-export const makeSelectChip = () =>
-  createSelector(
-    selectDomain,
-    state => state.chipData,
-  );
-export const makeSelectTag = () =>
-  createSelector(
-    selectDomain,
-    state => state.tempTag,
-  );

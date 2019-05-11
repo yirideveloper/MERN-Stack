@@ -15,8 +15,7 @@ import Edit from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import Close from '@material-ui/icons/Close';
 import Fab from '@material-ui/core/Fab';
-import { Paper, Divider } from '@material-ui/core';
-import CustomInput from '@material-ui/core/Input';
+import { Paper, InputBase, Divider } from '@material-ui/core';
 
 // core components
 import Table from 'components/Table';
@@ -91,16 +90,14 @@ export class BlogManagePage extends React.Component {
       query,
     } = this.props;
     const tablePagination = { page, size, totaldata };
-    const tableData = data.map(({ title, category, image, published_on, added_at, is_published, is_active, tags, author, _id }) => [
+    const tableData = data.map(({ title, category, published_on, added_at, is_published, is_active, _id }) => [
       title,
       (category && category.title) || 'No',
-      (image && image.fieldname) || null,
       moment(published_on).format('MMM Do YY'),
+
       moment(added_at).format('MMM Do YY'),
       '' + is_published,
       '' + is_active,
-      tags.join(','),
-      author || '',
       <React.Fragment>
         <Tooltip id="tooltip-top" title="Edit Task" placement="top" classes={{ tooltip: classes.tooltip }}>
           <IconButton aria-label="Edit" className={classes.tableActionButton} onClick={() => this.handleEdit(_id)}>
@@ -118,50 +115,29 @@ export class BlogManagePage extends React.Component {
       <>
         <PageHeader>Blog Manage</PageHeader>
         <PageContent>
-        <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
-            <CustomInput
+          {/* <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
+            <InputBase
               name="find_title"
               id="blog-title"
-              fullWidth
               placeholder="Search Blogs"
+              fullWidth
               value={query.find_title}
               onChange={this.handleQueryChange}
             />
-            <Divider
-              style={{
-                width: 1,
-                height: 40,
-                margin: 4,
-              }}
-            />
+            <Divider style={{ width: 1, height: 40, margin: 4 }} />
             <IconButton aria-label="Search" onClick={this.handleSearch}>
               <SearchIcon />
             </IconButton>
           </Paper>
-          <br />
-          <Paper
-            style={{
-              padding: 0,
-              overflow: 'auto',
-              borderRadius: 4,
-              boxShadow: '0 0 0 1px rgba(0,0,0,.2)',
-              display: 'flex',
-            }}
-            elevation={0}
-          />
+          <br /> */}
             <Table
               tableHead={[
                 'Title',
                 'Category',
-                'Image',
                 'Published On',
                 'Added At',
                 'Is Published',
-                'Is Active',
-                'Tags',
-                'Author',
-                'Actions',
-                ''
+                'Is Active'
               ]}
               tableData={tableData}
               pagination={tablePagination}
