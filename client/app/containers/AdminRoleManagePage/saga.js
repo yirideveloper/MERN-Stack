@@ -44,25 +44,6 @@ function* loadOne(action) {
     ),
   );
 }
-function* redirectOnDelete() {
-  yield take(types.DELETE_ONE_SUCCESS);
-  yield put(push('/admin/role-manage'));
-}
-
-function* deleteOne(action) {
-  const deleteWatcher = yield fork(redirectOnDelete);
-  const token = yield select(makeSelectToken());
-  yield call(
-    Api.delete(
-      `role/role/${action.payload}`,
-      actions.deleteOneSuccess,
-      actions.deleteOneFailure,
-      token,
-    ),
-  );
-  yield take([LOCATION_CHANGE, types.DELETE_ONE_FAILURE]);
-  yield cancel(deleteWatcher);
-}
 
 function* redirectOnSuccess() {
   yield take(types.ADD_EDIT_SUCCESS);
@@ -90,5 +71,4 @@ export default function* adminRoleManageSaga() {
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
-  yield takeLatest(types.DELETE_ONE_REQUEST, deleteOne);
 }

@@ -38,12 +38,10 @@ roleController.GetRoles = async (req, res, next) => {
     }
   }
 
-  searchq = { is_deleted: false };
-
   if (req.query.find_role_title) {
-    searchq = { role_title: { $regex: req.query.find_role_title, $options: 'i' }, ...searchq };
+    searchq = { role_title: { $regex: req.query.find_role_title, $options: 'i x' }, ...searchq };
   }
-  selectq = 'role_title description is_active is_deleted';
+  selectq = 'role_title description is_active';
 
   let datas = await otherHelper.getquerySendResponse(roleSch, page, size, sortq, searchq, selectq, next, '');
 
@@ -65,15 +63,6 @@ roleController.AddRoles = async (req, res, next) => {
       await newRole.save();
       return otherHelper.sendResponse(res, httpStatus.OK, true, newRole, null, roleConfig.roleSave, null);
     }
-  } catch (err) {
-    next(err);
-  }
-};
-roleController.DeleteRole = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const deleted = await roleSch.findByIdAndUpdate(id, { $set: { is_deleted: true, deleted_at: new Date() } });
-    return otherHelper.sendResponse(res, httpStatus.OK, true, deleted, null, 'role delete success', null);
   } catch (err) {
     next(err);
   }

@@ -57,7 +57,7 @@ function* addEdit() {
   const { users } = yield select(makeSelectOne());
   yield fork(
     Api.post(
-      'user/change',
+      'user',
       actions.addEditSuccess,
       actions.addEditFailure,
       users,

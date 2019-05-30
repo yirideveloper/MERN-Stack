@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Paper from '@material-ui/core/Paper';
-import Close from '@material-ui/icons/Close';
 import { Fab, IconButton } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -60,10 +59,6 @@ export class AdminRoleManage extends React.PureComponent {
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
   };
-  handleDelete = id => {
-    confirm("Are you sure you want to delete this role??");
-    this.props.deleteOneRequest(id);
-  };
 
   render() {
     const {
@@ -84,11 +79,6 @@ export class AdminRoleManage extends React.PureComponent {
               onClick={() => this.handleEdit(_id)}
             >
               <CreateIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip id="tooltip-top-start" title="Remove" placement="top" classes={{ tooltip: classes.tooltip }}>
-            <IconButton aria-label="Close" className={classes.tableActionButton} onClick={() => this.handleDelete(_id)}>
-              <Close className={classes.tableActionButtonIcon + ' ' + classes.close} />
             </IconButton>
           </Tooltip>
         </>,
