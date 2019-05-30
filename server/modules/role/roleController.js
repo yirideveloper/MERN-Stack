@@ -13,6 +13,11 @@ roleController.GetRoles = async (req, res, next) => {
   let searchq;
   let sortq;
   let selectq;
+  if(req.query.page && req.query.page==0){
+    selectq = 'role_title description is_active is_deleted';
+    const roles = await roleSch.find({is_deleted: false}).select(selectq);
+    return otherHelper.sendResponse(res, httpStatus.OK, true, roles, null, 'all roles get success!!', null);
+  }
   if (req.query.page && !isNaN(req.query.page) && req.query.page != 0) {
     page = Math.abs(req.query.page);
   } else {
@@ -38,10 +43,12 @@ roleController.GetRoles = async (req, res, next) => {
     }
   }
 
+  searchq = { is_deleted: false };
+
   if (req.query.find_role_title) {
-    searchq = { role_title: { $regex: req.query.find_role_title, $options: 'i x' }, ...searchq };
+    searchq = { role_title: { $regex: req.query.find_role_title, $options: 'i' }, ...searchq };
   }
-  selectq = 'role_title description is_active';
+  selectq = 'role_title description is_active is_deleted';
 
   let datas = await otherHelper.getquerySendResponse(roleSch, page, size, sortq, searchq, selectq, next, '');
 
@@ -63,6 +70,15 @@ roleController.AddRoles = async (req, res, next) => {
       await newRole.save();
       return otherHelper.sendResponse(res, httpStatus.OK, true, newRole, null, roleConfig.roleSave, null);
     }
+  } catch (err) {
+    next(err);
+  }
+};
+roleController.DeleteRole = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const deleted = await roleSch.findByIdAndUpdate(id, { $set: { is_deleted: true, deleted_at: new Date() } });
+    return otherHelper.sendResponse(res, httpStatus.OK, true, deleted, null, 'role delete success', null);
   } catch (err) {
     next(err);
   }

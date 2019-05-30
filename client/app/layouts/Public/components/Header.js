@@ -41,34 +41,31 @@ const Header = props => {
   };
 
   return (
-    <header className="WaftHeader border-b lg:border-b">
-    <div className="px-4 pt-2 flex justify-between flex-wrap relative lg:pb-2">
-      <div className="px-5 w-full logo mt-2 md:w-1/2 lg:w-auto">
+    <header className="">
+      <div className="container mx-auto pt-2 pb-2 border-b flex justify-between">
         <Link to="/">
           <img src={logo} alt="WaftEngine" />
         </Link>
-        </div>
 
         {!token ? (
-           <div className="w-full text-base flex justify-end header_right pb-2 border-b px-5 md:w-1/2 md:border-b-0 md:pb-0 lg:w-auto">
-          
+          <div>
             <button
               onClick={redirectToRegister}
-              className="items-center hover:text-primary"
+              className="bg-grey-lighter hover:bg-grey-light text-red py-2 px-4 rounded text-sm mr-2"
             >
-              Register <span className="ml-2 mr-2"> | </span>
+              Register
             </button>
             <button
               onClick={redirectToLogin}
-              className="items-center hover:text-primary"
+              className="bg-red text-white py-2 px-4 rounded text-sm"
             >
               Login
             </button>
           </div>
         ) : (
-          <div className="w-full text-base flex justify-end header_right pb-2 border-b px-5 md:w-1/2 md:border-b-0 md:pb-0 lg:w-auto">
+          <div className={classes.topRightWrapper}>
             <button className={classes.dropDown} onClick={handleMenu}>
-            <span className="ml-2 mr-2">{user.name}</span>
+              <span>{user.name}</span>
               <AccountCircle />
             </button>
             <Menu

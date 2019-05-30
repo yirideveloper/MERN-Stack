@@ -126,8 +126,6 @@ const colors = {
   // 'pink-light': '#fa7ea8',
   // 'pink-lighter': '#ffbbca',
   // 'pink-lightest': '#ffebef',
-
-  waftprimary :'#FF3B30',
 };
 
 module.exports = {
