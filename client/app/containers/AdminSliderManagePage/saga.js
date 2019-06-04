@@ -40,20 +40,8 @@ function* loadAll(action) {
 }
 function* loadMedia(action) {
   const token = yield select(makeSelectToken());
-  let query = '';
-  if (action.payload) {
-    Object.keys(action.payload).map(each => {
-      query = `${query}&${each}=${action.payload[each]}`;
-      return null;
-    });
-  }
   yield call(
-    Api.get(
-      `media?${query}`,
-      actions.loadMediaSuccess,
-      actions.loadMediaFailure,
-      token,
-    ),
+    Api.get('media', actions.loadMediaSuccess, actions.loadMediaFailure, token),
   );
 }
 

@@ -11,7 +11,7 @@ import { IMAGE_BASE } from 'containers/App/constants';
 import defaultImage from 'assets/img/logo.svg';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectBlogList, makeSelectLoading } from './selectors';
+import { makeSelectBlogList } from './selectors';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
@@ -28,11 +28,9 @@ export class BlogListPage extends React.Component {
   }
 
   render() {
-    const { blogList, loading } = this.props;
+    const { blogList } = this.props;
 
-    return loading && loading == true ? (
-      <div>loading</div>
-    ) : (
+    return (
       <div>
         <div>
           <h1>Blogs</h1>
@@ -81,11 +79,14 @@ export class BlogListPage extends React.Component {
                         <img src={blogImage} width="200px" />
                       </div>
                     </Link>
-                    <Link to={`/blog/${each._id}`}>
-                      <div className="companyItem">
-                        <div>tags: {tags || ''}</div>
-                      </div>
-                    </Link>
+                    <div>
+                      Tags:
+                      <Link to={`/blog/${each._id}`}>
+                        <div className="companyItem">
+                          <div>{tags || ''}</div>
+                        </div>
+                      </Link>{' '}
+                    </div>
                   </Grid>
                 );
               })}
@@ -107,7 +108,6 @@ const withSaga = injectSaga({ key: 'blogList', saga });
 
 const mapStateToProps = createStructuredSelector({
   blogList: makeSelectBlogList(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

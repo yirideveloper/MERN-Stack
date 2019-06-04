@@ -27,11 +27,7 @@ import Divider from '@material-ui/core/Divider';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import {
-  makeSelectAll,
-  makeSelectQuery,
-  makeSelectLoading,
-} from './selectors';
+import { makeSelectAll, makeSelectQuery } from './selectors';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
@@ -73,7 +69,7 @@ export class AdminBlogCategoryManagePage extends React.PureComponent {
 
   handleSearch = () => {
     this.props.loadAllRequest(this.props.query);
-  };
+  }
 
   handleEdit = id => {
     this.props.push(`/admin/blogCat-manage/edit/${id}`);
@@ -88,12 +84,12 @@ export class AdminBlogCategoryManagePage extends React.PureComponent {
     this.props.push('/admin/blogCat-manage/add');
   };
 
+
   render() {
     const { classes } = this.props;
     const {
       all: { data, page, size, totaldata },
       query,
-      loading,
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
@@ -122,9 +118,7 @@ export class AdminBlogCategoryManagePage extends React.PureComponent {
         </>,
       ],
     );
-    return loading && loading == true ? (
-      <div>loading</div>
-    ) : (
+    return (
       <>
         <PageHeader>Blog Category Manage</PageHeader>
         <PageContent>
@@ -191,7 +185,6 @@ export class AdminBlogCategoryManagePage extends React.PureComponent {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

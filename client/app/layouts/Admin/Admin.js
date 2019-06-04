@@ -4,9 +4,6 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { push } from 'connected-react-router';
-
 import { withStyles } from '@material-ui/core/styles';
 // import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -28,67 +25,14 @@ import routes from '../../routes/admin';
 
 import NotFoundPage from '../../containers/NotFoundPage/Loadable';
 
-const switchRoutes = roles => {
-  // is SuperAdmin?
-  const isSuperAdmin = roles.includes('5bf7ae3694db051f5486f845');
-  // is Admin?
-  const isAdmin = roles.includes('5bf7af0a736db01f8fa21a25');
-  // is NormalUser?
-  const isNormalUser = roles.includes('5bf7ae90736db01f8fa21a24');
-  // is Guest?
-  const isGuest = roles.includes('5ce126fcdd1e3e3b0c8a36aa');
-
-  const route = window.localStorage.getItem('routes');
-  const arr = JSON.parse(route);
-  const availableRoutes = arr;
-
-  if (isSuperAdmin) {
-    return (
-      <Switch>
-        {routes.map(prop => (
-          <Route key={prop.path} {...prop} />
-        ))}
-        <Route component={NotFoundPage} />
-      </Switch>
-    );
-  }
-  if (isAdmin) {
-    return (
-      <Switch>
-        {routes
-          .filter(each => availableRoutes.includes(each.path))
-          .map(prop => (
-            <Route key={prop.path} {...prop} />
-          ))}
-        <Route component={NotFoundPage} />
-      </Switch>
-    );
-  }
-  if (isNormalUser) {
-    return (
-      <Switch>
-        {routes
-          .filter(each => availableRoutes.includes(each.path))
-          .map(prop => (
-            <Route key={prop.path} {...prop} />
-          ))}
-        <Route component={NotFoundPage} />
-      </Switch>
-    );
-  }
-  if (isGuest) {
-    return (
-      <Switch>
-        {routes
-          .filter(each => availableRoutes.includes(each.path))
-          .map(prop => (
-            <Route key={prop.path} {...prop} />
-          ))}
-        <Route component={NotFoundPage} />
-      </Switch>
-    );
-  }
-};
+const switchRoutes = (
+  <Switch>
+    {routes.map(prop => (
+      <Route key={prop.path} {...prop} />
+    ))}
+    <Route component={NotFoundPage} />
+  </Switch>
+);
 
 const drawerWidth = 240;
 
@@ -179,22 +123,23 @@ const styles = theme => ({
   },
 });
 
-const AdminLayout = ({ classes, logoutRequest: logout, roles }) => {
+const AdminLayout = ({ classes, logoutRequest: logout }) => {
   const [open, setOpen] = useState(true);
-  const [anchorel, setAnchorel] = useState(null);
-  const anchorOpen = Boolean(anchorel);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const anchorOpen = Boolean(anchorEl);
+
   const handleMenu = event => {
-    setAnchorel(event.currentTarget);
+    setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    setAnchorel(null);
+    setAnchorEl(null);
   };
 
   const handleLogout = () => {
     logout();
-    setAnchorel(null);
-    push('/login-admin');
+    setAnchorEl(null);
   };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -228,7 +173,7 @@ const AdminLayout = ({ classes, logoutRequest: logout, roles }) => {
             <div
               className="hidden"
               id="menu-appbar"
-              anchorel={anchorel}
+              anchorEl={anchorEl}
               open={anchorOpen}
               onClose={handleClose}
             >
@@ -236,7 +181,7 @@ const AdminLayout = ({ classes, logoutRequest: logout, roles }) => {
               <div onClick={handleLogout}>Logout</div>
             </div>
           </div>
-          {switchRoutes(roles)}
+          {switchRoutes}
         </main>
       </div>
     </React.Fragment>
@@ -246,16 +191,11 @@ const AdminLayout = ({ classes, logoutRequest: logout, roles }) => {
 AdminLayout.propTypes = {
   classes: PropTypes.object.isRequired,
   logoutRequest: PropTypes.func.isRequired,
-  roles: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = ({ global }) => ({
-  roles: global.user.roles,
-});
-
 const withConnect = connect(
-  mapStateToProps,
-  { logoutRequest, push },
+  null,
+  { logoutRequest },
 );
 
 const withStyle = withStyles(styles);

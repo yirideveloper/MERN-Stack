@@ -1,4 +1,4 @@
-import UserProfilePage from '../containers/UserProfilePage';
+import UserProfilePage from '../containers/ProfilePage/Loadable';
 // import UserWishListsPage from '../containers/UserWishListsPage';
 // import UserParticipatedTendersPage from '../containers/UserParticipatedTendersPage';
 // import UserAwardedTendersPage from '../containers/UserAwardedTendersPage';

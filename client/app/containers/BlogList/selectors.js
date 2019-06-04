@@ -8,8 +8,3 @@ export const makeSelectBlogList = () =>
     selectDomain,
     state => state.blogList,
   );
-export const makeSelectLoading = () =>
-  createSelector(
-    selectDomain,
-    state => state.loading,
-  );

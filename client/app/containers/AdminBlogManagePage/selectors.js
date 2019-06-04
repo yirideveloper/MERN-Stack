@@ -37,8 +37,3 @@ export const makeSelectTag = () =>
     selectDomain,
     state => state.tempTag,
   );
-export const makeSelectLoading = () =>
-  createSelector(
-    selectDomain,
-    state => state.loading,
-  );

@@ -35,12 +35,6 @@ export const makeSelectUserIsAdmin = () =>
     state => state.isAdmin,
   );
 
-export const makeSelectRoles = () =>
-  createSelector(
-    makeSelectUser(),
-    state => state.roles,
-  );
-
 export const makeSelectContent = () =>
   createSelector(
     selectGlobal,
