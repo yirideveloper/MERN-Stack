@@ -14,7 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import Fab from '@material-ui/core/Fab';
-import { Paper, InputBase, Divider } from '@material-ui/core';
+import Close from '@material-ui/icons/Close';
+import { Paper, InputBase, Divider, Grid } from '@material-ui/core';
 
 // core components
 import Table from 'components/Table';
@@ -24,7 +25,7 @@ import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import { makeSelectAll, makeSelectQuery } from './selectors';
+import { makeSelectAll, makeSelectQuery, makeSelectLoading} from './selectors';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
@@ -44,6 +45,7 @@ const styles = theme => ({
 export class ContentsListingPage extends React.Component {
   static propTypes = {
     loadAllRequest: PropTypes.func.isRequired,
+    deleteOneRequest: PropTypes.func.isRequired,
     clearOne: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
@@ -79,6 +81,10 @@ export class ContentsListingPage extends React.Component {
     this.props.loadAllRequest(this.props.query);
   };
 
+  handleDelete = id => {
+    this.props.deleteOneRequest(id);
+  };
+
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
   };
@@ -88,64 +94,89 @@ export class ContentsListingPage extends React.Component {
     const {
       all: { data, page, size, totaldata },
       query,
+      loading,
     } = this.props;
     const tablePagination = { page, size, totaldata };
-    const tableData = data.map(
-      ({
-        name,
-        key,
-        publish_from,
-        publish_to,
-        is_active,
-        is_feature,
-        added_at,
-        _id,
-      }) => [
-        name,
-        key,
-        // moment(publish_from).format('MMM Do YY'),
-        // moment(publish_to).format('MMM Do YY'),
-        `${is_active}`,
-        moment(added_at).format('MMM Do YY'),
-        <>
-          <Tooltip
-            id="tooltip-top"
-            title="Edit Task"
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
+    const tableData = data.map(({ name, key, is_active, added_at, _id }) => [
+      name,
+      key,
+      `${is_active}`,
+      moment(added_at).format('MMM Do YY'),
+      <>
+        <Tooltip
+          id="tooltip-top"
+          title="Edit Task"
+          placement="top"
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <IconButton
+            aria-label="Edit"
+            className={classes.tableActionButton}
+            onClick={() => this.handleEdit(_id)}
+          >
+            <Edit
+              className={`${classes.tableActionButtonIcon} ${classes.edit}`}
+            />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          id="tooltip-top-start"
+          title="Remove"
+          placement="top"
+          classes={{ tooltip: classes.tooltip }}
           >
             <IconButton
-              aria-label="Edit"
+              aria-label="Close"
               className={classes.tableActionButton}
-              onClick={() => this.handleEdit(_id)}
+              onClick={() => this.handleDelete(_id)}
             >
-              <Edit
-                className={`${classes.tableActionButtonIcon} ${classes.edit}`}
-              />
+              <Close className={classes.tableActionButtonIcon + ' ' + classes.close} />
             </IconButton>
-          </Tooltip>
-        </>,
-      ],
-    );
+        </Tooltip>
+      </>,
+    ]);
     return (
+      loading && loading == true ? (
+        <div>loading</div>
+      ) : ( 
       <>
         <PageHeader>Content Manage</PageHeader>
         <PageContent>
-          {/* <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
-            <InputBase
-              name="find_name"
-              id="contents-name"
-              placeholder="Search Contents"
-              fullWidth
-              value={query.find_name}
-              onChange={this.handleQueryChange}
-            />
-            <Divider style={{ width: 1, height: 40, margin: 4 }} />
-            <IconButton aria-label="Search" onClick={this.handleSearch}>
-              <SearchIcon />
-            </IconButton>
-          </Paper>
-          <br /> */}
+          <Grid container>
+            <Grid item xs={12} sm={12}>
+              <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
+                <InputBase
+                  name="find_name"
+                  id="contents-name"
+                  placeholder="Search Contents by name"
+                  fullWidth
+                  value={query.find_name}
+                  onChange={this.handleQueryChange}
+                />
+                <Divider style={{ width: 1, height: 40, margin: 4 }} />
+                <IconButton aria-label="Search" onClick={this.handleSearch}>
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
+                <InputBase
+                  name="find_key"
+                  id="contents-key"
+                  placeholder="Search Contents  by key"
+                  fullWidth
+                  value={query.find_key}
+                  onChange={this.handleQueryChange}
+                />
+                <Divider style={{ width: 1, height: 40, margin: 4 }} />
+                <IconButton aria-label="Search" onClick={this.handleSearch}>
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </Grid>
+          </Grid>
+          <br />
           <Table
             tableHead={[
               'Name',
@@ -172,6 +203,7 @@ export class ContentsListingPage extends React.Component {
           </Fab>
         </PageContent>
       </>
+      )
     );
   }
 }
@@ -179,6 +211,7 @@ export class ContentsListingPage extends React.Component {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
+  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(
