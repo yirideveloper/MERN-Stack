@@ -14,6 +14,11 @@ export const makeSelectSuccess = () =>
     selectDomain,
     state => state.success,
   );
+export const makeSelectMsg = () =>
+  createSelector(
+    selectDomain,
+    state => state.successMessage,
+  );
 export const makeSelectErrorMsg = () =>
   createSelector(
     selectDomain,

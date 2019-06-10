@@ -23,9 +23,3 @@ export const makeSelectQuery = () =>
     selectAdminSubscribePageDomain,
     state => state.query,
   );
-
-export const makeSelectLoading = () =>
-  createSelector(
-    selectAdminSubscribePageDomain,
-    state => state.loading,
-  );

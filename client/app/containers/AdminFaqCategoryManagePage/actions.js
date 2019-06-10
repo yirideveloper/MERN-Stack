@@ -46,18 +46,6 @@ export const addEditFailure = payload => ({
   type: types.ADD_EDIT_FAILURE,
   payload,
 });
-export const deleteCatRequest = payload => ({
-  type: types.DELETE_CAT_REQUEST,
-  payload,
-});
-export const deleteCatSuccess = payload => ({
-  type: types.DELETE_CAT_SUCCESS,
-  payload,
-});
-export const deleteCatFailure = payload => ({
-  type: types.DELETE_CAT_FAILURE,
-  payload,
-});
 export const setOneValue = payload => ({
   type: types.SET_ONE_VALUE,
   payload,

@@ -10,6 +10,5 @@ router.get('/', authorization, authentication, dModule.GetContent);
 router.post('/', authorization, authentication, contentValidation.sanitize, contentValidation.validation, dModule.SaveContent);
 router.get('/:id', authorization, authentication, dModule.GetContentDetail);
 router.get('/key/:key', dModule.GetContentByKey);
-router.delete('/:id', authorization, dModule.DeleteContent);
 
 module.exports = router;

@@ -6,8 +6,6 @@ import { push } from 'connected-react-router';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import moment from 'moment';
-import Helmet from 'react-helmet';
-
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import blue from '@material-ui/core/colors/blue';
@@ -19,11 +17,13 @@ import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import * as mapDispatchToProps from './actions';
 import saga from './saga';
-import { makeSelectOne, makeSelectLoading } from './selectors';
+import { makeSelectOne } from './selectors';
 import PageContent from '../../components/PageContent/PageContent';
 import PageHeader from '../../components/PageHeader/PageHeader';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import { IconButton } from '@material-ui/core';
 
-export class ViewSubscriber extends React.Component {
+export class TenderDetails extends React.Component {
   static propTypes = {
     loadOneRequest: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
@@ -52,37 +52,34 @@ export class ViewSubscriber extends React.Component {
   };
 
   render() {
-    const { classes, one, loading} = this.props;
-    return loading && loading == true ? (
-        <div>loading</div>
-       ) : (
+    const { classes, one } = this.props;
+    return (
       <React.Fragment>
-        <Helmet>
-          <title> Subscriber Details </title>
-        </Helmet>
-        <PageHeader>Subscribe Details</PageHeader>
+        <div class="flex justify-between mt-1 mb-1">
+        <PageHeader>
+        <IconButton className="cursor-pointer"	 onClick={this.handleBack} aria-label="Back">
+          <BackIcon />
+        </IconButton> Subscribe Details</PageHeader>
+        </div>
 
         <PageContent>
           <Paper className={classes.paper}>
-            <Grid container spacing={24}>
-              <Grid item xs={12}>
+           
                 <div>
                   <b>Email: </b>
                   {one && one.email ? one.email : ''}
                 </div>
-              </Grid>
-              <Grid item xs={12}>
+             
                 <div>
                   <b>Is Subscribed: </b>
                   {one && one.is_subscribed ? '' + one.is_subscribed : ''}
                 </div>
-              </Grid>
-              <Grid item xs={12}>
+           
                 <div>
                   <b>Added At: </b>
                   {moment(one && one.added_at).format('YYYY-MM-DD')}
                 </div>
-              </Grid>
+           
               <Button
                 variant="contained"
                 color="secondary"
@@ -91,8 +88,8 @@ export class ViewSubscriber extends React.Component {
               >
                 Back
               </Button>
-            </Grid>
-          </Paper>
+              </Paper>
+          
         </PageContent>
       </React.Fragment>
     );
@@ -101,7 +98,6 @@ export class ViewSubscriber extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(
@@ -109,8 +105,8 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-const withReducer = injectReducer({ key: 'adminSubscribePage', reducer });
-const withSaga = injectSaga({ key: 'adminSubscribePage', saga });
+const withReducer = injectReducer({ key: 'adminUserManagePage', reducer });
+const withSaga = injectSaga({ key: 'adminUserManagePage', saga });
 
 const styles = theme => ({
   button: {
@@ -165,4 +161,4 @@ export default compose(
   withSaga,
   withConnect,
   withStyle,
-)(ViewSubscriber);
+)(TenderDetails);

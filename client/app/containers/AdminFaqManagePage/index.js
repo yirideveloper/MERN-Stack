@@ -6,7 +6,6 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
 import moment from 'moment';
-import Helmet from 'react-helmet';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
@@ -14,7 +13,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
-import Close from '@material-ui/icons/Close';
 import Fab from '@material-ui/core/Fab';
 import CustomInput from '@material-ui/core/Input';
 import Table from 'components/Table';
@@ -28,13 +26,22 @@ import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
+import { makeSelectAll, makeSelectQuery } from './selectors';
 
 const styles = theme => ({
   fab: {
-    position: 'fixed',
-    bottom: theme.spacing.unit * 3,
-    right: theme.spacing.unit * 4,
+    width:'40px',
+    height:'40px',
+    marginTop:'auto',
+    marginBottom:'auto',
+  },
+
+  tableActionButton:{
+    padding:0,
+    '&:hover':{
+      background : 'transparent',
+      color: '#404040',
+    },
   },
 });
 
@@ -77,10 +84,6 @@ export class FAQManagePage extends React.PureComponent {
     this.props.loadAllRequest(this.props.query);
   };
 
-  handleDelete = id => {
-    this.props.deleteOneRequest(id);
-  };
-
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
   };
@@ -90,8 +93,6 @@ export class FAQManagePage extends React.PureComponent {
     const {
       all: { data, page, size, totaldata },
       query,
-      loading,
-      match,
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
@@ -117,35 +118,24 @@ export class FAQManagePage extends React.PureComponent {
               />
             </IconButton>
           </Tooltip>
-          <Tooltip
-            id="tooltip-top-start"
-            title="Remove"
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
-          >
-            <IconButton
-              aria-label="Close"
-              className={classes.tableActionButton}
-              onClick={() => this.handleDelete(_id)}
-            >
-              <Close
-                className={`${classes.tableActionButtonIcon} ${classes.close}`}
-              />
-            </IconButton>
-          </Tooltip>
         </>,
       ],
     );
-    return loading && loading == true ? (
-      <div>loading</div>
-    ) : (
+    return (
       <>
-        <Helmet>
-          <title>
-            FAQ Listing
-          </title>
-        </Helmet>
+        <div className="flex justify-between mt-3 mb-3">
         <PageHeader>FAQ Manage</PageHeader>
+        <Fab
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            round="true"
+            onClick={this.handleAdd}
+            elevation={0}
+          >
+            <AddIcon />
+          </Fab>
+          </div>
         <PageContent>
           <Paper style={{ padding: 20, overflow: 'auto', display: 'none' }}>
             <CustomInput
@@ -179,16 +169,7 @@ export class FAQManagePage extends React.PureComponent {
             pagination={tablePagination}
             handlePagination={this.handlePagination}
           />
-          <Fab
-            color="primary"
-            aria-label="Add"
-            className={classes.fab}
-            round="true"
-            onClick={this.handleAdd}
-            elevation={0}
-          >
-            <AddIcon />
-          </Fab>
+        
         </PageContent>
       </>
     );
@@ -202,7 +183,6 @@ FAQManagePage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

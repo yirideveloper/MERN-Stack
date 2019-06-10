@@ -29,31 +29,65 @@ import routes from '../../routes/admin';
 import NotFoundPage from '../../containers/NotFoundPage/Loadable';
 
 const switchRoutes = roles => {
+  // is SuperAdmin?
+  const isSuperAdmin = roles.includes('5bf7ae3694db051f5486f845');
+  // is Admin?
+  const isAdmin = roles.includes('5bf7af0a736db01f8fa21a25');
+  // is NormalUser?
+  const isNormalUser = roles.includes('5bf7ae90736db01f8fa21a24');
+  // is Guest?
+  const isGuest = roles.includes('5ce126fcdd1e3e3b0c8a36aa');
+
   const route = window.localStorage.getItem('routes');
   const arr = JSON.parse(route);
   const availableRoutes = arr;
 
-  const hasAccess = path => {
-    const available = [];
-    availableRoutes.map(
-      each =>
-        each.admin_routes &&
-        each.admin_routes.length &&
-        each.admin_routes.map(e => available.push(e)),
-    );
-    return available.includes(path);
-  };
-
-  return (
-    <Switch>
-      {routes
-        .filter(each => hasAccess(each.path))
-        .map(prop => (
+  if (isSuperAdmin) {
+    return (
+      <Switch>
+        {routes.map(prop => (
           <Route key={prop.path} {...prop} />
         ))}
-      <Route component={NotFoundPage} />
-    </Switch>
-  );
+        <Route component={NotFoundPage} />
+      </Switch>
+    );
+  }
+  if (isAdmin) {
+    return (
+      <Switch>
+        {routes
+          .filter(each => availableRoutes.includes(each.path))
+          .map(prop => (
+            <Route key={prop.path} {...prop} />
+          ))}
+        <Route component={NotFoundPage} />
+      </Switch>
+    );
+  }
+  if (isNormalUser) {
+    return (
+      <Switch>
+        {routes
+          .filter(each => availableRoutes.includes(each.path))
+          .map(prop => (
+            <Route key={prop.path} {...prop} />
+          ))}
+        <Route component={NotFoundPage} />
+      </Switch>
+    );
+  }
+  if (isGuest) {
+    return (
+      <Switch>
+        {routes
+          .filter(each => availableRoutes.includes(each.path))
+          .map(prop => (
+            <Route key={prop.path} {...prop} />
+          ))}
+        <Route component={NotFoundPage} />
+      </Switch>
+    );
+  }
 };
 
 const drawerWidth = 240;
@@ -174,9 +208,9 @@ const AdminLayout = ({ classes, logoutRequest: logout, roles }) => {
       <Helmet>
         <title>Admin Dashboard</title>
       </Helmet>
-      <div className="flex overflow-y-hidden">
+      <div className="flex overflow-y-hidden bg-grey-lighter">
         <div
-          className="overflow-x-hidden h-screen border-r bg-grey-lightest"
+          className="overflow-x-hidden h-screen bg-white WaftSideBar"
           style={{ width: 250 }}
         >
           <Link to="/">
@@ -188,8 +222,8 @@ const AdminLayout = ({ classes, logoutRequest: logout, roles }) => {
           </Link>
           <MainListItems />
         </div>
-        <main className="h-screen flex-1 overflow-auto">
-          <div className="flex justify-end flex1 border-b pt-2 pb-2 pl-6 pr-6">
+        <main className="h-screen flex-1 overflow-auto px-8 py-4">
+          <div className="flex justify-end flex1 py-3 px-3 bg-white rounded">
             <AccountCircle onClick={handleMenu} />
             <div
               className="hidden"

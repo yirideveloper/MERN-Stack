@@ -30,11 +30,6 @@ export const makeSelectQuery = () =>
     substate => substate.query,
   );
 
-export const makeSelectLoading = () =>
-  createSelector(
-    selectAdminMediaManagePageDomain,
-    substate => substate.loading,
-  );
 /**
  * Default selector used by AdminMediaManagePage
  */

@@ -4,18 +4,19 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { push } from 'connected-react-router';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import Button from '@material-ui/core/Button';
 // import Close from '@material-ui/icons/Close';
@@ -24,7 +25,7 @@ import Button from '@material-ui/core/Button';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectAll, makeSelectOne, makeSelectLoading } from './selectors';
+import { makeSelectAll, makeSelectOne } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
@@ -56,7 +57,6 @@ export function AdminTemplateListingPage({
   setOneValue,
   all,
   one,
-  loading,
 }) {
   const [data, setData] = useState('');
   useEffect(() => {
@@ -77,12 +77,11 @@ export function AdminTemplateListingPage({
     value && loadOneRequest(value);
   };
   const handleChange = e => {
-    setOneValue({ key: e.target.name, value: e.target.value });
+    const { name, value } = e.target;
+    setOneValue({ key: name, value });
   };
-  return loading && loading == true ? (
-    <CircularProgress color="primary" disableShrink />
-  ) : (
-    <>
+  return (
+    <div>
       <PageHeader>Email Template Manage</PageHeader>
       <PageContent>
         <form autoComplete="off" onSubmit={handleSubmit}>
@@ -91,7 +90,6 @@ export function AdminTemplateListingPage({
             <input
               readOnly="rea"
               id="template-name"
-              name="template-name"
               value={one.template_name || ''}
               className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
               type="text"
@@ -100,20 +98,21 @@ export function AdminTemplateListingPage({
           </div>
           <div className="mb-4">
             <label className="block mb-2">Template Key</label>
-            <Select
+            <select
               className="h-12 block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey "
               id="template-key"
-              name="template_key"
               value={data || ''}
-              displayEmpty
               onChange={handleTemplateChange}
             >
+              <option value="">
+                <em>None</em>
+              </option>
               {all.map(each => (
-                <MenuItem value={each.template_key} key={each._id}>
+                <option value={each.template_key} key={each._id}>
                   {each.template_key}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
+            </select>
           </div>
 
           <div className="mb-4">
@@ -122,56 +121,55 @@ export function AdminTemplateListingPage({
               className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
               type="text"
               id="informations"
-              name="informations"
               value={one.information || ''}
             />
           </div>
 
           <div className="mb-4">
             <label className="block mb-2">Variables</label>
-            <Select
+            <select
               multiple
-              value={one.variables || ''}
+              value={one.variables}
               onChange={() => null}
               // input={<Input id="select-multiple" />}
             >
               {one.variables.map(name => (
-                <MenuItem key={name} value={name}>
+                <option key={name} value={name}>
                   {name}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
+            </select>
           </div>
           <TextField
             id="from_email"
             label="From"
-            name="from"
             value={one.from || ''}
             className={classes.textField}
             margin="normal"
             onChange={handleChange}
+            inputProps={{ name: 'from' }}
             fullWidth
           />
 
           <TextField
             id="subject_email"
             label="Subject"
-            name="subject"
             value={one.subject || ''}
             className={classes.textField}
             margin="normal"
             onChange={handleChange}
+            inputProps={{ name: 'subject' }}
             fullWidth
           />
 
           <TextField
             id="alternate_text"
             label="Alternate Text"
-            name="alternate_text"
             value={one.alternate_text || ''}
             className={classes.textField}
             margin="normal"
             onChange={handleChange}
+            inputProps={{ name: 'alternate_text' }}
             fullWidth
           />
 
@@ -180,12 +178,12 @@ export function AdminTemplateListingPage({
           <TextField
             id="body_email"
             label="Body"
-            name="body"
             value={one.body || ''}
             className={classes.textField}
             margin="normal"
             onChange={handleChange}
             multiline
+            inputProps={{ name: 'body' }}
             fullWidth
           />
 
@@ -194,7 +192,7 @@ export function AdminTemplateListingPage({
           </Button>
         </form>
       </PageContent>
-    </>
+    </div>
   );
 }
 
@@ -210,12 +208,11 @@ AdminTemplateListingPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   one: makeSelectOne(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(
   mapStateToProps,
-  { ...mapDispatchToProps, push },
+  mapDispatchToProps,
 );
 const withStyle = withStyles(styles);
 

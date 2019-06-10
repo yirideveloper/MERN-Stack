@@ -24,18 +24,6 @@ export const makeSelectOne = () =>
     substate => substate.one,
   );
 
-export const makeSelectLoading = () =>
-  createSelector(
-    selectAdminUserManagePageDomain,
-    state => state.loading,
-  );
-
-export const makeSelectQuery = () =>
-  createSelector(
-    selectAdminUserManagePageDomain,
-    state => state.query,
-  );
-
 /**
  * Default selector used by AdminUserManagePage
  */

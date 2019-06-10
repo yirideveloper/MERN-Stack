@@ -7,5 +7,4 @@ const subscribeModule = require('../../modules/subscribe/subscribeController');
 router.get('/', authorization, authentication, subscribeModule.GetSubscribe);
 router.get('/:id', authorization, authentication, subscribeModule.GetSubscribeById);
 router.post('/', validations.sanitize, validations.validate, subscribeModule.SaveSubscribe);
-router.delete('/:id', authorization, subscribeModule.DeleteSubscribe);
 module.exports = router;

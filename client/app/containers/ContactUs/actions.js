@@ -25,3 +25,7 @@ export const contactDetailFailure = payload => ({
   type: types.CONTACT_DETAIL_FAILURE,
   payload,
 });
+
+export const clearMessages = () => ({
+  type: types.CLEAR_MESSAGES,
+});

@@ -84,7 +84,7 @@ class AccessManagePage extends React.PureComponent {
       <React.Fragment>
         <PageHeader className="text-sm">
           <BackIcon />
-          {`Edit Access for ${Module.module_name}`}
+          Edit Access
         </PageHeader>
         <PageContent>
           {Roles.map(role => {

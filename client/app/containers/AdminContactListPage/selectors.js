@@ -30,9 +30,3 @@ export const makeSelectOne = () =>
     selectAdminContactListPageDomain,
     state => state.one,
   );
-
-export const makeSelectLoading = () =>
-  createSelector(
-    selectAdminContactListPageDomain,
-    state => state.loading,
-  );

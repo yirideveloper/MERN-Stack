@@ -11,20 +11,19 @@ import { createStructuredSelector } from 'reselect';
 import { push } from 'connected-react-router';
 import { compose } from 'redux';
 import moment from 'moment';
-import Helmet from 'react-helmet';
 
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
+import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import Close from '@material-ui/icons/Close';
 import View from '@material-ui/icons/RemoveRedEyeOutlined';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 // core components
 import CustomInput from '@material-ui/core/Input';
 import { Paper, Divider } from '@material-ui/core';
+import Fab from '@material-ui/core/Fab';
 import Table from 'components/Table/Table';
 
 import injectSaga from '../../utils/injectSaga';
@@ -32,7 +31,7 @@ import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
+import { makeSelectAll, makeSelectQuery } from './selectors';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
@@ -42,10 +41,28 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   fab: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 3,
-    right: theme.spacing.unit * 4,
+    width:'40px',
+    height:'40px',
+    marginTop:'auto',
+    marginBottom:'auto',
   },
+  tableActionButton:{
+    padding:0,
+    '&:hover':{
+      background : 'transparent',
+      color: '#404040',
+    },
+  },
+  waftsrch:{
+    padding:0,
+    position:'absolute',
+    borderLeft:'1px solid #d9e3e9',
+    borderRadius:0,
+      '&:hover':{
+        background : 'transparent',
+        color: '#404040',
+      },
+    },
 });
 
 /* eslint-disable react/prefer-stateless-function */
@@ -85,8 +102,9 @@ export class AdminContactListPage extends React.Component {
     this.props.push(`/admin/contact-manage/view/${id}`);
   };
 
-  handleDelete = id => {
-    this.props.deleteOneRequest(id);
+  handleAdd = () => {
+    this.props.clearOne();
+    this.props.push('/admin/contact-manage/add');
   };
 
   render() {
@@ -94,7 +112,6 @@ export class AdminContactListPage extends React.Component {
     const {
       all: { data, page, size, totaldata },
       query,
-      loading,
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(({ name, email, subject, added_at, _id }) => [
@@ -120,48 +137,40 @@ export class AdminContactListPage extends React.Component {
             />
           </IconButton>
         </Tooltip>
-        <Tooltip
-          id="tooltip-top-start"
-          title="Remove"
-          placement="top"
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <IconButton
-            aria-label="Close"
-            className={classes.tableActionButton}
-            onClick={() => this.handleDelete(_id)}
-          >
-            <Close
-              className={`${classes.tableActionButtonIcon} ${classes.close}`}
-            />
-          </IconButton>
-        </Tooltip>
       </React.Fragment>,
     ]);
-    return loading && loading == true ? (
-      <CircularProgress color="primary" disableShrink />
-    ) : (
+    return (
       <>
-        <Helmet>
-          <title>Contact List</title>
-        </Helmet>
+        <div className="flex justify-between mt-3 mb-3">
         <PageHeader>Contact List</PageHeader>
+        <Fab
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            round="true"
+            onClick={this.handleAdd}
+            elevation={0}
+          >
+            <AddIcon />
+          </Fab>
+      </div>
         <PageContent>
-          <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
-            <CustomInput
-              name="find_name"
-              id="contact-name"
-              placeholder="Search Contacts"
-              fullWidth
-              value={query.find_name}
-              onChange={this.handleQueryChange}
-            />
-            <Divider style={{ width: 1, height: 40, margin: 4 }} />
-            <IconButton aria-label="Search" onClick={this.handleSearch}>
-              <SearchIcon />
-            </IconButton>
-          </Paper>
-          <br />
+          <div className="flex justify-end">
+                  <div className="waftformgroup flex relative mr-2">
+                  <input type="text"
+                    name="find_name"
+                    id="contact-name"
+                    placeholder="Search Contacts"
+                    className="m-auto Waftinputbox"
+                    value={query.find_name}
+                    onChange={this.handleQueryChange}
+                  />
+                  <IconButton aria-label="Search" className={[classes.waftsrch, 'waftsrchstyle']} onClick={this.handleSearch}>
+                    <SearchIcon />
+                  </IconButton>
+                </div>
+          </div>
+        
 
           <Table
             tableHead={['Name', 'Email', 'Subject', 'Added at', 'Actions']}
@@ -169,6 +178,7 @@ export class AdminContactListPage extends React.Component {
             pagination={tablePagination}
             handlePagination={this.handlePagination}
           />
+        
         </PageContent>
       </>
     );
@@ -178,7 +188,6 @@ export class AdminContactListPage extends React.Component {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

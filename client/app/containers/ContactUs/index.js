@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardBody from '@material-ui/core/CardContent';
 import CardFooter from '@material-ui/core/CardActions';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import injectSaga from '../../utils/injectSaga';
 import injectReducer from '../../utils/injectReducer';
 import saga from './saga';
@@ -22,6 +21,7 @@ import reducer from './reducer';
 import {
   makeSelectIsRequesting,
   makeSelectSuccess,
+  makeSelectMsg,
   makeSelectErrorMsg,
   makeSelectContactDetail,
 } from './selectors';
@@ -47,7 +47,7 @@ const styles = {
 };
 const recaptchaRef = React.createRef();
 class ContactUs extends React.Component {
-  state = { name: '', email: '', subject: '', message: '', reCaptcha: '' };
+  state = { name: '', email: '', subject: '', message: '' };
 
   componentDidMount() {
     this.props.ContactDetailRequest();
@@ -81,12 +81,10 @@ class ContactUs extends React.Component {
   };
 
   render() {
-    const { isRequesting, contactDetail } = this.props;
+    const { isRequesting, msg, contactDetail } = this.props;
     const { name, email, subject, message } = this.state;
 
-    return isRequesting && isRequesting == true ? (
-      <CircularProgress color="primary" disableShrink />
-    ) : (
+    return (
       <div className="container">
         <Helmet>
           <title>Contact Us</title>
@@ -107,7 +105,7 @@ class ContactUs extends React.Component {
                         fullWidth
                         placeholder="Name"
                         inputProps={{
-                          value: name || '',
+                          value: name,
                           onChange: this.handleChange('name'),
                         }}
                       />
@@ -121,7 +119,7 @@ class ContactUs extends React.Component {
                         fullWidth
                         placeholder="Email"
                         inputProps={{
-                          value: email || '',
+                          value: email,
                           onChange: this.handleChange('email'),
                         }}
                       />
@@ -135,7 +133,7 @@ class ContactUs extends React.Component {
                         fullWidth
                         placeholder="Subject"
                         inputProps={{
-                          value: subject || '',
+                          value: subject,
                           onChange: this.handleChange('subject'),
                         }}
                       />
@@ -149,7 +147,7 @@ class ContactUs extends React.Component {
                         fullWidth
                         placeholder="Message"
                         inputProps={{
-                          value: message || '',
+                          value: message,
                           onChange: this.handleChange('message'),
                         }}
                       />
@@ -171,10 +169,15 @@ class ContactUs extends React.Component {
                   <Button
                     variant="contained"
                     color="primary"
+                    disabled={isRequesting}
                     onClick={this.handleSave}
                   >
                     Save Message
                   </Button>
+
+                  <div>
+                    <h1>{msg}</h1>
+                  </div>
                   <div>
                     <h1>{this.props.error}</h1>
                   </div>
@@ -205,6 +208,7 @@ ContactUs.propTypes = {
 const mapStateToProps = createStructuredSelector({
   isRequesting: makeSelectIsRequesting(),
   success: makeSelectSuccess(),
+  msg: makeSelectMsg(),
   error: makeSelectErrorMsg(),
   contactDetail: makeSelectContactDetail(),
 });

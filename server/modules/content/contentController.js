@@ -42,18 +42,18 @@ contentController.GetContent = async (req, res, next) => {
     searchq = { is_deleted: false };
 
     if (req.query.find_name) {
-      searchq = { name: { $regex: req.query.find_name, $options: 'i' }, ...searchq };
+      searchq = { name: { $regex: req.query.find_name, $options: 'i x' }, ...searchq };
     }
     if (req.query.find_key) {
-      searchq = { key: { $regex: req.query.find_key, $options: 'i' }, ...searchq };
+      searchq = { key: { $regex: req.query.find_key, $options: 'i x' }, ...searchq };
     }
     if (req.query.find_publish_from) {
-      searchq = { publish_from: { $regex: req.query.find_publish_from, $options: 'i' }, ...searchq };
+      searchq = { publish_from: { $regex: req.query.find_publish_from, $options: 'i x' }, ...searchq };
     }
     if (req.query.find_publish_to) {
-      searchq = { publish_to: { $regex: req.query.find_publish_to, $options: 'i' }, ...searchq };
+      searchq = { publish_to: { $regex: req.query.find_publish_to, $options: 'i x' }, ...searchq };
     }
-    selectq = 'name key description publish_from publish_to is_active is_feature is_deleted';
+    selectq = 'name key description publish_from publish_to is_active is_feature';
     let datas = await otherHelper.getquerySendResponse(contentSch, page, size, sortq, searchq, selectq, next, '');
 
     return otherHelper.paginationSendResponse(res, httpStatus.OK, true, datas.data, contentConfig.gets, page, size, datas.totaldata);
@@ -91,15 +91,6 @@ contentController.GetContentByKey = async (req, res, next) => {
     const key = req.params.key;
     const contents = await contentSch.findOne({ key, is_deleted: false });
     return otherHelper.sendResponse(res, httpStatus.OK, true, contents, null, contentConfig.get, null);
-  } catch (err) {
-    next(err);
-  }
-};
-contentController.DeleteContent = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const del = await contentSch.findByIdAndUpdate(id, { $set: { is_deleted: true } }, { new: true });
-    return otherHelper.sendResponse(res, httpStatus.OK, true, del, null, 'content delete success!!', null);
   } catch (err) {
     next(err);
   }

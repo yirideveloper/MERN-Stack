@@ -22,7 +22,7 @@ import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
+import { makeSelectAll, makeSelectQuery } from './selectors';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
@@ -34,9 +34,11 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   fab: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 3,
-    right: theme.spacing.unit * 4,
+    width:'40px',
+    height:'40px',
+    marginTop:'auto',
+    marginBottom:'auto',
+
   },
 });
 
@@ -76,6 +78,7 @@ export class AdminMediaManagePage extends React.Component {
   };
 
   handleDelete = id => {
+    confirm('Are you sure you want to delete this item??');
     this.props.deleteOneRequest(id);
   };
 
@@ -84,19 +87,32 @@ export class AdminMediaManagePage extends React.Component {
     const {
       all: { data, page, size, totaldata },
       query,
-      loading,
     } = this.props;
-    return loading ? (
-      <div>Loading</div>
-    ) : (
+    return (
       <>
+         <div className="flex justify-between mt-3 mb-3">
         <PageHeader>Media Manage</PageHeader>
+        <Dropzone onDrop={this.handleAdd}>
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <Fab
+                  color="primary"
+                  aria-label="Add"
+                  className={classes.fab}
+                  round="true"
+                  elevation={0}
+                >
+                  <AddIcon />
+                </Fab>
+              </div>
+            )}
+          </Dropzone>
+          </div>
         <PageContent>
+          <div className="flex flex-wrap">
           {data.map(each => (
-            <Grid container key={each._id}>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <Card className={classes.card}>
-                  <CardActionArea>
+           <div className="w-full sm:w-1/3 md:1/4 xl:w-1/5 mr-2 border mb-4 rounded">
                     <div>
                       <img
                         src={each.path && `${IMAGE_BASE}${each.path}`}
@@ -108,7 +124,7 @@ export class AdminMediaManagePage extends React.Component {
                         {each.encoding} | {each.mimetype} | {each.size}
                       </Typography>
                     </CardContent>
-                  </CardActionArea>
+               
                   <CardActions>
                     <div>
                       <Button
@@ -130,26 +146,9 @@ export class AdminMediaManagePage extends React.Component {
                       Delete
                     </Button>
                   </CardActions>
-                </Card>
-              </Grid>
-            </Grid>
+                  </div>
           ))}
-          <Dropzone onDrop={this.handleAdd}>
-            {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <Fab
-                  color="primary"
-                  aria-label="Add"
-                  className={classes.fab}
-                  round="true"
-                  elevation={0}
-                >
-                  <AddIcon />
-                </Fab>
-              </div>
-            )}
-          </Dropzone>
+        </div>
         </PageContent>
       </>
     );
@@ -159,7 +158,6 @@ export class AdminMediaManagePage extends React.Component {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

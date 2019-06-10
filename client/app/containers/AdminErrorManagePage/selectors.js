@@ -26,8 +26,3 @@ export const makeSelectQuery = () =>
     selectAdminErrorManagePageDomain,
     state => state.query,
   );
-export const makeSelectLoading = () =>
-  createSelector(
-    selectAdminErrorManagePageDomain,
-    state => state.loading,
-  );

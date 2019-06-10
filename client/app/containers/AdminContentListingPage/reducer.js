@@ -24,7 +24,6 @@ export const initialState = {
     publish_to: '',
   },
   query: { find_name: '', find_key: '', size: 10 },
-  loading: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -43,23 +42,11 @@ const reducer = (state = initialState, action) =>
       case types.CLEAR_QUERY:
         draft.query = initialState.query;
         break;
-      case types.LOAD_ALL_REQUEST:
-        draft.loading = true;
-        break;
       case types.LOAD_ALL_SUCCESS:
         draft.all = action.payload;
-        draft.loading = false;
         break;
       case types.LOAD_ONE_SUCCESS:
         draft.one = action.payload.data;
-        break;
-      case types.DELETE_ONE_SUCCESS:
-        draft.all = {
-          ...draft.all,
-          data: draft.all.data.filter(
-            each => each._id != action.payload.data._id,
-          ),
-        };
         break;
     }
   });
