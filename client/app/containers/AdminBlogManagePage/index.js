@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import moment from 'moment';
 import { push } from 'connected-react-router';
+import Helmet from 'react-helmet';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
@@ -36,29 +37,10 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   fab: {
-    width:'40px',
-    height:'40px',
-    marginTop:'auto',
-    marginBottom:'auto',
+    position: 'absolute',
+    bottom: theme.spacing.unit * 3,
+    right: theme.spacing.unit * 4,
   },
-  tableActionButton:{
-    padding:0,
-    '&:hover':{
-      background : 'transparent',
-      color: '#404040',
-    },
-  },
-
-  waftsrch:{
-    padding:0,
-    position:'absolute',
-    borderLeft:'1px solid #d9e3e9',
-    borderRadius:0,
-      '&:hover':{
-        background : 'transparent',
-        color: '#404040',
-      },
-    },
 });
 
 /* eslint-disable react/prefer-stateless-function */
@@ -88,6 +70,7 @@ export class BlogManagePage extends React.Component {
     this.props.push(`/admin/blog-manage/edit/${_id}`);
   };
   handleDelete = id => {
+    this.props.deleteOneRequest(id);
   };
 
   handleQueryChange = e => {
@@ -137,39 +120,40 @@ export class BlogManagePage extends React.Component {
     return (
       loading && loading == true ? <div>loading</div> : 
       <>
-      <div className="flex justify-between mt-3 mb-3">
+<Helmet>
+          <title>Blog Category Listing</title>
+        </Helmet>
         <PageHeader>Blog Manage</PageHeader>
-        <Fab
-              color="primary"
-              aria-label="Add"
-              className={classes.fab}
-              round="true"
-              onClick={this.handleAdd}
-              elevation={0}
-            >
-              <AddIcon />
-            </Fab>
-            </div>
         <PageContent>
-
-        <div className="flex justify-end">
-          <div className="waftformgroup flex relative">
-                <input type="text"
-                  name="find_title"
-                  id="blog-title"
-                  placeholder="Search Blogs"
-                  className="m-auto Waftinputbox"
-                  value={query.find_title}
-                  onChange={this.handleQueryChange}
-                />
-              <IconButton aria-label="Search" className={[classes.waftsrch, 'waftsrchstyle']} onClick={this.handleSearch}>
-                  <SearchIcon />
-                </IconButton>
-                </div>
-                </div>
-        
-         
+        <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
+            <CustomInput
+              name="find_title"
+              id="blog-title"
+              fullWidth
+              placeholder="Search Blogs"
+              value={query.find_title}
+              onChange={this.handleQueryChange}
+            />
+            <Divider
+              style={{
+                width: 1,
+                height: 40,
+                margin: 4,
+              }}
+            />
+            <IconButton aria-label="Search" onClick={this.handleSearch}>
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          <br />
           <Paper
+            style={{
+              padding: 0,
+              overflow: 'auto',
+              borderRadius: 4,
+              boxShadow: '0 0 0 1px rgba(0,0,0,.2)',
+              display: 'flex',
+            }}
             elevation={0}
           />
             <Table
@@ -190,6 +174,16 @@ export class BlogManagePage extends React.Component {
               pagination={tablePagination}
               handlePagination={this.handlePagination}
             />
+            <Fab
+              color="primary"
+              aria-label="Add"
+              className={classes.fab}
+              round="true"
+              onClick={this.handleAdd}
+              elevation={0}
+            >
+              <AddIcon />
+            </Fab>
         </PageContent>
       </>
     );

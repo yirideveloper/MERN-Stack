@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { push } from 'connected-react-router';
 import { compose } from 'redux';
 import moment from 'moment';
+import Helmet from 'react-helmet';
 
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -15,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Edit from '@material-ui/icons/Edit';
 import Close from '@material-ui/icons/Close';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // core components
 import CustomInput from '@material-ui/core/Input';
@@ -27,7 +29,7 @@ import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import { makeSelectAll, makeSelectQuery } from './selectors';
+import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
@@ -37,30 +39,10 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   fab: {
-    width:'40px',
-    height:'40px',
-    marginTop:'auto',
-    marginBottom:'auto',
-
+    position: 'absolute',
+    bottom: theme.spacing.unit * 3,
+    right: theme.spacing.unit * 4,
   },
-  tableActionButton:{
-    padding:0,
-    '&:hover':{
-      background : 'transparent',
-      color: '#404040',
-    },
-  },
-
-  waftsrch:{
-    padding:0,
-    position:'absolute',
-    borderLeft:'1px solid #d9e3e9',
-    borderRadius:0,
-      '&:hover':{
-        background : 'transparent',
-        color: '#404040',
-      },
-    },
 });
 
 /* eslint-disable react/prefer-stateless-function */
@@ -110,8 +92,7 @@ export class SliderManagePage extends React.Component {
   };
 
   handleDelete = id => {
-    // show modal && api call
-    // this.props.history.push(`/wt/contents-manage/edit/${id}`);
+    this.props.deleteOneRequest(id);
   };
 
   handleToggle = () => {
@@ -125,6 +106,7 @@ export class SliderManagePage extends React.Component {
     const {
       all: { data, page, size, totaldata },
       query,
+      loading,
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
@@ -170,38 +152,45 @@ export class SliderManagePage extends React.Component {
         </React.Fragment>,
       ],
     );
-    return (
+    return loading && loading == true ? (
+      <CircularProgress color="primary" disableShrink />
+    ) : (
       <>
-      <div className="flex justify-between mt-3 mb-3">
-        <PageHeader>Slider Manage</PageHeader>
-        <Fab
-            color="primary"
-            aria-label="Add"
-            className={classes.fab}
-            round="true"
-            onClick={this.handleAdd}
-            elevation={0}
+        <Helmet>
+          <title>Slider Listing</title>
+        </Helmet>
+        <div className="flex justify-between items-center mt-4 mr-6 mb-2 ml-6">
+          <h1 className="font-light text-2xl">Slider Manage</h1>
+          <button
+            className="flex items-center justify-center p-2 text-sm rounded hover:bg-grey-lighter"
+            onClick={this.handleToggle}
           >
-            <AddIcon />
-          </Fab>
-          </div>
-
-          <PageContent>
-              <div className="flex justify-end">
-            <div className="waftformgroup flex relative mr-2">
-                <input type="text"
-                  name="find_slider_name"
-                  id="slider-name"
-                  placeholder="Search Slider"
-                  className="m-auto Waftinputbox"
-                  value={query.find_slider_name}
-                  onChange={this.handleQueryChange}
-                />
-              <IconButton aria-label="Search" className={[classes.waftsrch, 'waftsrchstyle']} onClick={this.handleSearch}>
-                  <SearchIcon />
-                </IconButton>
-                </div>
-                </div>
+            <SearchIcon className="text-sm mr-2" />
+            Search
+          </button>
+        </div>
+        <div className="pl-6 pr-6 pb-12">
+          <Paper
+            style={{
+              display: display ? 'flex' : 'none',
+              padding: 20,
+              overflow: 'auto',
+            }}
+          >
+            <CustomInput
+              name="find_slider_name"
+              id="slider-name"
+              placeholder="Search Slider"
+              fullWidth
+              value={query.find_slider_name}
+              onChange={this.handleQueryChange}
+            />
+            <Divider style={{ width: 1, height: 40, margin: 4 }} />
+            <IconButton aria-label="Search" onClick={this.handleSearch}>
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          <br />
 
           <Table
             tableHead={[
@@ -215,7 +204,17 @@ export class SliderManagePage extends React.Component {
             pagination={tablePagination}
             handlePagination={this.handlePagination}
           />
-           </PageContent>
+          <Fab
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            round="true"
+            onClick={this.handleAdd}
+            elevation={0}
+          >
+            <AddIcon />
+          </Fab>
+        </div>
       </>
     );
   }
@@ -224,6 +223,7 @@ export class SliderManagePage extends React.Component {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
+  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { push } from 'connected-react-router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,8 +21,6 @@ import reducer from '../reducer';
 import saga from '../saga';
 import { makeSelectOne } from '../selectors';
 import * as mapDispatchToProps from '../actions';
-import BackIcon from '@material-ui/icons/ArrowBack';
-import { IconButton } from '@material-ui/core';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
 
@@ -61,10 +60,11 @@ class AddEdit extends React.PureComponent {
     event.persist();
     this.props.setOneValue({ key: name, value: event.target.value });
   };
+
   handleCheckedChange = name => event => {
     event.persist();
     this.props.setOneValue({ key: name, value: event.target.checked });
-  }
+  };
 
   handleGoBack = () => {
     this.props.push('/admin/faq-cat-manage');
@@ -75,49 +75,66 @@ class AddEdit extends React.PureComponent {
   };
 
   render() {
-    const { classes, one } = this.props;
+    const { classes, one, match } = this.props;
     return (
       <div>
-        <div class="flex justify-between mt-1 mb-1">
+        <Helmet>
+          <title>
+            {match && match.params && match.params.id
+              ? 'Edit Faq Category'
+              : 'Add Faq Category'}
+          </title>
+        </Helmet>
         <PageHeader>
-        <IconButton className="cursor-pointer"	 onClick={this.handleGoBack} aria-label="Back">
-          <BackIcon />
-        </IconButton></PageHeader>
-        </div>
+          {match && match.params && match.params.id
+            ? 'Edit Faq Category'
+            : 'Add Faq Category'}
+        </PageHeader>
         <PageContent>
-          <div class="w-full md:w-1/2 pb-4">
-      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
-        Title
-      </label>
-            <input type="text"
-            className="Waftinputbox"
-              name="Title"
-              id="title"
-              label="Title"
-              value={one.title}
-              onChange={this.handleChange('title')}
-            />
+          <Paper className={classes.p20}>
+            <div>
+              <TextField
+                name="Title"
+                id="title"
+                label="Title"
+                value={one.title}
+                onChange={this.handleChange('title')}
+                margin="normal"
+                fullWidth
+              />
             </div>
             <div>
-         
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={one.is_active || false}
-                  tabIndex={-1}
-                  onClick={this.handleCheckedChange('is_active')}
-                  color="primary"
-                />
-              }
-              label="Is Active"
-            />
+              <InputLabel style={{ color: '#AAAAAA' }}>
+                Activity Type
+              </InputLabel>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={one.is_active || false}
+                    tabIndex={-1}
+                    onClick={this.handleCheckedChange('is_active')}
+                    color="primary"
+                  />
+                }
+                label="Is Active"
+              />
             </div>
-
-            <button class="text-white py-2 px-4 rounded mt-4 btn-waft"
+            <Button
+              variant="contained"
+              color="primary"
               onClick={this.handleSave}
-              >
-                Save</button>
-           
+            >
+              Save
+            </Button>
+
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={this.handleGoBack}
+            >
+              Back
+            </Button>
+          </Paper>
         </PageContent>
       </div>
     );
@@ -126,7 +143,10 @@ class AddEdit extends React.PureComponent {
 
 const withStyle = withStyles(styles);
 
-const withReducer = injectReducer({ key: 'adminFaqCategoryManagePage', reducer });
+const withReducer = injectReducer({
+  key: 'adminFaqCategoryManagePage',
+  reducer,
+});
 const withSaga = injectSaga({ key: 'adminFaqCategoryManagePage', saga });
 
 const mapStateToProps = createStructuredSelector({

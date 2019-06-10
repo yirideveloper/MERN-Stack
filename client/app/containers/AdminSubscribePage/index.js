@@ -11,12 +11,15 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
 import moment from 'moment';
+import Helmet from 'react-helmet';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ViewIcon from '@material-ui/icons/RemoveRedEye';
 import SearchIcon from '@material-ui/icons/Search';
+import Close from '@material-ui/icons/Close';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CustomInput from '@material-ui/core/Input';
 import { Paper, Divider } from '@material-ui/core';
@@ -24,7 +27,12 @@ import Table from 'components/Table/Table';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectAll, makeSelectOne, makeSelectQuery } from './selectors';
+import {
+  makeSelectAll,
+  makeSelectOne,
+  makeSelectQuery,
+  makeSelectLoading,
+} from './selectors';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
@@ -33,23 +41,12 @@ import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
 
 const styles = theme => ({
-  tableActionButton:{
-    padding:0,
-      '&:hover':{
-        background : 'transparent',
-        color: '#404040',
-      },
-    },
-  waftsrch:{
-    padding:0,
-    position:'absolute',
-    borderLeft:'1px solid #d9e3e9',
-    borderRadius:0,
-      '&:hover':{
-        background : 'transparent',
-        color: '#404040',
-      },
-    },
+  TableButton: { padding: 8 },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 3,
+    right: theme.spacing.unit * 4,
+  },
 });
 
 /* eslint-disable react/prefer-stateless-function */
@@ -85,16 +82,20 @@ export class AdminSubscribePage extends React.PureComponent {
     this.props.loadSubscriberRequest(this.props.query);
   };
 
+  handleDelete = id => {
+    this.props.deleteOneRequest(id);
+  };
+
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
   };
 
   render() {
-    const { classes } = this.props;
     const {
       all: { data, page, size, totaldata },
       query,
       one,
+      loading,
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(({ _id, email, is_subscribed, added_at }) => [
@@ -104,41 +105,49 @@ export class AdminSubscribePage extends React.PureComponent {
 
       <React.Fragment>
         <Tooltip id="tooltip-top" title="View subscribe" placement="top">
-          <IconButton    className={classes.tableActionButton} onClick={() => this.handleView(_id)}>
+          <IconButton onClick={() => this.handleView(_id)}>
             <ViewIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip id="tooltip-top" title="Remove" placement="top">
+          <IconButton onClick={() => this.handleDelete(_id)}>
+            <Close />
           </IconButton>
         </Tooltip>
       </React.Fragment>,
     ]);
-    return (
+    return loading && loading == true ? (
+      <CircularProgress color="primary" disableShrink />
+    ) : (
       <>
-        <div className="flex justify-between mt-3 mb-3">
+        <Helmet>
+          <title>Subscriber List</title>
+        </Helmet>
         <PageHeader>Subscribe Manage</PageHeader>
-      </div>
         <PageContent>
-        <div className="flex justify-end">
-                <div className="waftformgroup flex relative mr-2">
-                <input type="text"
-                  name="find_email"
-                  id="email"
-                  placeholder="Search Subscriber"
-                  className="m-auto Waftinputbox"
-                  value={query.find_email}
-                  onChange={this.handleQueryChange}
-                />
-                <IconButton aria-label="Search" className={[classes.waftsrch, 'waftsrchstyle']} onClick={this.handleSearch}>
-                  <SearchIcon />
-                </IconButton>
-              </div>
-        </div>
-       
+          <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
+            <CustomInput
+              name="find_email"
+              id="email"
+              placeholder="Search Subscriber"
+              fullWidth
+              value={query.find_email}
+              onChange={this.handleQueryChange}
+            />
+            <Divider style={{ width: 1, height: 40, margin: 4 }} />
+            <IconButton aria-label="Search" onClick={this.handleSearch}>
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          <br />
+          <Paper>
             <Table
               tableHead={['Email', 'Is Subscribed', 'Added at', 'Actions']}
               tableData={tableData}
               pagination={tablePagination}
               handlePagination={this.handlePagination}
             />
-         
+          </Paper>
         </PageContent>
       </>
     );
@@ -148,6 +157,7 @@ export class AdminSubscribePage extends React.PureComponent {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
+  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

@@ -88,30 +88,28 @@ class AddEdit extends React.PureComponent {
     const { one, classes} = this.props;
     return (
       <div>
-         <div class="flex justify-between mt-1 mb-1">
         <PageHeader>
         <IconButton className="cursor-pointer"	 onClick={this.handleGoBack} aria-label="Back">
           <BackIcon />
         </IconButton></PageHeader>
-        </div>
         <PageContent>
 
-           <div class="w-full md:w-1/2 pb-4">
+           <div class="w-full md:w-1/2 px-3 pb-4">
       <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
         Content Title
       </label>
-      <input class="Waftinputbox" id="grid-last-name" type="text" value= {one.name}
+      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-last-name" type="text" value= {one.name}
                     onChange= {this.handleChange('name')} />
     </div>
 
-               <div class="w-full md:w-1/2 pb-4">
+               <div class="w-full md:w-1/2 px-3 pb-4">
       <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
         Content Key
       </label>
-      <input class="Waftinputbox" id="grid-last-name" type="text" value= {one.key}
+      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-last-name" type="text" value= {one.key}
                     onChange= {this.handleChange('key')} />
     </div>
-    <div className="pb-4">
+    <div className="mb-4 px-3">
                 <CKEditor
                   name="description"
                   content={one.description}
@@ -123,7 +121,7 @@ class AddEdit extends React.PureComponent {
                 />
                 </div>
 
-      <div class="w-full md:w-1/2">
+      <div class="w-full md:w-1/2 px-3 pb-4">
         <FormControl
           margin="normal"
           className={classes.formControl}
@@ -134,13 +132,13 @@ class AddEdit extends React.PureComponent {
           <DatePicker
             margin="normal"
             name="publish_from"
-            className={[classes.textField , 'Waftinputbox']}
+            className={classes.textField}
             value={(one.publish_from && moment(one.publish_from).format('YYYY/MM/DD')) || ''}
             onChange={this.handleDateChange('publish_from')}
           />
         </FormControl>
       </div>
-    <div class="w-full md:w-1/2">
+    <div class="w-full md:w-1/2 px-3 pb-4">
       <FormControl
         margin="normal"
         className={classes.formControl}
@@ -151,7 +149,7 @@ class AddEdit extends React.PureComponent {
         <DatePicker
           margin="normal"
           name="publish_to"
-          className={[classes.textField , 'Waftinputbox']}
+          className={classes.textField}
           value={(one.publish_to && moment(one.publish_to).format('YYYY/MM/DD')) || ''}
           onChange={this.handleDateChange('publish_to')}
         />
@@ -182,11 +180,14 @@ class AddEdit extends React.PureComponent {
                 />
 
 <br/>
-             <button class="text-white py-2 px-4 rounded mt-4 btn-waft"
-              onClick={this.handleSave}
+              <Button
+              
+                variant="contained"
+                color="primary"
+                onClick={this.handleSave}
               >
-                Save</button>
-             
+                Save
+              </Button>
         </PageContent>
       </div>
     );

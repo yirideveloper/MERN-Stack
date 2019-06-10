@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+import Helmet from 'react-helmet';
 
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -39,9 +40,6 @@ import saga from '../saga';
 import { makeSelectOne, makeSelectMedia } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import { IMAGE_BASE } from '../../App/constants';
-import PageHeader from '../../../components/PageHeader/PageHeader';
-import PageContent from '../../../components/PageContent/PageContent';
-import BackIcon from '@material-ui/icons/ArrowBack';
 
 const styles = theme => ({
   modal: { backgroundColor: '#fff', padding: '20' },
@@ -57,42 +55,59 @@ const styles = theme => ({
     '& > img': { maxWidth: '100%' },
   },
 });
-const SortableImageItem = SortableElement(({value, index, _this}) => <div class="flex mb-4 bg-grey-lighter p-2">
-  <div className="w-2/5 m-auto text-center pr-5">
+const SortableImageItem = SortableElement(({value, index, _this}) => <div>
+  <Grid container spacing={24}>
+  <Grid item xs={3} style={{ textAlign: 'center' }}>
     {value.image ? (
-      <img className="rounded w-full"
+      <img
         src={`${IMAGE_BASE}public/300-300/media/${
           value.image.filename
         }`}
       />
     ) : (
-<button class="bg-grey-light py-2 px-4 rounded text-grey-darker hover:bg-grey-lightest border"
- onClick={_this.handleSetImage(index)}
->
-  Click To Set Image</button>
-    )}</div>
-
-
-<div className="w-2/5 m-auto text-center"><input class="Waftinputbox" id={`slider-caption-${index}`} type="text" value= {value.caption} placeholder="Caption"
-                    onChange={_this.handleImageCaptionChange(index)} style={{background:'#FFF',height:'100%'}}/></div>
-                    <div className="w-1/5 m-auto text-center">
+      <Button
+        color="primary"
+        onClick={_this.handleSetImage(index)}
+      >
+        Add Image
+      </Button>
+    )}
+  </Grid>
+  <Grid item xs={7}>
+    <TextField
+      variant="outlined"
+      fullWidth
+      multiline
+      rows="2"
+      id={`slider-caption-${index}`}
+      label="Caption"
+      value={value.caption}
+      onChange={_this.handleImageCaptionChange(index)}
+      InputLabelProps={{
+        shrink: true,
+      }}
+    />
+  </Grid>
+  <Grid item xs={2}>
     <IconButton
       color="secondary"
       onClick={() => _this.handleRemoveSlide(index)}
     >
       <DeleteIcon />
     </IconButton>
-    </div>
+  </Grid>
+  </Grid>
+  <br/>
   </div>
   );
 
 const SortableImageList = SortableContainer(({items, _this}) => {
   return (
-    <div className="rounded mt-4">
+    <ul>
       {items.map((value, index) => (
         <SortableImageItem key={`${value._id}-item-image-${index}`} index={index} value={value} _this={_this}/>
       ))}
-    </div>
+    </ul>
   );
 });
 class AddEdit extends React.PureComponent {
@@ -189,7 +204,7 @@ class AddEdit extends React.PureComponent {
     this.props.setOneValue({ key: 'images', value: arrayMove(this.props.one.images, oldIndex, newIndex)})
   };
   render() {
-    const { one, classes, media } = this.props;
+    const { one, classes, media, match } = this.props;
     const { subheader } = this.state;
 
     // media next prev logic
@@ -199,12 +214,6 @@ class AddEdit extends React.PureComponent {
     const isLastPage = media.page === lastPage;
     return (
       <>
-         <div class="flex justify-between mt-1 mb-1">
-        <PageHeader>
-        <IconButton className="cursor-pointer"	 onClick={this.handleGoBack} aria-label="Back">
-          <BackIcon />
-        </IconButton></PageHeader>
-        </div>
         <Dialog
           className={classes.modal}
           aria-labelledby="simple-modal-title"
@@ -260,52 +269,95 @@ class AddEdit extends React.PureComponent {
             ))}
           </DialogContent>
         </Dialog>
-        <PageContent>
-            <div class="w-full md:w-1/2 pb-4">
-      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
-      Slider Name
-      </label>
-      <input class="Waftinputbox" id="slider-name" type="text" value= {one.slider_name} name="slider_name"
-                    onChange= {this.handleChange('slider_name')} />
-    </div>
-
-    <div class="w-full md:w-1/2 pb-4">
-      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
-      Slider Key
-      </label>
-      <input class="Waftinputbox" id="slider-key" type="text" value= {one.slider_key} name="slider_key"
-                    onChange= {this.handleChange('slider_key')} />
-    </div>
-              
-    <div class="w-full md:w-1/2 pb-4">
-      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
-      Slider Settings
-      </label>
+        <Helmet>
+          <title>
+            {match && match.params && match.params.id
+              ? 'Edit Slider'
+              : 'Add Slider'}
+          </title>
+        </Helmet>
+          <Card>
+            <CardHeader color="primary" title="Slider" subheader={subheader} />
+            <CardBody>
+              <div>
+                <TextField
+                  variant="outlined"
+                  name="slider_name"
+                  id="slider-name"
+                  fullWidth
+                  margin="normal"
+                  label="Slider Name"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    value: one.slider_name,
+                    onChange: this.handleChange('slider_name'),
+                  }}
+                />
+              </div>
+              <div>
+                <TextField
+                  variant="outlined"
+                  name="slider_key"
+                  id="slider-key"
+                  fullWidth
+                  margin="normal"
+                  label="Slider Key"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    value: one.slider_key,
+                    onChange: this.handleChange('slider_key'),
+                  }}
+                />
+              </div>
+              <div>
                 <textarea
+                  placeholder="Slider Settings"
                   name="slider settings"
                   id="slider_setting"
-                  className="Waftinputbox"
                   cols="50"
                   rows="8"
                   onChange={this.handleChange('settings')}
                   value={one.settings || ''}
                 />
               </div>
-              <button class="text-white py-2 px-4 rounded btn-waft"
-              onClick={this.handleAddSlide}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleAddSlide}
               >
-                Add Slide</button>
+                Add Slide
+              </Button>
               <div
-             >
+              style={{
+                marginTop: 20,
+                padding: 20,
+                background: '#f0f0f0',
+                borderRadius: '6px',
+              }}>
                 <SortableImageList items={one.images} _this={this} onSortEnd={this.onImageSortEnd}/>
               </div>
-
-            
-              <button class="text-white py-2 px-4 rounded mt-4 btn-waft"
-              onClick={this.handleSave}
+            </CardBody>
+            <CardActions style={{ marginBottom: '100px' }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={this.handleGoBack}
               >
-                Save</button>
-         </PageContent>
+                Back
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleSave}
+              >
+                Save
+              </Button>
+            </CardActions>
+          </Card>
       </>
     );
   }

@@ -11,6 +11,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
 import moment from 'moment';
+import Helmet from 'react-helmet';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
@@ -23,10 +24,12 @@ import CustomInput from '@material-ui/core/Input';
 import Table from 'components/Table';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Close from '@material-ui/icons/Close';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectAll, makeSelectQuery } from './selectors';
+import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
@@ -39,29 +42,10 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   fab: {
-    width:'40px',
-    height:'40px',
-    marginTop:'auto',
-    marginBottom:'auto',
+    position: 'absolute',
+    bottom: theme.spacing.unit * 3,
+    right: theme.spacing.unit * 4,
   },
-  tableActionButton:{
-    padding:0,
-    '&:hover':{
-      background : 'transparent',
-      color: '#404040',
-    },
-  },
-
-  waftsrch:{
-    padding:0,
-    position:'absolute',
-    borderLeft:'1px solid #d9e3e9',
-    borderRadius:0,
-      '&:hover':{
-        background : 'transparent',
-        color: '#404040',
-      },
-    },
 });
 
 /* eslint-disable react/prefer-stateless-function */
@@ -69,6 +53,7 @@ export class AdminFaqCategoryManagePage extends React.PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     loadAllRequest: PropTypes.func.isRequired,
+    deleteCatRequest: PropTypes.func.isRequired,
     all: PropTypes.shape({
       data: PropTypes.array.isRequired,
       page: PropTypes.number.isRequired,
@@ -76,6 +61,7 @@ export class AdminFaqCategoryManagePage extends React.PureComponent {
       totaldata: PropTypes.number.isRequired,
     }),
   };
+
   componentDidMount() {
     this.props.loadAllRequest(this.props.query);
   }
@@ -87,10 +73,14 @@ export class AdminFaqCategoryManagePage extends React.PureComponent {
 
   handleSearch = () => {
     this.props.loadAllRequest(this.props.query);
-  }
+  };
 
   handleEdit = id => {
     this.props.push(`/admin/faq-cat-manage/edit/${id}`);
+  };
+
+  handleDelete = id => {
+    this.props.deleteCatRequest(id);
   };
 
   handlePagination = paging => {
@@ -102,18 +92,18 @@ export class AdminFaqCategoryManagePage extends React.PureComponent {
     this.props.push('/admin/faq-cat-manage/add');
   };
 
-
   render() {
     const { classes } = this.props;
     const {
       all: { data, page, size, totaldata },
       query,
+      loading,
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
       ({ title, is_active, added_at, updated_at, _id }) => [
         title,
-        '' + is_active,
+        `${is_active}`,
         moment(added_at).format('MMM Do YY'),
         moment(updated_at).format('MMM Do YY'),
         <>
@@ -133,44 +123,63 @@ export class AdminFaqCategoryManagePage extends React.PureComponent {
               />
             </IconButton>
           </Tooltip>
+          <Tooltip
+            id="tooltip-top-start"
+            title="Remove"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
+              onClick={() => this.handleDelete(_id)}
+            >
+              <Close
+                className={`${classes.tableActionButtonIcon} ${classes.close}`}
+              />
+            </IconButton>
+          </Tooltip>
         </>,
       ],
     );
-    return (
+    return loading && loading == true ? (
+      <CircularProgress color="primary" disableShrink />
+    ) : (
       <>
-        <div className="flex justify-between mt-3 mb-3">
+        <Helmet>
+          <title>FAQ Listing</title>
+        </Helmet>
         <PageHeader>FAQ Category Manage</PageHeader>
-        <Fab
-              color="primary"
-              aria-label="Add"
-              className={classes.fab}
-              round="true"
-              onClick={this.handleAdd}
-              elevation={0}
-            >
-              <AddIcon />
-            </Fab>
-            </div>
         <PageContent>
-          <div className="flex justify-end">
-          <div className="waftformgroup flex relative">
-                <input type="text"
-                  name="find_title"
-                  id="faq-title"
-                  placeholder="Search Category"
-                  className="m-auto Waftinputbox"
-                  value={query.find_title}
-                  onChange={this.handleQueryChange}
-                />
-              <IconButton aria-label="Search" className={[classes.waftsrch, 'waftsrchstyle']} onClick={this.handleSearch}>
-                  <SearchIcon />
-                </IconButton>
-                </div>
-                </div>
-                 
-         
+          <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
+            <CustomInput
+              name="find_title"
+              id="faq-title"
+              fullWidth
+              placeholder="Search Cat"
+              value={query.find_title}
+              onChange={this.handleQueryChange}
+            />
+            <Divider
+              style={{
+                width: 1,
+                height: 40,
+                margin: 4,
+              }}
+            />
+            <IconButton aria-label="Search" onClick={this.handleSearch}>
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          <br />
           <Paper
-           
+            style={{
+              padding: 0,
+              overflow: 'auto',
+              borderRadius: 4,
+              boxShadow: '0 0 0 1px rgba(0,0,0,.2)',
+              display: 'flex',
+            }}
             elevation={0}
           >
             <Table
@@ -185,6 +194,16 @@ export class AdminFaqCategoryManagePage extends React.PureComponent {
               pagination={tablePagination}
               handlePagination={this.handlePagination}
             />
+            <Fab
+              color="primary"
+              aria-label="Add"
+              className={classes.fab}
+              round="true"
+              onClick={this.handleAdd}
+              elevation={0}
+            >
+              <AddIcon />
+            </Fab>
           </Paper>
         </PageContent>
       </>
@@ -195,6 +214,7 @@ export class AdminFaqCategoryManagePage extends React.PureComponent {
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
+  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

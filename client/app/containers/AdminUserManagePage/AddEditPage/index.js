@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
+import Helmet from 'react-helmet';
 
 // @material-ui/core
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -24,8 +25,6 @@ import { makeSelectOne } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import PageContent from '../../../components/PageContent/PageContent';
 import PageHeader from '../../../components/PageHeader/PageHeader';
-import BackIcon from '@material-ui/icons/ArrowBack';
-import { IconButton } from '@material-ui/core';
 
 class AddEdit extends React.PureComponent {
   static propTypes = {
@@ -91,31 +90,40 @@ class AddEdit extends React.PureComponent {
     } = this.props;
     return (
       <>
-        {/* <PageHeader>{id ? 'Edit' : 'Add'} User</PageHeader> */}
-        <div class="flex justify-between mt-1 mb-1">
-        <PageHeader>
-        <IconButton className="cursor-pointer"	 onClick={this.handleBack} aria-label="Back">
-          <BackIcon />
-        </IconButton></PageHeader>
-        </div>
+       <Helmet>
+          <title>{id ? 'Edit User' : 'Add User'}</title>
+        </Helmet>
+        <PageHeader>{id ? 'Edit' : 'Add'} User</PageHeader>
         <PageContent>
-
-        <div class="w-full md:w-1/2 pb-4">
-          <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2">
-          Email
-          </label>
-          <input class="Waftinputbox" id="email" type="text" value= {users.email}
-                     onChange={this.handleChange('email')} />
-        </div>
-
-        <div class="w-full md:w-1/2 pb-4">
-          <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2">
-          Name
-          </label>
-          <input class="Waftinputbox" id="name" type="text" value= {users.name}
-                      onChange={this.handleChange('name')}/>
-        </div>
-         
+          <Grid container spacing={24}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                id="email"
+                type="email"
+                label="Email"
+                value={users.email}
+                onChange={this.handleChange('email')}
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                required
+                id="name"
+                label="Name"
+                value={users.name}
+                onChange={this.handleChange('name')}
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
               <FormControlLabel
                 control={
                   <Checkbox
@@ -141,11 +149,16 @@ class AddEdit extends React.PureComponent {
                   label={each.role_title}
                 />
               ))}
-              <br/>
-
-          <button class="text-white py-2 px-4 rounded mt-4 btn-waft" onClick={this.handleSave}>
-           Save
-           </button>
+            </Grid>
+          </Grid>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleSave}
+            className={classes.button}
+          >
+            Save
+          </Button>
         </PageContent>
       </>
     );

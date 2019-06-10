@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { push } from 'connected-react-router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
@@ -20,13 +21,14 @@ import reducer from '../reducer';
 import saga from '../saga';
 import { makeSelectOne, makeSelectCategory } from '../selectors';
 import * as mapDispatchToProps from '../actions';
-import BackIcon from '@material-ui/icons/ArrowBack';
-import { IconButton } from '@material-ui/core';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
 
 const styles = theme => ({
- 
+  formcontrol: {
+    minWidth: 120,
+    maxWidth: 300,
+  },
 });
 
 class AddEdit extends React.PureComponent {
@@ -70,18 +72,19 @@ class AddEdit extends React.PureComponent {
   };
 
   render() {
-    const { classes, category, one } = this.props;
+    const { classes, category, one, match } = this.props;
     return (
       <div>
-        <div class="flex justify-between mt-1 mb-1">
+        <Helmet>
+          <title>
+            {match && match.params && match.params.id ? 'Edit Faq' : 'Add Faq '}
+          </title>
+        </Helmet>
         <PageHeader>
-        <IconButton className="cursor-pointer"	 onClick={this.handleGoBack} aria-label="Back">
-          <BackIcon />
-        </IconButton>
+          <ArrowBack className="cursor-pointer" onClick={this.handleGoBack} />
         </PageHeader>
-        </div>
         <PageContent>
-          <div className="w-full md:w-1/2 pb-4">
+          <div className="w-full md:w-1/2 px-3 pb-4">
             <label
               className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
               htmlFor="grid-last-name"
@@ -89,61 +92,63 @@ class AddEdit extends React.PureComponent {
               Question
             </label>
             <input
-              className="Waftinputbox"
+              className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
               name="Question"
               id="faq"
               value={one.question || ''}
               onChange={this.handleChange('question')}
             />
-            </div>
-          <div className="w-full md:w-1/2 pb-4">
-            <label
-              className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-              htmlFor="grid-last-name"
-            >
-              Answer
-            </label>
-            <textarea className="Waftinputbox"
+            <TextField
               multiline
               rows="5"
               name="Answer"
               id="faq-answer"
+              label="Answer"
               value={one.title || ''}
               onChange={this.handleChange('title')}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
-            </div>
-
-            <div className="w-full md:w-1/2 pb-4">
-            <label
-              className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-              htmlFor="category"
-            >
-              Category
-            </label>
-            <select class="Waftinputbox"  value={one.category}
+            <div>
+              <FormControl
+                margin="normal"
+                className={classes.formControl}
+                fullWidth
+              >
+                <InputLabel htmlFor="category">Category</InputLabel>
+                <Select
+                  value={one.category}
                   onChange={this.handleChange('category')}
                   inputProps={{
                     name: 'category',
                     id: 'category-title',
-                  }}>
-
-                    {category &&
+                  }}
+                >
+                  {category &&
                     category.length &&
                     category.map(each => (
-                      <option key={each._id} value={each._id}>
+                      <MenuItem key={each._id} value={each._id}>
                         {each.title}
-                      </option>
+                      </MenuItem>
                     ))}
-
-                  </select>
+                </Select>
+              </FormControl>
             </div>
-            
 
-            <button class="text-white py-2 px-4 rounded mt-4 btn-waft"
+            <Button
+              className="mt-4"
+              fullWidth
+              variant="outlined"
+              color="primary"
               onClick={this.handleSave}
-              >
-                Save</button>
-          
+            >
+              Save
+            </Button>
+          </div>
         </PageContent>
       </div>
     );
