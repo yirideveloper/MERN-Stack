@@ -6,19 +6,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-
 import withStyles from '@material-ui/core/styles/withStyles';
 import Tooltip from '@material-ui/core/Tooltip';
-import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import SearchIcon from '@material-ui/icons/Search';
 import CreateIcon from '@material-ui/icons/Create';
 import VpnKey from '@material-ui/icons/VpnKey';
+import Helmet from 'react-helmet';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -30,7 +26,7 @@ import Table from 'components/Table';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import { makeSelectAll, makeSelectLoading, makeSelectQuery } from './selectors';
+import { makeSelectAll } from './selectors';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
 
@@ -39,7 +35,6 @@ export class AdminModuleManage extends React.PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     loadAllRequest: PropTypes.func.isRequired,
-    setQueryValue: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
     clearOne: PropTypes.func.isRequired,
     all: PropTypes.shape({
@@ -51,7 +46,7 @@ export class AdminModuleManage extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.props.loadAllRequest(this.props.query);
+    this.props.loadAllRequest();
   }
 
   handleAdd = () => {
@@ -67,15 +62,6 @@ export class AdminModuleManage extends React.PureComponent {
     this.props.push(`/admin/module-manage/access/${id}`);
   };
 
-  handleQueryChange = name => e => {
-    e.persist();
-    this.props.setQueryValue({ key: name, value: e.target.value });
-  };
-
-  handleSearch = () => {
-    this.props.loadAllRequest(this.props.query);
-  };
-
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
   };
@@ -84,58 +70,33 @@ export class AdminModuleManage extends React.PureComponent {
     const {
       classes,
       all: { data, page, size, totaldata },
-      query,
-      loading,
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(({ _id, module_name, description }) => [
       module_name,
       description,
       <>
-        <button
-          className="text-blue hover:bg-grey-lighter rounded-full w-10 h-10 text-center"
+        <button className=
+          {classes.tableActionButton}
           onClick={() => this.handleEdit(_id)}
         >
           <CreateIcon />
         </button>
-        <button
-          className="text-blue hover:bg-grey-lighter rounded-full w-10 h-10 text-center"
+        <button className=
+          {classes.tableActionButton}
           onClick={() => this.handleAccessEdit(_id)}
         >
           <VpnKey />
         </button>
       </>,
     ]);
-    return loading && loading == true ? (
-      <div>loading</div>
-    ) : (
+    return (
       <>
         <Helmet>
-          <title>Module Listing</title>
+          <title>Module Manage</title>
         </Helmet>
-        <PageHeader>Module Manage</PageHeader>
-        <PageContent>
-          <Paper style={{ padding: 20, overflow: 'auto', display: 'flex' }}>
-            <InputBase
-              name="find_module_name"
-              id="module-name"
-              placeholder="Search modules by name"
-              fullWidth
-              value={query.find_module_name}
-              onChange={this.handleQueryChange('find_module_name')}
-            />
-            <Divider style={{ width: 1, height: 40, margin: 4 }} />
-            <IconButton aria-label="Search" onClick={this.handleSearch}>
-              <SearchIcon />
-            </IconButton>
-          </Paper>
-          <br />
-          <Table
-            tableHead={['Module Name', 'Description', '']}
-            tableData={tableData}
-            pagination={tablePagination}
-            handlePagination={this.handlePagination}
-          />
+        <div className="flex justify-between mt-3 mb-3">
+          <PageHeader>Module Manage</PageHeader>
           <Fab
             color="primary"
             aria-label="Add"
@@ -144,6 +105,15 @@ export class AdminModuleManage extends React.PureComponent {
           >
             <AddIcon />
           </Fab>
+          </div>
+        <PageContent>
+          <Table
+            tableHead={['Module Name', 'Description', 'Action']}
+            tableData={tableData}
+            pagination={tablePagination}
+            handlePagination={this.handlePagination}
+          />
+         
         </PageContent>
       </>
     );
@@ -152,8 +122,6 @@ export class AdminModuleManage extends React.PureComponent {
 
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
-  loading: makeSelectLoading(),
-  query: makeSelectQuery(),
 });
 
 const withConnect = connect(
@@ -166,9 +134,19 @@ const withSaga = injectSaga({ key: 'adminModuleManage', saga });
 
 const styles = theme => ({
   fab: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 3,
-    right: theme.spacing.unit * 4,
+  
+    width:'40px',
+    height:'40px',
+    marginTop:'auto',
+    marginBottom:'auto',
+  },
+  tableActionButton:{
+    padding:0,
+    color:"#666",
+    '&:hover':{
+      background : 'transparent',
+      color: '#404040',
+    },
   },
 });
 

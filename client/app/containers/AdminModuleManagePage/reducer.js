@@ -26,8 +26,6 @@ export const initialState = {
     },
     Roles: [],
   },
-  query: { find_module_name: '' },
-  loading: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -43,28 +41,16 @@ const adminRoleManageReducer = (state = initialState, action) =>
       case types.CLEAR_ONE:
         draft.one = initialState.one;
         break;
-      case types.LOAD_ALL_REQUEST:
-        draft.loading = true;
-        break;
       case types.LOAD_ALL_SUCCESS:
-        draft.loading = false;
         draft.all = action.payload;
-        break;
-      case types.LOAD_ALL_FAILURE:
-        draft.loading = false;
         break;
       case types.LOAD_ONE_SUCCESS:
         draft.one = action.payload.data;
         break;
       case types.LOAD_ACCESS_SUCCESS:
-        draft.loading = false;
         draft.access = action.payload.data;
         break;
-      case types.LOAD_ACCESS_REQUEST:
-        draft.loading = true;
-        break;
-      case types.SET_QUERY_VALUE:
-        draft.query[action.payload.key] = action.payload.value;
+      case types.DEFAULT_ACTION:
         break;
     }
   });

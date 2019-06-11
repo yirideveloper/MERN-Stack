@@ -98,16 +98,6 @@ function* deleteFailureFunc(action) {
   yield put(enqueueSnackbar(snackbarData));
 }
 
-function* addEditFailureFunc(action) {
-  const snackbarData = {
-    message: action.payload.msg || 'Something went wrong while updating!!',
-    options: {
-      variant: 'warning',
-    },
-  };
-  yield put(enqueueSnackbar(snackbarData));
-}
-
 export default function* defaultSaga() {
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
@@ -115,5 +105,4 @@ export default function* defaultSaga() {
   yield takeLatest(types.DELETE_ONE_REQUEST, deleteContent);
   yield takeLatest(types.DELETE_ONE_SUCCESS, deleteSuccessFunc);
   yield takeLatest(types.DELETE_ONE_FAILURE, deleteFailureFunc);
-  yield takeLatest(types.ADD_EDIT_FAILURE, addEditFailureFunc);
 }

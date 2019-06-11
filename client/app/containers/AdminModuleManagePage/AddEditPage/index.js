@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import Helmet from 'react-helmet';
 
 // @material-ui/core
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -201,9 +200,6 @@ class AddEdit extends React.PureComponent {
     } = this.props;
     return (
       <React.Fragment>
-         <Helmet>
-          <title>{id ? 'Edit' : 'Add'} Module</title>
-        </Helmet>
         <PageHeader className="text-sm">
           <IconButton
             className="mr-4"
@@ -212,7 +208,7 @@ class AddEdit extends React.PureComponent {
           >
             <BackIcon />
           </IconButton>{' '}
-          {id ? `Edit for ${one.module_name}` : 'Add Module'}
+          {id ? 'Edit' : 'Add'} Module
         </PageHeader>
         <PageContent>
           <Paper className={classes.paper}>
