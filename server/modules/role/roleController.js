@@ -197,20 +197,21 @@ roleController.SaveAccessListForModule = async (req, res, next) => {
   try {
     const moduleid = req.params.moduleid;
     const access = req.body.Access;
-    console.log(access);
     if (access.length) {
       for (let i = 0; i < access.length; i++) {
         if (access[i]._id) {
-          const update = await accessSch.findByIdAndUpdate(access[i]._id, { $set: access[i] }, { new: true });
-          return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, 'Access update success!!', null);
+          access[i].ModuleId = moduleid;
+          await accessSch.findByIdAndUpdate(access[i]._id, { $set: access[i] }, { new: true });
         } else {
           access[i].module_id = moduleid;
           access[i].added_by = req.user.id;
           const newAccess = new accessSch(access[i]);
           await newAccess.save();
-          return otherHelper.sendResponse(res, httpStatus.OK, true, newAccess, null, roleConfig.accessSave, null);
         }
       }
+      return otherHelper.sendResponse(res, httpStatus.NOT_MODIFIED, false, access, null, roleConfig.accessSave, null);
+    } else {
+      return otherHelper.sendResponse(res, httpStatus.NOT_MODIFIED, false, null, 'Nothing to save!!', 'Nothing to save!!', null);
     }
   } catch (err) {
     next(err);

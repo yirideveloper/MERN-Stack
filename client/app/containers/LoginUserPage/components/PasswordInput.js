@@ -16,7 +16,7 @@ import { makeSelectPassword, makeSelectPasswordError } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 
 const PasswordInput = props => {
-  const { password, setStoreValue, errors, classes } = props;
+  const { password, setStoreValue, error, classes } = props;
   const [isSecure, setIsSecure] = useState();
 
   const handleTogglePassword = () => {
@@ -25,7 +25,7 @@ const PasswordInput = props => {
 
   const handleChange = e =>
     setStoreValue({ key: 'password', value: e.target.value });
-  const hasError = Boolean(errors);
+  const hasError = Boolean(error);
   return (
     <div className="mb-4">
       <div className="flex justify-between">
@@ -45,7 +45,7 @@ const PasswordInput = props => {
       </div>
       <div className="relative">
         <input
-          error={hasError.toString()}
+          error={hasError}
           onChange={handleChange}
           value={password}
           id="Password"
@@ -68,13 +68,13 @@ const PasswordInput = props => {
 PasswordInput.propTypes = {
   password: PropTypes.string.isRequired,
   setStoreValue: PropTypes.func.isRequired,
-  errors: PropTypes.string,
+  error: PropTypes.string,
   classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   password: makeSelectPassword(),
-  errors: makeSelectPasswordError(),
+  error: makeSelectPasswordError(),
 });
 
 const withConnect = connect(

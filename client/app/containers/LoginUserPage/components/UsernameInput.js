@@ -7,17 +7,17 @@ import { makeSelectEmail, makeSelectEmailError } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 
 const EmailInput = props => {
-  const { email, setStoreValue, errors } = props;
+  const { email, setStoreValue, error } = props;
   const handleChange = e =>
     setStoreValue({ key: 'email', value: e.target.value });
-  const hasError = Boolean(errors);
+  const hasError = Boolean(error);
   return (
     <div className="mb-4">
       <label className="block text-grey-darker text-sm mb-2" htmlFor="username">
-        {errors || 'Email'}
+        {error || 'Email'}
       </label>
       <input
-        error={hasError.toString()}
+        error={hasError}
         onChange={handleChange}
         value={email}
         className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
@@ -32,12 +32,12 @@ const EmailInput = props => {
 EmailInput.propTypes = {
   email: PropTypes.string.isRequired,
   setStoreValue: PropTypes.func.isRequired,
-  errors: PropTypes.string,
+  error: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   email: makeSelectEmail(),
-  errors: makeSelectEmailError(),
+  error: makeSelectEmailError(),
 });
 
 export default connect(
