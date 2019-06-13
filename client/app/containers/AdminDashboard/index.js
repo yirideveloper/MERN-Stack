@@ -42,9 +42,7 @@ export class AdminDashboard extends React.PureComponent {
     const { users, info, errors, blogs } = this.props;
     return (
       <>
-       <div className="flex justify-between mt-3 mb-3">
         <PageHeader>Dashboard</PageHeader>
-        </div>
         <PageContent>
           <Paper>
             <Grid item xs={12} sm={12}>
@@ -101,11 +99,19 @@ export class AdminDashboard extends React.PureComponent {
                   <div>Total users: {users.totaldata}</div>
                   <div>
                     <h3>By Roles: </h3>
-                    {users.data.map(each => (
-                      <div key={each._id}>
-                        {each.roles.role_title}: {each.count}
-                      </div>
-                    ))}
+                    {users &&
+                      users.data &&
+                      users.data.role &&
+                      users.data.role.map(each => (
+                        <div key={each._id}>
+                          {each.role_title}:{' '}
+                          {users.data &&
+                            users.data.user &&
+                            users.data.user.filter(e =>
+                              e.roles.includes(each._id),
+                            ).length}
+                        </div>
+                      ))}
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={6}>

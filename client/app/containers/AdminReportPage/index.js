@@ -16,10 +16,7 @@ export default class HomePage extends React.PureComponent {
         <Helmet>
           <title>Report</title>
         </Helmet>
-        <div className="flex justify-between mt-3 mb-3">
-        <div className="pageheader text-2xl my-auto">Report</div>
-        </div>
-        <div className="bg-white rounded py-5 px-5">
+        <div className="container mx-auto">
           <StaticContentDiv contentKey="report" />
         </div>
       </React.Fragment>
