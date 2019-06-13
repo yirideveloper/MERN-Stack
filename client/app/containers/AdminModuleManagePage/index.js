@@ -50,6 +50,7 @@ export class AdminModuleManage extends React.PureComponent {
   };
 
   componentDidMount() {
+
     this.props.loadAllRequest(this.props.query);
   }
 
@@ -66,9 +67,9 @@ export class AdminModuleManage extends React.PureComponent {
     this.props.push(`/admin/module-manage/access/${id}`);
   };
 
-  handleQueryChange = e => {
+  handleQueryChange = name => e => {
     e.persist();
-    this.props.setQueryValue({ key: e.target.name, value: e.target.value });
+    this.props.setQueryValue({ key: name, value: e.target.value });
   };
 
   handleSearch = () => {
@@ -91,15 +92,16 @@ export class AdminModuleManage extends React.PureComponent {
       module_name,
       description,
       <>
-        <button
-          className={classes.tableActionButton}
+      
+        <button className=
+          {classes.tableActionButton}
           onClick={() => this.handleEdit(_id)}
         >
           <CreateIcon />
         </button>
-
-        <button
-          className={classes.tableActionButton}
+     
+        <button className=
+          {classes.tableActionButton}
           onClick={() => this.handleAccessEdit(_id)}
         >
           <VpnKey />
@@ -111,6 +113,7 @@ export class AdminModuleManage extends React.PureComponent {
       <div>loading</div>
     ) : (
       <>
+      
         <Helmet>
           <title>Module Manage</title>
         </Helmet>
@@ -124,35 +127,15 @@ export class AdminModuleManage extends React.PureComponent {
           >
             <AddIcon />
           </Fab>
-        </div>
-
-        <PageContent>
-          <div className="flex justify-end">
-            <div className="waftformgroup flex relative">
-              <input
-                type="text"
-                name="find_module_name"
-                id="module-name"
-                placeholder="Search modules by name"
-                className="m-auto Waftinputbox"
-                value={query.find_module_name}
-                onChange={this.handleQueryChange}
-              />
-              <IconButton
-                aria-label="Search"
-                className={`${classes.waftsrch} waftsrchstyle`}
-                onClick={this.handleSearch}
-              >
-                <SearchIcon />
-              </IconButton>
-            </div>
           </div>
+        <PageContent>
           <Table
             tableHead={['Module Name', 'Description', 'Action']}
             tableData={tableData}
             pagination={tablePagination}
             handlePagination={this.handlePagination}
           />
+         
         </PageContent>
       </>
     );
@@ -175,16 +158,17 @@ const withSaga = injectSaga({ key: 'adminModuleManage', saga });
 
 const styles = theme => ({
   fab: {
-    width: '40px',
-    height: '40px',
-    marginTop: 'auto',
-    marginBottom: 'auto',
+  
+    width:'40px',
+    height:'40px',
+    marginTop:'auto',
+    marginBottom:'auto',
   },
-  tableActionButton: {
-    padding: 0,
-    color: '#666',
-    '&:hover': {
-      background: 'transparent',
+  tableActionButton:{
+    padding:0,
+    color:"#666",
+    '&:hover':{
+      background : 'transparent',
       color: '#404040',
     },
   },

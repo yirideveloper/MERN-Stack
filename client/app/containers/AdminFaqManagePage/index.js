@@ -33,16 +33,17 @@ import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 
 const styles = theme => ({
   fab: {
-    width: '40px',
-    height: '40px',
-    marginTop: 'auto',
-    marginBottom: 'auto',
+  
+    width:'40px',
+    height:'40px',
+    marginTop:'auto',
+    marginBottom:'auto',
   },
 
-  tableActionButton: {
-    padding: 0,
-    '&:hover': {
-      background: 'transparent',
+  tableActionButton:{
+    padding:0,
+    '&:hover':{
+      background : 'transparent',
       color: '#404040',
     },
   },
@@ -66,7 +67,6 @@ export class FAQManagePage extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.props.clearQuery();
     this.props.loadAllRequest(this.props.query);
   }
 
@@ -147,17 +147,19 @@ export class FAQManagePage extends React.PureComponent {
         </>,
       ],
     );
-
+ 
     return loading && loading == true ? (
       <div>loading</div>
     ) : (
       <>
         <Helmet>
-          <title>FAQ Listing</title>
+          <title>
+            FAQ Listing
+          </title>
         </Helmet>
-        <div className="flex justify-between mt-3 mb-3">
-          <PageHeader>FAQ Manage</PageHeader>
-          <Fab
+    <div className="flex justify-between mt-3 mb-3">
+        <PageHeader>FAQ Manage</PageHeader>
+        <Fab
             color="primary"
             aria-label="Add"
             className={classes.fab}
@@ -167,28 +169,28 @@ export class FAQManagePage extends React.PureComponent {
           >
             <AddIcon />
           </Fab>
-        </div>
-        <PageContent>
-          <div className="flex justify-end">
-            <div className="waftformgroup flex relative">
-              <input
-                type="text"
-                name="find_question"
-                id="faq-question"
-                placeholder="Search FAQs by question"
-                className="m-auto Waftinputbox"
-                value={query.find_question}
-                onChange={this.handleQueryChange}
-              />
-              <IconButton
-                aria-label="Search"
-                className={`${classes.waftsrch} waftsrchstyle`}
-                onClick={this.handleSearch}
-              >
-                <SearchIcon />
-              </IconButton>
-            </div>
           </div>
+        <PageContent>
+          <Paper style={{ padding: 20, overflow: 'auto', display: 'none' }}>
+            <CustomInput
+              name="find_question"
+              id="question-name"
+              fullWidth
+              placeholder="Search FAQs"
+              value={query.find_question}
+              onChange={this.handleQueryChange}
+            />
+            <Divider
+              style={{
+                width: 1,
+                height: 40,
+                margin: 4,
+              }}
+            />
+            <IconButton aria-label="Search" onClick={this.handleSearch}>
+              <SearchIcon />
+            </IconButton>
+          </Paper>
           <Table
             tableHead={[
               'Question',
@@ -201,6 +203,8 @@ export class FAQManagePage extends React.PureComponent {
             pagination={tablePagination}
             handlePagination={this.handlePagination}
           />
+         
+        
         </PageContent>
       </>
     );
