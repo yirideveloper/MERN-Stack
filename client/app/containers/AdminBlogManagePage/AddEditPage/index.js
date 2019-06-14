@@ -15,7 +15,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import InputLabel from '@material-ui/core/InputLabel';
 import { Checkbox, IconButton } from '@material-ui/core/';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 
 // core components
@@ -39,7 +38,6 @@ import {
   makeSelectCategory,
   makeSelectChip,
   makeSelectTag,
-  makeSelectLoading
 } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import PageHeader from '../../../components/PageHeader/PageHeader';
@@ -194,11 +192,9 @@ class AddEdit extends React.PureComponent {
 
   render() {
   
-    const { classes, one, category, tempTag, match, loading} = this.props;
+    const { classes, one, category, tempTag, match} = this.props;
     const { tempImage } = this.state;
-    return loading && loading == true ? (
-      <CircularProgress color="primary" disableShrink />
-    ) : (
+    return (
       <React.Fragment>
         <Helmet>
           <title>
@@ -207,10 +203,10 @@ class AddEdit extends React.PureComponent {
               : 'Add Blog'}
           </title>
         </Helmet>
-       <div className="flex justify-between mt-3 mb-3">
+       <div class="flex justify-between mt-3 mb-3">
         <PageHeader>
          <IconButton
-           className={`${classes.backbtn} cursor-pointer`}
+           className={[classes.backbtn,'cursor-pointer']}
             onClick={this.handleGoBack}
             aria-label="Back"
           >
@@ -223,11 +219,11 @@ class AddEdit extends React.PureComponent {
      </div>
         <PageContent>
         
-        <div className="w-full md:w-1/2 pb-4">
-      <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+        <div class="w-full md:w-1/2 pb-4">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
         Title
       </label>
-      <input className="Waftinputbox" id="blog-title" type="text" value= {one.title || ''}  name="Blog Title"
+      <input class="Waftinputbox" id="blog-title" type="text" value= {one.title || ''}  name="Blog Title"
                     onChange= {this.handleChange('title')} />
     </div>
 
@@ -239,9 +235,9 @@ class AddEdit extends React.PureComponent {
            
               Category
             </label>
-            <select className="Waftinputbox"  value={one.category}
+            <select class="Waftinputbox"  value={one.category}
                   onChange={this.handleCategoryChange('category')}
-                  inputprops={{
+                  inputProps={{
                     value: one.category || '',
                     name: 'category',
                   }}
@@ -289,23 +285,23 @@ class AddEdit extends React.PureComponent {
         
           </div>
 <div className="w-full md:w-1/2 pb-4">
-      <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
       Published On
       </label>
-      <input className="Waftinputbox" id="blog-title"  type="date" value= {
+      <input class="Waftinputbox" id="blog-title"  type="date" value= {
               (one.published_on &&
                 moment(one.published_on).format('YYYY-MM-DD')) ||
-              ''
+              null
          
             }  name="published_on"
                     onChange= {this.handlePublishedOn} />
     </div>
     <div className="w-full md:w-1/2 pb-4">
-    <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+    <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
       Tags
       </label>
        
-          <input className="Waftinputbox" id="blog-tags" type="text" value= {tempTag || ''}  name="Tags"
+          <input class="Waftinputbox" id="blog-tags" type="text" value= {tempTag || ''}  name="Tags"
                     onChange= {this.handleTempTag} onSubmit={this.insertTags}/>
           
        
@@ -330,38 +326,38 @@ class AddEdit extends React.PureComponent {
 
        
           <div className="w-full md:w-1/2 pb-4">
-    <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+    <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
       Meta Description
       </label>
        
-          <input className="Waftinputbox" id="blog-tags" type="text" value= {one.meta_description || ''}  name="meta-description"
+          <input class="Waftinputbox" id="blog-tags" type="text" value= {one.meta_description || ''}  name="meta-description"
                     onChange= {this.handleChange('meta_description')}/>
                     </div>
 
                     <div className="w-full md:w-1/2 pb-4">
-    <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+    <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
       Meta Tag
       </label>
        
-          <input className="Waftinputbox" type="text" value= {one.meta_tag || ''}  name="meta-tag"
+          <input class="Waftinputbox" type="text" value= {one.meta_tag || ''}  name="meta-tag"
                     onChange= {this.handleChange('meta_tag')}/>
                     </div>
 
                     <div className="w-full md:w-1/2 pb-4">
-    <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+    <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
     Meta Keywords
       </label>
        
-          <input className="Waftinputbox" id="blog-meta-keywords" type="text" value= {one.keywords || ''}  name="keywords"
+          <input class="Waftinputbox" id="blog-meta-keywords" type="text" value= {one.keywords || ''}  name="keywords"
                     onChange= {this.handleChange('keywords')}/>
                     </div>
 
                     <div className="w-full md:w-1/2 pb-4">
-    <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+    <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
     Author
       </label>
        
-          <input className="Waftinputbox" id="blog-author" type="text" value= {one.author || ''}  name="Author"
+          <input class="Waftinputbox" id="blog-author" type="text" value= {one.author || ''}  name="Author"
                     onChange= {this.handleChange('author')}/>
                     </div>
   
@@ -392,7 +388,7 @@ class AddEdit extends React.PureComponent {
           />
         
 <br/>
-<button className="text-white py-2 px-4 rounded mt-4 btn-waft"
+<button class="text-white py-2 px-4 rounded mt-4 btn-waft"
               onClick={this.handleSave}
               >
                 Save</button>
@@ -412,7 +408,6 @@ const mapStateToProps = createStructuredSelector({
   category: makeSelectCategory(),
   chip: makeSelectChip(),
   tempTag: makeSelectTag(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

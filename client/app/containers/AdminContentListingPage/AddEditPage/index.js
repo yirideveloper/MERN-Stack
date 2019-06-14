@@ -16,7 +16,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import CircularProgress from '@material-ui/core/CircularProgress';
 // core components
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -27,7 +26,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import reducer from '../reducer';
 import saga from '../saga';
-import { makeSelectOne, makeSelectLoading } from '../selectors';
+import { makeSelectOne } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
@@ -95,11 +94,8 @@ class AddEdit extends React.PureComponent {
   };
 
   render() {
-    const { one, classes, match, loading} = this.props;
-    return loading && loading == true ? (
-      <CircularProgress color="primary" disableShrink />
-    ) : (
-
+    const { one, classes, match} = this.props;
+    return (
       <>
       <Helmet>
       <title> {match && match.params && match.params.id
@@ -109,7 +105,7 @@ class AddEdit extends React.PureComponent {
       <div>
          <div className="flex justify-between mt-3 mb-3">
         <PageHeader>
-        <IconButton className={`${classes.backbtn} cursor-pointer`}	 onClick={this.handleGoBack} aria-label="Back">
+        <IconButton className={[classes.backbtn, "cursor-pointer"]}	 onClick={this.handleGoBack} aria-label="Back">
           <BackIcon />
         </IconButton>
         {match && match.params && match.params.id
@@ -118,19 +114,19 @@ class AddEdit extends React.PureComponent {
         </div>
         <PageContent>
 
-      <div className="w-full md:w-1/2 pb-4">
-        <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+      <div class="w-full md:w-1/2 pb-4">
+        <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
         Content Title
         </label>
-        <input className="Waftinputbox" id="grid-last-name" type="text" value= {one.name}
+        <input class="Waftinputbox" id="grid-last-name" type="text" value= {one.name}
                     onChange= {this.handleChange('name')} />
       </div>
 
-               <div className="w-full md:w-1/2 pb-4">
-      <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+               <div class="w-full md:w-1/2 pb-4">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
         Content Key
       </label>
-      <input className="Waftinputbox" id="grid-last-name" type="text" value= {one.key}
+      <input class="Waftinputbox" id="grid-last-name" type="text" value= {one.key}
                     onChange= {this.handleChange('key')} />
     </div>
     <div className="pb-4">
@@ -145,12 +141,12 @@ class AddEdit extends React.PureComponent {
                 />
                 </div>
 
-      <div className="w-full md:w-1/2">
+      <div class="w-full md:w-1/2">
         <FormControl
           margin="normal"
           className={classes.formControl}
         >
-          <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+          <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
           Published From
           </label>
           <DatePicker
@@ -162,12 +158,12 @@ class AddEdit extends React.PureComponent {
           />
         </FormControl>
       </div>
-    <div className="w-full md:w-1/2">
+    <div class="w-full md:w-1/2">
       <FormControl
         margin="normal"
         className={classes.formControl}
       >
-        <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+        <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
         Published To
         </label>
         <DatePicker
@@ -204,7 +200,7 @@ class AddEdit extends React.PureComponent {
                 />
 
 <br/>
-             <button className="text-white py-2 px-4 rounded mt-4 btn-waft" onClick={this.handleSave}>
+             <button class="text-white py-2 px-4 rounded mt-4 btn-waft" onClick={this.handleSave}>
               Save
               </button>
              
@@ -221,7 +217,6 @@ const withSaga = injectSaga({ key: 'contentsListingPage', saga });
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

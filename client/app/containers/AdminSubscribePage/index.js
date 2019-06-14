@@ -98,7 +98,7 @@ export class AdminSubscribePage extends React.PureComponent {
   };
 
   handlePagination = paging => {
-    this.props.loadSubscriberRequest(paging);
+    this.props.loadAllRequest(paging);
   };
 
   render() {
@@ -125,10 +125,7 @@ export class AdminSubscribePage extends React.PureComponent {
           </IconButton>
         </Tooltip>
         <Tooltip id="tooltip-top" title="Remove" placement="top">
-          <IconButton
-            className={classes.tableActionButton}
-            onClick={() => this.handleDelete(_id)}
-          >
+          <IconButton className={classes.tableActionButton} onClick={() => this.handleDelete(_id)}>
             <Close />
           </IconButton>
         </Tooltip>

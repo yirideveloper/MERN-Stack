@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
 import withStyles from '@material-ui/core/styles/withStyles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,7 +19,7 @@ import injectReducer from 'utils/injectReducer';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import reducer from '../reducer';
 import saga from '../saga';
-import { makeSelectOne, makeSelectCategory, makeSelectLoading } from '../selectors';
+import { makeSelectOne, makeSelectCategory } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core';
@@ -81,21 +80,18 @@ class AddEdit extends React.PureComponent {
 
   render() {
 
-    const { classes, category, one, match, loading} = this.props;
-    return loading && loading == true ? (
-      <CircularProgress color="primary" disableShrink />
-    ) : (
-
+    const { classes, category, one, match } = this.props;
+    return (
       <>
         <Helmet>
           <title>
             {match && match.params && match.params.id ? 'Edit Faq' : 'Add Faq '}
           </title>
         </Helmet>
-  <div className="flex justify-between mt-3 mb-3">
+  <div class="flex justify-between mt-3 mb-3">
         <PageHeader>
         
-        <IconButton className={`${classes.backbtn} cursor-pointer`}	 onClick={this.handleGoBack} aria-label="Back">
+        <IconButton className={[classes.backbtn,'cursor-pointer']}	 onClick={this.handleGoBack} aria-label="Back">
           <BackIcon />
         </IconButton>{match && match.params && match.params.id
             ? 'Edit Faq'
@@ -129,7 +125,7 @@ class AddEdit extends React.PureComponent {
               Answer
             </label>
             <textarea className="Waftinputbox"
-              multiline = "true"
+              multiline
               rows="5"
               name="Answer"
               id="faq-answer"
@@ -146,9 +142,9 @@ class AddEdit extends React.PureComponent {
             >
               Category
             </label>
-            <select className="Waftinputbox"  value={one.category}
+            <select class="Waftinputbox"  value={one.category}
                   onChange={this.handleChange('category')}
-                  inputprops={{
+                  inputProps={{
                     name: 'category',
                     id: 'category-title',
                
@@ -170,7 +166,7 @@ class AddEdit extends React.PureComponent {
             
 
           
-            <button className="text-white py-2 px-4 rounded mt-4 btn-waft"
+            <button class="text-white py-2 px-4 rounded mt-4 btn-waft"
               onClick={this.handleSave}
          
               >
@@ -190,7 +186,6 @@ const withSaga = injectSaga({ key: 'faqManagePage', saga });
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
   category: makeSelectCategory(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

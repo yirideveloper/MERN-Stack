@@ -8,7 +8,6 @@ import Helmet from 'react-helmet';
 
 // @material-ui/core
 import withStyles from '@material-ui/core/styles/withStyles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -22,7 +21,7 @@ import injectReducer from 'utils/injectReducer';
 // core components
 import reducer from '../reducer';
 import saga from '../saga';
-import { makeSelectOne, makeSelectLoading} from '../selectors';
+import { makeSelectOne } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
@@ -67,10 +66,8 @@ class AddEdit extends React.PureComponent {
   };
 
   render() {
-    const { classes, one, match, loading} = this.props;
-    return loading && loading == true ? (
-      <CircularProgress color="primary" disableShrink />
-    ) : (
+    const { classes, one, match } = this.props;
+    return (
       <React.Fragment>
         <Helmet>
           <title>
@@ -79,28 +76,28 @@ class AddEdit extends React.PureComponent {
               : 'Add Role'}
           </title>
         </Helmet>
-        <div className="flex justify-between mt-3 mb-3">
+        <div class="flex justify-between mt-3 mb-3">
         <PageHeader>
-        <IconButton className={`${classes.backbtn} cursor-pointer`}	 onClick={this.handleBack} aria-label="Back">
+        <IconButton className={[classes.backbtn,'cursor-pointer']}	 onClick={this.handleBack} aria-label="Back">
           <BackIcon />
         </IconButton>{match && match.params && match.params.id
             ? 'Edit Role'
             : 'Add Role'}</PageHeader>
         </div>
         <PageContent>
-            <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
+            <div class="w-full md:w-1/2 pb-4">
+            <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2">
             Role Title
             </label>
-            <input className="Waftinputbox" id="role_title" type="text"  value={one.role_title}
+            <input class="Waftinputbox" id="role_title" type="text"  value={one.role_title}
                        onChange={this.handleChange('role_title')} required/>
           </div>
 
-          <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
+          <div class="w-full md:w-1/2 pb-4">
+            <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2">
             Description
             </label>
-            <textarea className="Waftinputbox" id="description" type="text"   value={one.description}
+            <textarea class="Waftinputbox" id="description" type="text"   value={one.description}
                        onChange={this.handleChange('description')} required/>
           </div>
              
@@ -117,7 +114,7 @@ class AddEdit extends React.PureComponent {
               />
       <br/>
           
-              <button className="text-white py-2 px-4 rounded mt-4 btn-waft" onClick={this.handleSave}>
+              <button class="text-white py-2 px-4 rounded mt-4 btn-waft" onClick={this.handleSave}>
               Save
               </button>
         
@@ -132,7 +129,6 @@ const withSaga = injectSaga({ key: 'adminRoleManage', saga });
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

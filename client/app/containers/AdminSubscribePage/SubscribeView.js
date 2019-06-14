@@ -43,6 +43,13 @@ export class ViewSubscriber extends React.Component {
     }
   }
 
+  // handleCheckedChange = name => event => {
+  //   event.persist();
+  //   const tempUser = { ...this.props.one.users };
+  //   tempUser[name] = event.target.checked;
+  //   this.props.setOneValue({ key: 'users', value: tempUser });
+  // };
+
   handleBack = () => {
     this.props.push('/admin/subscribe-manage');
   };
@@ -54,12 +61,13 @@ export class ViewSubscriber extends React.Component {
        ) : (
       <React.Fragment>
 
+
         <Helmet>
           <title> Subscriber Details </title>
         </Helmet>
-   <div className="flex justify-between mt-3 mb-3">
+   <div class="flex justify-between mt-3 mb-3">
         <PageHeader>
-        <IconButton className={`${classes.backbtn} cursor-pointer`}	onClick={this.handleBack} aria-label="Back">
+        <IconButton className={[classes.backbtn, "cursor-pointer"]}	onClick={this.handleBack} aria-label="Back">
           <BackIcon />
         </IconButton> Subscribe Details</PageHeader>
         </div>

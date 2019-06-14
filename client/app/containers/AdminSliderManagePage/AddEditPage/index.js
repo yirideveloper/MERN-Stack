@@ -12,7 +12,6 @@ import Helmet from 'react-helmet';
 
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 // core components
@@ -38,7 +37,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MediaElement from '../../../components/MediaElement';
 import reducer from '../reducer';
 import saga from '../saga';
-import { makeSelectOne, makeSelectMedia, makeSelectLoading } from '../selectors';
+import { makeSelectOne, makeSelectMedia } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import { IMAGE_BASE } from '../../App/constants';
 import PageHeader from '../../../components/PageHeader/PageHeader';
@@ -68,7 +67,7 @@ const styles = theme => ({
     marginRight:'5px',
   }
 });
-const SortableImageItem = SortableElement(({value, index, _this}) => <div className="flex mb-4 bg-grey-lighter p-2">
+const SortableImageItem = SortableElement(({value, index, _this}) => <div class="flex mb-4 bg-grey-lighter p-2">
   <div className="w-2/5 m-auto text-center pr-5">
     {value.image ? (
       <img className="rounded w-full"
@@ -78,14 +77,14 @@ const SortableImageItem = SortableElement(({value, index, _this}) => <div classN
       />
     ) : (
     
-<button className="bg-grey-light py-2 px-4 rounded text-grey-darker hover:bg-grey-lightest border"
+<button class="bg-grey-light py-2 px-4 rounded text-grey-darker hover:bg-grey-lightest border"
  onClick={_this.handleSetImage(index)}
 >
   Click To Set Image</button>
     )}</div>
 
 
-<div className="w-2/5 m-auto text-center"><input className="Waftinputbox" id={`slider-caption-${index}`} type="text" value= {value.caption} placeholder="Caption"
+<div className="w-2/5 m-auto text-center"><input class="Waftinputbox" id={`slider-caption-${index}`} type="text" value= {value.caption} placeholder="Caption"
                     onChange={_this.handleImageCaptionChange(index)} style={{background:'#FFF',height:'100%'}}/></div>
                     <div className="w-1/5 m-auto text-center">
     <IconButton
@@ -205,7 +204,7 @@ class AddEdit extends React.PureComponent {
   };
   render() {
  
-    const { one, classes, media, match, loading } = this.props;
+    const { one, classes, media, match } = this.props;
     const { subheader } = this.state;
 
     // media next prev logic
@@ -213,14 +212,11 @@ class AddEdit extends React.PureComponent {
     const firstPage = 1;
     const isFirstPage = media.page === firstPage;
     const isLastPage = media.page === lastPage;
-
-    return loading && loading == true ? (
-      <CircularProgress color="primary" disableShrink />
-    ) : (
+    return (
       <>
-         <div className="flex justify-between mt-3 mb-3">
+         <div class="flex justify-between mt-3 mb-3">
         <PageHeader>
-        <IconButton className={`${classes.backbtn} cursor-pointer`}	 onClick={this.handleGoBack} aria-label="Back">
+        <IconButton className={[classes.backbtn,'cursor-pointer']}	 onClick={this.handleGoBack} aria-label="Back">
           <BackIcon />
         </IconButton>{match && match.params && match.params.id
             ? 'Edit Slider'
@@ -290,24 +286,24 @@ class AddEdit extends React.PureComponent {
           </title>
         </Helmet>
   <PageContent>
-            <div className="w-full md:w-1/2 pb-4">
-      <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+            <div class="w-full md:w-1/2 pb-4">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
       Slider Name
       </label>
-      <input className="Waftinputbox" id="slider-name" type="text" value= {one.slider_name} name="slider_name"
+      <input class="Waftinputbox" id="slider-name" type="text" value= {one.slider_name} name="slider_name"
                     onChange= {this.handleChange('slider_name')} />
     </div>
 
-    <div className="w-full md:w-1/2 pb-4">
-      <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+    <div class="w-full md:w-1/2 pb-4">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
       Slider Key
       </label>
-      <input className="Waftinputbox" id="slider-key" type="text" value= {one.slider_key} name="slider_key"
+      <input class="Waftinputbox" id="slider-key" type="text" value= {one.slider_key} name="slider_key"
                     onChange= {this.handleChange('slider_key')} />
     </div>
               
-    <div className="w-full md:w-1/2 pb-4">
-      <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2" htmlFor="grid-last-name">
+    <div class="w-full md:w-1/2 pb-4">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs mb-2" for="grid-last-name">
       Slider Settings
       </label>
                 <textarea
@@ -322,7 +318,7 @@ class AddEdit extends React.PureComponent {
                 />
               </div>
              
-              <button className="text-waftprimary font-bold py-2 px-4 rounded border-2 border-waftprimary hover:text-white hover:bg-waftprimary"
+              <button class="text-waftprimary font-bold py-2 px-4 rounded border-2 border-waftprimary hover:text-white hover:bg-waftprimary"
               onClick={this.handleAddSlide}
               >
             
@@ -335,7 +331,7 @@ class AddEdit extends React.PureComponent {
         
 
             
-              <button className="text-white py-2 px-4 rounded mt-4 btn-waft"
+              <button class="text-white py-2 px-4 rounded mt-4 btn-waft"
               onClick={this.handleSave}
               >
              
@@ -354,7 +350,6 @@ const withSaga = injectSaga({ key: 'sliderManagePage', saga });
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
   media: makeSelectMedia(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

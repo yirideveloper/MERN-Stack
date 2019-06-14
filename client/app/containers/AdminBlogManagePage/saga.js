@@ -88,17 +88,7 @@ function* addEdit() {
   yield cancel(successWatcher);
 }
 
-function* addEditSuccessFunc(action) {
-  const snackbarData = {
-    message: action.payload.msg || 'Update success!!',
-    options: {
-      variant: 'success',
-    },
-  };
-  yield put(enqueueSnackbar(snackbarData));
-}
-
-function* addEditFailureFunc(action) {
+function* addEditFail(action) {
   const defaultError = {
     message: action.payload.msg || 'something went wrong',
     options: {
@@ -143,8 +133,7 @@ export default function* defaultSaga() {
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
-  yield takeLatest(types.ADD_EDIT_FAILURE, addEditFailureFunc);
-  yield takeLatest(types.ADD_EDIT_SUCCESS, addEditSuccessFunc);
+  yield takeLatest(types.ADD_EDIT_FAILURE, addEditFail);
   yield takeLatest(types.LOAD_CATEGORY_REQUEST, loadCategory);
   yield takeLatest(types.DELETE_ONE_REQUEST, deleteBlog);
   yield takeLatest(types.DELETE_ONE_SUCCESS, deleteSuccessFunc);
