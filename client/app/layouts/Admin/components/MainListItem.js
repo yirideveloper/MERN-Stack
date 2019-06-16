@@ -20,13 +20,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import Settings from '@material-ui/icons/Settings';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import PermMedia from '@material-ui/icons/PermMedia';
-import Phone from '@material-ui/icons/Phone';
-import NoteAdd from '@material-ui/icons/NoteAdd';
-import ViewQuilt from '@material-ui/icons/ViewQuilt';
-import MailOutline from '@material-ui/icons/MailOutline';
-
 import {
   makeSelectLocation,
   makeSelectRoles,
@@ -94,7 +87,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
         >
           <Link
             to="/admin/dashboard"
-            className="text-grey-darker hover:text-black text-sm no-underline flex items-center"
+            className="text-grey-darker hover:text-black text-sm no-underline flex items-center p-2"
           >
             <DashboardIcon className="mr-3" />
             Dashboard
@@ -156,7 +149,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
                 to="/admin/media-manage"
                 className="text-grey-darker hover:text-black text-sm no-underline flex items-center  pt-2 pb-2 pl-6 pr-6"
               >
-                  <PermMedia className="mr-3" />
+                <QuestionAnswerIcon className="mr-3" />
                 Media
               </Link>
             </li>
@@ -180,7 +173,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
                 to="/admin/blog-manage"
                 className="text-grey-darker hover:text-black text-sm no-underline flex items-center  pt-2 pb-2 pl-6 pr-6"
               >
-                <NoteAdd className="mr-3" />
+                <QuestionAnswerIcon className="mr-3" />
                 Blog
               </Link>
             </li>
@@ -192,7 +185,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
                 to="/admin/blog-cat-manage"
                 className="text-grey-darker hover:text-black text-sm no-underline flex items-center  pt-2 pb-2 pl-6 pr-6"
               >
-                <NoteAdd className="mr-3" />
+                <QuestionAnswerIcon className="mr-3" />
                 Blog Category
               </Link>
             </li>
@@ -217,7 +210,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
               to="/admin/user-manage"
               className="text-grey-darker hover:text-black text-sm no-underline flex items-center pt-2 pb-2 pl-6 pr-6"
             >
-               <AccountCircle className="mr-3" />
+              <ExtensionIcon className="mr-3" />
               Users
             </Link>
           </li>
@@ -267,7 +260,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
               to="/admin/template-manage"
               className="text-grey-darker hover:text-black text-sm no-underline flex items-center pt-2 pb-2 pl-6 pr-6"
             >
-              <ViewQuilt className="mr-3" />
+              <SliderIcon className="mr-3" />
               Template
             </Link>
           </li>
@@ -291,7 +284,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
               to="/admin/contact-manage"
               className="text-grey-darker hover:text-black text-sm no-underline flex items-center pt-2 pb-2 pl-6 pr-6"
             >
-              <Phone className="mr-3" />
+              <ExtensionIcon className="mr-3" />
               Contacts
             </Link>
           </li>
@@ -303,7 +296,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
               to="/admin/subscribe-manage"
               className="text-grey-darker hover:text-black text-sm no-underline flex items-center pt-2 pb-2 pl-6 pr-6"
             >
-              <MailOutline className="mr-3" />
+              <ExtensionIcon className="mr-3" />
               Subscribes
             </Link>
           </li>
@@ -315,7 +308,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
               to="/admin/reports"
               className="text-grey-darker hover:text-black text-sm no-underline flex items-center pt-2 pb-2 pl-6 pr-6"
             >
-              <InsertChartIcon className="mr-3" />
+              <InsertChartIcon />
               Reports
             </Link>
           </li>
@@ -324,7 +317,7 @@ const Mainlis = ({ classes, location: { pathname }, roles }) => {
               to="/admin/errors"
               className="text-grey-darker hover:text-black text-sm no-underline flex items-center pt-2 pb-2 pl-6 pr-6"
             >
-              <ErrorIcon className="mr-3" />
+              <ErrorIcon />
               Errors
             </Link>
           </li>

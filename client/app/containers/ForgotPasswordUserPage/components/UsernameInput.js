@@ -12,11 +12,13 @@ const EmailInput = props => {
     setStoreValue({ key: 'email', value: e.target.value });
   const hasError = Boolean(error);
   return (
-    <div className="w-full md:w-1/2 pb-4">
-       <input className="Waftinputbox" id="grid-last-name" type="text"   value={email}  error={hasError}
-                    placeholder="Your Email" onChange= {handleChange} />
-      </div>
-   
+    <TextField
+      error={hasError}
+      label={error || 'email'}
+      value={email}
+      onChange={handleChange}
+      margin="normal"
+    />
   );
 };
 

@@ -32,7 +32,6 @@ import saga from './saga';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
 import DeleteDialog from '../../components/DeleteDialog';
-import Loading from '../../components/loading';
 
 const styles = theme => ({
   tableActionButton: {
@@ -142,7 +141,7 @@ export class AdminSubscribePage extends React.PureComponent {
       </React.Fragment>,
     ]);
     return loading && loading == true ? (
-      <Loading/>
+      <CircularProgress color="primary" disableShrink />
     ) : (
       <>
         <DeleteDialog

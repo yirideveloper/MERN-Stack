@@ -18,7 +18,6 @@ import { makeSelectBlog, makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { IMAGE_BASE } from '../App/constants';
-import Loading from '../../components/loading';
 
 export class BlogPage extends React.Component {
   componentDidMount() {
@@ -50,7 +49,7 @@ export class BlogPage extends React.Component {
   render() {
     const { blog, loading } = this.props;
     return loading && loading == true ? (
-    <Loading/>
+      <div>loading</div>
     ) : (
       <div className="container">
         <div className="justify-center">

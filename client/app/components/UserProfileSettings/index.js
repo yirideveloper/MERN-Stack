@@ -11,18 +11,26 @@ export class UserProfileSettingsPage extends React.PureComponent {
     return (
       <div className="sidemenu">
         <React.Fragment>
-          <div className="mt-2 bg-grey-lighter px-3 py-5 rounded" style={{height:'150px'}}>
-           
-                <div className="pb-2"><NavLink className="text-grey-darker hover:text-black" to="/user/profile">Personal Information</NavLink></div>
-            
-                <div className="pb-2"><NavLink className="text-grey-darker hover:text-black" to="/user/change-password">Change Password</NavLink></div>
-             
+          <div>
+            <ul>
+              <li>
+                <NavLink to="/user/profile">Personal Information</NavLink>
+              </li>
+              <li>
+                <NavLink to="/user/change-password">Change Password</NavLink>
+              </li>
+              {/* <li>Password set a minute ago</li> */}
+            </ul>
           </div>
-
-          <button className="text-white py-2 px-4 rounded mt-4 btn-waft"   onClick={() => this.props.logoutRequest()}>
-             LogOut
-              </button>
-         
+          <div style={{ padding: '5px 20px' }}>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={() => this.props.logoutRequest()}
+            >
+              <b>Logout</b>
+            </Button>
+          </div>
         </React.Fragment>
       </div>
     );

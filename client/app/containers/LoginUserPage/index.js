@@ -36,25 +36,29 @@ const LoginUserPage = ({
     loginRequest();
   };
   return (
-    <div className="container mx-auto mb-10">
-   
-<h1 className="text-center my-5 p-3 mb-10 bg-grey-lighter px-5">Welcome, Please Sign In</h1>
-<div className="flex flex-wrap justify-between">
-  <div className="w-full md:w-1/2 px-5 md:px-16">
-    <h1 className="font-light">New User</h1>
-    <div className="block mt-4 bg-grey-lighter px-3 py-5 rounded" style={{height:'153px'}}>
-      <p>By creating an account on our waftengine, you will be able to use our different modules presented hereby.</p>
+    <div className="flex h-screen">
+    <div className="hidden md:block md:w-3/5 login-l">
+      <div className="waftltext px-5 text-white lg:px-32">
+      <h1>Waft Engine</h1>
+      <p>A Powerful Mern Engine</p>
+      <ul className="fealogin mt-10">
+        <li>Quick Scaffolding</li>
+        <li>Instant feedback</li>
+        <li>Predictable state management</li>
+        <li>Next generation javascript</li>
+        <li>Next generation CSS</li>
+        <li>Industry-stand routing</li>
+        <li>Industry-standard internationalization support</li>
+        <li>Offline first</li>
+        <li>Static code analysis</li>
+      </ul>
+      </div>
     </div>
-    <Link
-          className="inline-block text-white py-2 px-4 rounded mt-8 w-full btn-waft text-center no-underline"
-          to="/signup-user"
-        >
-         REGISTER
-        </Link>
-  </div>
-  <div className="w-full md:w-1/2 px-5 md:px-16 mt-10 md:mt-0">
-   
-        <h1 className="font-light">LOGIN</h1>        <form className="mt-4" onSubmit={handleSubmit}>
+
+    <div className="login-R w-full md:w-2/5 relative block">
+      <div className="walfRlogin px-10 md:px-12 lg:px-16 xl:px-24 w-full"> 
+        <h1 className="font-light">LOGIN</h1>
+        <form className="mt-4" onSubmit={handleSubmit}>
           <UsernameInput />
           <PasswordInput />
           <button
@@ -65,14 +69,14 @@ const LoginUserPage = ({
           </button>
         </form>
 
-        {/* <Link
+        <Link
           className="inline-block align-baseline text-xs text-blue hover:text-blue-darker"
           to="/signup-user"
         >
           Don't Have Account? Register
-        </Link> */}
+        </Link>
 
-        <p className="text-muted text-center mt-4 mb-4 text-xs">
+        <p className="text-muted text-center mt-10 mb-4 text-xs">
           OR LOGIN WITH
         </p>
 
@@ -105,7 +109,7 @@ const LoginUserPage = ({
             icon="fa-facebook"
           />
           <GoogleLogin
-            className={`${classes.googbtn} flex jusitify-center flex-1`}
+            className="flex jusitify-center flex-1 shadow-none"
             clientId={GOOGLE_CLIENT_ID}
             buttonText="Google"
             onSuccess={loginWithGoogleRequest}
@@ -113,23 +117,13 @@ const LoginUserPage = ({
               console.log('something went wrong!', err);
             }}
             cookiePolicy="single_host_origin"
-            buttonStyle={{
-              flex: 1,
-              textTransform: 'none',
-              padding: '12px',
-              background: 'none',
-              border: 'none',
-              fontSize: '13px',
-              boxShadow : 'none',
-            }}
-            
-           
+            containerStyle={{ boxShadow: 'none', border: 'none' }}
+            buttonStyle={{ boxShadow: 'none', border: 'none' }}
           />
         </div>
         </div>
-        </div>
-        </div>
-    
+      </div>
+    </div>
      
   );
 };
@@ -151,13 +145,7 @@ const withConnect = connect(
 const withReducer = injectReducer({ key: 'loginUserPage', reducer });
 const withSaga = injectSaga({ key: 'loginUserPage', saga });
 
-const styles = {
-  googbtn:{
-    boxShadow : 'none!important',
-    border:'1px solid gainsboro!important',
-    borderLeft:'none!important',
-  }
-};
+const styles = {};
 
 const withStyle = withStyles(styles);
 

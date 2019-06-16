@@ -33,7 +33,6 @@ import { makeSelectAll, makeSelectLoading, makeSelectQuery } from './selectors';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
-import Loading from '../../components/loading';
 
 
 /* eslint-disable react/prefer-stateless-function */
@@ -105,7 +104,7 @@ export class AdminUserManagePage extends React.PureComponent {
     );
 
     return loading && loading == true ? (
-     <Loading/>
+      <CircularProgress color="primary" disableShrink />
     ) : (
       <>
         <Helmet>

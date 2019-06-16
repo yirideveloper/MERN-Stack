@@ -37,10 +37,10 @@ import {
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import Loading from '../../components/loading';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
+import DeleteDialog from '../../components/DeleteDialog';
 
 const styles = theme => ({
   button: {
@@ -85,6 +85,12 @@ export class AdminBlogCategoryManagePage extends React.PureComponent {
       totaldata: PropTypes.number.isRequired,
     }),
   };
+
+  state = {
+    open: false,
+    deleteId: '',
+  };
+
   componentDidMount() {
     this.props.loadAllRequest(this.props.query);
   }
@@ -101,9 +107,19 @@ export class AdminBlogCategoryManagePage extends React.PureComponent {
   handleEdit = id => {
     this.props.push(`/admin/blog-cat-manage/edit/${id}`);
   };
+
+  handleOpen = id => {
+    this.setState({ open: true, deleteId: id });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   handleDelete = id => {
-    this.props.deleteCatRequest(id);
-  }
+    this.props.deleteOneRequest(id);
+    this.setState({ open: false });
+  };
 
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
@@ -154,7 +170,7 @@ export class AdminBlogCategoryManagePage extends React.PureComponent {
             <IconButton
               aria-label="Close"
               className={classes.tableActionButton}
-              onClick={() => this.handleDelete(_id)}
+              onClick={() => this.handleOpen(_id)}
             >
               <Close
                 className={`${classes.tableActionButtonIcon} ${classes.close}`}
@@ -165,9 +181,15 @@ export class AdminBlogCategoryManagePage extends React.PureComponent {
       ],
     );
     return loading && loading == true ? (
-      <Loading />
+      <CircularProgress color="primary" disableShrink/>
     ) : (
       <>
+
+<DeleteDialog
+          open={this.state.open}
+          doClose={this.handleClose}
+          doDelete={() => this.handleDelete(this.state.deleteId)}
+        />
        <Helmet>
           <title>Blog Category Listing</title>
         </Helmet>

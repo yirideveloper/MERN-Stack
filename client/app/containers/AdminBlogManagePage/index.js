@@ -31,7 +31,7 @@ import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
-import Loading from '../../components/loading';
+import DeleteDialog from '../../components/DeleteDialog';
 
 const styles = theme => ({
   button: {
@@ -80,6 +80,12 @@ export class BlogManagePage extends React.Component {
       totaldata: PropTypes.number.isRequired,
     }),
   };
+
+  state = {
+    open: false,
+    deleteId: '',
+  };
+
   componentDidMount() {
     this.props.loadAllRequest(this.props.query);
   }
@@ -90,9 +96,19 @@ export class BlogManagePage extends React.Component {
   handleEdit = _id => {
     this.props.push(`/admin/blog-manage/edit/${_id}`);
   };
+  handleOpen = id => {
+    this.setState({ open: true, deleteId: id });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   handleDelete = id => {
     this.props.deleteOneRequest(id);
+    this.setState({ open: false });
   };
+
 
   handleQueryChange = e => {
     e.persist();
@@ -132,16 +148,22 @@ export class BlogManagePage extends React.Component {
           </IconButton>
         </Tooltip>
         <Tooltip id="tooltip-top-start" title="Remove" placement="top" classes={{ tooltip: classes.tooltip }}>
-          <IconButton aria-label="Close" className={classes.tableActionButton} onClick={() => this.handleDelete(_id)}>
+          <IconButton aria-label="Close" className={classes.tableActionButton} onClick={() => this.handleOpen(_id)}>
             <Close className={classes.tableActionButtonIcon + ' ' + classes.close} />
           </IconButton>
         </Tooltip>
       </React.Fragment>,
     ]);
     return (
-      loading && loading == true ? <Loading/>: 
+      loading && loading == true ? <div>loading</div> : 
       <>
-<Helmet>
+
+        <DeleteDialog
+          open={this.state.open}
+          doClose={this.handleClose}
+          doDelete={() => this.handleDelete(this.state.deleteId)}
+        />
+        <Helmet>
           <title>Blog Category Listing</title>
         </Helmet>
  <div className="flex justify-between mt-3 mb-3">

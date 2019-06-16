@@ -65,50 +65,55 @@ class UserPersonalInformationPage extends React.PureComponent {
     const { classes, one, errors } = this.props;
     return (
       <React.Fragment>
-     
-  <div className="w-full pb-4">
-        <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
-        Name
-        </label>
-          
+        <PageContent>
+          <Paper className={classes.paper}>
+            <div>
+              <b> Personal Information </b>
+            </div>
+            <br />
+            <Grid container spacing={8}>
+              <Grid item xs={12} sm={6}>
                 <FormControl
                   error={errors && errors.name && errors.name.length > 0}
                 >
-                   <input className="Waftinputbox" id="name" type="text"  value={one.name || ''}
-                     onChange={this.handleChange('name')} />
-                         <FormHelperText id="component-error-text">
+                  <TextField
+                    fullWidth
+                    label="Name"
+                    id="name"
+                    value={one.name || ''}
+                    onChange={this.handleChange('name')}
+                  />
+                  <FormHelperText id="component-error-text">
                     {errors.name}
                   </FormHelperText>
                 </FormControl>
-      </div>
-
-      <div className="w-full pb-4">
-        <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
-        Email
-        </label>
-                 
-           
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <FormControl
                   error={errors && errors.email && errors.email.length > 0}
                 >
-                     <input className="Waftinputbox" id="email" type="text"    value={one.email || ''}
-                     onChange={this.handleChange('name')} />
+                  <TextField
+                    fullWidth
+                    required
+                    label="Email"
+                    id="email"
+                    value={one.email || ''}
+                  />
                   <FormHelperText id="component-error-text">
                     {errors.email}
                   </FormHelperText>
                 </FormControl>
-           </div>
-
-           <div className="w-full pb-4">
-        <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
-        Date Of Birth
-        </label>
-           
+              </Grid>
+            </Grid>
+            <br />
+            <br />
+            <Grid item xs={12} sm={6}>
+              <label>Date Of Birth: </label>
               <DatePicker
                 margin="normal"
                 fullWidth
                 name="date_of_birth"
-                className="Waftinputbox"
+                className={classes.textField}
                 value={
                   (one.date_of_birth &&
                     moment(one.date_of_birth).format('YYYY-MM-DD')) ||
@@ -116,8 +121,10 @@ class UserPersonalInformationPage extends React.PureComponent {
                 }
                 onChange={this.handleDateChange('date_of_birth')}
               />
-              </div>
-        
+            </Grid>
+            <br />
+            <br />
+            <Grid item xs={12} sm={6}>
               <FormControlLabel
                 control={
                   <CheckBox
@@ -127,18 +134,27 @@ class UserPersonalInformationPage extends React.PureComponent {
                 }
                 label="Email Verified"
               />
-         
-              <div className="w-full pb-2">Roles: {one.roles.map(each => `${each.role_title} `)}</div>
-        
-              <div className="w-full  pb-4">Added Date: {moment(one.added_at).format('YYYY-MM-DD')}</div>
-         
-          
-
-            <button class="text-white py-2 px-4 rounded mt-4 btn-waft"  onClick={this.handleSave}>Save</button>
-             
-       
-     
-       
+            </Grid>
+            <br />
+            <Grid item xs={12} sm={6}>
+              <div>Roles: {one.roles.map(each => `${each.role_title} `)}</div>
+            </Grid>
+            <br />
+            <Grid item xs={12} sm={6}>
+              <div>Added Date: {moment(one.added_at).format('YYYY-MM-DD')}</div>
+            </Grid>
+            <div className={classes.buttons}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleSave}
+                className={classes.button}
+              >
+                Save
+              </Button>
+            </div>
+          </Paper>
+        </PageContent>
       </React.Fragment>
     );
   }
@@ -161,6 +177,22 @@ const withConnect = connect(
 );
 
 const styles = theme => ({
+  paper: {
+    marginBottom: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
+      marginBottom: theme.spacing.unit * 6,
+      padding: theme.spacing.unit * 3,
+    },
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit,
+  },
 });
 
 const withStyle = withStyles(styles);

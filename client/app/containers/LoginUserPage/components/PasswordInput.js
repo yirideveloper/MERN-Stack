@@ -28,12 +28,21 @@ const PasswordInput = props => {
   const hasError = Boolean(errors);
   return (
     <div className="mb-4">
+      <div className="flex justify-between">
         <label
           className="block text-grey-darker text-sm mb-2"
           htmlFor="Password"
         >
           Password
         </label>
+
+        <Link
+          className="inline-block align-baseline text-xs text-blue hover:text-blue-darker"
+          to="/forgot-password-user"
+        >
+          Forgot Password?
+        </Link>
+      </div>
       <div className="relative">
         <input
           error={hasError.toString()}
@@ -42,7 +51,7 @@ const PasswordInput = props => {
           id="Password"
           type={isSecure ? 'text' : 'password'}
           placeholder="Enter Password"
-          className="Waftinputbox"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
         />
         <span
           className={classes.EyeIcon}
@@ -52,12 +61,6 @@ const PasswordInput = props => {
           {isSecure ? <Visibility /> : <VisibilityOff />}
         </span>
       </div>
-      <Link
-          className="inline-block align-baseline text-xs text-blue hover:text-blue-darker"
-          to="/forgot-password-user"
-        >
-          Forgot Password?
-        </Link>
     </div>
   );
 };
