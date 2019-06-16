@@ -31,7 +31,6 @@ import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
-import Loading from '../../components/loading';
 
 const styles = theme => ({
   button: {
@@ -160,8 +159,7 @@ export class ContentsListingPage extends React.Component {
       </>,
     ]);
     return loading && loading == true ? (
-      <Loading />
-     
+      <div>loading</div>
     ) : (
       <>
         <Helmet>
