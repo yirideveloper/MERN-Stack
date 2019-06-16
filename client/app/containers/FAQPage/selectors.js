@@ -8,8 +8,3 @@ export const makeSelectFAQ = () =>
     selectDomain,
     state => state.faq,
   );
-export const makeSelectLoading = () =>
-  createSelector(
-    selectDomain,
-    state => state.loading,
-  );

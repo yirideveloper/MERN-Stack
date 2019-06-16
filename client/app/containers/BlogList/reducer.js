@@ -17,9 +17,6 @@ const reducer = (state = initialState, action) =>
       case types.LOAD_BLOG_LIST_SUCCESS:
         draft.blogList = action.payload.data;
         draft.loading = false;
-
-      case types.LOAD_BLOG_LIST_FAILURE:
-        draft.loading = false;
     }
   });
 
