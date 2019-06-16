@@ -34,7 +34,7 @@ import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 
 import PageHeader from '../../components/PageHeader/PageHeader';
 import PageContent from '../../components/PageContent/PageContent';
-import DeleteDialog from '../../components/DeleteDialog';
+import Loading from '../../components/loading';
 
 const styles = theme => ({
   button: {
@@ -84,8 +84,6 @@ export class SliderManagePage extends React.Component {
 
   state = {
     display: false,
-    open: false,
-    deleteId: '',
   };
 
   componentDidMount() {
@@ -114,17 +112,8 @@ export class SliderManagePage extends React.Component {
     this.props.loadAllRequest(paging);
   };
 
-  handleOpen = id => {
-    this.setState({ open: true, deleteId: id });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
   handleDelete = id => {
     this.props.deleteOneRequest(id);
-    this.setState({ open: false });
   };
 
   handleToggle = () => {
@@ -174,7 +163,7 @@ export class SliderManagePage extends React.Component {
             <IconButton
               aria-label="Close"
               className={classes.tableActionButton}
-              onClick={() => this.handleOpen(_id)}
+              onClick={() => this.handleDelete(_id)}
             >
               <Close
                 className={`${classes.tableActionButtonIcon} ${classes.close}`}
@@ -186,14 +175,9 @@ export class SliderManagePage extends React.Component {
     );
 
     return loading && loading == true ? (
-      <CircularProgress color="primary" disableShrink />
+    <Loading/>
     ) : (
       <>
-        <DeleteDialog
-          open={this.state.open}
-          doClose={this.handleClose}
-          doDelete={() => this.handleDelete(this.state.deleteId)}
-        />
         <Helmet>
           <title>Slider Listing</title>
         </Helmet>
