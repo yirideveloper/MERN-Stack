@@ -28,7 +28,6 @@ import PageContent from '../../../components/PageContent/PageContent';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core';
-import Loading from '../../../components/loading';
 
 class AddEdit extends React.PureComponent {
   static propTypes = {
@@ -94,7 +93,7 @@ class AddEdit extends React.PureComponent {
       loading
     } = this.props;
     return loading && loading == true ? (
-      <Loading/>
+      <CircularProgress color="primary" disableShrink />
     ) : (
       <>
 
@@ -128,7 +127,7 @@ class AddEdit extends React.PureComponent {
               <FormControlLabel
                 control={
                   <Checkbox
-                    color="primary"
+                    color="secondary"
                     name="email_verified"
                     checked={users.email_verified || false}
                     onChange={this.handleChecked('email_verified')}
