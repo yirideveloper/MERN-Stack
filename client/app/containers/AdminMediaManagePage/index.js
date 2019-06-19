@@ -53,6 +53,9 @@ export class AdminMediaManagePage extends React.Component {
     query: PropTypes.object.isRequired,
     all: PropTypes.shape({
       data: PropTypes.array.isRequired,
+      page: PropTypes.number.isRequired,
+      size: PropTypes.number.isRequired,
+      totaldata: PropTypes.number.isRequired,
     }),
   };
 
@@ -80,21 +83,21 @@ export class AdminMediaManagePage extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     const {
-      all: { data },
-      loading,
+      all: { data, page, size, totaldata },
+      query,
+      loading,classes
     } = this.props;
     return loading ? (
-      <Loading />
+     <Loading/>
     ) : (
       <>
-        <Helmet>
+       <Helmet>
           <title>Media Manage</title>
         </Helmet>
-        <div className="flex justify-between mt-3 mb-3">
-          <PageHeader>Media Manage</PageHeader>
-          <Dropzone onDrop={this.handleAdd}>
+         <div className="flex justify-between mt-3 mb-3">
+        <PageHeader>Media Manage</PageHeader>
+        <Dropzone onDrop={this.handleAdd}>
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
