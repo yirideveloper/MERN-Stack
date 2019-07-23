@@ -1,5 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import { API_BASE } from 'containers/App/constants';
+import { API_BASE1 } from 'containers/App/constants';
 import objectToFormData from './objectToFormData';
 import request from './request';
 
@@ -37,7 +38,7 @@ class Api {
 
   static dataLoader1(apiUri, onSuccess, onError, data, token, metaData) {
     return function* commonApiSetup() {
-      const baseUrl = 'http://www.waftengine.org/api/';
+      const baseUrl = API_BASE1;
       const requestURL = `${baseUrl}${apiUri}`;
       try {
         const options = {

@@ -23,7 +23,7 @@ const checkPathname = pathname => {
     case '/login-admin':
     // case '/login-user':
     case '/login-admin/':
-      // case '/login-user/':
+    // case '/login-user/':
       return false;
     default:
       break;
@@ -36,7 +36,7 @@ const PublicLayout = ({ location }) => {
   return (
     <>
       {showHeaderAndFooter && <Header />}
-      <div className="container mx-auto pt-12 pb-12">{switchRoutes}</div>
+      <main className="flex-1">{switchRoutes}</main>
       {showHeaderAndFooter && <Footer />}
     </>
   );

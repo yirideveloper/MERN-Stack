@@ -2,9 +2,9 @@ module.exports = {
   mongoURI: '',
 
   recaptcha: { secretKey: '', siteKey: '' },
-  secretOrKey: 'jwtsecret',
+  secretOrKey: '',
   tokenExpireTime: 360000,
-  isOauthConfig: { isGoogleAuth: false, isFacebookAuth: false, isGithubAuth: false },
+
   oauthConfig: {
     googleAuth: {
       client_id: '',
