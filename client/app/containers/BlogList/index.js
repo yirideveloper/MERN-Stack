@@ -42,7 +42,7 @@ export class BlogListPage extends React.Component {
         <div>
           <div className="banner relative">
             <img src="https://www.waftengine.org/public/media/C97CE0A29A7E4B4-banner.jpg" />
-            <h1 className="container mx-auto my-auto absolute inset-x-0 bottom-0 text-waftprimary waft-title">
+            <h1 className="container mx-auto my-auto absolute inset-x-0 bottom-0 text-primary waft-title">
               Blogs
             </h1>
           </div>
@@ -64,7 +64,7 @@ export class BlogListPage extends React.Component {
                     className="blog_sec flex flex-wrap border-b py-5"
                     key={slug_url}
                   >
-                    <div className="md:w-2/5 w-full">
+                    <div className="sm:w-1/2 lg:w-1/4 xl:w-1/6 md:w-2/5 w-full">
                       <Link to={`/blog/${slug_url}`}>
                         <div className="img blog-img">
                           <img
