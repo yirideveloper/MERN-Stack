@@ -13,27 +13,3 @@ export const makeSelectLoading = () =>
     selectDomain,
     state => state.loading,
   );
-
-export const makeSelectRelatedBlogs = () =>
-  createSelector(
-    selectDomain,
-    state => state.relatedBlogs,
-  );
-
-export const makeSelectRelatedBlogsIsLoading = () =>
-  createSelector(
-    selectDomain,
-    state => state.relatedBlogsIsLoading,
-  );
-
-export const makeSelectRecentBlogs = () =>
-  createSelector(
-    selectDomain,
-    state => state.recentBlogs,
-  );
-
-export const makeSelectRecentBlogsIsLoading = () =>
-  createSelector(
-    selectDomain,
-    state => state.recentBlogsIsLoading,
-  );
