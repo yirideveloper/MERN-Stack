@@ -21,8 +21,6 @@ export const initialState = {
     is_published: true,
     is_active: false,
     tags: [],
-    description: '',
-    short_description: '',
     meta_description: '',
     meta_tag: '',
     keywords: '',
