@@ -15,8 +15,7 @@ import { FormattedMessage } from 'react-intl';
 {{/if}}
 {{#if wantActionsAndReducer}}
 import { createStructuredSelector } from 'reselect';
-import * as mapDispatchToProps from './actions';
-import { makeSelectDefaultData } from './selectors';
+import makeSelect{{properCase name}} from './selectors';
 {{/if}}
 {{#if wantMessages}}
 import messages from './messages';
@@ -24,13 +23,6 @@ import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
 export class {{ properCase name }} extends React.{{{ component }}} {
-  static propTypes = {
-{{#if wantActionsAndReducer}}
-    defaultActionRequest: PropTypes.func.isRequired,
-    defaultData: PropTypes.string.isRequired,
-{{/if}}
-  };
-
   render() {
     return (
       <div>
@@ -51,11 +43,21 @@ export class {{ properCase name }} extends React.{{{ component }}} {
   }
 }
 
+{{ properCase name }}.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
 {{#if wantActionsAndReducer}}
 const mapStateToProps = createStructuredSelector({
-  defaultData: makeSelectDefaultData(),
+  {{camelCase name}}: makeSelect{{properCase name}}(),
 });
 {{/if}}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
 
 {{#if wantActionsAndReducer}}
 export default connect(mapStateToProps, mapDispatchToProps)({{ properCase name }});

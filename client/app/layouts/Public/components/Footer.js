@@ -1,14 +1,18 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import { Button, Grid } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { compose } from 'redux';
+import saga from '../../../containers/App/saga';
+import * as mapDispatchToProps from '../../../containers/App/actions';
 import logo from '../../../assets/img/logo.svg';
 import fb from '../../../assets/img/fb.png';
 import instagram from '../../../assets/img/Instagram.png';
 import tw from '../../../assets/img/tw.png';
 import mail from '../../../assets/img/mail.png';
+import newsletterpattern from '../../../assets/img/newsletterpattern.png';
+import { red } from '@material-ui/core/colors';
 
 const styles = {};
 class Footer extends React.Component {
@@ -24,6 +28,7 @@ class Footer extends React.Component {
 
   render() {
     const { email } = this.state;
+    const { classes } = this.props;
 
     return (
       <footer className="footer">
@@ -79,25 +84,23 @@ class Footer extends React.Component {
             <div className="w-full lg:w-1/3 mb-4 flex lg:justify-between">
               <a
                 className="block no-underline  text-grey-darkest hover:text-primary pr-2 lg:m-auto"
-                href="https://waftengine.org/about-us"
-                target="_blank"
+                href="https://waftengine.org/about-us" target="_blank"
               >
                 About Us
               </a>
               <a
                 className="block no-underline  text-grey-darkest hover:text-primary pr-2 lg:m-auto"
-                href="https://waftengine.org/features"
-                target="_blank"
+                href="https://waftengine.org/features" target="_blank"
               >
                 Features
               </a>
               <a
                 className="display-block  no-underline  text-grey-darkest hover:text-primary pr-2 lg:m-auto"
-                href="https://waftengine.org/contact-us"
-                target="_blank"
+                href="https://waftengine.org/contact-us" target="_blank"
               >
                 Contact Us
               </a>
+             
             </div>
             <div className="w-full lg:w-1/3 mb-4 lg:flex lg:justify-end">
               <ul className="flex list-none p-0">
@@ -107,23 +110,23 @@ class Footer extends React.Component {
                     target="_blank"
                     title="Facebook"
                   >
-                    <img src={fb} alt="facebook" />
+                    <img src={fb} />
                   </a>
                 </li>
                 <li className="pr-2 lg:m-auto lg:pr-2">
                   <a href="mailto:info@waftengine.com" title="E-mail">
-                    <img src={mail} alt="email" />
+                    <img src={mail} />
                   </a>
                 </li>
                 <li className="pr-2 lg:m-auto lg:pr-2">
                   <a href="#" target="_blank" title="Twitter">
-                    <img src={tw} alt="twitter" />
+                    <img src={tw} />
                   </a>{' '}
                 </li>
                 <li className="pr-2 lg:m-auto lg:pr-2">
                   {' '}
                   <a href="#" target="_blank" title="Instagram">
-                    <img src={instagram} alt="instagram" />
+                    <img src={instagram} />
                   </a>
                 </li>
               </ul>
@@ -135,8 +138,7 @@ class Footer extends React.Component {
   }
 }
 
-Footer.propTypes = {};
-
+Footer.propTypes = { classes: PropTypes.object.isRequired };
 const withStyle = withStyles(styles);
 
 export default compose(
