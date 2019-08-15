@@ -13,11 +13,6 @@ import Helmet from 'react-helmet';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Checkbox, IconButton } from '@material-ui/core/';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Inputs from '@material-ui/core/Input';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import injectSaga from 'utils/injectSaga';
@@ -27,7 +22,6 @@ import reducer from '../reducer';
 import saga from '../saga';
 import {
   makeSelectOne,
-  makeSelectUsers,
   makeSelectCategory,
   makeSelectChip,
   makeSelectTag,
@@ -72,18 +66,12 @@ const styles = theme => ({
     borderRadius: '50%',
     marginRight: '5px',
   },
-  PaperProps: {
-    style: {
-      maxHeight: 48 * 4.5 + 8,
-      width: 250,
-    },
-  },
 });
 
 class AddEdit extends React.PureComponent {
+
   static propTypes = {
     loadOneRequest: PropTypes.func.isRequired,
-    loadUsersRequest: PropTypes.func.isRequired,
     loadCategoryRequest: PropTypes.func.isRequired,
     addEditRequest: PropTypes.func.isRequired,
     setOneValue: PropTypes.func.isRequired,
@@ -108,7 +96,6 @@ class AddEdit extends React.PureComponent {
       this.props.loadOneRequest(this.props.match.params.id);
     }
     this.props.loadCategoryRequest();
-    this.props.loadUsersRequest();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -132,34 +119,14 @@ class AddEdit extends React.PureComponent {
     this.props.setOneValue({ key: name, value: event.target.checked });
   };
 
-  slugify = text => {
-    return text
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, '-') // Replace spaces with -
-      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-      .replace(/\-\-+/g, '-') // Replace multiple - with single -
-      .replace(/^-+/, '') // Trim - from start of text
-      .replace(/-+$/, ''); // Trim - from end of text
-  };
-
   handleChange = name => event => {
     event.persist();
     this.props.setOneValue({ key: name, value: event.target.value });
-    if (name === 'title') {
-      const slug = this.slugify(event.target.value);
-      this.props.setOneValue({ key: 'slug_url', value: slug });
-    }
   };
 
-  handleDropDownChange = name => e => {
+  handleCategoryChange = name => e => {
     e.persist();
     this.props.setOneValue({ key: name, value: e.target.value });
-  };
-
-  handleMultipleSelectChange = e => {
-    e.persist();
-    this.props.setCategoryValue(e.target.value);
   };
 
   handleTempMetaKeyword = e => {
@@ -270,7 +237,6 @@ class AddEdit extends React.PureComponent {
       classes,
       one,
       category,
-      users,
       tempTag,
       tempMetaTag,
       tempMetaKeyword,
@@ -279,7 +245,6 @@ class AddEdit extends React.PureComponent {
       errors,
     } = this.props;
     const { tempImage } = this.state;
-    console.log(category);
     return loading && loading == true ? (
       <Loading />
     ) : (
@@ -311,45 +276,39 @@ class AddEdit extends React.PureComponent {
               label="title"
               inputClassName="Waftinputbox"
               inputId="blog-title"
-              value={(one && one.title) || ''}
+              value={one.title || ''}
               name="Blog Title"
               onChange={this.handleChange('title')}
+              error={errors.title}
             />
           </div>
-          <div id="component-error-text">{errors && errors.title}</div>
-          <div className="w-full md:w-1/2 pb-4">
-            <Input
-              label="slug"
-              inputClassName="Waftinputbox"
-              inputId="blog-slug-url"
-              value={(one && one.slug_url) || ''}
-              name="Blog Slug"
-              onChange={this.handleChange('slug_url')}
-            />
-          </div>
-          <div id="component-error-text">{errors && errors.slug_url}</div>
+
           <div className="w-full md:w-1/2 pb-4">
             <label
               className="block uppercase tracking-wide text-grey-darker text-xs mb-2"
-              htmlFor="select-multiple-category"
+              htmlFor="category"
             >
               Category
             </label>
-
-            <Select
-              multiple
-              value={one.category || []}
-              onChange={this.handleMultipleSelectChange}
-              // renderValue={selected => selected.map(s => category.find(cat => cat._id === s).title).join(', ')}
+            <select
+              className="Waftinputbox"
+              native="true"
+              value={one.category}
+              onChange={this.handleCategoryChange('category')}
+              inputprops={{
+                value: one.category || '',
+                name: 'category',
+              }}
             >
+              <option name="none" value="" disabled>
+                None
+              </option>
               {category.map(each => (
-                <MenuItem key={each._id} value={each._id}>
-                {/* <input type="checkbox" checked={one.category.includes(each._id) ? 'checked' : ''}
-                onChange={() => null}/> */}
+                <option key={each._id} name={each.title} value={each._id}>
                   {each.title}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
+            </select>
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label
@@ -382,7 +341,7 @@ class AddEdit extends React.PureComponent {
               }}
             />
 
-            <div id="component-error-text">{errors && errors.description}</div>
+            <div id="component-error-text">{errors.description}</div>
           </div>
 
           <div className="w-full md:w-1/2 pb-4 mt-4">
@@ -466,7 +425,7 @@ class AddEdit extends React.PureComponent {
               Meta Description
             </label>
 
-            <textarea
+            <input
               className="Waftinputbox"
               id="blog-tags"
               type="text"
@@ -517,7 +476,9 @@ class AddEdit extends React.PureComponent {
               Meta Keywords
             </label>
 
+
             <form onSubmit={this.insertMetaKeywords}>
+
               <input
                 className="Waftinputbox"
                 id="blog-meta-keyword"
@@ -560,22 +521,14 @@ class AddEdit extends React.PureComponent {
               Author
             </label>
 
-            <select
+            <input
               className="Waftinputbox"
-              native="true"
-              value={(one && one.author) || ''}
-              onChange={this.handleDropDownChange('author')}
-            >
-              <option value="" disabled>
-                None
-              </option>
-              {users &&
-                users.map(each => (
-                  <option key={each._id} name={each.name} value={each._id}>
-                    {each.name}
-                  </option>
-                ))}
-            </select>
+              id="blog-author"
+              type="text"
+              value={one.author || ''}
+              name="Author"
+              onChange={this.handleChange('author')}
+            />
           </div>
 
           {/* <InputLabel style={{ color: '#AAAAAA' }}>Activity Type</InputLabel> */}
@@ -627,7 +580,7 @@ const mapStateToProps = createStructuredSelector({
   tempMetaTag: makeSelectMetaTag(),
   tempMetaKeyword: makeSelectMetaKeyword(),
   loading: makeSelectLoading(),
-  users: makeSelectUsers(),
+
   errors: makeSelectErrors(),
 });
 

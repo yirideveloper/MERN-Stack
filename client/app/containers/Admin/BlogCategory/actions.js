@@ -72,7 +72,3 @@ export const clearQuery = () => ({
 export const clearErrors = () => ({
   type: types.CLEAR_ERRORS,
 });
-export const setErrorValue = payload => ({
-  type: types.SET_ERROR_VALUE,
-  payload,
-});

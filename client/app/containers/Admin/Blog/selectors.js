@@ -58,9 +58,3 @@ export const makeSelectErrors = () =>
     selectDomain,
     state => state.errors,
   );
-
-export const makeSelectUsers = () =>
-  createSelector(
-    selectDomain,
-    state => state.users,
-  );

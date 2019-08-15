@@ -11,10 +11,9 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { IMAGE_BASE } from 'containers/App/constants';
 import * as mapDispatchToProps from './actions';
-import { makeSelectBlog, makeSelectLoading } from './selectors';
+import { makeSelectCategory, makeSelectBlog } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import Loading from '../../components/Loading';
 
 class CategoryDetailPage extends React.Component {
   componentDidMount() {
@@ -24,50 +23,25 @@ class CategoryDetailPage extends React.Component {
     this.props.loadBlogRequest(id);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.id !== nextProps.match.params.id) {
-      this.props.loadBlogRequest(nextProps.match.params.id);
-    }
-  }
-  componentWillUnmount() {
-    this.props.clearBlog();
-  }
-
   render() {
-    const {
-      blog,
-      loading,
-      match: {
-        params: { id },
-      },
-    } = this.props;
-    console.log(blog);
-    return loading ? (
-      <Loading />
-    ) : (
+    const { blog } = this.props;
+    return (
       <React.Fragment>
         <Helmet>
-          <title>
-            {(blog &&
-              blog.length > 0 &&
-              blog[0].category.find(each => each._id === id).title) ||
-              'Blog Not Found'}
-          </title>
+          <title>{blog && blog[0] ? (blog[0].category ? blog[0].category.title : '') : 'Blog Not Found'}</title>
         </Helmet>
         <div className="container mx-auto my-10">
-          <h2 className="mb-5">
-            <span>
-              Blogs related to{' '}
-              {(blog &&
-                blog.length > 0 &&
-                blog[0].category.find(each => each._id === id).title) ||
-                ''}
-            </span>
-          </h2>
+        <h2 className="mb-5">
+                <span>
+                  Blogs related to{' '}
+                  {blog && blog[0]  && blog[0].category ? blog[0].category.title : ''}
+                </span>
+              </h2>
+     
+  <div className="flex flex-wrap w-full md:w-3/4 -mx-5">
 
-          <div className="flex flex-wrap w-full md:w-3/4 -mx-5">
-            {blog &&
-              blog.map(each => {
+          
+              {blog && blog.map(each => {
                 const {
                   image,
                   title,
@@ -79,7 +53,10 @@ class CategoryDetailPage extends React.Component {
                 } = each;
 
                 return (
-                  <div className="blog_sec w-1/2 px-5 mb-5" key={slug_url}>
+                  <div
+                    className="blog_sec w-1/2 px-5 mb-5"
+                    key={slug_url}
+                  >
                     <div className="w-full h-64 object-cover overflow-hidden">
                       <Link to={`/blog/${slug_url}`}>
                         <div className="img blog-img h-full">
@@ -92,7 +69,8 @@ class CategoryDetailPage extends React.Component {
                       </Link>
                     </div>
                     <div className="">
-                      <Link
+
+                    <Link
                         className="text-black no-underline capitalize mb-2 bold block mt-4"
                         to={`/blog/${slug_url}`}
                       >
@@ -104,20 +82,22 @@ class CategoryDetailPage extends React.Component {
                           to={`/blog-category/${category ? category._id : ''}`}
                         >
                           <div className="mr-2">
-                            <span className="text-grey-dark">By</span>{' '}
-                            {category ? category.title : ''}{' '}
+                            <span className="text-grey-dark">By</span>  {category ? category.title : ''}
+                            {' '}
                           </div>
                         </Link>
                         <p className="text-grey-dark leading-normal text-base mr-2">
                           {moment(added_at).format('MMM Do YY')}
+                          
                         </p>
                         <Link
                           className="text-grey-darkleading-normal text-base no-underline"
                           to={`/blog/${each.slug_url}`}
                         >
-                          <div> {(tags && tags.join(', ')) || ''} </div>
+                          <div> {tags && tags.join(', ') || ''} </div>
                         </Link>{' '}
                       </div>
+                   
 
                       <Link
                         className="text-grey-darker text-base no-underline"
@@ -143,16 +123,22 @@ class CategoryDetailPage extends React.Component {
                   </div>
                 );
               })}
+            
+          
+        
 
-            {/* {showModal && <OfferDetailPage />} */}
-          </div>
-        </div>
+        {/* {showModal && <OfferDetailPage />} */}
+      </div>
+      </div>
       </React.Fragment>
     );
+    
   }
 }
 
+
 CategoryDetailPage.propTypes = {
+  loadCategoryRequest: PropTypes.func.isRequired,
   loadBlogRequest: PropTypes.func.isRequired,
 };
 
@@ -160,8 +146,8 @@ const withReducer = injectReducer({ key: 'categoryDetailPage', reducer });
 const withSaga = injectSaga({ key: 'categoryDetailPage', saga });
 
 const mapStateToProps = createStructuredSelector({
+  category: makeSelectCategory(),
   blog: makeSelectBlog(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

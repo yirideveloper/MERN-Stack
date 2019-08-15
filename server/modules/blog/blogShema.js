@@ -27,8 +27,7 @@ const blogSchema = new schema({
     type: [String],
   },
   author: {
-    type: schema.Types.ObjectId,
-    ref: 'users',
+    type: String,
   },
   keywords: {
     type: [String],
@@ -36,12 +35,10 @@ const blogSchema = new schema({
   slug_url: {
     type: String,
   },
-  category: [
-    {
-      type: schema.Types.ObjectId,
-      ref: 'category',
-    },
-  ],
+  category: {
+    type: schema.Types.ObjectId,
+    ref: 'category',
+  },
   published_on: {
     type: Date,
     default: Date.now,

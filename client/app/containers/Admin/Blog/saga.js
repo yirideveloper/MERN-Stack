@@ -17,6 +17,7 @@ import * as actions from './actions';
 
 function* loadCategory(action) {
   const token = yield select(makeSelectToken());
+
   yield call(
     Api.get(
       'blog/category',
@@ -64,47 +65,27 @@ function* loadOne(action) {
   );
 }
 
-function* loadUsers(action) {
-  const token = yield select(makeSelectToken());
-  yield call(
-    Api.get('user', actions.loadUserSuccess, actions.loadUserFailure, token),
-  );
-}
-
 function* redirectOnSuccess() {
   yield take(types.ADD_EDIT_SUCCESS);
   yield put(push('/admin/blog-manage'));
 }
 
-export const validate = data => {
-  const errors = {};
-  if (!data.title) errors.title = 'Title field is required!!';
-  if (!data.slug_url) errors.slug_url = 'Slug field is required!!';
-  if (!data.description) errors.description = 'Description field is required!!';
-  return { errors, isValid: !Object.keys(errors).length };
-};
-
 function* addEdit() {
   const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
   const data = yield select(makeSelectOne());
-  const errors = validate(data);
-  if (errors.isValid) {
-    yield fork(
-      Api.multipartPost(
-        'blog',
-        actions.addEditSuccess,
-        actions.addEditFailure,
-        data,
-        { file: data.image },
-        token,
-      ),
-    );
-    yield take([LOCATION_CHANGE, types.ADD_EDIT_FAILURE]);
-    yield cancel(successWatcher);
-  } else {
-    yield put(actions.setErrorValue(errors.errors));
-  }
+  yield fork(
+    Api.multipartPost(
+      'blog',
+      actions.addEditSuccess,
+      actions.addEditFailure,
+      data,
+      { file: data.image },
+      token,
+    ),
+  );
+  yield take([LOCATION_CHANGE, types.ADD_EDIT_FAILURE]);
+  yield cancel(successWatcher);
 }
 
 function* addEditSuccessFunc(action) {
@@ -158,24 +139,12 @@ function* deleteFailureFunc(action) {
   yield put(enqueueSnackbar(snackbarData));
 }
 
-function* setErrorFunc() {
-  const snackbarData = {
-    message: 'Please fill all required fields!!',
-    options: {
-      variant: 'warning',
-    },
-  };
-  yield put(enqueueSnackbar(snackbarData));
-}
-
 export default function* defaultSaga() {
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
-  yield takeLatest(types.LOAD_USERS_REQUEST, loadUsers);
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
   yield takeLatest(types.ADD_EDIT_FAILURE, addEditFailureFunc);
   yield takeLatest(types.ADD_EDIT_SUCCESS, addEditSuccessFunc);
-  yield takeLatest(types.SET_ERROR_VALUE, setErrorFunc);
   yield takeLatest(types.LOAD_CATEGORY_REQUEST, loadCategory);
   yield takeLatest(types.DELETE_ONE_REQUEST, deleteBlog);
   yield takeLatest(types.DELETE_ONE_SUCCESS, deleteSuccessFunc);

@@ -9,12 +9,6 @@ const categorySchema = new schema({
   slug_url: {
     type: String,
   },
-  description: {
-    type: String,
-  },
-  image: {
-    type: schema.Types.Mixed,
-  },
   is_active: {
     type: Boolean,
     required: true,
