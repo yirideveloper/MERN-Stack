@@ -12,14 +12,14 @@ router.get('/', blogModule.GetBlogUnauthorize);
 router.get('/latest', blogModule.getLatestBlog);
 router.get('/related/:slug_url', blogModule.getRealtedBlog);
 router.get('/category', blogModule.GetBlogCategory);
-router.get('/category/:id', authorization, authentication, blogModule.GetBlogCatById);
-router.get('/:id', authorization, authentication, blogModule.GetBlogDetail);
+router.get('/category/:slug', blogModule.GetBlogCatBySlug);
+router.get('/:id', authorization, blogModule.GetBlogDetail);
 router.get('/blog/:slug_url', blogModule.GetBlogBySlug);
 router.get('/blogbycat/:id', blogModule.GetBlogByCat);
 router.get('/blogbytag/:tag', blogModule.GetBlogByTag);
 router.get('/blogbytime/:time', blogModule.GetBlogByDate);
 router.post('/', authorization, authentication, uploader.single('file'), sanitize, validate, blogModule.SaveBlog);
-router.post('/category', authorization, authentication, catSanitize, catValidate, blogModule.SaveBlogCategory);
+router.post('/category', authorization, authentication, uploader.single('file'), catSanitize, catValidate, blogModule.SaveBlogCategory);
 router.delete('/:id', authorization, authentication, blogModule.DeleteBlog);
 router.delete('/category/:id', authorization, authentication, blogModule.DeleteBlogCat);
 
