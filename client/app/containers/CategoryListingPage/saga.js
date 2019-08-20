@@ -16,14 +16,6 @@ function* loadCategory(action) {
   );
 }
 
-function* loadBlogs(action) {
-  const token = yield select(makeSelectToken());
-  yield call(
-    Api.get('blog', actions.loadBlogsSuccess, actions.loadBlogsFailure, token),
-  );
-}
-
 export default function* defaultSaga() {
   yield takeLatest(types.LOAD_CATEGORY_REQUEST, loadCategory);
-  yield takeLatest(types.LOAD_BLOGS_REQUEST, loadBlogs);
 }
