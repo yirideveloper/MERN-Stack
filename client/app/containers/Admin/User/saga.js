@@ -58,17 +58,9 @@ function* loadAllRoles() {
   );
 }
 
-function* redirectOnSuccess(goBack) {
-  const action = yield take(types.ADD_EDIT_SUCCESS);
-  const defaultMsg = {
-    message: (action.payload && action.payload.msg) || 'save success',
-    options: {
-      variant: 'success',
-    },
-  };
-
-  yield put(enqueueSnackbar(defaultMsg));
-  goBack();
+function* redirectOnSuccess() {
+  yield take(types.ADD_EDIT_SUCCESS);
+  yield put(push('/admin/user-manage'));
 }
 
 function* redirectOnPwReset() {
@@ -76,8 +68,8 @@ function* redirectOnPwReset() {
   yield put(push('/admin/user-manage'));
 }
 
-function* addEdit({ payload }) {
-  const successWatcher = yield fork(redirectOnSuccess, payload);
+function* addEdit() {
+  const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
   const { users } = yield select(makeSelectOne());
   yield fork(
@@ -121,16 +113,15 @@ function* addEditFail(action) {
   yield put(enqueueSnackbar(defaultError));
 }
 
-// function* addEditSuccessFunc(action) {
-//   const snackbarData = {
-//     message: action.payload.msg || 'update success!!',
-//     options: {
-//       variant: 'success',
-//     },
-//   };
-//   yield put(enqueueSnackbar(snackbarData));
-// }
-
+function* addEditSuccessFunc(action) {
+  const snackbarData = {
+    message: action.payload.msg || 'update success!!',
+    options: {
+      variant: 'success',
+    },
+  };
+  yield put(enqueueSnackbar(snackbarData));
+}
 function* updateFail(action) {
   const defaultError = {
     message: action.payload.msg || 'something went wrong',
@@ -159,6 +150,7 @@ export default function* adminUserManagePageSaga() {
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
   yield takeLatest(types.UPDATE_PASSWORD_REQUEST, updatePassword);
   yield takeLatest(types.ADD_EDIT_FAILURE, addEditFail);
+  yield takeLatest(types.ADD_EDIT_SUCCESS, addEditSuccessFunc);
   yield takeLatest(types.UPDATE_PASSWORD_FAILURE, updateFail);
   yield takeLatest(types.UPDATE_PASSWORD_SUCCESS, updateSuccessFunc);
 }

@@ -7,7 +7,7 @@ import {
   select,
   cancel,
 } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'connected-react-router';
+import { push, LOCATION_CHANGE } from 'connected-react-router';
 import Api from 'utils/Api';
 import { makeSelectToken } from '../../App/selectors';
 import * as types from './constants';
@@ -70,21 +70,13 @@ function* loadOne(action) {
   );
 }
 
-function* redirectOnSuccess(goBack) {
-  const action = yield take(types.ADD_EDIT_SUCCESS);
-
-  const snackbarData = {
-    message: action.payload.msg || 'Slider update success!!',
-    options: {
-      variant: 'success',
-    },
-  };
-  yield put(enqueueSnackbar(snackbarData));
-  goBack();
+function* redirectOnSuccess() {
+  yield take(types.ADD_EDIT_SUCCESS);
+  yield put(push('/admin/slider-manage'));
 }
 
-function* addEdit({ payload }) {
-  const successWatcher = yield fork(redirectOnSuccess, payload);
+function* addEdit() {
+  const successWatcher = yield fork(redirectOnSuccess);
   const token = yield select(makeSelectToken());
   const data = yield select(makeSelectOne());
   yield fork(
@@ -140,6 +132,16 @@ function* addEditFailureFunc(action) {
   yield put(enqueueSnackbar(snackbarData));
 }
 
+function* addEditSuccessFunc(action) {
+  const snackbarData = {
+    message: action.payload.msg || 'Slider update success!!',
+    options: {
+      variant: 'success',
+    },
+  };
+  yield put(enqueueSnackbar(snackbarData));
+}
+
 export default function* defaultSaga() {
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
@@ -149,4 +151,5 @@ export default function* defaultSaga() {
   yield takeLatest(types.DELETE_ONE_SUCCESS, deleteSuccessFunc);
   yield takeLatest(types.DELETE_ONE_FAILURE, deleteFailureFunc);
   yield takeLatest(types.ADD_EDIT_FAILURE, addEditFailureFunc);
+  yield takeLatest(types.ADD_EDIT_SUCCESS, addEditSuccessFunc);
 }
