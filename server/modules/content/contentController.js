@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 var objectId = require('mongoose').Types.ObjectId;
 const otherHelper = require('../../helper/others.helper');
-const contentSch = require('./contentShema');
+const contentSch = require('./contentSchema');
 const contentConfig = require('./contentConfig');
 const contentController = {};
 const internal = {};
@@ -55,7 +55,7 @@ contentController.GetContent = async (req, res, next) => {
     selectq = 'name key description publish_from publish_to is_active is_feature is_deleted';
     let datas = await otherHelper.getquerySendResponse(contentSch, page, size, sortq, searchq, selectq, next, '');
 
-    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, datas.data, contentConfig.gets, page, size, datas.totaldata);
+    // return otherHelper.paginationSendResponse(res, httpStatus.OK, true, datas.data, contentConfig.gets, page, size, datas.totaldata);
   } catch (err) {
     next(err);
   }
