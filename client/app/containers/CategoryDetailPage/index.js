@@ -143,6 +143,8 @@ class CategoryDetailPage extends React.Component {
                   </div>
                 );
               })}
+
+            {/* {showModal && <OfferDetailPage />} */}
           </div>
         </div>
       </React.Fragment>

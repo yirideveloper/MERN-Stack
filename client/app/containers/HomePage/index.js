@@ -24,7 +24,7 @@ export default class HomePage extends React.PureComponent {
           <p className="">
             For Admin Login:
             <br />
-            <Link className="text-blue-dark" to="/login-admin">
+            <Link className="text-blue" to="/login-admin">
               /login-admin
             </Link>
           </p>
@@ -34,9 +34,8 @@ export default class HomePage extends React.PureComponent {
             For Documentation:
             <br />
             <a
-              className="text-blue-dark"
+              className="text-blue"
               target="_blank"
-              rel="noopener"
               href="https://waftengine.org/documentation"
             >
               https://www.waftengine.org/documentation

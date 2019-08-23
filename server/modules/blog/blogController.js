@@ -328,18 +328,16 @@ blogcontroller.GetBlogDetail = async (req, res, next) => {
 };
 blogcontroller.GetBlogBySlug = async (req, res, next) => {
   const slug = req.params.slug_url;
-  const blogs = await blogSch
-    .findOne(
-      {
-        slug_url: slug,
-        is_deleted: false,
-        is_published: true,
-      },
-      {
-        is_published: 0,
-      },
-    )
-    .populate([{ path: 'author', select: '_id name' }, { path: 'category', select: '_id title slug_url' }]);
+  const blogs = await blogSch.findOne(
+    {
+      slug_url: slug,
+      is_deleted: false,
+      is_published: true,
+    },
+    {
+      is_published: 0,
+    },
+  );
   return otherHelper.sendResponse(res, httpStatus.OK, true, blogs, null, blogConfig.get, null);
 };
 blogcontroller.GetBlogByCat = async (req, res, next) => {
@@ -436,32 +434,9 @@ blogcontroller.GetBlogByTag = async (req, res, next) => {
       is_deleted: false,
       tags: tag,
     };
-    const tagBlog = await otherHelper.getquerySendResponse(blogSch, page, size, '', searchq, '', next, '');
-    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, tagBlog.data, blogConfig.get, page, size, tagBlog.totaldata);
-  } catch (err) {
-    next(err);
-  }
-};
-blogcontroller.GetBlogByAuthor = async (req, res, next) => {
-  try {
-    const size_default = 10;
-    let page;
-    let size;
-    let searchq;
-    if (req.query.page && !isNaN(req.query.page) && req.query.page != 0) {
-      page = Math.abs(req.query.page);
-    } else {
-      page = 1;
-    }
-    if (req.query.size && !isNaN(req.query.size) && req.query.size != 0) {
-      size = Math.abs(req.query.size);
-    } else {
-      size = size_default;
-    }
-    const authorId = req.params.author;
-    searchq = { is_deleted: false, is_active: true, author: authorId };
-    const blogByAuthor = await otherHelper.getquerySendResponse(blogSch, page, size, '', searchq, '', next, '');
-    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, blogByAuthor.data, 'blogs by author get success!!', page, size, blogByAuthor.totaldata);
+    const tagBlog = await blogSch.find(searchq);
+    const totaldata = await blogSch.countDocuments(searchq);
+    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, tagBlog, blogConfig.get, page, size, totaldata);
   } catch (err) {
     next(err);
   }

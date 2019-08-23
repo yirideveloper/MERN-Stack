@@ -30,7 +30,7 @@ htmlmanupulator.sendForHome = async (req, res, next) => {
         {
           imagepath: '/favicon.ico',
           description: 'open source MERN engine ',
-          title: 'WaftEngine',
+          title: 'Waft Engine',
           url: ``,
         },
         next,
@@ -69,7 +69,7 @@ htmlmanupulator.sendWithRoute = async (req, res, next) => {
         {
           imagepath: '/favicon.ico',
           description: 'open source MERN engine ',
-          title: 'WaftEngine',
+          title: 'Waft Engine',
           url: `${route}`,
         },
         next,

@@ -3,35 +3,29 @@ import PropTypes, { number } from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
+// import { Link } from 'react-router-dom';
+// import moment from 'moment';
+import Helmet from 'react-helmet';
 
+// import { IMAGE_BASE } from 'containers/App/constants';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectBlogList, makeSelectLoading, makeSelectBlogByAuthor, makeSelectBlogByTag } from './selectors';
+import { makeSelectBlogList, makeSelectLoading } from './selectors';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import Loading from '../../components/Loading';
+// import CategoryListing from '../../containers/CategoryListingPage/Loadable';
 import RenderBlogs from './renderBlogs';
 
 /* eslint-disable react/prefer-stateless-function */
 export class BlogListPage extends React.Component {
   static propTypes = {
     loadBlogListRequest: PropTypes.func.isRequired,
-    loadBlogByAuthorRequest: PropTypes.func.isRequired,
-    loadBlogByTagRequest: PropTypes.func.isRequired,
     blogList: PropTypes.object,
-    blogByTag: PropTypes.object,
-    blogByAuthor: PropTypes.object,
   };
 
   componentDidMount() {
-    if (this.props.match.params.author) {
-      this.props.loadBlogByAuthorRequest(this.props.match.params.author);
-    }
-    if (this.props.match.params.tag) {
-      this.props.loadBlogByTagRequest(this.props.match.params.tag);
-    }
     this.props.loadBlogListRequest();
   }
   
@@ -63,21 +57,12 @@ export class BlogListPage extends React.Component {
     const {
       blogList: { data, page, size, totaldata },
       loading,
-      blogByTag,
-      blogByAuthor,
     } = this.props;
-    const require = this.props && this.props.match && this.props.match.params;
 
     const BlogsPerPage = ['1', '5', '10', '20', '50', '100'];
     const indexOfLastBlog = page * size;
     const indexOfFirstBlog = indexOfLastBlog - size;
-    const indexOfLastBlogAuthor = (blogByAuthor && blogByAuthor.page) * (blogByAuthor && blogByAuthor.size);
-    const indexOfFirstBlogAuthor = indexOfLastBlogAuthor - (blogByAuthor && blogByAuthor.size);
-    const indexOfLastBlogTag = (blogByTag && blogByTag.page) * (blogByTag && blogByTag.size);
-    const indexOfFirstBlogTag = indexOfLastBlogTag - (blogByTag && blogByTag.size);
     const currentBlogs = data.slice(indexOfFirstBlog, indexOfLastBlog);
-    const currentBlogsByAuthor = blogByAuthor && blogByAuthor.data.slice(indexOfFirstBlogAuthor, indexOfLastBlogAuthor);
-    const currentBlogsByTag = blogByTag && blogByTag.data.slice(indexOfFirstBlogTag, indexOfLastBlogTag);
 
     const maxPage = Math.ceil(totaldata/size);
     const pagenumber = [];
@@ -102,11 +87,11 @@ export class BlogListPage extends React.Component {
     ) : (
       <React.Fragment>
         <Helmet>
-          <title>{require && this.props.match.params.tag ? 'Blog By Tag' : require && this.props.match.params.author ? 'Blog By Author' : 'Blog List'}</title>
+          <title>Blog List</title>
         </Helmet>
         <div>
           <div>
-            <RenderBlogs currentBlogs={require && this.props.match.params.author ? currentBlogsByAuthor : require && this.props.match.params.tag ? currentBlogsByTag : currentBlogs}/>
+            <RenderBlogs currentBlogs={currentBlogs}/>
           </div>
           <div className="flex">
             <div className="w-1/3  ml-8">
@@ -155,8 +140,6 @@ const withSaga = injectSaga({ key: 'blogList', saga });
 
 const mapStateToProps = createStructuredSelector({
   blogList: makeSelectBlogList(),
-  blogByAuthor: makeSelectBlogByAuthor(),
-  blogByTag: makeSelectBlogByTag(),
   loading: makeSelectLoading(),
 });
 

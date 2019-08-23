@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
 import moment from 'moment';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet';
 
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -65,7 +65,6 @@ const styles = theme => ({
 /* eslint-disable react/prefer-stateless-function */
 export class ContentsListingPage extends React.Component {
   static propTypes = {
-    loading: PropTypes.bool.isRequired,
     loadAllRequest: PropTypes.func.isRequired,
     deleteOneRequest: PropTypes.func.isRequired,
     clearOne: PropTypes.func.isRequired,
@@ -133,49 +132,46 @@ export class ContentsListingPage extends React.Component {
       loading,
     } = this.props;
     const tablePagination = { page, size, totaldata };
-    const tableData = data.map(
-      ({ name, key, is_active, published_from, published_to, _id }) => [
-        name,
-        key,
-        moment(published_from).format('MMM Do YY'),
-        moment(published_to).format('MMM Do YY'),
-        `${is_active}`,
-        <>
-          <Tooltip
-            id="tooltip-top"
-            title="Edit Task"
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
+    const tableData = data.map(({ name, key, is_active, added_at, _id }) => [
+      name,
+      key,
+      `${is_active}`,
+      moment(added_at).format('MMM Do YY'),
+      <>
+        <Tooltip
+          id="tooltip-top"
+          title="Edit Task"
+          placement="top"
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <IconButton
+            aria-label="Edit"
+            className={classes.tableActionButton}
+            onClick={() => this.handleEdit(_id)}
           >
-            <IconButton
-              aria-label="Edit"
-              className={classes.tableActionButton}
-              onClick={() => this.handleEdit(_id)}
-            >
-              <Edit
-                className={`${classes.tableActionButtonIcon} ${classes.edit}`}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip
-            id="tooltip-top-start"
-            title="Remove"
-            placement="top"
-            classes={{ tooltip: classes.tooltip }}
+            <Edit
+              className={`${classes.tableActionButtonIcon} ${classes.edit}`}
+            />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          id="tooltip-top-start"
+          title="Remove"
+          placement="top"
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <IconButton
+            aria-label="Close"
+            className={classes.tableActionButton}
+            onClick={() => this.handleOpen(_id)}
           >
-            <IconButton
-              aria-label="Close"
-              className={classes.tableActionButton}
-              onClick={() => this.handleOpen(_id)}
-            >
-              <Close
-                className={`${classes.tableActionButtonIcon} ${classes.close}`}
-              />
-            </IconButton>
-          </Tooltip>
-        </>,
-      ],
-    );
+            <Close
+              className={`${classes.tableActionButtonIcon} ${classes.close}`}
+            />
+          </IconButton>
+        </Tooltip>
+      </>,
+    ]);
     return (
       <>
         <DeleteDialog
@@ -247,9 +243,10 @@ export class ContentsListingPage extends React.Component {
             tableHead={[
               'Name',
               'Key',
-              'Pub From',
-              'Pub To',
+              // 'Pub From',
+              // 'Pub To',
               'Is Active',
+              'Added On',
               'Action',
             ]}
             tableData={tableData}
