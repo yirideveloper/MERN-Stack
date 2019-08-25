@@ -5,7 +5,7 @@ const {
 
 const randomHexGenerator = require('./../helper/others.helper').generateRandomHexString;
 const bcrypt = require('bcryptjs');
-const userSch = require('./../modules/user/userSchema');
+const userSch = require('./../modules/user/userShema');
 
 const emailHelper = require('./email.helper');
 const renderMail = require('./../modules/template/templateController').internal;

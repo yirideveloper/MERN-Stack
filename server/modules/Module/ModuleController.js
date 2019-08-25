@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const otherHelper = require('../../helper/others.helper');
 const moduleConfig = require('./moduleConfig');
-const moduleSch = require('./moduleSchema');
+const moduleSch = require('./moduleShema');
 const moduleController = {};
 const internal = {};
 
