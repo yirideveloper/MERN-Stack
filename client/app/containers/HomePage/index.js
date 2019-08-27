@@ -11,7 +11,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CategoryElement from '../../components/CategoryElement';
+import SlickSlider from '../../components/SlickSlider';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
@@ -42,10 +42,10 @@ export default class HomePage extends React.PureComponent {
               https://www.waftengine.org/documentation
             </a>
           </p>
-          <br />
+          {/* <br />
           <div>
-            <CategoryElement cat_id="5d09d3c5ba5fe21594e59bb4" />
-          </div>
+            <SlickSlider slideKey="bat-man" />
+          </div> */}
         </div>
       </>
     );
