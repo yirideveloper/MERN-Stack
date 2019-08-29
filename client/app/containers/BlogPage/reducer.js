@@ -8,8 +8,6 @@ export const initialState = {
   relatedBlogsIsLoading: false,
   recentBlogs: [],
   recentBlogsIsLoading: false,
-  archives: [],
-  archivesIsLoading: false,
   one: {
     title: '',
     blog_id: '',
@@ -53,13 +51,6 @@ const blogPageReducer = (state = initialState, action) =>
         break;
       case types.LOAD_RECENT_BLOGS_FAILURE:
         draft.recentBlogsIsLoading = false;
-        break;
-      case types.LOAD_ARCHIVES_REQUEST:
-        draft.archivesIsLoading = true;
-        break;
-      case types.LOAD_ARCHIVES_SUCCESS:
-        draft.archivesIsLoading = false;
-        draft.archives = action.payload.data;
         break;
       case types.SET_ONE_VALUE:
         draft.one[action.payload.key] = action.payload.value;

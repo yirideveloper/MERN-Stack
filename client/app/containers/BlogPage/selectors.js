@@ -32,12 +32,6 @@ export const makeSelectRecentBlogs = () =>
     state => state.recentBlogs,
   );
 
-export const makeSelectArchives = () =>
-  createSelector(
-    selectDomain,
-    state => state.archives,
-  );
-
 export const makeSelectRecentBlogsIsLoading = () =>
   createSelector(
     selectDomain,
@@ -54,10 +48,4 @@ export const makeSelectComment = () =>
   createSelector(
     selectDomain,
     state => state.comments,
-  );
-
-export const makeSelectArchivesIsLoading = () =>
-  createSelector(
-    selectDomain,
-    state => state.archivesIsLoading,
   );
