@@ -417,13 +417,11 @@ blogcontroller.GetBlogByCat = async (req, res, next) => {
         sortq = '';
       }
     }
-    const slug = req.params.slug_url;
-    const cat = await blogCatSch.find({ slug_url: slug, is_deleted: false });
-    const cats = cat.map(each => each._id);
+    const id = req.params.id;
     populate = [
       {
         path: 'category',
-        select: 'title slug_url',
+        select: '_id title',
       },
     ];
     selectq = 'title description summary tags author short_description meta_tag meta-description category keywords slug_url published_on is_active image added_by added_at updated_at updated_by';
@@ -433,14 +431,14 @@ blogcontroller.GetBlogByCat = async (req, res, next) => {
     searchq = {
       is_published: true,
       is_deleted: false,
-      category: { $in: cats },
+      category: id,
       ...searchq,
     };
     if (req.query.find_title) {
       searchq = {
         title: {
           $regex: req.query.find_title,
-          $options: 'i',
+          $options: 'i x',
         },
         ...searchq,
       };
@@ -449,7 +447,7 @@ blogcontroller.GetBlogByCat = async (req, res, next) => {
       searchq = {
         published_on: {
           $regex: req.query.find_published_on,
-          $options: 'i',
+          $options: 'i x',
         },
         ...searchq,
       };

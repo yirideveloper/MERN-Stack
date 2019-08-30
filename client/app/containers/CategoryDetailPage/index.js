@@ -19,17 +19,16 @@ import Loading from '../../components/Loading';
 class CategoryDetailPage extends React.Component {
   componentDidMount() {
     const {
-      params: { slug_url },
+      params: { id },
     } = this.props.match;
-    this.props.loadBlogRequest(slug_url);
+    this.props.loadBlogRequest(id);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.slug_url !== nextProps.match.params.slug_url) {
-      this.props.loadBlogRequest(nextProps.match.params.slug_url);
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      this.props.loadBlogRequest(nextProps.match.params.id);
     }
   }
-
   componentWillUnmount() {
     this.props.clearBlog();
   }
@@ -39,9 +38,10 @@ class CategoryDetailPage extends React.Component {
       blog,
       loading,
       match: {
-        params: { slug_url },
+        params: { id },
       },
     } = this.props;
+    console.log(blog);
     return loading ? (
       <Loading />
     ) : (
@@ -50,8 +50,7 @@ class CategoryDetailPage extends React.Component {
           <title>
             {(blog &&
               blog.length > 0 &&
-              blog[0].category.find(each => each.slug_url === slug_url)
-                .title) ||
+              blog[0].category.find(each => each._id === id).title) ||
               'Blog Not Found'}
           </title>
         </Helmet>
@@ -61,8 +60,7 @@ class CategoryDetailPage extends React.Component {
               Blogs related to{' '}
               {(blog &&
                 blog.length > 0 &&
-                blog[0].category.find(each => each.slug_url === slug_url)
-                  .title) ||
+                blog[0].category.find(each => each._id === id).title) ||
                 ''}
             </span>
           </h2>
@@ -103,9 +101,7 @@ class CategoryDetailPage extends React.Component {
                       <div className="border-t-1 flex flex-wrap font-bold">
                         <Link
                           className="mr-2 text-black hover:text-waftprimary leading-normal text-base no-underline"
-                          to={`/blog-category/${
-                            category ? category.slug_url : ''
-                          }`}
+                          to={`/blog-category/${category ? category._id : ''}`}
                         >
                           <div className="mr-2">
                             <span className="text-grey-dark">By</span>{' '}
@@ -117,7 +113,7 @@ class CategoryDetailPage extends React.Component {
                         </p>
                         <Link
                           className="text-grey-darkleading-normal text-base no-underline"
-                          to={`/blog/${slug_url}`}
+                          to={`/blog/${each.slug_url}`}
                         >
                           <div> {(tags && tags.join(', ')) || ''} </div>
                         </Link>{' '}
