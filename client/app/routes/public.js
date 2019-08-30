@@ -11,6 +11,7 @@ import BlogDetailPage from '../containers/BlogPage/Loadable';
 import ContactUsPage from '../containers/ContactUs/Loadable';
 import SubscribePage from '../containers/SubscriberPage/Loadable';
 import AboutUsPage from '../containers/AboutUsPage/Loadable';
+import BlogListDatePage from '../containers/BlogList/BlogDate';
 
 const publicRoutes = [
   {
@@ -55,7 +56,7 @@ const publicRoutes = [
   },
   {
     exact: true,
-    path: '/blog-category/:id',
+    path: '/blog-category/:slug_url',
     component: CategoryDetailPage,
   },
   {
@@ -67,6 +68,11 @@ const publicRoutes = [
     exact: true,
     path: '/blog/author/:author',
     component: BlogListPage,
+  },
+  {
+    exact: true,
+    path: '/blog/date/:date',
+    component: BlogListDatePage,
   },
   {
     exact: true,

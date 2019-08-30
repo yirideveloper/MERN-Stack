@@ -31,6 +31,7 @@ import { IMAGE_BASE } from '../App/constants';
 import Loading from '../../components/Loading';
 import RecentBlogs from './components/RecentBlogs';
 import RelatedBlogs from './components/RelatedBlogs';
+import Archives from './components/Archives';
 import LinkBoth from '../../components/LinkBoth';
 
 export class BlogPage extends React.Component {
@@ -53,6 +54,7 @@ export class BlogPage extends React.Component {
   componentDidMount() {
     this.props.clearOne();
     this.props.loadRecentBlogsRequest();
+    this.props.loadArchivesRequest();
     this.props.loadRelatedBlogsRequest(this.props.match.params.slug_url);
     this.props.loadBlogRequest(this.props.match.params.slug_url);
   }
@@ -64,7 +66,7 @@ export class BlogPage extends React.Component {
     }
     if (nextProps.blog._id !== this.props.blog._id) {
       nextProps.loadCommentRequest(nextProps.blog._id);
-      nextProps.setOneValue({ key: 'blog_id', value: nextProps.blog._id });
+      nextProps.setOneValue({key: 'blog_id', value: nextProps.blog._id});
     }
   }
 
@@ -83,7 +85,7 @@ export class BlogPage extends React.Component {
   };
 
   handleEditComment = id => {
-    this.setState({ open: true });
+    this.setState({ open: true});
     this.props.loadOneRequest(id);
   };
 
@@ -98,8 +100,7 @@ export class BlogPage extends React.Component {
 
   render() {
     const { blog, loading, location, match, one, comments, user } = this.props;
-    console.log(comments);
-    console.log(user);
+    console.log(blog, 'blog');
     if (loading) {
       return <Loading />;
     }
@@ -130,7 +131,7 @@ export class BlogPage extends React.Component {
                 ) : null}
               </div>
               <br />
-              <div className="leading-relaxed serif" dangerouslySetInnerHTML={{ __html: blog.description }} />
+              <div dangerouslySetInnerHTML={{ __html: blog.description }} />
               <br />
               {blog && blog.tags && blog.tags.length > 0 && (
                 <div>
@@ -166,7 +167,7 @@ export class BlogPage extends React.Component {
                     <LinkBoth
                       className="text-blue hover:text-waftprimary leading-normal text-base no-underline"
                       key={index}
-                      to={`/blog-category/${each._id}`}
+                      to={`/blog-category/${each.slug_url}`}
                     >
                       {`${index === 0 ? '' : ', '}${each.title}`}
                     </LinkBoth>
@@ -195,12 +196,12 @@ export class BlogPage extends React.Component {
                               className="ml-2 text-gray"
                               onClick={() => this.handleDeleteComment(each._id)}
                             >
-                              Delete
+                            Delete
                           </button>
-                          </div>
+                        </div>
                         ) : (
-                            ''
-                          )}
+                          ''
+                        )}
                       </div>
                     </div>
                   ))}
@@ -212,22 +213,22 @@ export class BlogPage extends React.Component {
                   <DialogTitle
                     id="comment-edit-dialog"
                   >
-                    <div>
-                      <textarea
-                        name="edit-comment"
-                        id="edit_comments"
-                        cols="45"
-                        rows="5"
-                        value={one.title}
-                        onChange={this.handleComment('title')}
-                      />
-                      <button
-                        className="text-white py-2 px-4 rounded mt-4 btn-waft"
-                        onClick={this.handlePostComment}
-                      >
-                        Save
+                  <div>
+                    <textarea
+                      name="edit-comment"
+                      id="edit_comments"
+                      cols="45"
+                      rows="5"
+                      value={one.title}
+                      onChange={this.handleComment('title')}
+                    />
+                    <button
+                      className="text-white py-2 px-4 rounded mt-4 btn-waft"
+                      onClick={this.handlePostComment}
+                    >
+                      Save
                     </button>
-                    </div>
+                  </div>
                   </DialogTitle>
                 </Dialog>
                 <div className="mt-2">
@@ -253,6 +254,7 @@ export class BlogPage extends React.Component {
             <div className="w-full mt-4 lg:mt-0 lg:w-1/4 bg-gray-400 p-3 border rounded">
               <RecentBlogs />
               <RelatedBlogs />
+              <Archives />
             </div>
           </div>
         </div>
