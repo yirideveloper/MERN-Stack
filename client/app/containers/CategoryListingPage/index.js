@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectCategory, makeSelectBlogs } from './selectors';
+import {
+  makeSelectCategory,
+  makeSelectBlogs,
+  makeSelectLoading,
+} from './selectors';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
@@ -19,8 +23,10 @@ class CategoryListingPage extends React.Component {
   }
 
   render() {
-    const { category, blogs } = this.props;
-    return (
+    const { category, blogs, loading } = this.props;
+    return loading ? (
+      <div>Loading category listing...</div>
+    ) : (
       <React.Fragment>
         {category.map(each => {
           const { title } = each;
@@ -32,14 +38,11 @@ class CategoryListingPage extends React.Component {
               });
             });
           return show ? (
-
-            <div>
-              <li key={each._id} className="border-b border-dotted border-grey">
-                <Link className="block py-3 no-underline text-grey-dark hover:text-black" to={`/blog-category/${each._id}`}>
-                  {`${title}`}
-                </Link>
-              </li>
-            </div>
+            <li key={each._id} className="info ">
+              <Link to={`/blog-category/${each.slug_url}`}>
+                <h3> {`${title}`}</h3>
+              </Link>
+            </li>
           ) : null;
         })}
       </React.Fragment>
@@ -53,6 +56,7 @@ const withSaga = injectSaga({ key: 'categoryListingPage', saga });
 const mapStateToProps = createStructuredSelector({
   category: makeSelectCategory(),
   blogs: makeSelectBlogs(),
+  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(
