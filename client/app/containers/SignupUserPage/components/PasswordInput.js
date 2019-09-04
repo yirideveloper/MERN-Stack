@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link }  from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -45,6 +45,7 @@ const PasswordInput = props => {
           value={password}
           id="Password"
           type={isSecure ? 'text' : 'password'}
+          placeholder="Enter Password"
           className="Waftinputbox"
         />
         <span
