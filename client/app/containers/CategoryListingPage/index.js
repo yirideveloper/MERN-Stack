@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectCategory, makeSelectLoading } from './selectors';
+import {
+  makeSelectCategory,
+  makeSelectBlogs,
+  makeSelectLoading,
+} from './selectors';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
@@ -17,23 +21,34 @@ import CategoryListingSkeleton from '../../components/Skeleton/CategoryListing';
 class CategoryListingPage extends React.Component {
   componentDidMount() {
     this.props.loadCategoryRequest();
+    this.props.loadBlogsRequest();
   }
 
   render() {
-    const { category, loading } = this.props;
+    const { category, blogs, loading } = this.props;
     return loading ? (
       <CategoryListingSkeleton />
     ) : (
-      <>
+      <React.Fragment>
         {category &&
-          category.map(each => (
-            <li key={each._id} className="info ">
-              <Link to={`/blog-category/${each.slug_url}`}>
-                <h3> {`${each.title}`}</h3>
-              </Link>
-            </li>
-          ))}
-      </>
+          category.map(each => {
+            const { title } = each;
+            let show = false;
+            blogs.length > 0 &&
+              blogs.map(blog => {
+                blog.category.map(el => {
+                  if (el._id === each._id) show = true;
+                });
+              });
+            return show ? (
+              <li key={each._id} className="info ">
+                <Link to={`/blog-category/${each.slug_url}`}>
+                  <h3> {`${title}`}</h3>
+                </Link>
+              </li>
+            ) : null;
+          })}
+      </React.Fragment>
     );
   }
 }
@@ -43,6 +58,7 @@ const withSaga = injectSaga({ key: 'categoryListingPage', saga });
 
 const mapStateToProps = createStructuredSelector({
   category: makeSelectCategory(),
+  blogs: makeSelectBlogs(),
   loading: makeSelectLoading(),
 });
 

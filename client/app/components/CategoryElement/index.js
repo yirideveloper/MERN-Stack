@@ -15,26 +15,23 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { IMAGE_BASE } from '../../containers/App/constants';
 import * as mapDispatchToProps from '../../containers/App/actions';
-import {
-  makeSelectLatestBlogs,
-  makeSelecBlogLoading,
-} from '../../containers/App/selectors';
+import { makeSelectLatestBlogs } from '../../containers/App/selectors';
 import Skeleton from './skeleton';
 import './style.css';
 
 const CategoryElement = props => {
-  const { cat_id, latestBlogs, loading } = props;
+  const { cat_id, latestBlogs } = props;
 
   useEffect(() => {
     props.loadLatestBlogsRequest(cat_id);
   }, []);
 
-  return loading ? (
-    <Skeleton />
-  ) : (
+  return (
     <>
+      {/* <Skeleton /> */}
       <h2 className="pt-5 pb-5">
-        {latestBlogs.category && latestBlogs.category.title}
+        Recent News
+        {/* {latestBlogs.category && latestBlogs.category.title} */}
       </h2>
       {latestBlogs.blogs &&
         latestBlogs.blogs.map((each, index) => (
@@ -76,12 +73,10 @@ const CategoryElement = props => {
 CategoryElement.propTypes = {
   loadLatestBlogsRequest: PropTypes.func.isRequired,
   latestBlogs: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   latestBlogs: makeSelectLatestBlogs(),
-  loading: makeSelecBlogLoading(),
 });
 
 const withConnect = connect(
