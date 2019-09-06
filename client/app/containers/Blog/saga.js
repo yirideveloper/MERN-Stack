@@ -60,7 +60,6 @@ function* loadBlogList(action) {
     });
   }
   const token = yield select(makeSelectToken());
-  console.log(query, 'queries');
   yield call(
     Api.get(
       `blog?${query}`,

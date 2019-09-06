@@ -60,4 +60,3 @@ export const LOAD_BLOG_OF_CAT_SUCCESS =
 export const LOAD_BLOG_OF_CAT_FAILURE =
   'app/CategoryDetailPage/LOAD_BLOG_OF_CAT_FAILURE';
 export const CLEAR_BLOG = 'app/CategoryDetailPage/CLEAR_BLOG';
-export const CLEAR_DATA = 'app/CategoryDetailPage/CLEAR_DATA';

@@ -1,9 +1,5 @@
 import * as types from './constants';
 
-export const clearData = payload => ({
-  type: types.CLEAR_DATA,
-  payload,
-});
 export const loadBlogRequest = payload => ({
   type: types.LOAD_BLOG_REQUEST,
   payload,

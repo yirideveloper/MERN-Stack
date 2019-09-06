@@ -170,12 +170,6 @@ const blogPageReducer = (state = initialState, action) =>
         draft.blogOfCat = initialState.blogOfCat;
         draft.loadingBlogOfCat = true;
         break;
-      case types.CLEAR_DATA:
-        draft.blogList.data = initialState.blogList.data;
-        draft.blogList.page = initialState.blogList.page;
-        draft.blogList.size = initialState.blogList.size;
-        draft.blogList.totaldata = initialState.blogList.totaldata;
-        break;
     }
   });
 
