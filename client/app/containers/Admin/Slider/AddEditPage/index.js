@@ -99,11 +99,15 @@ const SortableImageItem = SortableElement(({ value, index, _this }) => (
       />
     </div>
     <div className="w-0.5/5 m-auto text-center">
-      <button className="border-red-500 border text-red-500 hover:bg-red-100 rounded px-4 py-2 uppercase text-sm"
+      <Fab
+        color="secondary"
+        aria-label="Remove"
+        round="true"
         onClick={() => _this.handleRemoveSlide(index)}
+        elevation={0}
       >
-        Delete
-      </button>
+        <DeleteIcon />
+      </Fab>
     </div>
   </div>
 ));
