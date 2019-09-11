@@ -51,13 +51,11 @@ export class BlogPage extends React.Component {
     return (
       <>
         <Helmet>
-          <title>{blog && blog.title}</title>
+          <title>{blog.title}</title>
         </Helmet>
         <div className="container mx-auto my-10 px-5">
           <div className="flex flex-wrap w-full lg:-mx-5">
-            <div className="w-full flex-1 lg:px-5">
-              <BlogDetail blog={blog} loading={loading} />
-            </div>
+            <BlogDetail blog={blog} loading={loading} />
             <div className="w-full mt-4 lg:mt-0 lg:w-1/4 p-3">
               <RecentBlogs />
               <RelatedBlogs />

@@ -4,17 +4,16 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { push } from 'connected-react-router';
 
 // @material
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CommentIcon from '@material-ui/icons/ModeComment';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -24,58 +23,54 @@ import {
   makeSelectCommentLoading,
   makeSelectOne,
 } from './selectors';
-import { makeSelectUser } from '../App/selectors';
 import reducer from './reducer';
 import saga from './saga';
+import messages from './messages';
 
 const key = 'comments';
 
 export const Comments = props => {
-  const { commentLoading, comments, one, blog_id, user } = props;
-
+  const { loading, comments } = props;
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
-  useEffect(() => {
-    props.clearOne();
-    if (blog_id) {
-      props.loadCommentRequest(blog_id);
-    }
-    props.setOneValue({ key: 'blog_id', value: blog_id });
-  }, [blog_id]);
+  if (nextProps.blog._id !== this.props.blog._id) {
+    nextProps.loadCommentRequest(nextProps.blog._id);
+    nextProps.setOneValue({ key: 'blog_id', value: nextProps.blog._id });
+  }
 
-  const [open, setOpen] = useState(false);
+  handleNewComment = () => {
+    console.log('new comment recieved');
+  };
 
-  const handleComment = name => e => {
+  handleComment = name => e => {
     e.persist();
-    props.setOneValue({ key: name, value: e.target.value });
+    this.props.setOneValue({ key: name, value: e.target.value });
   };
 
-  const handlePostComment = () => {
-    props.postCommentRequest();
-    setOpen(false);
+  handlePostComment = () => {
+    this.props.postCommentRequest();
+    this.setState({ open: false });
   };
 
-  const handleEditComment = id => {
-    setOpen(true);
-    props.loadOneRequest(id);
+  handleEditComment = id => {
+    this.setState({ open: true });
+    this.props.loadOneRequest(id);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    props.clearOne();
+  handleClose = () => {
+    this.setState({ open: false });
+    this.props.clearOne();
   };
 
-  const handleDeleteComment = id => {
-    props.deleteCommentRequest(id);
+  handleDeleteComment = id => {
+    this.props.deleteCommentRequest(id);
   };
 
-  return commentLoading ? (
-    <div>Loading....</div>
-  ) : (
+  return (
     <div>
-      <h2 className="mt-4" htmlFor="comment">
-        <CommentIcon /> ({comments && comments.totaldata})
+      <h2 className="mt-4 font-bold text-4xl" htmlFor="comment">
+        Comments({comments.totaldata})
       </h2>
 
       <div className="mt-2 p-4 shadow relative rounded pb-10 border border-gray-500 mb-10">
@@ -85,12 +80,12 @@ export const Comments = props => {
           id="comments"
           rows="5"
           placeholder="Write your comment"
-          value={open ? '' : one.title}
-          onChange={handleComment('title')}
+          value={this.state.open ? '' : one.title}
+          onChange={this.handleComment('title')}
         />
         <button
           className="absolute right-0 bottom-0 mr-1 mb-1 py-2 px-6 rounded mt-4 text-sm text-white bg-blue-600 hover:bg-blue-700 btn-theme"
-          onClick={handlePostComment}
+          onClick={this.handlePostComment}
         >
           Submit
         </button>
@@ -101,57 +96,57 @@ export const Comments = props => {
         comments.comment.map(each => (
           <div key={each._id}>
             <div className="flex py-4 border-b border-dotted sans-serif">
-              <img src={(user && user.avatar) || null} alt="username" />
+              <img src={user} alt="username" />
               <div className="pl-4 flex1">
                 <h5 className="font-bold">
                   {typeof each.added_by === 'string' &&
-                  each.added_by === user.id
+                    each.added_by === user.id
                     ? user.name
                     : each.added_by.name}
                 </h5>
                 <p>{each.title}</p>
                 {(typeof each.added_by === 'string' &&
                   each.added_by === user.id) ||
-                each.added_by._id === user.id ? (
-                  <div>
-                    <button
-                      className="ml-8 text-gray"
-                      onClick={() => handleEditComment(each._id)}
-                    >
-                      Edit
+                  each.added_by._id === user.id ? (
+                    <div>
+                      <button
+                        className="ml-8 text-gray"
+                        onClick={() => this.handleEditComment(each._id)}
+                      >
+                        Edit
                     </button>
-                    <button
-                      className="ml-2 text-gray"
-                      onClick={() => handleDeleteComment(each._id)}
-                    >
-                      Delete
+                      <button
+                        className="ml-2 text-gray"
+                        onClick={() => this.handleDeleteComment(each._id)}
+                      >
+                        Delete
                     </button>
-                  </div>
-                ) : (
-                  ''
-                )}
+                    </div>
+                  ) : (
+                    ''
+                  )}
               </div>
             </div>
           </div>
         ))}
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={this.state.open}
+        onClose={this.handleClose}
         aria-labelledby="comment-edit-dialog"
       >
         <DialogTitle id="comment-edit-dialog">
           <div>
             <textarea
               name="edit-comment"
-              id="edit_comment"
+              id="edit_comments"
               cols="45"
               rows="5"
               value={one.title}
-              onChange={handleComment('title')}
+              onChange={this.handleComment('title')}
             />
             <button
-              className="py-2 px-6 rounded mt-4 text-sm text-blue bg-blue-600 hover:bg-blue-700 btn-theme"
-              onClick={handlePostComment}
+              className="py-2 px-6 rounded mt-4 text-sm text-white bg-blue-600 hover:bg-blue-700 btn-theme"
+              onClick={this.handlePostComment}
             >
               Save
             </button>
@@ -163,21 +158,21 @@ export const Comments = props => {
 };
 
 Comments.propTypes = {
-  comments: PropTypes.object.isRequired,
-  commentLoading: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-  one: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  comments: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  comments: makeSelectComment(),
+  comments: makeSelectComments(),
   one: makeSelectOne(),
-  commentLoading: makeSelectCommentLoading(),
-  user: makeSelectUser(),
+  loading: makeSelectArchiveLoading(),
 });
 
+const mapDispatchToProps = dispatch => ({
+  loadArchive: payload => dispatch(loadCommentsRequest(payload)),
+});
 const withConnect = connect(
   mapStateToProps,
-  { ...mapDispatchToProps, push },
+  mapDispatchToProps,
 );
 export default compose(withConnect)(Comments);
