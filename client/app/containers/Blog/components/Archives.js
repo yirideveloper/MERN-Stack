@@ -26,7 +26,7 @@ function Archives(props) {
     <ArchiveSkeleton />
   ) : (
       <>
-        <div className="mt-10 mb-4">
+        <div className="mt-10">
           <h3 className="font-medium text-xl uppercase">Archives</h3>
           <div className="pt-4">
             {archives &&

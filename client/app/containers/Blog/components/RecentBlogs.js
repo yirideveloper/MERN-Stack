@@ -11,6 +11,7 @@ import {
 import { IMAGE_BASE } from '../../App/constants';
 import RecentBlogsSkeleton from '../Skeleton/RecentBlogs';
 
+
 function RecentBlogs(props) {
   if (props.loading) {
     return <RecentBlogsSkeleton />;
