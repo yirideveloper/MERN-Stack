@@ -1,8 +1,13 @@
 .slider {
-  position: relative;
+  margin: 0 auto;
+  padding: 40px;
+  width: 80%;
+  color: #333;
+  background: #419be0;
 }
 
 .variable-width .slick-slide p {
+  background: blue;
   height: 100px;
   color: #fff;
   margin: 5px;
@@ -76,17 +81,17 @@
   height: 180px;
 }
 .slick-arrow {
-  position: absolute;
+  background-color: grey;
+  /* color: black; */
 }
-.slick-prev {
+.slick-arrow:hover {
+  background-color: grey;
+}
+/* .slick-prev {
   z-index: 100;
-  left: 40px !important;
+  left: 20px !important;
 }
 .slick-next {
   z-index: 100;
-  right: 40px !important;
-}
-
-.slick-prev:before, .slick-next:before { font-size: 40px;}
-
-
+  right: 20px !important;
+} */
