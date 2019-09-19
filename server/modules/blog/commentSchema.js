@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
-const commentSchema = new schema({
+const blogCommentSchema = new schema({
   title: { type: String, required: true },
   blog_id: { type: schema.Types.ObjectId, ref: 'blog' },
   added_at: { type: Date, default: Date.now() },
@@ -12,4 +12,4 @@ const commentSchema = new schema({
   deleted_at: { type: Date },
 });
 
-module.exports = Comments = mongoose.model('comment', commentSchema);
+module.exports = BlogComment = mongoose.model('blogComment', blogCommentSchema);

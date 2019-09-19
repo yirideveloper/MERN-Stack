@@ -9,6 +9,7 @@ import * as types from './constants';
 export const initialState = {
   email: '',
   success: false,
+  successMsg: '',
   errors: {},
 };
 
@@ -19,16 +20,14 @@ const subscriberPageReducer = (state = initialState, action) =>
       case types.SET_STORE_VALUE:
         draft[action.payload.key] = action.payload.value;
         break;
-      case types.CLEAR_QUERY:
-        draft.errors = initialState.errors;
-        break;
       case types.SAVE_SUBSCRIBER_SUCCESS:
         draft.errors = initialState.errors;
-        draft.email = initialState.email;
         draft.success = true;
+        draft.successMsg = action.payload.msg;
         break;
       case types.SAVE_SUBSCRIBER_FAILURE:
         draft.errors = { ...action.payload.errors };
+        draft.successMsg = initialState.successMsg;
         break;
     }
   });
