@@ -86,15 +86,15 @@ export class ChangePassword extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="w-full md:w-1/2 pb-4">
+        <div className="pb-4">
           <label
-            className="block uppercase tracking-wide text-grey-darker text-xs mb-2"
+            className="block uppercase tracking-wide text-gray-800 text-xs mb-2"
             htmlFor="oldPassword"
           >
             Old Password
           </label>
           <input
-            className="Waftinputbox"
+            className="inputbox"
             id="oldPassword"
             type="text"
             name="oldPassword"
@@ -105,15 +105,15 @@ export class ChangePassword extends React.Component {
           {errors.oldPassword && <span>{errors.oldPassword}</span>}
         </div>
 
-        <div className="w-full md:w-1/2 pb-4">
+        <div className="pb-4">
           <label
-            className="block uppercase tracking-wide text-grey-darker text-xs mb-2"
+            className="block uppercase tracking-wide text-gray-800 text-xs mb-2"
             htmlFor="newPassword"
           >
             New Password
           </label>
           <input
-            className="Waftinputbox"
+            className="inputbox"
             id="newPassword"
             type="text"
             name="newPassword"
@@ -124,15 +124,15 @@ export class ChangePassword extends React.Component {
           {errors.newPassword && <span>{errors.newPassword}</span>}
         </div>
 
-        <div className="w-full md:w-1/2 pb-4">
+        <div className="pb-4">
           <label
-            className="block uppercase tracking-wide text-grey-darker text-xs mb-2"
+            className="block uppercase tracking-wide text-gray-800 text-xs mb-2"
             htmlFor="newPassword"
           >
             Confirm New Password
           </label>
           <input
-            className="Waftinputbox"
+            className="inputbox"
             id="newPassword2"
             type="text"
             name="newPassword2"
@@ -144,7 +144,7 @@ export class ChangePassword extends React.Component {
         </div>
 
         <button
-          className="text-white py-2 px-4 rounded mt-4 btn-waft"
+          className="text-white py-2 px-4 rounded mt-4 w-full bg-primary font-bold uppercase"
           onClick={this.handleSave}
         >
           Save
