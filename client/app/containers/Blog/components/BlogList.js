@@ -7,7 +7,6 @@ import { compose } from 'redux';
 import { IMAGE_BASE } from 'containers/App/constants';
 import moment from 'moment';
 import { createStructuredSelector } from 'reselect';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import * as mapDispatchToProps from '../actions';
 import BlogListSkeleton from '../Skeleton/BlogList';
 
@@ -30,57 +29,65 @@ const RenderBlogs = props => {
           title,
           author,
           slug_url,
-          short_description,
+          description,
           added_at,
           tags,
         } = each;
 
         return (
-          <div key={slug_url} className="border-b border-dotted py-5 md:flex article-container">
-            <div className="md:w-1/4 article-heading">
+          <div key={slug_url} className="border-b border-dotted py-5 md:flex">
+            <div className="md:w-1/4">
               <Link
                 className="text-black no-underline capitalize mb-2 bold block mt-4"
                 to={`/blog/${slug_url}`}
               >
-                <h2 className="text-2xl font-medium leading-tight hover:text-primary">{title}</h2>
+                <h2 className="text-2xl font-medium leading-tight">{title}</h2>
               </Link>
-              <span className="my-2 text-sm">
+              <span className="mt-2">
                 by{' '}
-                <Link
-                  to={`/blog/author/${author._id}`}
-                  className="text-primary font-bold no-underline hover:underline"
-                >
-                  {author.name}
-                </Link>
+                {author && author.name ? (
+                  <Link
+                    to={`/blog/author/${author._id}`}
+                    className="text-red-600 font-bold no-underline hover:underline"
+                  >
+                    {author.name}
+                  </Link>
+                ) : (
+                  'unknown'
+                )}
               </span>
             </div>
-            <div className="md:w-1/2 py-4 md:p-4 article-details">
-              <span className="text-gray-700 mr-2 article-date">
+            <div className="md:w-1/2 py-4 md:p-4">
+              <span className="text-gray-700 mr-2">
                 {moment(added_at).format('MMM Do YYYY')}
               </span>
-              <Link
-                className="text-blue-700 no-underline article-tag"
-                to={`/blog/${each.slug_url}`}
-              >
-                <span> {tags.join(', ') || ''} </span>
-              </Link>{' '}
-              {short_description &&
+              {tags && tags.length > 0 ? (
                 <Link
-                  className="text-grey-darker text-base no-underline"
-                  to={`/blog/${slug_url}`}
+                  className="text-indigo-600 no-underline"
+                  to={`/blog/${each.slug_url}`}
                 >
-                  <div
-                    className="leading-normal text-sm text-gray-600 overflow-hidden"
-                    dangerouslySetInnerHTML={{ __html: short_description }}
-                  />
+                  <span> {tags.join(', ') || ''} </span>
                 </Link>
-              }
+              ) : (
+                ''
+              )}
+              <Link
+                className="text-grey-darker text-base no-underline"
+                to={`/blog/${slug_url}`}
+              >
+                <div
+                  className="leading-normal text-sm text-gray-600 font-light overflow-hidden"
+                  style={{ height: '130px' }}
+                  dangerouslySetInnerHTML={{ __html: description }}
+                />
+              </Link>
             </div>
 
-            <div className="md:w-1/4 h-48 overflow-hidden p-8 article-image">
+            <div className="md:w-1/4 h-48 object-cover overflow-hidden p-8">
               <Link to={`/blog/${slug_url}`}>
                 <img
                   src={image && `${IMAGE_BASE}${image.path}`}
+                  className="rounded "
                   alt={`${title}`}
                 />
               </Link>
@@ -88,7 +95,7 @@ const RenderBlogs = props => {
           </div>
         );
       })}
-      <div className="flex clearfix w-full pagination">
+      <div className="flex">
         <div className="w-full md:w-1/4" />
         <div className="w-3/4 flex justify-end mt-3 ">
           {pagination.page !== 1 && (

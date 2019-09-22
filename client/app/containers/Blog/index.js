@@ -14,7 +14,6 @@ import {
 
 import reducer from './reducer';
 import saga from './saga';
-import style from './blogLayout.css';
 
 const key = 'blogPage';
 
