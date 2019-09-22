@@ -127,13 +127,14 @@ export class BlogManagePage extends React.Component {
       query,
       loading,
     } = this.props;
+    console.log(data, 'data');
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
       ({
         title,
         category,
-        // image,
-        // published_on,
+        image,
+        published_on,
         added_at,
         is_published,
         is_active,
@@ -143,53 +144,50 @@ export class BlogManagePage extends React.Component {
       }) => {
         // console.log(category);
         return [
-          title,
-          (category && category.map(each => each.title).join(', ')) || 'No',
-          // (image && image.fieldname) || null,
-          // moment(published_on).format('MMM Do YY'),
-          moment(added_at).format('MMM Do YY'),
-          '' + is_published,
-          '' + is_active,
-          tags.join(','),
-          (author && author.name) || '',
-          <React.Fragment>
-            <Tooltip
-              id="tooltip-top"
-              title="Edit Task"
-              placement="top"
-              classes={{ tooltip: classes.tooltip }}
+        title,
+        category && category.map(each => each.title).join(', ') || 'No',
+        (image && image.fieldname) || null,
+        moment(published_on).format('MMM Do YY'),
+        moment(added_at).format('MMM Do YY'),
+        '' + is_published,
+        '' + is_active,
+        tags.join(','),
+        author && author.name || '',
+        <React.Fragment>
+          <Tooltip
+            id="tooltip-top"
+            title="Edit Task"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Edit"
+              className={classes.tableActionButton}
+              onClick={() => this.handleEdit(_id)}
             >
-              <IconButton
-                aria-label="Edit"
-                className={classes.tableActionButton}
-                onClick={() => this.handleEdit(_id)}
-              >
-                <Edit
-                  className={classes.tableActionButtonIcon + ' ' + classes.edit}
-                />
-              </IconButton>
-            </Tooltip>
-            <Tooltip
-              id="tooltip-top-start"
-              title="Remove"
-              placement="top"
-              classes={{ tooltip: classes.tooltip }}
+              <Edit
+                className={classes.tableActionButtonIcon + ' ' + classes.edit}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            id="tooltip-top-start"
+            title="Remove"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
+              onClick={() => this.handleOpen(_id)}
             >
-              <IconButton
-                aria-label="Close"
-                className={classes.tableActionButton}
-                onClick={() => this.handleOpen(_id)}
-              >
-                <Close
-                  className={
-                    classes.tableActionButtonIcon + ' ' + classes.close
-                  }
-                />
-              </IconButton>
-            </Tooltip>
-          </React.Fragment>,
-        ];
-      },
+              <Close
+                className={classes.tableActionButtonIcon + ' ' + classes.close}
+              />
+            </IconButton>
+          </Tooltip>
+        </React.Fragment>,
+      ]},
     );
     return (
       <>
@@ -217,13 +215,13 @@ export class BlogManagePage extends React.Component {
         </div>
         <PageContent loading={loading}>
           <div className="flex justify-end">
-            <div className="flex relative">
+            <div className="waftformgroup flex relative">
               <input
                 type="text"
                 name="find_title"
                 id="blog-title"
                 placeholder="Search Blogs"
-                className="m-auto inputbox"
+                className="m-auto Waftinputbox"
                 value={query.find_title}
                 onChange={this.handleQueryChange}
               />
@@ -241,8 +239,8 @@ export class BlogManagePage extends React.Component {
             tableHead={[
               'Title',
               'Category',
-              // 'Image',
-              // 'Published On',
+              'Image',
+              'Published On',
               'Added At',
               'Is Published',
               'Is Active',

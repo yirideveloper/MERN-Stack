@@ -300,7 +300,6 @@ validations.validateUpdateProfile = (req, res, next) => {
 
 validations.validateRegisterInput = (req, res, next) => {
   const data = req.body;
-  console.log(data);
   const validateArray = [
     {
       field: 'name',
@@ -323,10 +322,10 @@ validations.validateRegisterInput = (req, res, next) => {
           condition: 'IsEmpty',
           msg: config.validate.empty,
         },
-        // {
-        //   condition: 'IsEmail',
-        //   msg: config.validate.isEmail,
-        // },
+        {
+          condition: 'IsEmail',
+          msg: config.validate.isEmail,
+        },
       ],
     },
     {

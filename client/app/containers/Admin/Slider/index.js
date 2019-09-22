@@ -235,13 +235,13 @@ export class SliderPage extends React.Component {
 
         <PageContent loading={loading}>
           <div className="flex justify-end">
-            <div className="flex relative mr-2">
+            <div className="waftformgroup flex relative mr-2">
               <input
                 type="text"
                 name="find_slider_name"
                 id="slider-name"
                 placeholder="Search Slider"
-                className="m-auto inputbox"
+                className="m-auto Waftinputbox"
                 value={query.find_slider_name}
                 onChange={this.handleQueryChange}
               />

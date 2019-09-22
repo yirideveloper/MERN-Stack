@@ -15,7 +15,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import { makeSelectSlide } from '../../containers/App/selectors';
 import { loadSlideRequest } from '../../containers/App/actions';
 import MediaElement from '../MediaElement';
-import { IMAGE_BASE } from '../../containers/App/constants';
 import './index.css';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -53,22 +52,17 @@ class SlickSlider extends React.PureComponent {
     } catch (err) {
       console.log(err);
     }
+
     if (!slide) return null; // maybe add a loader here
     return (
       <div className="slider">
         <Slider {...settings}>
           {slide.images.map(image => (
-            <img
-              src={`${IMAGE_BASE}${image.image.path}`}
-              style={{ maxWidth: 200, maxHeight: 200 }}
-              alt="slider media"
+            <MediaElement
+              mediaKey={image.image}
               key={image._id}
+              link={image.link}
             />
-            // <MediaElement
-            //   mediaKey={image.image}
-            //   key={image._id}
-            //   link={image.link}
-            // />
           ))}
         </Slider>
       </div>

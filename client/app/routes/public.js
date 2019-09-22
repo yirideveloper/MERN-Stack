@@ -1,15 +1,16 @@
-import React from 'react';
 import HomePage from '../containers/HomePage';
 import LoginAdminPage from '../containers/LoginAdminPage/Loadable';
 import LoginUserPage from '../containers/LoginUserPage/Loadable';
 import ForgotPasswordUserPage from '../containers/ForgotPasswordUserPage/Loadable';
 import SignupUserPage from '../containers/SignupUserPage/Loadable';
 import FaqPage from '../containers/FAQPage/Loadable';
+import BlogListPage from '../containers/BlogList/Loadable';
+import CategoryListingPage from '../containers/CategoryListingPage/Loadable';
+import CategoryDetailPage from '../containers/CategoryDetailPage/Loadable';
+import BlogDetailPage from '../containers/BlogPage/Loadable';
 import ContactUsPage from '../containers/ContactUs/Loadable';
 import SubscribePage from '../containers/SubscriberPage/Loadable';
-import StaticPage from '../containers/StaticPages/Loadable';
-
-import BlogPages from '../containers/Blog';
+import AboutUsPage from '../containers/AboutUsPage/Loadable';
 
 const publicRoutes = [
   {
@@ -43,9 +44,44 @@ const publicRoutes = [
     component: FaqPage,
   },
   {
-    exact: false,
+    exact: true,
     path: '/blog',
-    component: BlogPages,
+    component: BlogListPage,
+  },
+  {
+    exact: true,
+    path: '/blog-category',
+    component: CategoryListingPage,
+  },
+  {
+    exact: true,
+    path: '/blog-category/:id',
+    component: CategoryDetailPage,
+  },
+  {
+    exact: true,
+    path: '/blog/tag/:tag',
+    component: BlogListPage,
+  },
+  {
+    exact: true,
+    path: '/blog/author/:author',
+    component: BlogListPage,
+  },
+  {
+    exact: true,
+    path: '/subscribe',
+    component: SubscribePage,
+  },
+  {
+    exact: true,
+    path: '/blog/:slug_url',
+    component: BlogDetailPage,
+  },
+  {
+    exact: true,
+    path: '/contact-us',
+    component: ContactUsPage,
   },
   {
     exact: true,
@@ -60,30 +96,7 @@ const publicRoutes = [
   {
     exact: true,
     path: '/about-us',
-    render: props => (
-      <StaticPage contentKey="about-us" title="About Us" {...props} />
-    ),
-  },
-  {
-    exact: true,
-    path: '/term-and-condition',
-    render: props => (
-      <StaticPage contentKey="term-and-condition" title="About Us" {...props} />
-    ),
-  },
-  {
-    exact: true,
-    path: '/data-policy',
-    render: props => (
-      <StaticPage contentKey="data-policy" title="About Us" {...props} />
-    ),
-  },
-  {
-    exact: true,
-    path: '/cookies-policy',
-    render: props => (
-      <StaticPage contentKey="cookies-policy" title="About Us" {...props} />
-    ),
+    component: AboutUsPage,
   },
 ];
 

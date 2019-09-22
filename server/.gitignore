@@ -8,11 +8,8 @@ stats.json
 .DS_Store
 npm-debug.log
 .idea
-# public
+public
 config
 
 package-lock.json
 yarn.lock
-
-# files
-public/

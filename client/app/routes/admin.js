@@ -24,12 +24,9 @@ import TemplateListingPage from '../containers/Admin/Template/Loadable';
 import ErrorManagePage from '../containers/Admin/Error/Loadable';
 import FaqCatAddEditPage from '../containers/Admin/FaqCategory';
 import BlogCatManagePage from '../containers/Admin/BlogCategory/Loadable';
-import BlogCommentManagePage from '../containers/Admin/BlogComment/Loadable';
 import BlogCatAddEditPage from '../containers/Admin/BlogCategory/AddEdit/Loadable';
 import Report from '../containers/Admin/Report/Loadable';
 import Integration from '../containers/Admin/Integration/Loadable';
-import UserProfilePage from '../containers/Admin/Profile/index';
-import UserChangePasswordPage from '../containers/UserChangePasswordPage';
 
 const routes = [
   {
@@ -187,11 +184,6 @@ const routes = [
     exact: true,
   },
   {
-    path: '/admin/blog-comment-manage',
-    component: BlogCommentManagePage,
-    exact: true,
-  },
-  {
     path: '/admin/subscribe-manage/view/:id',
     component: SubscribeViewPage,
     exact: true,
@@ -230,11 +222,6 @@ const routes = [
     path: '/admin/integration',
     component: Integration,
     exact: true,
-  },
-  {
-    exact: false,
-    path: '/admin/profile',
-    component: UserProfilePage,
   },
 ];
 

@@ -183,13 +183,13 @@ export class Error extends React.Component {
         </div>
         <PageContent loading={loading}>
           <div className="flex justify-end">
-            <div className="flex relative">
+            <div className="waftformgroup flex relative">
               <input
                 type="text"
                 name="find_errors"
                 id="error-message"
                 placeholder="Search Errors"
-                className="m-auto inputbox"
+                className="m-auto Waftinputbox"
                 value={query.find_errors}
                 onChange={this.handleQueryChange}
               />

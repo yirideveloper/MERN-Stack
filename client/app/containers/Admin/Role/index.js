@@ -163,13 +163,13 @@ export class AdminRole extends React.PureComponent {
         </div>
         <PageContent loading={loading}>
           <div className="flex justify-end">
-            <div className="flex relative mr-2">
+            <div className="waftformgroup flex relative mr-2">
               <input
                 type="text"
                 name="find_role_title"
                 id="role-title"
                 placeholder="Search roles by title"
-                className="m-auto inputbox"
+                className="m-auto Waftinputbox"
                 value={query.find_role_title}
                 onChange={this.handleQueryChange}
               />

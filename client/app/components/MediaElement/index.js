@@ -26,16 +26,15 @@ class MediaElement extends React.PureComponent {
   }
 
   render() {
-    const { mediaObj, mediaKey, ...props } = this.props;
+    const { mediaObj } = this.props;
 
-    if (!mediaObj[mediaKey]) return null; // maybe add a loader here
-    const media = mediaObj[mediaKey];
+    if (!mediaObj[this.props.mediaKey]) return null; // maybe add a loader here
+    const media = mediaObj[this.props.mediaKey];
     return (
       <img
         src={`${IMAGE_BASE}${media.path}`}
         style={{ maxWidth: 200, maxHeight: 200 }}
         alt="slider media"
-        {...props}
       />
     );
   }

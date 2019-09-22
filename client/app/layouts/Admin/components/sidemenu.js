@@ -4,12 +4,12 @@ const menu = [
   {
     key: '2',
     name: 'Content Manage',
-    icon: 'text_fields',
+    icon: 'format_size',
     menu: [
       {
         key: '2.1',
         name: 'Static Content',
-        icon: 'format_shapes',
+        icon: 'format_size',
         link: '/admin/content-manage',
       },
       {
@@ -67,7 +67,7 @@ const menu = [
   {
     key: '3',
     name: 'Access Manage',
-    icon: 'security',
+    icon: 'nature_people',
     menu: [
       {
         key: '3.1',
@@ -130,12 +130,6 @@ const menu = [
         name: 'Errors',
         icon: 'error_outline',
         link: '/admin/errors',
-      },
-      {
-        key: '5.5',
-        name: 'Comment',
-        icon: 'comment',
-        link: '/admin/blog-comment-manage',
       },
     ],
   },

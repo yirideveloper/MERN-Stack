@@ -149,13 +149,13 @@ export class User extends React.PureComponent {
         </div>
         <PageContent loading={loading}>
           <div className="flex justify-end">
-            <div className="flex relative mr-2">
+            <div className="waftformgroup flex relative mr-2">
               <input
                 type="text"
                 name="find_name"
                 id="user-name"
                 placeholder="Search User"
-                className="m-auto inputbox"
+                className="m-auto Waftinputbox"
                 value={query.find_name}
                 onChange={this.handleQueryChange}
               />

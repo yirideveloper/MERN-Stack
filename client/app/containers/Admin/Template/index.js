@@ -85,11 +85,11 @@ export function Template({
       <PageContent>
         <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
+            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
               Template Key
             </label>
             <select
-              className="inputbox"
+              className="Waftinputbox"
               id="template-key"
               name="template_key"
               value={data || ''}
@@ -107,12 +107,12 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
+            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
               Template Name
             </label>
             <input
               type="text"
-              className="inputbox"
+              className="Waftinputbox"
               readOnly
               id="template-name"
               name="template-name"
@@ -121,11 +121,11 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
+            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
               Informations
             </label>
             <input
-              className="inputbox"
+              className="Waftinputbox"
               type="text"
               readOnly
               id="informations"
@@ -135,11 +135,11 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
+            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
               Variables
             </label>
             <input
-              className="inputbox"
+              className="Waftinputbox"
               type="text"
               id="variables"
               name="variables"
@@ -150,11 +150,11 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
+            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
               From
             </label>
             <input
-              className="inputbox"
+              className="Waftinputbox"
               type="text"
               id="from_email"
               name="from"
@@ -164,11 +164,11 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
+            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
               Subject
             </label>
             <input
-              className="inputbox"
+              className="Waftinputbox"
               type="text"
               id="subject_email"
               name="subject"
@@ -178,11 +178,11 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
+            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
               Alternate Text
             </label>
             <input
-              className="inputbox"
+              className="Waftinputbox"
               type="text"
               id="alternate_text"
               name="alternate_text"
@@ -194,11 +194,11 @@ export function Template({
           <div dangerouslySetInnerHTML={{ __html: one.body }} />
 
           <div className="w-full pb-4">
-            <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
+            <label className="block uppercase tracking-wide text-grey-darker text-xs mb-2">
               Body
             </label>
             <textarea
-              className="inputbox"
+              className="Waftinputbox"
               type="text"
               id="body_email"
               name="body"
@@ -208,7 +208,7 @@ export function Template({
             />
           </div>
 
-          <button className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme">
+          <button className="text-white py-2 px-4 rounded mt-4 btn-waft">
             Save
           </button>
         </form>
