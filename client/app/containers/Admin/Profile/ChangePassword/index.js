@@ -9,8 +9,11 @@ import { push } from 'connected-react-router';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 // core components
-import * as mapDispatchToProps from '../actions';
-import { makeSelectErrors } from '../selectors';
+import injectSaga from '../../../utils/injectSaga';
+import injectReducer from '../../../utils/injectReducer';
+import reducer from './reducer';
+import saga from './saga';
+import * as mapDispatchToProps from './actions';
 
 const styles = theme => ({});
 
@@ -27,14 +30,6 @@ export class ChangePassword extends React.Component {
     newPassword2: '',
     errors: {},
     showPassword: false,
-  };
-
-  componentDidMount() {
-    this.props.clearError();
-  }
-
-  static getDerivedStateFromProps = nextProps => {
-    return { errors: nextProps.errors };
   };
 
   handleChange = e => {
@@ -159,18 +154,21 @@ export class ChangePassword extends React.Component {
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  errors: makeSelectErrors(),
-});
+const mapStateToProps = createStructuredSelector({});
 
 const withConnect = connect(
   mapStateToProps,
   { ...mapDispatchToProps, push },
 );
 
+const withReducer = injectReducer({ key: 'changePassword', reducer });
+const withSaga = injectSaga({ key: 'changePassword', saga });
+
 const withStyle = withStyles(styles);
 
 export default compose(
   withStyle,
+  withReducer,
+  withSaga,
   withConnect,
 )(ChangePassword);

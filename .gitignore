@@ -2,6 +2,3 @@ node_modules/
 .vscode/
 .idea/
 *lock.json
-yarn.lock
-.expo/
-build

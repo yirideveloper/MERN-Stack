@@ -10,7 +10,6 @@ export const initialState = {
     date_of_birth: '',
     email_verified: false,
   },
-  changePassword: '',
   errors: {},
 };
 
@@ -26,12 +25,6 @@ const userPersonalInformationPageReducer = (state = initialState, action) =>
         break;
       case types.LOAD_ONE_SUCCESS:
         draft.one = action.payload.data;
-        break;
-      case types.CHANGE_PASSWORD_SUCCESS:
-        draft.changePassword = initialState;
-        break;
-      case types.CHANGE_PASSWORD_FAILURE:
-        draft.errors = action.payload.errors;
         break;
     }
   });
