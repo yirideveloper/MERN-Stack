@@ -20,7 +20,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
-import ViewIcon from '@material-ui/icons/RemoveRedEyeOutlined';
+import Fab from '@material-ui/core/Fab';
 import Table from 'components/Table';
 
 import injectSaga from 'utils/injectSaga';
@@ -101,10 +101,6 @@ export class BlogCommentManagePage extends React.PureComponent {
     }
   };
 
-  handleView = id => {
-    this.props.push(`/admin/comment/view/${id}`);
-  };
-
   render() {
     const { classes } = this.props;
     const {
@@ -120,22 +116,22 @@ export class BlogCommentManagePage extends React.PureComponent {
         moment(added_at).format('MMM Do YY'),
         moment(updated_at).format('MMM Do YY'),
         <>
-          <Tooltip
+          {/* <Tooltip
             id="tooltip-top-start"
-            title="View"
+            title="Remove"
             placement="top"
             classes={{ tooltip: classes.tooltip }}
           >
             <IconButton
               aria-label="Close"
               className={classes.tableActionButton}
-              onClick={() => this.handleView(_id)}
+              onClick={() => this.handleOpen(_id)}
             >
-              <ViewIcon
-                className={`${classes.tableActionButtonIcon} ${classes.view}`}
+              <Close
+                className={`${classes.tableActionButtonIcon} ${classes.close}`}
               />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
         </>,
       ],
     );
@@ -186,13 +182,7 @@ export class BlogCommentManagePage extends React.PureComponent {
           </div>
 
           <Table
-            tableHead={[
-              'Comment Title',
-              'Blog',
-              'Added At',
-              'Updated At',
-              'Actions',
-            ]}
+            tableHead={['Comment Title', 'Blog', 'Added At', 'Updated At']}
             tableData={tableData}
             pagination={tablePagination}
             handlePagination={this.handlePagination}

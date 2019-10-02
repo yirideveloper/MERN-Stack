@@ -27,8 +27,3 @@ export const makeSelectLoading = () =>
     selectDomain,
     state => state.loading,
   );
-export const makeSelectOne = () =>
-  createSelector(
-    selectDomain,
-    state => state.one,
-  );

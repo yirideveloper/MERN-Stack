@@ -4,7 +4,7 @@ const commentSch = require('./commentSchema');
 const blogSch = require('../blog/blogSchema');
 const commentController = {};
 
-commentController.PostComment = async (req, res, next) => {
+commentController.PostBlogComment = async (req, res, next) => {
   try {
     const data = req.body;
     if (data._id) {
@@ -17,7 +17,6 @@ commentController.PostComment = async (req, res, next) => {
         return otherHelper.sendResponse(res, httpStatus.NOT_FOUND, false, null, null, 'You are not allowed to edit!!', null);
       }
     } else {
-      data.status = 'posted';
       data.added_by = req.user.id;
       const newComment = new commentSch(data);
       const saveComment = await newComment.save();
@@ -27,7 +26,7 @@ commentController.PostComment = async (req, res, next) => {
     next(err);
   }
 };
-commentController.GetComment = async (req, res, next) => {
+commentController.GetBlogComment = async (req, res, next) => {
   try {
     const size_default = 10;
     let page;
@@ -65,7 +64,7 @@ commentController.GetComment = async (req, res, next) => {
         select: 'title',
       },
     ];
-    selectq = 'title blog_id is_approved is_disapproved approved_by disapproved_by approved_at disapproved_at status added_by added_at updated_at updated_by is_deleted';
+    selectq = 'title blog_id added_by added_at updated_at updated_by is_deleted';
 
     searchq = {
       is_deleted: false,
@@ -94,7 +93,7 @@ commentController.GetComment = async (req, res, next) => {
     next(err);
   }
 };
-commentController.GetCommentByBlog = async (req, res, next) => {
+commentController.GetBlogCommentByBlog = async (req, res, next) => {
   try {
     const id = req.params.blog;
     const comment = await commentSch
@@ -107,7 +106,7 @@ commentController.GetCommentByBlog = async (req, res, next) => {
     next(err);
   }
 };
-commentController.DeleteComment = async (req, res, next) => {
+commentController.DeleteBlogComment = async (req, res, next) => {
   try {
     const id = req.params.id;
     const comment = await commentSch.findOneAndUpdate({ _id: id, is_deleted: false }, { $set: { is_deleted: true, deleted_at: Date.now() } }, { new: true });
@@ -116,29 +115,11 @@ commentController.DeleteComment = async (req, res, next) => {
     next(err);
   }
 };
-commentController.GetCommentById = async (req, res, next) => {
+commentController.GetBlogCommentById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const comment = await commentSch.findOne({ _id: id, is_deleted: false }).populate([{ path: 'blog_id', select: 'title' }, { path: 'added_by', select: 'name' }]);
+    const comment = await commentSch.findOne({ _id: id, is_deleted: false });
     return otherHelper.sendResponse(res, httpStatus.OK, true, comment, null, 'comment get success!!', null);
-  } catch (err) {
-    next(err);
-  }
-};
-commentController.ApproveComment = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const comment = await commentSch.findOneAndUpdate({ _id: id, is_deleted: false }, { $set: { is_approved: true, approved_by: req.user.id, approved_at: Date.now(), status: 'approved' } }, { new: true });
-    return otherHelper.sendResponse(res, httpStatus.OK, true, comment, null, 'comment approve success!!', null);
-  } catch (err) {
-    next(err);
-  }
-};
-commentController.DisApproveComment = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const comment = await commentSch.findOneAndUpdate({ _id: id, is_deleted: false }, { $set: { is_disapproved: true, disapproved_by: req.user.id, disapproved_at: Date.now(), status: 'disapproved' } }, { new: true });
-    return otherHelper.sendResponse(res, httpStatus.OK, true, comment, null, 'comment disapprove success!!', null);
   } catch (err) {
     next(err);
   }
