@@ -26,10 +26,6 @@ const checkPathname = pathname => {
     case '/login-admin/':
       // case '/login-user/':
       return false;
-    case '/editor-file-select':
-      return false;
-    case '/editor-file-select/':
-      return false;
     default:
       break;
   }
