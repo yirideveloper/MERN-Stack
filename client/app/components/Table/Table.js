@@ -87,7 +87,7 @@ CustomTable.defaultProps = {
 };
 
 CustomTable.propTypes = {
-  classes: PropTypes.object,
+  classes: PropTypes.object.isRequired,
   tableHeaderColor: PropTypes.oneOf([
     'warning',
     'primary',
