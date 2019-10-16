@@ -12,37 +12,32 @@ import reducer from '../reducer';
 import saga from '../saga';
 // import { loadArchivesRequest } from '../actions';
 import { makeSelectEmailVerified } from '../selectors';
-import Tick from '@material-ui/icons/done';
-import Clear from '@material-ui/icons/clear';
 
 function App(props) {
   const { verified } = props;
 
   return (
-    <>
-      <div className="p-4">
+    <div className="p-4">
+      <h2 className="text-2xl mb-4 font-bold">Profile</h2>
       {verified ? (
-        <NavLink className="mb-2 block text-green-500 hover:text-primary">
-          Email verified <Tick/> 
+        <NavLink className="block text-blue-500" to="/user/profile/verify">
+          Email verified
         </NavLink>
       ) : (
-        <NavLink className="mb-2 block text-red-500 text-primary" to="/user/profile/verify">
-          Email not verified <Clear/>
+        <NavLink className="block text-primary" to="/user/profile/verify">
+          Email not verified
         </NavLink>
       )}
-        <h2 className="text-2xl mb-2 font-bold">Profile</h2>
-
-        <NavLink className="block text-gray-800 hover:text-primary" to="/user/profile">
-          Information
-        </NavLink>
-        <NavLink
-          className="block text-gray-800 hover:text-primary"
-          to="/user/profile/change-password"
-        >
-          Change Password
-        </NavLink>
-      </div>
-    </>
+      <NavLink className="block text-primary" to="/user/profile">
+        Information
+      </NavLink>
+      <NavLink
+        className="block text-primary"
+        to="/user/profile/change-password"
+      >
+        Change Password
+      </NavLink>
+    </div>
   );
 }
 
