@@ -31,7 +31,6 @@ import PageContent from '../../../../components/PageContent/PageContent';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core';
 import Loading from '../../../../components/Loading';
-import { makeSelectToken } from '../../../App/selectors';
 
 const styles = {
   backbtn: {
@@ -265,7 +264,6 @@ const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
   loading: makeSelectLoading(),
   errors: makeSelectErrors(),
-  token: makeSelectToken(),
 });
 
 const withConnect = connect(
