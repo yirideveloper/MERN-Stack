@@ -19,13 +19,16 @@ function* loadFolders(action) {
 
 function* loadFiles(action) {
   const token = yield select(makeSelectToken());
-  let query = 'root';
+  let query = '';
   if (action.payload) {
-    query = action.payload;
+    Object.keys(action.payload).map(each => {
+      query = `${query}&${each}=${action.payload[each]}`;
+      return null;
+    });
   }
   yield call(
     Api.get(
-      `files/folder/${query}`,
+      `media?page=0${query}`,
       actions.loadFilesSuccess,
       actions.loadFilesFailure,
       token,

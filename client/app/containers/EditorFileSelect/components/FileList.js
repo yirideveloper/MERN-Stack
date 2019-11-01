@@ -1,23 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import AddIcon from '@material-ui/icons/Add';
 import Dropzone from 'react-dropzone';
 import * as mapDispatchToProps from '../actions';
-import { makeSelectAll } from '../selectors';
+import { selectFiles } from '../selectors';
 import { IMAGE_BASE } from '../../App/constants';
 
-const FileList = ({
-  addMediaRequest,
-  all: { file, folders, self },
-  CKEditorFuncNum,
-  files,
-  ...props
-}) => {
-  useEffect(() => {
-    props.loadFilesRequest();
-  }, []);
-
+const FileList = ({ addMediaRequest, files, CKEditorFuncNum, ...props }) => {
   const onSelect = image => {
     window.opener.CKEDITOR.tools.callFunction(
       CKEditorFuncNum,
@@ -26,36 +17,31 @@ const FileList = ({
     window.close();
   };
 
-  const handleFolderLink = id => {
-    props.loadFilesRequest(id);
-  };
-
   return (
     <div style={{ backgroundColor: '#f2f2f2', flex: 1, height: '100%' }}>
       <div className="p-2 flex-1 my-1">
         <ol className="list-reset flex text-gray-700">
-          {self.path &&
-            self.path.map(each => (
-              <div key={each._id} className="flex">
-                <li>
-                  <a
-                    className="text-blue-700 no-underline hover:underline"
-                    href="/admin/content-manage"
-                  >
-                    {each.name || 'Root'}
-                  </a>
-                </li>
-                <li>
-                  <span className="mx-2">/</span>
-                </li>
-              </div>
-            ))}
+          <li>Root</li>
+          <li>
+            <span className="mx-2">/</span>
+          </li>
           <li>
             <a
               className="text-blue-700 no-underline hover:underline"
               href="/admin/content-manage"
             >
-              {self.name}
+              images
+            </a>
+          </li>
+          <li>
+            <span className="mx-2">/</span>
+          </li>
+          <li>
+            <a
+              className="text-blue-700 no-underline hover:underline"
+              href="/admin/content-manage/add"
+            >
+              phone
             </a>
           </li>
         </ol>
@@ -76,22 +62,11 @@ const FileList = ({
         </Dropzone>
       </div>
       <div className="flex flex-wrap justify-between px-4 overflow-hidden m-2">
-        {folders.data.map(each => (
-          <div
-            className="-ml-4 -mr-4 w-1/5 h-28 mb-4 p-1 text-center bg-gray-300"
-            key={each._id}
-            onClick={() => handleFolderLink(each._id)}
-          >
-            {each.name}
-          </div>
-        ))}
-        {file.data.map(each => (
-          <div
-            key={each._id}
-            className="-ml-4 -mr-4 w-1/5 h-28 mb-4 p-1 text-center bg-gray-300"
-          >
+        {files.map(each => (
+          <div className="-ml-4 -mr-4 w-1/5 h-28 mb-4 p-1 text-center bg-gray-300">
             <img
               className="w-full h-24 object-contain"
+              key={each._id}
               src={`${IMAGE_BASE}${each.path}`}
               alt={each.filename}
               onClick={() => onSelect(each)}
@@ -99,7 +74,6 @@ const FileList = ({
             <div>{each.filename}</div>
           </div>
         ))}
-        {folders.data.length < 1 && file.data.length < 1 && <div>No Items</div>}
       </div>
     </div>
   );
@@ -107,12 +81,12 @@ const FileList = ({
 
 FileList.propTypes = {
   addMediaRequest: PropTypes.func.isRequired,
-  all: PropTypes.object.isRequired,
+  files: PropTypes.array.isRequired,
   CKEditorFuncNum: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  all: makeSelectAll(),
+  files: selectFiles,
 });
 
 export default connect(
