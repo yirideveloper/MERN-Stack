@@ -25,7 +25,6 @@ import {
   makeSelectErrors,
   makeSelectLoading,
 } from '../selectors';
-import { DATE_FORMAT } from '../../App/constants';
 import * as mapDispatchToProps from '../actions';
 
 class UserPersonalInformationPage extends React.PureComponent {
@@ -54,7 +53,7 @@ class UserPersonalInformationPage extends React.PureComponent {
   handleDateChange = name => date => {
     this.props.setOneValue({
       key: name,
-      value: moment(date).format(DATE_FORMAT),
+      value: moment(date).format('YYYY-MM-DD'),
     });
   };
 
@@ -122,7 +121,7 @@ class UserPersonalInformationPage extends React.PureComponent {
             className="inputbox"
             value={
               (one.date_of_birth &&
-                moment(one.date_of_birth).format(DATE_FORMAT)) ||
+                moment(one.date_of_birth).format('YYYY-MM-DD')) ||
               ''
             }
             onChange={this.handleDateChange('date_of_birth')}
@@ -141,7 +140,7 @@ class UserPersonalInformationPage extends React.PureComponent {
         </div>
 
         {/* <div className="w-full  pb-4">
-          Your account created at {moment(one.added_at).format(DATE_FORMAT)}
+          Your account created at {moment(one.added_at).format('YYYY-MM-DD')}
         </div> */}
 
         <button

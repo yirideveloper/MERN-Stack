@@ -10,7 +10,6 @@ export const initialState = {
   email: '',
   success: false,
   errors: {},
-  loading: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -23,17 +22,12 @@ const subscriberPageReducer = (state = initialState, action) =>
       case types.CLEAR_QUERY:
         draft.errors = initialState.errors;
         break;
-      case types.SAVE_SUBSCRIBER_REQUEST:
-        draft.loading = true;
-        break;
       case types.SAVE_SUBSCRIBER_SUCCESS:
         draft.errors = initialState.errors;
         draft.email = initialState.email;
         draft.success = true;
-        draft.loading = false;
         break;
       case types.SAVE_SUBSCRIBER_FAILURE:
-        draft.loading = false;
         draft.errors = { ...action.payload.errors };
         break;
     }

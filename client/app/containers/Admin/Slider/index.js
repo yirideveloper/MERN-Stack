@@ -22,7 +22,6 @@ import Close from '@material-ui/icons/Close';
 import Fab from '@material-ui/core/Fab';
 import Table from 'components/Table/Table';
 
-import { DATE_FORMAT } from '../../App/constants';
 import injectSaga from '../../../utils/injectSaga';
 import injectReducer from '../../../utils/injectReducer';
 import reducer from './reducer';
@@ -170,7 +169,7 @@ export class SliderPage extends React.Component {
         slider_name,
         slider_key,
         images.length,
-        moment(added_at).format(DATE_FORMAT),
+        moment(added_at).format('MMM Do YY'),
 
         <React.Fragment>
           <Tooltip

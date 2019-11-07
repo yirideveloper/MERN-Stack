@@ -6,8 +6,7 @@ const uploader = fileUpload.uploader;
 const dModule = require('../../modules/files/filesController');
 const { authentication, authorization } = require('../../middleware/authentication.middleware');
 
-router.get('/folder/:id', authorization, dModule.GetFileAndFolder);
-router.post('/folder/:id', authorization, dModule.AddFolders);
-router.post('/file/:folder_id', authorization, uploader.any('file'), dModule.UploadFiles);
+router.get('/', dModule.GetFileAndFolder);
+router.post('/', dModule.uploadFiles);
 
 module.exports = router;

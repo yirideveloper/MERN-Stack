@@ -40,7 +40,7 @@ const PasswordInput = props => {
       </div>
       <div className="relative">
         <input
-          error={error || hasError.toString()}
+          error={hasError.toString()}
           onChange={handleChange}
           value={password}
           id="Password"
@@ -55,7 +55,6 @@ const PasswordInput = props => {
           {isSecure ? <Visibility /> : <VisibilityOff />}
         </span>
       </div>
-      {error && <div id="component-error-text">{error}</div>}
     </div>
   );
 };

@@ -65,7 +65,6 @@ export function* signupAction(action) {
     yield cancel(successWatcher);
   } else {
     yield put(actions.setStoreValue({ key: 'errors', value: errors.errors }));
-    yield put(actions.setStoreValue({ key: 'loading', value: false }));
   }
 }
 

@@ -10,12 +10,7 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import Crumb from './Crumb';
 
-const Breadcrumb = ({
-  location: { pathname },
-  routeList,
-  linkcomponent,
-  onClick,
-}) => {
+const Breadcrumb = ({ location: { pathname }, routeList }) => {
   let breadcrumbs = [];
   if (routeList.length === 0) {
     const subPaths = pathname.split('/').filter(each => !!each);
@@ -34,7 +29,6 @@ const Breadcrumb = ({
     breadcrumbs = routeList;
   }
 
-  const LinkComponent = linkcomponent;
   return (
     <div className="p-2 flex-1 my-1">
       <ol className="list-reset flex text-gray-700">
@@ -44,17 +38,10 @@ const Breadcrumb = ({
           if (link.path.endsWith('edit') || link.path.endsWith('access'))
             return null;
           return (
-            <Crumb
-              key={`${link.path}${index}`}
-              isLast={index === breadcrumbs.length - 1}
-            >
-              <LinkComponent
-                className="text-blue-700 no-underline hover:underline"
-                to={link.path}
-                onClick={() => onClick(link)}
-              >
+            <Crumb key={link.path} isLast={index === breadcrumbs.length - 1}>
+              <Link className="text-blue-700 no-underline hover:underline" to={link.path}>
                 {link.label}
-              </LinkComponent>
+              </Link>
             </Crumb>
           );
         })}
@@ -73,14 +60,10 @@ Breadcrumb.propTypes = {
       label: PropTypes.string.isRequired,
     }),
   ),
-  onClick: PropTypes.func,
-  linkcomponent: PropTypes.func,
 };
 
 Breadcrumb.defaultProps = {
   routeList: [],
-  onClick: () => null,
-  linkcomponent: Link,
 };
 
 export default withRouter(Breadcrumb);

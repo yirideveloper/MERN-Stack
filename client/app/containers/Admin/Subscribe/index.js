@@ -28,7 +28,6 @@ import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
 
-import { DATE_FORMAT } from '../../App/constants';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
 import DeleteDialog from '../../../components/DeleteDialog';
@@ -120,7 +119,7 @@ export class Subscribe extends React.PureComponent {
     const tableData = data.map(({ _id, email, is_subscribed, added_at }) => [
       email,
       `${is_subscribed}`,
-      moment(added_at).format(DATE_FORMAT),
+      moment(added_at).format('MMM Do YY'),
 
       <React.Fragment>
         <Tooltip id="tooltip-top" title="View subscribe" placement="top">

@@ -27,7 +27,6 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 import * as mapDispatchToProps from './actions';
-import { DATE_FORMAT } from '../../App/constants';
 import reducer from './reducer';
 import saga from './saga';
 import Loading from '../../../components/Loading';
@@ -136,8 +135,8 @@ export class BlogCategory extends React.PureComponent {
         title,
         image && image.fieldname || '',
         '' + is_active,
-        moment(added_at).format(DATE_FORMAT),
-        moment(updated_at).format(DATE_FORMAT),
+        moment(added_at).format('MMM Do YY'),
+        moment(updated_at).format('MMM Do YY'),
         <>
           <Tooltip
             id="tooltip-top"
