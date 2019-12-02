@@ -32,8 +32,3 @@ export const makeSelectOne = () =>
     selectDomain,
     state => state.one,
   );
-export const makeSelectRequesting = () =>
-  createSelector(
-    selectDomain,
-    state => state.requesting,
-  );
