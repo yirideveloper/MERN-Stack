@@ -136,7 +136,7 @@ class AddEdit extends React.PureComponent {
             <div className="w-full md:w-1/2 pb-4">
               <h3 className="text-lg font-bold">Basic Information</h3>
               <br />
-              <label className="label">
+              <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
                 Email
             </label>
               <input
@@ -149,7 +149,7 @@ class AddEdit extends React.PureComponent {
               />
             </div>
             <div className="w-full md:w-1/2 pb-4">
-              <label className="label">
+              <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
                 Name
             </label>
 
@@ -163,7 +163,7 @@ class AddEdit extends React.PureComponent {
               <div id="component-error-text">{(errors && errors.name) || ''}</div>
             </div>
             <div className="w-full md:w-1/2 pb-4">
-              <label className="label">
+              <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
                 Bio
             </label>
 
@@ -220,7 +220,7 @@ class AddEdit extends React.PureComponent {
             <h3 className="text-lg font-bold">Reset Password</h3>
             <br />
             <div className="w-full md:w-1/2 pb-4">
-              <label className="label">
+              <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
                 Password
             </label>
               <div className="relative">

@@ -226,7 +226,7 @@ export class BlogCommentManagePage extends React.PureComponent {
           <PageHeader>Blog Comment Listing</PageHeader>
         </div>
         <PageContent loading={loading}>
-          <div className="flex">
+          <div className="flex justify-end">
             <FormControlLabel
               control={
                 <Checkbox
