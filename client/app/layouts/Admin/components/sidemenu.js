@@ -65,12 +65,6 @@ const menu = [
     ],
   },
   {
-    key: '6',
-    name: 'Menu Manage',
-    icon: 'account_circle',
-    link: '/admin/menu-manage',
-  },
-  {
     key: '3',
     name: 'Access Manage',
     icon: 'security',
