@@ -14,12 +14,10 @@ const menuItemSchema = new Schema({
     },
     is_active: {
         type:Boolean,
-        default:true
-    }, 
-    is_deleted: {
-        type:Boolean,
-        default:false
+        default:true,
+        required:true
     },
+    
     target:{
         type:String,
         required:true,
@@ -41,15 +39,7 @@ const menuItemSchema = new Schema({
         ref: 'users'
     }, 
     added_at : {
-        type:Date,
-        default:new Date()
-    },
-    deleted_at : {
         type:Date
-    },
-    deleted_by: {
-        type:Schema.Types.ObjectId,
-        ref: 'users'
     }
 })
 
@@ -92,18 +82,10 @@ const menuSchema = new Schema({
         ref: 'users'
     },
     added_at : {
-        type:Date,
-        default:new Date()
-    },
-    deleted_at : {
         type:Date
-    },
-    deleted_by: {
-        type:Schema.Types.ObjectId,
-        ref: 'users'
     }
 })
-const menuSch =  mongoose.model('menuSch',menuSchema );
+const menusch =  mongoose.model('menusch',menuSchema );
 const menu_item= mongoose.model('menu_item',menuItemSchema );
-module.exports = {menuSch , menu_item};
+module.exports = {menusch , menu_item};
 
