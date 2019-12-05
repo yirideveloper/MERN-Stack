@@ -4,19 +4,19 @@ import { makeSelectToken } from '../../App/selectors';
 import * as types from './constants';
 import * as actions from './actions';
 
-function* loadAllSettings(action) {
+function* defaultAction(action) {
   const token = yield select(makeSelectToken());
-  yield call(
-    Api.get(
-      `setting`,
-      actions.loadAllSettingsSuccess,
-      actions.loadAllSettingsFailure,
-      token,
-    ),
-  );
+  //  yield call(
+  //    Api.get(
+  //      `someroute/${action.payload}`,
+  //      actions.defaultActionSuccess,
+  //      actions.defaultActionFailure,
+  //      token,
+  //    ),
+  //  );
 }
 
 // Individual exports for testing
 export default function* settingsManagePageSaga() {
-  yield takeLatest(types.LOAD_ALL_SETTINGS_REQUEST, loadAllSettings);
+  yield takeLatest(types.DEFAULT_ACTION_REQUEST, defaultAction);
 }
