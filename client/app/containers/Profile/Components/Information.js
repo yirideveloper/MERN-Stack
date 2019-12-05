@@ -69,7 +69,7 @@ class UserPersonalInformationPage extends React.PureComponent {
     ) : (
       <React.Fragment>
         <div className="w-full pb-4">
-          <label className="label">
+          <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
             Name
           </label>
 
@@ -91,7 +91,7 @@ class UserPersonalInformationPage extends React.PureComponent {
         </div>
 
         <div className="w-full pb-4">
-          <label className="label">
+          <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
             Email
           </label>
 
@@ -113,7 +113,7 @@ class UserPersonalInformationPage extends React.PureComponent {
         </div>
 
         <div className="md:w-1/2 pb-4">
-          <label className="label">
+          <label className="block uppercase tracking-wide text-gray-800 text-xs mb-2">
             Date Of Birth
           </label>
 

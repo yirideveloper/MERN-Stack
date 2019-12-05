@@ -3,7 +3,7 @@ import React from 'react';
 const Input = (props) => (
   <React.Fragment>
     {props.label && <label
-      className="label"
+      className="block uppercase tracking-wide text-gray-800 text-xs mb-2"
       htmlFor="grid-last-name"
     >
       {props.label}

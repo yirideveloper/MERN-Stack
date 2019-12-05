@@ -24,7 +24,7 @@ const PasswordInput = props => {
   return (
     <div className="mb-4">
       <label
-        className="label"
+        className="block uppercase tracking-wide text-gray-800 text-xs mb-2"
         htmlFor="Password"
       >
         Password

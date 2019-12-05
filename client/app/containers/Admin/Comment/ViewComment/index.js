@@ -22,7 +22,6 @@ import { makeSelectOne, makeSelectLoading } from '../selectors';
 import PageContent from '../../../../components/PageContent/PageContent';
 import PageHeader from '../../../../components/PageHeader/PageHeader';
 import Loading from '../../../../components/Loading';
-import moment from 'moment';
 
 export class ViewComment extends React.PureComponent {
   static propTypes = {
@@ -99,22 +98,7 @@ export class ViewComment extends React.PureComponent {
                 {one.status || ''}
               </p>
             ) : null}
-            {one && one.added_at ? (
-              <p className="mb-2">
-                <b>Added At: </b>
-                {moment(one.added_at).format('ll') || ''}
-              </p>
-            ) : null}
-
             <div>
-              <b>Is Approved: {''}</b>
-              {one && one.is_approved ? <b>Yes</b> : <b>No</b>}
-            </div>
-            <div>
-              <b>Is Disapproved: {''}</b>
-              {one && one.is_disapproved ? <b>Yes</b> : <b>No</b>}
-            </div>
-            {/* <div>
               <FormControlLabel
                 className="ml-2"
                 control={
@@ -144,7 +128,7 @@ export class ViewComment extends React.PureComponent {
               onClick={this.handleSave}
             >
               Save
-              </button> */}
+            </button>
           </div>
         </PageContent>
       </React.Fragment>

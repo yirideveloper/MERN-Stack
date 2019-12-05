@@ -36,8 +36,8 @@ const Breadcrumb = ({
 
   const LinkComponent = linkcomponent;
   return (
-    <div className="pt-2 text-right">
-      <ol className="list-reset inline-flex text-gray-700 rounded text-sm items-center">
+    <div className="flex-1 ">
+      <ol className="list-reset inline-flex text-gray-700 rounded text-sm bg-gray-100 p-2 items-center">
         {breadcrumbs.map((link, index) => {
           if (link.path === '/admin')
             return <Crumb key={link.path}>Home</Crumb>;
@@ -49,7 +49,7 @@ const Breadcrumb = ({
               isLast={index === breadcrumbs.length - 1}
             >
               <LinkComponent
-                className="text-blue-700 no-underline hover:underline cursor-pointer capitalize"
+                className="text-blue-700 no-underline hover:underline cursor-pointer"
                 to={link.path}
                 onClick={() => onClick(link)}
               >
