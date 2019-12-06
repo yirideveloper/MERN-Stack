@@ -2,7 +2,7 @@ import { takeLatest, call, select, put } from 'redux-saga/effects';
 import Api from 'utils/Api';
 import { push } from 'connected-react-router';
 import { makeSelectToken } from '../../App/selectors';
-import { makeSelectOne, makeSelectSubMenu } from './selectors';
+import { makeSelectOne } from './selectors';
 import * as types from './constants';
 import * as actions from './actions';
 import { enqueueSnackbar } from '../../App/actions';
@@ -26,19 +26,6 @@ function* loadOne(action) {
   );
 }
 
-function* loadMenu(action) {
-  const token = yield select(makeSelectToken());
-  yield call(
-    Api.get(
-      `menu/menuitem/${action.payload}`,
-      actions.loadMenuSuccess,
-      actions.loadMenuFailure,
-      token,
-    ),
-  );
-}
-
-// add parent menu
 function* addEdit(action) {
   const token = yield select(makeSelectToken());
   const data = yield select(makeSelectOne());
@@ -64,7 +51,6 @@ function* addEditSuccessFunc(action) {
   yield put(push('/admin/menu-manage'));
 }
 
-// add parent menu also with the ability to add child_menu
 function* addEdit2(action) {
   const token = yield select(makeSelectToken());
   const data = yield select(makeSelectOne());
@@ -87,8 +73,7 @@ function* addEdit2SuccessFunc(action) {
     },
   };
   yield put(enqueueSnackbar(snackbarData));
-  yield put(actions.showSubMenu(true));
-  yield put(actions.loadMenuRequest(action.payload.data._id));
+  yield put(actions.showSubMenu());
 }
 
 function* addEdit2FailureFunc(action) {
@@ -102,37 +87,11 @@ function* addEdit2FailureFunc(action) {
   yield put(enqueueSnackbar(defaultError));
 }
 
-// add child menu
-function* addEditChild(action) {
-  const token = yield select(makeSelectToken());
-  const data = yield select(makeSelectSubMenu());
-  yield call(
-    Api.post(
-      `menu/menuitem`,
-      actions.addEditChildSuccess,
-      actions.addEditChildFailure,
-      data,
-      token,
-    ),
-  );
-}
-
-function* addEditChildSuccessFunc(action) {
-  const snackbarData = {
-    message: action.payload.msg || 'Update success!!',
-    options: {
-      variant: 'success',
-    },
-  };
-  yield put(enqueueSnackbar(snackbarData));
-  // yield put(push('/admin/menu-manage'));
-}
-
 function* deleteOne(action) {
   const token = yield select(makeSelectToken());
   yield call(
     Api.delete(
-      `menu/${action.payload}`,
+      `menu/menuDelete/${action.payload}`,
       actions.deleteOneSuccess,
       actions.deleteOneFailure,
       token,
@@ -165,11 +124,8 @@ function* deleteOneFailureFunc(action) {
 export default function* menuManageSaga() {
   yield takeLatest(types.LOAD_ALL_REQUEST, loadAll);
   yield takeLatest(types.LOAD_ONE_REQUEST, loadOne);
-  yield takeLatest(types.LOAD_MENU_REQUEST, loadMenu);
   yield takeLatest(types.ADD_EDIT_REQUEST, addEdit);
   yield takeLatest(types.ADD_EDIT_SUCCESS, addEditSuccessFunc);
-  yield takeLatest(types.ADD_EDIT_CHILD_REQUEST, addEditChild);
-  yield takeLatest(types.ADD_EDIT_CHILD_SUCCESS, addEditChildSuccessFunc);
   yield takeLatest(types.ADD_EDIT_REQUEST_2, addEdit2);
   yield takeLatest(types.ADD_EDIT_SUCCESS_2, addEdit2SuccessFunc);
   yield takeLatest(types.ADD_EDIT_FAILURE_2, addEdit2FailureFunc);
