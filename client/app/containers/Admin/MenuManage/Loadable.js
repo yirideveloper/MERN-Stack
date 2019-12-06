@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for ResetPasswordPage
+ * Asynchronously loads the component for MenuManage
  *
  */
 
