@@ -61,9 +61,6 @@ const menuManageReducer = (state = initialState, action) =>
       case types.ADD_EDIT_FAILURE:
         draft.errors = action.payload.errors;
         break;
-      case types.ADD_EDIT_FAILURE_2:
-        draft.errors = action.payload.errors;
-        break;
       case types.CLEAR_ERRORS:
         draft.errors = initialState.errors;
         break;

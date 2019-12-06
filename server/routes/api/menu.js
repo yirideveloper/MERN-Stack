@@ -1,23 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const {menuController , menuItemController} = require('../../modules/menu/menucontroller');
-const {sanitize,validate, itemsanitize , itemvalidate} = require('../../modules/menu/menuValidation');
+const { menuController, menuItemController } = require('../../modules/menu/menucontroller');
+const { sanitize, validate, itemsanitize, itemvalidate } = require('../../modules/menu/menuValidation');
 const { authorization } = require('../../middleware/authentication.middleware');
 
-router.get('/' , menuController.getMenu);
+router.get('/', menuController.getMenu);
 
-router.post('/' ,sanitize , validate,authorization, menuController.saveMenu);
-router.get('/menuItem' , menuItemController.getMenuItem);
+router.post('/', sanitize, validate, authorization, menuController.saveMenu);
 
-router.get('/:menuId' , menuController.getEditMenu);
+router.delete('/:id', authorization, menuController.deleteMenu);
+router.get('/menuitem', menuItemController.getMenuItem);
 
-router.delete('/menuDelete' ,authorization, menuController.deleteMenu);
+router.get('/:id', menuController.getEditMenu);
 
-
-
-router.post('/menuItem' ,itemsanitize, itemvalidate,authorization, menuItemController.saveMenuItem);
-
-
-
+router.post('/menuitem', itemsanitize, authorization, menuItemController.saveMenuItem); //itemvalidate,
 
 module.exports = router;
