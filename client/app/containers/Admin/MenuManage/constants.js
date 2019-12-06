@@ -12,6 +12,10 @@ export const LOAD_ONE_REQUEST = 'app/MenuManage/LOAD_ONE_REQUEST';
 export const LOAD_ONE_SUCCESS = 'app/MenuManage/LOAD_ONE_SUCCESS';
 export const LOAD_ONE_FAILURE = 'app/MenuManage/LOAD_ONE_FAILURE';
 
+export const LOAD_MENU_REQUEST = 'app/MenuManage/LOAD_MENU_REQUEST';
+export const LOAD_MENU_SUCCESS = 'app/MenuManage/LOAD_MENU_SUCCESS';
+export const LOAD_MENU_FAILURE = 'app/MenuManage/LOAD_MENU_FAILURE';
+
 export const ADD_EDIT_REQUEST = 'app/MenuManage/ADD_EDIT_REQUEST';
 export const ADD_EDIT_SUCCESS = 'app/MenuManage/ADD_EDIT_SUCCESS';
 export const ADD_EDIT_FAILURE = 'app/MenuManage/ADD_EDIT_FAILURE';
@@ -19,6 +23,10 @@ export const ADD_EDIT_FAILURE = 'app/MenuManage/ADD_EDIT_FAILURE';
 export const ADD_EDIT_REQUEST_2 = 'app/MenuManage/ADD_EDIT_REQUEST_2';
 export const ADD_EDIT_SUCCESS_2 = 'app/MenuManage/ADD_EDIT_SUCCESS_2';
 export const ADD_EDIT_FAILURE_2 = 'app/MenuManage/ADD_EDIT_FAILURE_2';
+
+export const ADD_EDIT_CHILD_REQUEST = 'app/MenuManage/ADD_EDIT_CHILD_REQUEST';
+export const ADD_EDIT_CHILD_SUCCESS = 'app/MenuManage/ADD_EDIT_CHILD_SUCCESS';
+export const ADD_EDIT_CHILD_FAILURE = 'app/MenuManage/ADD_EDIT_CHILD_FAILURE';
 
 export const DELETE_ONE_REQUEST = 'app/MenuManage/DELETE_ONE_REQUEST';
 export const DELETE_ONE_SUCCESS = 'app/MenuManage/DELETE_ONE_SUCCESS';
