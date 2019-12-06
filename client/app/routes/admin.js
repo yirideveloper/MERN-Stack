@@ -30,7 +30,6 @@ import BlogCatAddEditPage from '../containers/Admin/BlogCategory/AddEdit/Loadabl
 import Report from '../containers/Admin/Report/Loadable';
 import Integration from '../containers/Admin/Integration/Loadable';
 import UserProfilePage from '../containers/Admin/Profile/index';
-import SettingsManage from '../../app/containers/Admin/SettingsManagePage';
 
 const routes = [
   {
@@ -220,11 +219,6 @@ const routes = [
   {
     path: '/admin/template-manage',
     component: TemplateListingPage,
-    exact: true,
-  },
-  {
-    path: '/admin/settings',
-    component: SettingsManage,
     exact: true,
   },
   {

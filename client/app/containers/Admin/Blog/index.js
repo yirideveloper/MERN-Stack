@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import moment from 'moment';
@@ -33,7 +33,6 @@ import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
 import DeleteDialog from '../../../components/DeleteDialog';
 import Loading from '../../../components/Loading';
-import LinkBoth from '../../../components/LinkBoth';
 
 const styles = theme => ({
   button: {
@@ -97,7 +96,7 @@ export class BlogManagePage extends React.Component {
   handleEdit = id => {
     this.props.push(`/admin/blog-manage/edit/${id}`);
   };
-  handleView = slug_url => {
+  handleView= slug_url => {
     this.props.push(`/blog/${slug_url}`);
   };
   handleOpen = id => {
@@ -138,36 +137,76 @@ export class BlogManagePage extends React.Component {
       ({
         title,
         slug_url,
-        category,
+        category, // published_on, // image,
         added_at,
         is_published,
         is_active,
+        tags,
         author,
         _id,
       }) => {
         return [
-          <Link to={`/blog/${slug_url}`} target="_blank" className="text-indigo-600 cursor-pointer hover:underline">{title}</Link>,
+          title,
           (category && category.map(each => each.title).join(', ')) || 'No',
-          <span className="whitespace-no-wrap">{moment(added_at).format(DATE_FORMAT)}</span>,
+          moment(added_at).format(DATE_FORMAT),
           '' + is_published,
           '' + is_active,
-          // tags.join(','),
-          <span className="whitespace-no-wrap">{(author && author.name)}</span> || '',
-          <div className="flex">
-            <button
-              aria-label="Edit"
-              className="bg-white border border-white px-2 py-1 items-center flex text-indigo-500 hover:shadow"
-              onClick={() => this.handleEdit(_id)}
+          tags.join(','),
+          (author && author.name) || '',
+          <React.Fragment>
+            <Tooltip
+              id="tooltip-top"
+              title="Edit Task"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
             >
-              <i className="material-icons text-base text-indigo-500 mr-1">edit</i>Edit
-            </button>
-
-            <button className="ml-2 px-1 text-center leading-none"
-              onClick={() => this.handleOpen(_id)}
+              <IconButton
+                aria-label="Edit"
+                className={classes.tableActionButton}
+                onClick={() => this.handleEdit(_id)}
+              >
+                <Edit
+                  className={classes.tableActionButtonIcon + ' ' + classes.edit}
+                />
+              </IconButton>
+            </Tooltip><Tooltip
+              id="tooltip-top"
+              title="Edit Task"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
             >
-              <i className="material-icons text-base text-red-400 hover:text-red-600">delete</i>
-            </button>
-          </div>,
+              <IconButton
+                aria-label="Edit"
+                className={classes.tableActionButton}
+                onClick={() => this.handleView(slug_url)}
+              >
+                <View
+                  className={classes.tableActionButtonIcon + ' ' + classes.edit}
+                />
+              </IconButton>
+            </Tooltip>
+            {/* <a href={`http://localhost:5051/blog/${slug_url}`} target="_blank">
+              view blog
+            </a> */}
+            <Tooltip
+              id="tooltip-top-start"
+              title="Remove"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <IconButton
+                aria-label="Close"
+                className={classes.tableActionButton}
+                onClick={() => this.handleOpen(_id)}
+              >
+                <Close
+                  className={
+                    classes.tableActionButtonIcon + ' ' + classes.close
+                  }
+                />
+              </IconButton>
+            </Tooltip>
+          </React.Fragment>,
         ];
       },
     );
@@ -181,13 +220,22 @@ export class BlogManagePage extends React.Component {
         <Helmet>
           <title>Blog Category Listing</title>
         </Helmet>
-        <div className="flex justify-between -mt-5 mb-3">
+        <div className="flex justify-between mt-3 mb-3">
           {loading && loading == true ? <Loading /> : <></>}
           <PageHeader>Blog Manage</PageHeader>
+          <Fab
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            round="true"
+            onClick={this.handleAdd}
+            elevation={0}
+          >
+            <AddIcon />
+          </Fab>
         </div>
         <PageContent loading={loading}>
-          <div className="flex justify-between">
-
+          <div className="flex justify-end">
             <div className="flex relative">
               <input
                 type="text"
@@ -206,23 +254,20 @@ export class BlogManagePage extends React.Component {
                 <SearchIcon />
               </IconButton>
             </div>
-
-            <button
-              className="bg-indigo-700 text-white px-2 py-px items-center flex hover:bg-indigo-600"
-              onClick={this.handleAdd}>
-              <i className="material-icons">add</i>Add Post
-            </button>
-
           </div>
 
-          <Table className="fixed-layout"
+          <Table
             tableHead={[
               'Title',
               'Category',
+              // 'Image',
+              // 'Published On',
               'Added At',
               'Is Published',
               'Is Active',
+              'Tags',
               'Author',
+              'Actions',
               '',
             ]}
             tableData={tableData}
