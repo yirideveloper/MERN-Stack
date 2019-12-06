@@ -1,6 +1,6 @@
 /**
  *
- * Tests for MenuManage
+ * Tests for ResetPasswordPage
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -8,17 +8,23 @@
 
 import React from 'react';
 import { cleanup, render } from 'react-testing-library';
+import { IntlProvider } from 'react-intl';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import { MenuManage } from '../index';
+import { ResetPasswordPage } from '../index';
+import { DEFAULT_LOCALE } from '../../../i18n';
 
-describe('<MenuManage />', () => {
+describe('<ResetPasswordPage />', () => {
   afterEach(cleanup);
 
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
     const dispatch = jest.fn();
-    render(<MenuManage dispatch={dispatch} />);
+    render(
+      <IntlProvider locale={DEFAULT_LOCALE}>
+        <ResetPasswordPage dispatch={dispatch} />
+      </IntlProvider>,
+    );
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -34,7 +40,11 @@ describe('<MenuManage />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<MenuManage />);
+    } = render(
+      <IntlProvider locale={DEFAULT_LOCALE}>
+        <ResetPasswordPage />
+      </IntlProvider>,
+    );
     expect(firstChild).toMatchSnapshot();
   });
 });

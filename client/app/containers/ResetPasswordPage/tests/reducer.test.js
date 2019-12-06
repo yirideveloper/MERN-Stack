@@ -1,9 +1,9 @@
 // import produce from 'immer';
-import menuManageReducer from '../reducer';
+import resetPasswordPageReducer from '../reducer';
 // import { someAction } from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
-describe('menuManageReducer', () => {
+describe('resetPasswordPageReducer', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -14,7 +14,7 @@ describe('menuManageReducer', () => {
 
   it('returns the initial state', () => {
     const expectedResult = state;
-    expect(menuManageReducer(undefined, {})).toEqual(expectedResult);
+    expect(resetPasswordPageReducer(undefined, {})).toEqual(expectedResult);
   });
 
   /**
