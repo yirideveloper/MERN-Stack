@@ -34,6 +34,7 @@ import {
   makeSelectErrors,
   makeSelectSubMenu,
   makeSelectShowSubMenu,
+  makeSelectCategory,
 } from '../selectors';
 
 import SidebarCategoriesList from './SideBarCategoriesList';
@@ -56,12 +57,15 @@ const AddEdit = props => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
-  // useEffect(() => {
-  //   props.clearErrors();
-  //   if (props.match.params && props.match.params.id) {
-  //     props.loadOneRequest(props.match.params.id);
-  //   }
-  // }, []);
+  useEffect(() => {
+    props.showSubMenu(false);
+    props.clearErrors();
+    props.clearOne();
+    if (props.match.params && props.match.params.id) {
+      // props.loadMenuRequest(props.match.params.id);
+      props.loadOneRequest(props.match.params.id);
+    }
+  }, []);
 
   const handleCheckedChange = (name, index) => event => {
     event.persist();
@@ -71,10 +75,18 @@ const AddEdit = props => {
     // props.setOneValue({ key: name, value: event.target.checked });
   };
 
-  const handleChange = (name, index) => event => {
+  const handleCheckedChildChange = name => event => {
     event.persist();
     // if (index) {
-    props.setOneValue({ key: name, index, value: event.target.value });
+    props.setChildValue({ key: name, value: event.target.checked });
+    // }
+    // props.setOneValue({ key: name, value: event.target.checked });
+  };
+
+  const handleChange = name => event => {
+    event.persist();
+    // if (index) {
+    props.setOneValue({ key: name, value: event.target.value });
     // }
     // props.setOneValue({ key: name, value: event.target.value });
   };
@@ -83,11 +95,20 @@ const AddEdit = props => {
   //   props.setOneValue({ key: name, value: !event.target.value });
   // };
 
-  const handleDateChange = name => date => {
-    props.setOneValue({
-      key: name,
-      value: moment(date).format(DATE_FORMAT),
-    });
+  // const handleDateChange = name => date => {
+  //   props.setOneValue({
+  //     key: name,
+  //     value: moment(date).format(DATE_FORMAT),
+  //   });
+  // };
+
+  const handleChildChange = name => event => {
+    event.persist();
+    // if (index) {
+    console.log('name,event.target.value', name, event.target.value);
+    props.setChildValue({ key: name, value: event.target.value });
+    // }
+    // props.setOneValue({ key: name, value: event.target.value });
   };
 
   const handleGoBack = () => {
@@ -98,6 +119,10 @@ const AddEdit = props => {
     props.addEditRequest();
   };
 
+  const handleChildSave = () => {
+    props.addEditChildRequest();
+  };
+
   const handleAddChildMenuSave = () => {
     props.addEditRequest2();
   };
@@ -105,6 +130,31 @@ const AddEdit = props => {
   // const handleSubMenuAdd = () => {
   //   props.addSubMenu();
   // };
+
+  const handleTitleChange = event => {
+    const {
+      target: { value },
+    } = event;
+    props.setChildValue({ key: 'title', value });
+    const url = value
+      .trim()
+      .split(' ')
+      .join('-')
+      .toLowerCase()
+      .replace('.', '')
+      .replace('?', '')
+      .replace('\\', '')
+      .replace('/', '')
+      .replace(',', '')
+      .replace('*', '')
+      .replace('+', '')
+      .replace('(', '')
+      .replace(')', '')
+      .replace('!', '')
+      .replace('#', '')
+      .replace('@', '');
+    props.setChildValue({ key: 'url', value: url });
+  };
 
   const {
     one,
@@ -114,9 +164,67 @@ const AddEdit = props => {
     errors,
     subMenu,
     showSubMenuBool,
+    category,
   } = props;
   console.log('showSubMenu', showSubMenuBool);
   console.log('subMenu', subMenu);
+
+  const getCategoryDropDown = () => {
+    let childContent = [];
+
+    const resetChildContent = () => {
+      childContent = [];
+    };
+    const getChildCategory = (parentObj, depth) => {
+      if (parentObj.child_category.length) {
+        parentObj.child_category.map(childElement => {
+          childContent.push(
+            <option
+              className="ml-2"
+              key={childElement._id}
+              disabled=""
+              value={childElement._id}
+            >
+              {'-'.repeat(depth) + childElement.title}
+            </option>,
+          );
+          if (
+            childElement.child_category &&
+            childElement.child_category.length
+          ) {
+            return getChildCategory(childElement, depth + 5);
+          }
+        });
+        return childContent;
+      }
+      return [];
+    };
+    return (
+      <select
+        className="inputbox"
+        value={subMenu.parent_category}
+        name="parent_category"
+        onChange={handleChange}
+        onBlur={handleChange}
+      >
+        <option disabled="" value="">
+          ParentCategory
+        </option>
+        {category.map(each => (
+          <>
+            <option key={each._id} disabled="" value={each._id}>
+              {each.title}
+            </option>
+            {each.child_category && each.child_category[0]._id !== ''
+              ? (resetChildContent(),
+              getChildCategory(each, 1).map(eachChild => eachChild))
+              : null}
+          </>
+        ))}
+      </select>
+    );
+  };
+
   return loading && loading == true ? (
     <Loading />
   ) : (
@@ -166,19 +274,34 @@ const AddEdit = props => {
                           className="inputbox"
                           id="grid-last-name"
                           type="text"
-                          value={one.title || ''}
-                          onChange={handleChange('title', null)}
+                          value={subMenu.title || ''}
+                          onChange={handleTitleChange}
                         />
                         {errors && errors.title && (
                           <div id="component-error-text">{errors.title}</div>
                         )}
-                      </div>{' '}
+                      </div>
+                      <div className="w-full md:w-1/2 pb-4">
+                        <label className="label" htmlFor="grid-last-name">
+                          URL
+                        </label>
+                        <input
+                          className="inputbox"
+                          id="grid-last-name"
+                          type="text"
+                          value={subMenu.url || ''}
+                          onChange={handleChildChange('url')}
+                        />
+                        {errors && errors.title && (
+                          <div id="component-error-text">{errors.url}</div>
+                        )}
+                      </div>
                       <div className="flex flex-wrap justify-between px-2">
                         <div className="w-full md:w-1/2 pb-4 -ml-2">
                           <label className="label" htmlFor="grid-last-name">
                             Category
                           </label>
-                          {/* {getCategoryDropDown()} */}
+                          {getCategoryDropDown()}
 
                           {/* <div id="component-error-text">{errors.title}</div> */}
                         </div>
@@ -186,9 +309,9 @@ const AddEdit = props => {
                       <div className="w-full md:w-1/2 ">
                         <Checkbox
                           color="primary"
-                          checked={one.is_active || false}
+                          checked={subMenu.is_active || false}
                           name="is_active"
-                          onChange={handleCheckedChange('is_active', null)}
+                          onChange={handleCheckedChildChange('is_active')}
                         />
                         <label className="label" htmlFor="grid-last-name">
                           Is Active
@@ -205,9 +328,10 @@ const AddEdit = props => {
                           //   listProductTypeNormalized[generalInfo.product_type] ||
                           //   null
                           // }
+                          value={subMenu.is_internal}
                           placeholder="Product Type"
                           name="is_internal"
-                          // onChange={handleDropDownChange('product_type')}
+                          onChange={handleChildChange('is_internal')}
                           isSearchable
                         >
                           <option value>Same Site</option>
@@ -237,9 +361,10 @@ const AddEdit = props => {
                           //   listProductTypeNormalized[generalInfo.product_type] ||
                           //   null
                           // }
+                          value={subMenu.target}
                           placeholder="Product Type"
                           name="target"
-                          // onChange={handleDropDownChange('product_type')}
+                          onChange={handleChildChange('target')}
                           isSearchable
                         >
                           <option value="_blank">_blank</option>
@@ -258,26 +383,12 @@ const AddEdit = props => {
                           <div id="component-error-text">{errors.target}</div>
                         )}
                       </div>
-                      <div className="w-full md:w-1/2 pb-4">
-                        <label className="label" htmlFor="grid-last-name">
-                          URL
-                        </label>
-                        <input
-                          className="inputbox"
-                          id="grid-last-name"
-                          type="text"
-                          value={one.title || ''}
-                          onChange={handleChange('url', null)}
-                        />
-                        {errors && errors.title && (
-                          <div id="component-error-text">{errors.url}</div>
-                        )}
-                      </div>
                       <button
                         type="button"
                         className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
-                        onClick={handleSave}
+                        onClick={handleChildSave}
                       >
+                        {/* chid save button */}
                         Save
                       </button>
                     </div>
@@ -295,7 +406,7 @@ const AddEdit = props => {
                     id="grid-last-name"
                     type="text"
                     value={one.title || ''}
-                    onChange={handleChange('title', null)}
+                    onChange={handleChange('title')}
                   />
                   {errors && errors.title && (
                     <div id="component-error-text">{errors.title}</div>
@@ -311,13 +422,28 @@ const AddEdit = props => {
                     id="grid-last-name"
                     type="text"
                     value={one.key || ''}
-                    onChange={handleChange('key', null)}
+                    onChange={handleChange('key')}
                   />
                   {errors && errors.key && (
                     <div id="component-error-text">{errors.key}</div>
                   )}
                 </div>
 
+                <div className="w-full md:w-1/2 pb-4">
+                  <label className="label" htmlFor="grid-last-name">
+                    Order
+                  </label>
+                  <input
+                    className="inputbox"
+                    id="grid-last-name"
+                    type="number"
+                    value={one.order || ''}
+                    onChange={handleChange('order')}
+                  />
+                  {errors && errors.title && (
+                    <div id="component-error-text">{errors.order}</div>
+                  )}
+                </div>
                 <div className="w-full md:w-1/2 pb-4">
                   <Checkbox
                     color="primary"
@@ -362,6 +488,7 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   subMenu: makeSelectSubMenu(),
   showSubMenuBool: makeSelectShowSubMenu(),
+  category: makeSelectCategory(),
 });
 
 const withConnect = connect(

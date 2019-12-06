@@ -32,6 +32,19 @@ export const loadOneFailure = payload => ({
   payload,
 });
 
+export const loadMenuRequest = payload => ({
+  type: types.LOAD_MENU_REQUEST,
+  payload,
+});
+export const loadMenuSuccess = payload => ({
+  type: types.LOAD_MENU_SUCCESS,
+  payload,
+});
+export const loadMenuFailure = payload => ({
+  type: types.LOAD_MENU_FAILURE,
+  payload,
+});
+
 export const addEditRequest = payload => ({
   type: types.ADD_EDIT_REQUEST,
   payload,
@@ -58,6 +71,19 @@ export const addEditFailure2 = payload => ({
   payload,
 });
 
+export const addEditChildRequest = payload => ({
+  type: types.ADD_EDIT_CHILD_REQUEST,
+  payload,
+});
+export const addEditChildSuccess = payload => ({
+  type: types.ADD_EDIT_CHILD_SUCCESS,
+  payload,
+});
+export const addEditChildFailure = payload => ({
+  type: types.ADD_EDIT_CHILD_FAILURE,
+  payload,
+});
+
 export const deleteOneRequest = payload => ({
   type: types.DELETE_ONE_REQUEST,
   payload,
@@ -75,6 +101,12 @@ export const setOneValue = payload => ({
   type: types.SET_ONE_VALUE,
   payload,
 });
+
+export const setChildValue = payload => ({
+  type: types.SET_CHILD_VALUE,
+  payload,
+});
+
 export const clearOne = () => ({
   type: types.CLEAR_ONE,
 });
@@ -90,6 +122,7 @@ export const clearErrors = () => ({
   type: types.CLEAR_ERRORS,
 });
 
-export const showSubMenu = () => ({
+export const showSubMenu = payload => ({
   type: types.SHOW_SUB_MENU,
+  payload,
 });

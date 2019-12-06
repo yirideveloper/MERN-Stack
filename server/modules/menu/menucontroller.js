@@ -3,7 +3,6 @@ const httpStatus = require('http-status');
 const { menusch, menu_item } = require('./menuschema');
 const otherHelper = require('../../helper/others.helper');
 const menuConfig = require('./menuConfig');
-const objectId = require('mongoose').Types.ObjectId;
 const menuController = {};
 const menuItemController = {};
 
@@ -19,11 +18,27 @@ menuController.getMenu = async (req, res, next) => {
   return otherHelper.paginationSendResponse(res, httpStatus.OK, true, data.data, 'Menu get success!!', page, size, data.totaldata);
 };
 
-const menuControl = async (req, res, next) => {
+menuItemController.getMenuItem = async (req, res, next) => {
+  // let { page, size, populate, selectq, searchq, sortq } = otherHelper.parseFilters(req, 10, false);
+  // searchq = { is_deleted: false };
+  // if (req.query.find_title) {
+  //   searchq = { title: { $regex: req.query.find_title, $options: 'i' }, ...searchq };
+  // }
+
+  // selectq = 'title key order';
+  // let data = await otherHelper.getquerySendResponse(menu_item, page, size, sortq, searchq, selectq, next, populate);
+  // return otherHelper.paginationSendResponse(res, httpStatus.OK, true, data.data, 'Menu Item get success!!', page, size, data.totaldata);
+  // try {
+  //   const menuListItem = await menu_item.find();
+  //   return otherHelper.sendResponse(res, httpStatus.OK, true, menuListItem, null, menuConfig.get, null);
+  // } catch (err) {
+  //   next(err);
+  // }
+
   const size_default = 10;
   let page;
   let size;
-  let searchq = { menu_sch_id: null };
+  let searchq = { _id: req.params.id };
   if (req.query.page && !isNaN(req.query.page) && req.query.page != 0) {
     page = Math.abs(req.query.page);
   } else {
@@ -48,7 +63,7 @@ const menuControl = async (req, res, next) => {
     }
   }
 
-  let data = await menu_item.aggregate([
+  let child = await menu_item.aggregate([
     {
       $match: searchq,
     },
@@ -113,7 +128,7 @@ const menuControl = async (req, res, next) => {
       $limit: size,
     },
   ]);
-  return data;
+  return otherHelper.sendResponse(res, httpStatus.OK, true, child, null, 'Menu item get success!!', null);
 };
 
 menuItemController.saveMenuItem = async (req, res, next) => {
@@ -163,8 +178,6 @@ menuController.saveMenu = async (req, res, next) => {
       menu.added_at = new Date();
       const newMenu = new menusch(menu);
       const MenuSave = await newMenu.save();
-
-      const data = await menuControl(req, res, next);
       return otherHelper.sendResponse(res, httpStatus.OK, true, MenuSave, null, menuConfig.save, null);
     }
   } catch (err) {
@@ -182,7 +195,7 @@ menuController.getEditMenu = async (req, res, next) => {
   const size_default = 10;
   let page;
   let size;
-  // let searchq = { menu_sch_id: req.params.id };
+  let searchq = {};
   if (req.query.page && !isNaN(req.query.page) && req.query.page != 0) {
     page = Math.abs(req.query.page);
   } else {
@@ -211,7 +224,7 @@ menuController.getEditMenu = async (req, res, next) => {
 
   let child = await menu_item.aggregate([
     {
-      $match: { parent_menu: null, menu_sch_id: objectId(req.params.id) },
+      $match: {},
     },
     {
       $lookup: {

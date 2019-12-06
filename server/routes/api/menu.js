@@ -8,22 +8,12 @@ router.get('/', menuController.getMenu);
 
 router.post('/', sanitize, validate, authorization, menuController.saveMenu);
 
-router.post('/menuitem', itemsanitize, authorization, menuItemController.saveMenuItem);
-
-router.get('/detail/:id', menuController.getEditMenu);
-
 router.delete('/:id', authorization, menuController.deleteMenu);
+router.get('/menuitem/:id', menuItemController.getMenuItem);
+//router.get('/menuitem/:id', menuItemController.getMenuItemDetail);
 
-// router.get('/', menuController.getMenu);
+router.get('/:id', menuController.getEditMenu);
 
-// router.post('/', sanitize, validate, authorization, menuController.saveMenu);
-
-// router.delete('/:id', authorization, menuController.deleteMenu);
-// router.get('/menuitem/:id', menuItemController.getMenuItem);
-// //router.get('/menuitem/:id', menuItemController.getMenuItemDetail);
-
-// router.get('/:id', menuController.getEditMenu);
-
-// router.post('/menuitem', itemsanitize, authorization, menuItemController.saveMenuItem); //itemvalidate,
+router.post('/menuitem', itemsanitize, authorization, menuItemController.saveMenuItem); //itemvalidate,
 
 module.exports = router;
