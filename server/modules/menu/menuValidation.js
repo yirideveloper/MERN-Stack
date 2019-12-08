@@ -43,19 +43,27 @@ validation.validate = (req, res, next) => {
         },
       ],
     },
-    {
-      field: 'key',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: menuConfig.validate.empty,
-        },
-      ],
-    },
+    // {
+    //   field: 'link',
+    //   validate: [
+    //     {
+    //       condition: 'IsEmpty',
+    //       msg: menuConfig.validate.empty,
+    //     },
+    //     {
+    //       condition: 'IsLength',
+    //       msg: menuConfig.validate.descriptionLength,
+    //       option: {
+    //         min: 5,
+    //         max: 2000,
+    //       },
+    //     },
+    //   ],
+    // }
   ];
   const errors = otherHelper.validation(data, validateArray);
 
-  //   console.log('error',errors);
+//   console.log('error',errors);
   if (!isEmpty(errors)) {
     return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, 'input errors', null);
   } else {
@@ -103,7 +111,7 @@ validation.itemvalidate = (req, res, next) => {
       ],
     },
     {
-      field: 'url',
+      field: 'link',
       validate: [
         {
           condition: 'IsEmpty',
@@ -118,51 +126,11 @@ validation.itemvalidate = (req, res, next) => {
           },
         },
       ],
-    },
-    {
-      field: 'menu_sch_id',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: menuConfig.validate.empty,
-        },
-        {
-          condition: 'IsMongoId',
-          msg: menuConfig.validate.invalid,
-        },
-      ],
-    },
-    {
-      field: 'is_internal',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: menuConfig.validate.empty,
-        },
-        {
-          condition: 'IsBoolean',
-          msg: menuConfig.validate.invalid,
-        },
-      ],
-    },
-    {
-      field: 'target',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: menuConfig.validate.empty,
-        },
-        // {
-        //   condition: 'IsIn',
-        //   msg: menuConfig.validate.invalid,
-        //   enum: ['_blank', '_self', '_parent', '_top'],
-        // },
-      ],
-    },
+    }
   ];
   const errors = otherHelper.validation(data, validateArray);
 
-  //   console.log('error',errors);
+//   console.log('error',errors);
   if (!isEmpty(errors)) {
     return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, 'input errors', null);
   } else {

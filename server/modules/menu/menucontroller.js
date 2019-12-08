@@ -23,6 +23,7 @@ const menuControl = async (req, res, next) => {
   const size_default = 10;
   let page;
   let size;
+  let searchq = { menu_sch_id: null };
   if (req.query.page && !isNaN(req.query.page) && req.query.page != 0) {
     page = Math.abs(req.query.page);
   } else {
@@ -47,11 +48,9 @@ const menuControl = async (req, res, next) => {
     }
   }
 
-  //const parent = await menusch.findById(req.params.id).select('title key order is_active');
-
-  let child = await menu_item.aggregate([
+  let data = await menu_item.aggregate([
     {
-      $match: { parent_menu: null, menu_sch_id: objectId(req.body.menu_sch_id) },
+      $match: searchq,
     },
     {
       $lookup: {
@@ -101,9 +100,9 @@ const menuControl = async (req, res, next) => {
         title: { $first: '$title' },
         url: { $first: '$url' },
         child_menu: { $push: '$child_menu' },
-        target: { $first: '$target' },
-        is_internal: { $first: '$is_internal' },
-        parent_menu: { $first: '$parent_menu' },
+        target: { $push: '$target' },
+        is_internal: { $push: 'is_internal' },
+        parent_menu: { $push: 'parent_menu' },
       },
     },
 
@@ -114,7 +113,7 @@ const menuControl = async (req, res, next) => {
       $limit: size,
     },
   ]);
-  return child;
+  return data;
 };
 
 menuItemController.saveMenuItem = async (req, res, next) => {
@@ -136,9 +135,8 @@ menuItemController.saveMenuItem = async (req, res, next) => {
       menuitem.added_by = req.user.id;
       const newMenuItem = new menu_item(menuitem);
       const menu_item_save = await newMenuItem.save();
+      return otherHelper.sendResponse(res, httpStatus.OK, true, menu_item_save, null, menuConfig.save, null);
     }
-    const child = await menuControl(req, res, next);
-    return otherHelper.sendResponse(res, httpStatus.OK, true, child, null, menuConfig.save, null);
   } catch (err) {
     next(err);
   }
@@ -166,7 +164,7 @@ menuController.saveMenu = async (req, res, next) => {
       const newMenu = new menusch(menu);
       const MenuSave = await newMenu.save();
 
-      // const data = await menuControl(req, res, next);
+      const data = await menuControl(req, res, next);
       return otherHelper.sendResponse(res, httpStatus.OK, true, MenuSave, null, menuConfig.save, null);
     }
   } catch (err) {
@@ -213,7 +211,7 @@ menuController.getEditMenu = async (req, res, next) => {
 
   let child = await menu_item.aggregate([
     {
-      $match: { parent_menu: null, menu_sch_id: objectId(req.params.id), is_deleted: false },
+      $match: { parent_menu: null, menu_sch_id: objectId(req.params.id) },
     },
     {
       $lookup: {
