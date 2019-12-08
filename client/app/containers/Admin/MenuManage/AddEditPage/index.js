@@ -67,10 +67,10 @@ const AddEdit = props => {
     }
   }, []);
 
-  const handleCheckedChange = name => event => {
+  const handleCheckedChange = (name, index) => event => {
     event.persist();
     // if (index) {
-    props.setOneValue({ key: name, value: event.target.checked });
+    props.setOneValue({ key: name, index, value: event.target.checked });
     // }
     // props.setOneValue({ key: name, value: event.target.checked });
   };
@@ -85,6 +85,7 @@ const AddEdit = props => {
 
   const handleChange = name => event => {
     event.persist();
+    console.log('I am in');
     // if (index) {
     props.setOneValue({ key: name, value: event.target.value });
     // }
@@ -105,6 +106,7 @@ const AddEdit = props => {
   const handleChildChange = name => event => {
     event.persist();
     // if (index) {
+    console.log('name,event.target.value', name, event.target.value);
     props.setChildValue({ key: name, value: event.target.value });
     // }
     // props.setOneValue({ key: name, value: event.target.value });
@@ -134,7 +136,7 @@ const AddEdit = props => {
     const {
       target: { value },
     } = event;
-    props.setOneValue({ key: 'title', value });
+    props.setChildValue({ key: 'title', value });
     const url = value
       .trim()
       .split(' ')
@@ -152,7 +154,7 @@ const AddEdit = props => {
       .replace('!', '')
       .replace('#', '')
       .replace('@', '');
-    props.setOneValue({ key: 'key', value: url });
+    props.setChildValue({ key: 'url', value: url });
   };
 
   const {
@@ -200,8 +202,8 @@ const AddEdit = props => {
         className="inputbox"
         value={subMenu.parent_category}
         name="parent_category"
-        onChange={handleChildChange('parent_menu')}
-        onBlur={handleChildChange('parent_menu')}
+        onChange={handleChange('parent_menu')}
+        onBlur={handleChange('parent_menu')}
       >
         <option disabled="" value="">
           Parent Category
@@ -271,7 +273,7 @@ const AddEdit = props => {
                           id="grid-last-name"
                           type="text"
                           value={subMenu.title || ''}
-                          onChange={handleChildChange('title')}
+                          onChange={handleTitleChange}
                         />
                         {errors && errors.title && (
                           <div id="component-error-text">{errors.title}</div>
@@ -398,7 +400,7 @@ const AddEdit = props => {
                     id="grid-last-name"
                     type="text"
                     value={one.title || ''}
-                    onChange={handleTitleChange}
+                    onChange={handleChange('title')}
                   />
                   {errors && errors.title && (
                     <div id="component-error-text">{errors.title}</div>
