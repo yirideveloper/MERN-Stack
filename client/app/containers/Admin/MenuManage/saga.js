@@ -1,4 +1,4 @@
-import { takeLatest, call, select, put, fork } from 'redux-saga/effects';
+import { takeLatest, call, select, put } from 'redux-saga/effects';
 import Api from 'utils/Api';
 import { push } from 'connected-react-router';
 import { makeSelectToken } from '../../App/selectors';
@@ -106,20 +106,7 @@ function* addEdit2FailureFunc(action) {
 function* addEditChild(action) {
   const token = yield select(makeSelectToken());
   const data = yield select(makeSelectSubMenu());
-  console.log('data', data);
-  if (data.parent_menu === '') {
-    delete data.parent_menu;
-  }
-  // if (data.parent_menu === '') {
-  //   data = {
-  //     title: data.title,
-  //     is_internal: data.is_internal,
-  //     url: data.url,
-  //     is_active: data.is_active,
-  //     target: data.target,
-  //   };
-  // }
-  yield fork(
+  yield call(
     Api.post(
       `menu/menuitem`,
       actions.addEditChildSuccess,
