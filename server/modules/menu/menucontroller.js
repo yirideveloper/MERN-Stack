@@ -147,13 +147,7 @@ menuItemController.saveMenuItem = async (req, res, next) => {
 menuController.saveMenu = async (req, res, next) => {
   try {
     let menu = req.body;
-    if (menu && menu._id && menu.key) {
-      const checkIf = await menusch.findOne({ key: menu.key, is_deleted: false, _id: { $ne: menu._id } });
-      if (checkIf) {
-        const error = { key: 'Key already exists!!' };
-        return otherHelper.sendResponse(res, httpStatus.CONFLICT, false, null, error, null, null);
-      }
-
+    if (menu && menu._id) {
       menu.updated_by = req.user.id;
       menu.updated_at = new Date();
 
@@ -167,11 +161,6 @@ menuController.saveMenu = async (req, res, next) => {
 
       return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, menuConfig.save, null);
     } else {
-      const checkIf = await menusch.findOne({ key: menu.key, is_deleted: false });
-      if (checkIf) {
-        const error = { key: 'Key already exists!!' };
-        return otherHelper.sendResponse(res, httpStatus.CONFLICT, false, null, error, null, null);
-      }
       menu.added_by = req.user.id;
       menu.added_at = new Date();
       const newMenu = new menusch(menu);

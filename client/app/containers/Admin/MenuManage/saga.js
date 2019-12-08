@@ -1,4 +1,4 @@
-import { takeLatest, call, select, put } from 'redux-saga/effects';
+import { takeLatest, call, select, put, fork } from 'redux-saga/effects';
 import Api from 'utils/Api';
 import { push } from 'connected-react-router';
 import { makeSelectToken } from '../../App/selectors';
@@ -79,17 +79,17 @@ function* addEdit2(action) {
   );
 }
 
-function* addEdit2SuccessFunc(action) {
-  const snackbarData = {
-    message: action.payload.msg || 'Update success!!',
-    options: {
-      variant: 'success',
-    },
-  };
-  yield put(enqueueSnackbar(snackbarData));
-  yield put(actions.showSubMenu(true));
-  // yield put(actions.loadMenuRequest(action.payload.data._id));
-}
+// function* addEdit2SuccessFunc(action) {
+//   const snackbarData = {
+//     message: action.payload.msg || 'Update success!!',
+//     options: {
+//       variant: 'success',
+//     },
+//   };
+//   yield put(enqueueSnackbar(snackbarData));
+//   // yield put(actions.showSubMenu(true));
+//   // yield put(actions.loadMenuRequest(action.payload.data._id));
+// }
 
 function* addEdit2FailureFunc(action) {
   const defaultError = {
@@ -106,15 +106,29 @@ function* addEdit2FailureFunc(action) {
 function* addEditChild(action) {
   const token = yield select(makeSelectToken());
   const data = yield select(makeSelectSubMenu());
-  yield call(
-    Api.post(
-      `menu/menuitem`,
-      actions.addEditChildSuccess,
-      actions.addEditChildFailure,
-      data,
-      token,
-    ),
-  );
+  console.log('data', data);
+  if (data.parent_menu === '') {
+    const { parent_menu, ...restData } = data;
+    yield call(
+      Api.post(
+        `menu/menuitem`,
+        actions.addEditChildSuccess,
+        actions.addEditChildFailure,
+        restData,
+        token,
+      ),
+    );
+  } else {
+    yield call(
+      Api.post(
+        `menu/menuitem`,
+        actions.addEditChildSuccess,
+        actions.addEditChildFailure,
+        data,
+        token,
+      ),
+    );
+  }
 }
 
 function* addEditChildSuccessFunc(action) {
@@ -125,6 +139,7 @@ function* addEditChildSuccessFunc(action) {
     },
   };
   yield put(enqueueSnackbar(snackbarData));
+  yield put(actions.clearSubMenu());
   // yield put(push('/admin/menu-manage'));
 }
 
@@ -171,7 +186,7 @@ export default function* menuManageSaga() {
   yield takeLatest(types.ADD_EDIT_CHILD_REQUEST, addEditChild);
   yield takeLatest(types.ADD_EDIT_CHILD_SUCCESS, addEditChildSuccessFunc);
   yield takeLatest(types.ADD_EDIT_REQUEST_2, addEdit2);
-  yield takeLatest(types.ADD_EDIT_SUCCESS_2, addEdit2SuccessFunc);
+  // yield takeLatest(types.ADD_EDIT_SUCCESS_2, addEdit2SuccessFunc);
   yield takeLatest(types.ADD_EDIT_FAILURE_2, addEdit2FailureFunc);
   yield takeLatest(types.DELETE_ONE_REQUEST, deleteOne);
   yield takeLatest(types.DELETE_ONE_SUCCESS, deleteOneSuccessFunc);
