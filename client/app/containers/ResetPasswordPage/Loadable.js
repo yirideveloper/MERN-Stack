@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for StaticMenu
+ * Asynchronously loads the component for ResetPasswordPage
  *
  */
 
