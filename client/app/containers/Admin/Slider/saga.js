@@ -7,7 +7,7 @@ import {
   select,
   cancel,
 } from 'redux-saga/effects';
-import { LOCATION_CHANGE, push } from 'connected-react-router';
+import { LOCATION_CHANGE } from 'connected-react-router';
 import Api from 'utils/Api';
 import { makeSelectToken } from '../../App/selectors';
 import * as types from './constants';
@@ -80,8 +80,7 @@ function* redirectOnSuccess(goBack) {
     },
   };
   yield put(enqueueSnackbar(snackbarData));
-  yield put(push('/admin/slider-manage'));
-  // goBack();
+  goBack();
 }
 
 function* addEdit({ payload }) {

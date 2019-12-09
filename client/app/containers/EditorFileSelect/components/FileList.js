@@ -76,14 +76,10 @@ const FileList = ({
   }, [folderRename]);
 
   const onSelect = image => {
-    if (props.selectFile) {
-      props.selectFile(image);
-    } else {
-      window.opener.CKEDITOR.tools.callFunction(
-        queryObj.CKEditorFuncNum,
-        `${IMAGE_BASE}${image.path}`,
-      );
-    }
+    window.opener.CKEDITOR.tools.callFunction(
+      queryObj.CKEditorFuncNum,
+      `${IMAGE_BASE}${image.path}`,
+    );
     window.close();
   };
 
