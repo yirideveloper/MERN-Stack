@@ -33,7 +33,7 @@ import BackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core';
 import Loading from '../../../../components/Loading';
 import { makeSelectToken } from '../../../App/selectors';
-import WECkEditior from '../../../../components/CkEditor';
+import WECkEditior from '../../../../components/CkEditor'
 
 const styles = {
   backbtn: {
@@ -129,7 +129,10 @@ class AddEdit extends React.PureComponent {
           </div>
           <PageContent>
             <div className="w-full md:w-1/2 pb-4">
-              <label className="label" htmlFor="grid-last-name">
+              <label
+                className="label"
+                htmlFor="grid-last-name"
+              >
                 Content Title
               </label>
               <input
@@ -143,7 +146,10 @@ class AddEdit extends React.PureComponent {
             </div>
 
             <div className="w-full md:w-1/2 pb-4">
-              <label className="label" htmlFor="grid-last-name">
+              <label
+                className="label"
+                htmlFor="grid-last-name"
+              >
                 Content Key
               </label>
               <input
@@ -156,10 +162,7 @@ class AddEdit extends React.PureComponent {
               <div id="component-error-text">{errors.key}</div>
             </div>
             <div className="pb-4">
-              <WECkEditior
-                description={one.description}
-                setOneValue={this.props.setOneValue}
-              />
+              <WECkEditior description= {one.description} setOneValue={this.props.setOneValue}/>
               {/* <CKEditor
                 name="description"
                 content={one.description}
@@ -179,7 +182,10 @@ class AddEdit extends React.PureComponent {
 
             <div className="w-full md:w-1/2">
               <FormControl margin="normal" className={classes.formControl}>
-                <label className="label" htmlFor="grid-last-name">
+                <label
+                  className="label"
+                  htmlFor="grid-last-name"
+                >
                   Published From
                 </label>
                 <DatePicker
@@ -197,7 +203,10 @@ class AddEdit extends React.PureComponent {
             </div>
             <div className="w-full md:w-1/2">
               <FormControl margin="normal" className={classes.formControl}>
-                <label className="label" htmlFor="grid-last-name">
+                <label
+                  className="label"
+                  htmlFor="grid-last-name"
+                >
                   Published To
                 </label>
                 <DatePicker
@@ -228,13 +237,13 @@ class AddEdit extends React.PureComponent {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={one.is_page || false}
-                  onClick={this.handleCheckedChange('is_page')}
-                  value="is_page"
+                  checked={one.is_feature || false}
+                  onClick={this.handleCheckedChange('is_feature')}
+                  value="is_feature"
                   color="primary"
                 />
               }
-              label="Is Page"
+              label="Is Feature"
             />
 
             <br />

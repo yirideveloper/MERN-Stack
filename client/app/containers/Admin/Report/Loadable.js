@@ -1,3 +1,9 @@
+/**
+ *
+ * Asynchronously loads the component for ReportPage
+ *
+ */
+
 import React from 'react';
 import loadable from 'utils/loadable';
 import Loading from 'components/Loading';
