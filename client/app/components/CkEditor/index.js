@@ -6,25 +6,23 @@
 
 import React from 'react';
 import CKEditor from 'react-ckeditor-component';
-import PropTypes, { oneOfType } from 'prop-types';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 const CkEditor = props => {
-  const { description, setOneValue, is_body } = props;
+  const { description, setOneValue } = props;
   const handleEditorChange = (e, name) => {
-    const title = is_body ? 'body' : name;
     const newContent = e.editor.getData();
-    setOneValue({ key: title, value: newContent });
+    setOneValue({ key: name, value: newContent });
   };
   return (
-    <div className="p-2 flex-1 my-1">
+    <div className="flex-1">
       <CKEditor
         name="description"
         content={description}
         // scriptUrl="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"
         config={{
           allowedContent: true,
-          image_previewText: ' ',
           filebrowserBrowseUrl: '/editor-file-select',
           filebrowserUploadUrl: '/api/media/multiple',
         }}
