@@ -1,9 +1,3 @@
-/**
- *
- * FaqCategory
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,6 +7,7 @@ import { push } from 'connected-react-router';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
 
+// @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -20,16 +15,17 @@ import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import Fab from '@material-ui/core/Fab';
-import Table from 'components/Table';
 import Close from '@material-ui/icons/Close';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+// core components
+import Table from 'components/Table';
 
-import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
-import * as mapDispatchToProps from './actions';
+import injectSaga from '../../../utils/injectSaga';
+import injectReducer from '../../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
+import * as mapDispatchToProps from './actions';
+import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 
 import { DATE_FORMAT } from '../../App/constants';
 import PageHeader from '../../../components/PageHeader/PageHeader';
@@ -68,11 +64,16 @@ const styles = theme => ({
 });
 
 /* eslint-disable react/prefer-stateless-function */
-export class FaqCategory extends React.PureComponent {
+export class ContentsListingPage extends React.Component {
   static propTypes = {
-    classes: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
     loadAllRequest: PropTypes.func.isRequired,
-    deleteCatRequest: PropTypes.func.isRequired,
+    deleteOneRequest: PropTypes.func.isRequired,
+    clearOne: PropTypes.func.isRequired,
+    setQueryValue: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
+    query: PropTypes.object.isRequired,
     all: PropTypes.shape({
       data: PropTypes.array.isRequired,
       page: PropTypes.number.isRequired,
@@ -90,6 +91,15 @@ export class FaqCategory extends React.PureComponent {
     this.props.loadAllRequest(this.props.query);
   }
 
+  handleAdd = () => {
+    this.props.clearOne();
+    this.props.push('/admin/page-manage/add');
+  };
+
+  handleEdit = id => {
+    this.props.push(`/admin/page-manage/edit/${id}`);
+  };
+
   handleQueryChange = e => {
     e.persist();
     this.props.setQueryValue({ key: e.target.name, value: e.target.value });
@@ -97,10 +107,6 @@ export class FaqCategory extends React.PureComponent {
 
   handleSearch = () => {
     this.props.loadAllRequest(this.props.query);
-  };
-
-  handleEdit = id => {
-    this.props.push(`/admin/faq-cat-manage/edit/${id}`);
   };
 
   handleOpen = id => {
@@ -112,17 +118,12 @@ export class FaqCategory extends React.PureComponent {
   };
 
   handleDelete = id => {
-    this.props.deleteCatRequest(id);
+    this.props.deleteOneRequest(id);
     this.setState({ open: false });
   };
 
   handlePagination = paging => {
     this.props.loadAllRequest(paging);
-  };
-
-  handleAdd = () => {
-    this.props.clearOne();
-    this.props.push('/admin/faq-cat-manage/add');
   };
 
   render() {
@@ -134,12 +135,12 @@ export class FaqCategory extends React.PureComponent {
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
-      ({ title, is_active, added_at, updated_at, _id }) => [
-        title,
-
+      ({ name, key, is_active, published_from, published_to, _id }) => [
+        name,
+        key,
+        moment(published_from).format(DATE_FORMAT),
+        moment(published_to).format(DATE_FORMAT),
         `${is_active}`,
-        moment(added_at).format(DATE_FORMAT),
-        moment(updated_at).format(DATE_FORMAT),
         <>
           <Tooltip
             id="tooltip-top"
@@ -176,7 +177,6 @@ export class FaqCategory extends React.PureComponent {
         </>,
       ],
     );
-
     return (
       <>
         <DeleteDialog
@@ -185,11 +185,11 @@ export class FaqCategory extends React.PureComponent {
           doDelete={() => this.handleDelete(this.state.deleteId)}
         />
         <Helmet>
-          <title>FAQ Listing</title>
+          <title>Page Management</title>
         </Helmet>
         <div className="flex justify-between mt-3 mb-3">
-          {loading && loading == true ? <Loading /> : <></>}
-          <PageHeader>FAQ Category Manage</PageHeader>
+          {loading && loading === true ? <Loading /> : <></>}
+          <PageHeader>Page Manage</PageHeader>
           <Fab
             color="primary"
             aria-label="Add"
@@ -203,15 +203,36 @@ export class FaqCategory extends React.PureComponent {
         </div>
         <PageContent loading={loading}>
           <div className="flex">
-            <div className="flex relative">
+            <div className="flex relative mr-2">
               <input
                 type="text"
-                name="find_title"
-                id="faq-title"
-                placeholder="Search Category"
+                name="find_name"
+                id="page-name"
+                placeholder="Search page by name"
                 className="m-auto inputbox"
-                value={query.find_title}
+                value={query.find_name}
                 onChange={this.handleQueryChange}
+                style={{ paddingRight: '50px' }}
+              />
+              <IconButton
+                aria-label="Search"
+                className={`${classes.waftsrch} waftsrchstyle`}
+                onClick={this.handleSearch}
+              >
+                <SearchIcon />
+              </IconButton>
+            </div>
+
+            <div className="waftformgroup relative flex">
+              <input
+                type="text"
+                name="find_key"
+                id="page-key"
+                placeholder="Search page by key"
+                className="m-auto inputbox pr-6"
+                value={query.find_key}
+                onChange={this.handleQueryChange}
+                style={{ paddingRight: '50px' }}
               />
               <IconButton
                 aria-label="Search"
@@ -225,11 +246,12 @@ export class FaqCategory extends React.PureComponent {
 
           <Table
             tableHead={[
-              'Title',
+              'Name',
+              'Key',
+              'Pub From',
+              'Pub To',
               'Is Active',
-              'Added At',
-              'Updated At',
-              'Actions',
+              'Action',
             ]}
             tableData={tableData}
             pagination={tablePagination}
@@ -252,11 +274,8 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-const withReducer = injectReducer({
-  key: 'adminFaqCategoryManagePage',
-  reducer,
-});
-const withSaga = injectSaga({ key: 'adminFaqCategoryManagePage', saga });
+const withReducer = injectReducer({ key: 'PagecontentListing', reducer });
+const withSaga = injectSaga({ key: 'PagecontentListing', saga });
 
 const withStyle = withStyles(styles);
 
@@ -265,4 +284,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(FaqCategory);
+)(ContentsListingPage);

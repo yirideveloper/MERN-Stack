@@ -16,13 +16,14 @@ const CkEditor = props => {
     setOneValue({ key: name, value: newContent });
   };
   return (
-    <div className="flex-1">
+    <div className="p-2 flex-1 my-1">
       <CKEditor
         name="description"
         content={description}
         // scriptUrl="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"
         config={{
           allowedContent: true,
+          image_previewText: ' ',
           filebrowserBrowseUrl: '/editor-file-select',
           filebrowserUploadUrl: '/api/media/multiple',
         }}
