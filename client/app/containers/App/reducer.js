@@ -25,7 +25,6 @@ export const initialState = {
   notifications: [],
   access: {},
   latestBlogs: {},
-  menu: {},
   blogLoading: false,
 };
 
@@ -114,12 +113,6 @@ const appReducer = (state = initialState, action = { type: '' }) =>
             notification => notification.key !== action.payload,
           ),
         ];
-        break;
-      case types.LOAD_MENU_SUCCESS:
-        draft.menu = {
-          ...draft.menu,
-          [action.payload.data.key]: action.payload.data.child,
-        };
         break;
     }
   });

@@ -83,12 +83,6 @@ export const makeSelectCategory = () =>
     state => state.category,
   );
 
-export const makeSelectMenu = () =>
-  createSelector(
-    selectGlobal,
-    state => state.menu,
-  );
-
 export const makeSelecBlogLoading = () =>
   createSelector(
     selectGlobal,
