@@ -1,3 +1,9 @@
+/**
+ *
+ * Asynchronously loads the component for StaticMenu
+ *
+ */
+
 import React from 'react';
 import loadable from 'utils/loadable';
 import Loading from 'components/Loading';

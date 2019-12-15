@@ -25,7 +25,6 @@ import EmailInput from './components/EmailInput';
 import PasswordInput from './components/PasswordInput';
 import { FB_APP_ID, FB_APP_FIELDS, GOOGLE_CLIENT_ID } from '../App/constants';
 import { makeSelectLoading } from './selectors';
-import '../../assets/styles/loading.css';
 
 const SignupUserPage = ({
   classes,
@@ -48,11 +47,11 @@ const SignupUserPage = ({
           <EmailInput />
           <PasswordInput />
           <button
-              className="btn mt-4 w-full bg-primary hover:bg-secondary"
-              type="submit"
-            >
-              {loading ?  <div className="btn_loading"><div></div><div></div><div></div><div></div><span className="ml-2">Sing Up</span></div> : 'Sign Up'}
-            </button>
+            className="text-white py-2 px-4 rounded mt-4 w-full bg-primary font-bold"
+            type="submit"
+          >
+            {loading ? '...' : 'SIGN UP'}
+          </button>
           <Link
             className="inline-block align-baseline text-xs text-blue-700 hover:text-blue-700-darker"
             to="/login-user"

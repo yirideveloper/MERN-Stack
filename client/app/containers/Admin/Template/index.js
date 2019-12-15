@@ -26,7 +26,6 @@ import * as mapDispatchToProps from './actions';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
 import Loading from '../../../components/Loading';
-import WECkEditior from '../../../components/CkEditor';
 
 const styles = theme => ({
   root: {
@@ -86,7 +85,9 @@ export function Template({
       <PageContent>
         <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label">Template Key</label>
+            <label className="label">
+              Template Key
+            </label>
             <select
               className="inputbox"
               id="template-key"
@@ -106,7 +107,9 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label">Template Name</label>
+            <label className="label">
+              Template Name
+            </label>
             <input
               type="text"
               className="inputbox"
@@ -118,7 +121,9 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label">Informations</label>
+            <label className="label">
+              Informations
+            </label>
             <input
               className="inputbox"
               type="text"
@@ -130,7 +135,9 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label">Variables</label>
+            <label className="label">
+              Variables
+            </label>
             <input
               className="inputbox"
               type="text"
@@ -143,7 +150,9 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label">From</label>
+            <label className="label">
+              From
+            </label>
             <input
               className="inputbox"
               type="text"
@@ -155,7 +164,9 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label">Subject</label>
+            <label className="label">
+              Subject
+            </label>
             <input
               className="inputbox"
               type="text"
@@ -167,7 +178,9 @@ export function Template({
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label">Alternate Text</label>
+            <label className="label">
+              Alternate Text
+            </label>
             <input
               className="inputbox"
               type="text"
@@ -178,14 +191,20 @@ export function Template({
             />
           </div>
 
-          {/* <div dangerouslySetInnerHTML={{ __html: one.body }} /> */}
+          <div dangerouslySetInnerHTML={{ __html: one.body }} />
 
           <div className="w-full pb-4">
-            <label className="label">Body</label>
-            <WECkEditior
-              description={one.body || ''}
-              setOneValue={setOneValue}
-              is_body={true}
+            <label className="label">
+              Body
+            </label>
+            <textarea
+              className="inputbox"
+              type="text"
+              id="body_email"
+              name="body"
+              value={one.body || ''}
+              onChange={handleChange}
+              style={{ height: '400px' }}
             />
           </div>
 

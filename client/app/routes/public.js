@@ -11,7 +11,6 @@ import StaticPage from '../containers/StaticPages/Loadable';
 import EditorFileSelectPage from '../containers/EditorFileSelect';
 import BlogPages from '../containers/Blog';
 import VerifyEmail from '../containers/VerifyEmail/Loadable';
-import ResetPasswordPage from '../containers/ResetPasswordPage/Loadable';
 
 const publicRoutes = [
   {
@@ -48,11 +47,6 @@ const publicRoutes = [
     exact: true,
     path: '/forgot-password-user',
     component: ForgotPasswordUserPage,
-  },
-  {
-    exact: true,
-    path: '/reset-password/:email',
-    component: ResetPasswordPage,
   },
   {
     exact: true,

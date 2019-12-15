@@ -4,10 +4,10 @@
 
 @tailwind utilities;
 
-/* custom css starts */
-
 body {
   font-family: 'Source Sans Pro', sans-serif;
+}
+body {
   font-size: 14px;
 }
 
@@ -44,6 +44,10 @@ div.react-datepicker__input-container {
 }
 select.inputbox {
   height: 36px;
+}
+.label {
+  font-weight: bold;
+  color: #43414d;
 }
 
 .waftsrchstyle {
@@ -106,12 +110,3 @@ div#component-error-text {
 .rotate-90 {
   transform: rotate(-90deg);
 }
-
-
-.btn{
-   @apply py-2 px-4 font-bold text-white rounded;
-}
-
-/* loading */
-
-

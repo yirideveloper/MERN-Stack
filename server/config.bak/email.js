@@ -4,11 +4,11 @@ module.exports = {
     email: '',
     password: '',
     server: '',
-    port: '',
+    port: ' ',
     secure: true,
     security: '',
   },
-  channel: 'waft', // ['smtp','mailgun','sendgrid']
+  channel: 'waft', // ['waft','smtp','mailgun','sendgrid'] // waft : no need to confuger any thing and email is sent from contact@waftengine.org
   mailgun: {
     api_key: '',
     domain: '',
