@@ -110,6 +110,7 @@ export class SliderPage extends React.Component {
   };
 
   handleEdit = id => {
+    this.props.clearOne();
     this.props.push(`/admin/slider-manage/edit/${id}`);
   };
 
@@ -252,20 +253,25 @@ export class SliderPage extends React.Component {
 
               <button
                 className="bg-indigo-700 text-white px-2 leading-none items-center flex hover:bg-indigo-600"
-                onClick={this.handleAdd}>
+                onClick={this.handleAdd}
+              >
                 <i className="material-icons">add</i>Add Slider
-            </button>
+              </button>
             </div>
           </div>
 
           <div className="bg-gray-900 h-32 my-2 py-2 px-4 text-white font-mono">
             <code className="">
-              ...<br />
-              import  SlickSlider from 'client/app/components/SlickSlider';<br />
-              ...<br />
-              SlickSlider slideKey="key" /><br />
               ...
-</code>
+              <br />
+              import SlickSlider from 'client/app/components/SlickSlider';
+              <br />
+              ...
+              <br />
+              SlickSlider slideKey="key" />
+              <br />
+              ...
+            </code>
           </div>
 
           <Table
