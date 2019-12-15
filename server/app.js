@@ -64,7 +64,6 @@ Promise.resolve(app)
 
 // Database Connection
 async function MongoDBConnection(app) {
-  console.log(`| MongoDB URL  : ${mongoURI}`);
   await mongoose
     .connect(mongoURI, {
       useNewUrlParser: true,

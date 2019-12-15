@@ -231,17 +231,22 @@ export class BlogCommentManagePage extends React.PureComponent {
         moment(added_at).format(DATE_FORMAT),
         moment(updated_at).format(DATE_FORMAT),
         <>
-        <div className="flex">
-        <button
-          aria-label="Edit"
-          className=" px-1 text-center leading-none"
-          onClick={() => this.handleView(_id)}
-        >
-          <i className="material-icons text-base text-indigo-500 hover:text-indigo-700">
-            visibility
-          </i>
-        </button>
-      </div>
+          <Tooltip
+            id="tooltip-top-start"
+            title="View"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
+              onClick={() => this.handleView(_id)}
+            >
+              <ViewIcon
+                className={`${classes.tableActionButtonIcon} ${classes.view}`}
+              />
+            </IconButton>
+          </Tooltip>
         </>,
       ],
     );

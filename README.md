@@ -3,7 +3,6 @@
 [WaftEngine](https://www.waftengine.org) is an open source platform for developers to create enterprise level web application in MERN stack. This platform already contains components like user management, roles management, module management, access management, content management with production ready setup which helps developers to develop their application in minimum cost.
 
 [![Gitter](https://badges.gitter.im/waftengine/community.svg)](https://gitter.im/waftengine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Known Vulnerabilities](https://snyk.io/test/github/mkmpvtltd/WaftEngine/badge.svg)](https://snyk.io/test/github/mkmpvtltd/WaftEngine)
 
 ## Features
 
@@ -39,8 +38,8 @@ Since anything in our codebase can be extended, overwritten, or installed as a p
   - Rename `config.bak` folder to `config`
   - Update `keys.js` file in `mongoURI` section as your `MongoDB credential`
 - Running the application in development mode
-  - Development Mode (Client only): `cd client` then `npm run start` then open `http://localhost:5241` in a browser
-  - Development Mode (Server only): `cd server` then `npm run start` then open `http://localhost:5240` in a browser
+  - Development Mode (Client only): `cd client` then `npm run start` then open `http://localhost:5051` in a browser
+  - Development Mode (Server only): `cd server` then `npm run start` then open `http://localhost:5050` in a browser
 - Default Credentials : Email : admin+we@wafttech.com , Password : Test@1234
 - For more [Getting started](https://waftengine.org/documentation/2019-7-1-getting-started-with-waftengine)
 
