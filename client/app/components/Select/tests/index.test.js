@@ -1,6 +1,6 @@
 /**
  *
- * Tests for StaticMenu
+ * Tests for Select
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,14 +10,14 @@ import React from 'react';
 import { cleanup, render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import StaticMenu from '../index';
+import Select from '../index';
 
-describe('<StaticMenu />', () => {
+describe('<Select />', () => {
   afterEach(cleanup);
 
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    render(<StaticMenu />);
+    render(<Select />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -33,7 +33,7 @@ describe('<StaticMenu />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<StaticMenu />);
+    } = render(<Select />);
     expect(firstChild).toMatchSnapshot();
   });
 });

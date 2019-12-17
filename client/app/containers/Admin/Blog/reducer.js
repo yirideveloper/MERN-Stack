@@ -27,7 +27,7 @@ export const initialState = {
     category: [],
     description: '',
     summary: '',
-    published_on: '',
+    published_on: Date.now(),
     image: null,
     is_published: true,
     is_active: false,

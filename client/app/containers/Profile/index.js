@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 import { Informtions, ChangePasswords, VerifyEmail } from './Pages/Loadable.js';
@@ -15,18 +15,15 @@ const Blog = () => {
   useInjectSaga({ key, saga });
 
   return (
-    <>
-      {/* <Helmet>Profile</Helmet> */}
-      <Switch>
-        <Route exact path="/user/profile" component={Informtions} />
-        <Route exact path="/user/profile/verify" component={VerifyEmail} />
-        <Route
-          exact
-          path="/user/profile/change-password"
-          component={ChangePasswords}
-        />
-      </Switch>
-    </>
+    <Switch>
+      <Route exact path="/user/profile" component={Informtions} />
+      <Route exact path="/user/profile/verify" component={VerifyEmail} />
+      <Route
+        exact
+        path="/user/profile/change-password"
+        component={ChangePasswords}
+      />
+    </Switch>
   );
 };
 
