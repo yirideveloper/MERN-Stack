@@ -213,7 +213,12 @@ export class BlogCommentManagePage extends React.PureComponent {
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.selected.includes(_id) ? true : false}
+                checked={
+                  // is_approved ? true : false
+                  // this.state.selectAll === true
+                  //   ? true:
+                  this.state.selected.includes(_id) ? true : false
+                }
                 onChange={() => this.handleCheckedChange(_id)}
               />
             }
@@ -224,19 +229,24 @@ export class BlogCommentManagePage extends React.PureComponent {
         status || 'onhold',
         added_by && added_by.name,
         moment(added_at).format(DATE_FORMAT),
-        moment(updated_at ? updated_at : added_at).format(DATE_FORMAT),
+        moment(updated_at).format(DATE_FORMAT),
         <>
-          <div className="flex">
-            <button
-              aria-label="Edit"
-              className=" px-1 text-center leading-none"
+          <Tooltip
+            id="tooltip-top-start"
+            title="View"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
               onClick={() => this.handleView(_id)}
             >
-              <i className="material-icons text-base text-indigo-500 hover:text-indigo-700">
-                visibility
-              </i>
-            </button>
-          </div>
+              <ViewIcon
+                className={`${classes.tableActionButtonIcon} ${classes.view}`}
+              />
+            </IconButton>
+          </Tooltip>
         </>,
       ],
     );
@@ -278,7 +288,7 @@ export class BlogCommentManagePage extends React.PureComponent {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={query.find_is_approved}
+                  checked={query.find_approved}
                   onChange={this.handleCheckedQueryChange('find_is_approved')}
                 />
               }

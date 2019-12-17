@@ -13,14 +13,13 @@ export const initialState = {
     size: 10,
     totaldata: 0,
   },
-  settings_normalized: {},
+  one: {},
   loading: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const settingsManagePageReducer = (state = initialState, action) =>
   produce(state, draft => {
-    const normalized = {};
     switch (action.type) {
       case types.LOAD_ALL_SETTINGS_REQUEST:
         draft.loading = true;
@@ -28,18 +27,12 @@ const settingsManagePageReducer = (state = initialState, action) =>
       case types.LOAD_ALL_SETTINGS_SUCCESS:
         draft.loading = false;
         draft.all = action.payload;
-        action.payload.data.map(each => {
-          normalized[each.key] = each;
-          return null;
-        });
-        draft.settings_normalized = normalized;
         break;
       case types.LOAD_ALL_SETTINGS_FAILURE:
         draft.loading = false;
         break;
       case types.SET_VALUE:
-        draft.settings_normalized[action.payload.key].value =
-          action.payload.value;
+        draft.all = action.payload;
         break;
     }
   });

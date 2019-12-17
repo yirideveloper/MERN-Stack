@@ -7,7 +7,7 @@ const sliderSchema = new schema({
   slug_url: { type: String },
   images: [
     {
-      image: { type: schema.Types.ObjectId, ref: 'file' },
+      image: { type: schema.Types.ObjectId, ref: 'media' },
       caption: { type: String },
       link: { type: String },
     },

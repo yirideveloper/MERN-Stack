@@ -191,7 +191,7 @@ blogcontroller.GetBlogUnauthorize = async (req, res, next) => {
 blogcontroller.GetBlogCategory = async (req, res, next) => {
   try {
     let { page, size, populate, selectq, searchq, sortq } = otherHelper.parseFilters(req, 10, false);
-    selectq = 'title slug_url description image is_active added_by added_at updated_at updated_by is_deleted';
+    selectq = 'title slug_url description image is_active added_by added_at is_deleted';
     if (req.query.find_title) {
       searchq = {
         title: {
@@ -201,20 +201,17 @@ blogcontroller.GetBlogCategory = async (req, res, next) => {
         ...searchq,
       };
     }
-    if (req.query.is_active) {
-      searchq = { is_active: true, ...searchq };
-    }
     let blogcats = await otherHelper.getquerySendResponse(blogCatSch, page, size, sortq, searchq, selectq, next, '');
     return otherHelper.paginationSendResponse(res, httpStatus.OK, true, blogcats.data, blogConfig.cget, page, size, blogcats.totaldata);
   } catch (err) {
     next(err);
   }
 };
-blogcontroller.GetBlogCatById = async (req, res, next) => {
+blogcontroller.GetBlogCatBySlug = async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const slug_url = req.params.slug;
     const blogcats = await blogCatSch.findOne({
-      _id: id,
+      slug_url,
     });
     return otherHelper.sendResponse(res, httpStatus.OK, true, blogcats, null, blogConfig.cget, null);
   } catch (err) {
@@ -276,8 +273,6 @@ blogcontroller.SaveBlogCategory = async (req, res, next) => {
         .split('server/')[1];
     }
     if (blogcats && blogcats._id) {
-      blogcats.updated_at = new Date();
-      blogcats.updated_by = req.user.id;
       if (req.file) {
         blogcats.image = req.file;
       }

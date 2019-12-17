@@ -22,9 +22,3 @@ export const makeSelectLoading = () =>
     selectDomain,
     state => state.loading,
   );
-
-export const makeSelectSettingsNormalized = () =>
-  createSelector(
-    selectDomain,
-    state => state.settings_normalized,
-  );

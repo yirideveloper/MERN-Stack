@@ -92,7 +92,10 @@ export class ChangePassword extends React.Component {
     return (
       <React.Fragment>
         <div className="w-full md:w-1/2 pb-4">
-          <label className="label" htmlFor="oldPassword">
+          <label
+            className="label"
+            htmlFor="oldPassword"
+          >
             Old Password
           </label>
           <input
@@ -108,7 +111,10 @@ export class ChangePassword extends React.Component {
         </div>
 
         <div className="w-full md:w-1/2 pb-4">
-          <label className="label" htmlFor="newPassword">
+          <label
+            className="label"
+            htmlFor="newPassword"
+          >
             New Password
           </label>
           <input
@@ -124,7 +130,10 @@ export class ChangePassword extends React.Component {
         </div>
 
         <div className="w-full md:w-1/2 pb-4">
-          <label className="label" htmlFor="newPassword">
+          <label
+            className="label"
+            htmlFor="newPassword"
+          >
             Confirm New Password
           </label>
           <input

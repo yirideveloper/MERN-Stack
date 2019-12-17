@@ -67,12 +67,7 @@ function* loadOne(action) {
 function* loadUsers(action) {
   const token = yield select(makeSelectToken());
   yield call(
-    Api.get(
-      'user?filter_author=true',
-      actions.loadUserSuccess,
-      actions.loadUserFailure,
-      token,
-    ),
+    Api.get('user', actions.loadUserSuccess, actions.loadUserFailure, token),
   );
 }
 
