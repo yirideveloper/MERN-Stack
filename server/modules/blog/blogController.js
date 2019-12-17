@@ -201,17 +201,20 @@ blogcontroller.GetBlogCategory = async (req, res, next) => {
         ...searchq,
       };
     }
+    if (req.query.is_active) {
+      searchq = { is_active: true, ...searchq };
+    }
     let blogcats = await otherHelper.getquerySendResponse(blogCatSch, page, size, sortq, searchq, selectq, next, '');
     return otherHelper.paginationSendResponse(res, httpStatus.OK, true, blogcats.data, blogConfig.cget, page, size, blogcats.totaldata);
   } catch (err) {
     next(err);
   }
 };
-blogcontroller.GetBlogCatBySlug = async (req, res, next) => {
+blogcontroller.GetBlogCatById = async (req, res, next) => {
   try {
-    const slug_url = req.params.slug;
+    const id = req.params.id;
     const blogcats = await blogCatSch.findOne({
-      slug_url,
+      _id: id,
     });
     return otherHelper.sendResponse(res, httpStatus.OK, true, blogcats, null, blogConfig.cget, null);
   } catch (err) {
