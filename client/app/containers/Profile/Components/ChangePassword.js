@@ -92,7 +92,10 @@ export class ChangePassword extends React.Component {
     return (
       <React.Fragment>
         <div className="w-full md:w-1/2 pb-4">
-          <label className="label" htmlFor="oldPassword">
+          <label
+            className="label"
+            htmlFor="oldPassword"
+          >
             Old Password
           </label>
           <input
@@ -104,11 +107,14 @@ export class ChangePassword extends React.Component {
             onChange={this.handleChange}
             type={showPassword ? 'text' : 'password'}
           />
-          {errors.oldPassword && <div id="component-error-text">{errors.oldPassword}</div>}
+          {errors.oldPassword && <span>{errors.oldPassword}</span>}
         </div>
 
         <div className="w-full md:w-1/2 pb-4">
-          <label className="label" htmlFor="newPassword">
+          <label
+            className="label"
+            htmlFor="newPassword"
+          >
             New Password
           </label>
           <input
@@ -120,11 +126,14 @@ export class ChangePassword extends React.Component {
             onChange={this.handleChange}
             type={showPassword ? 'text' : 'password'}
           />
-          {errors.newPassword && <div id="component-error-text">{errors.newPassword}</div>}
+          {errors.newPassword && <span>{errors.newPassword}</span>}
         </div>
 
         <div className="w-full md:w-1/2 pb-4">
-          <label className="label" htmlFor="newPassword">
+          <label
+            className="label"
+            htmlFor="newPassword"
+          >
             Confirm New Password
           </label>
           <input
@@ -136,11 +145,11 @@ export class ChangePassword extends React.Component {
             onChange={this.handleChange}
             type={showPassword ? 'text' : 'password'}
           />
-          {errors.newPassword2 && <div id="component-error-text">{errors.newPassword2}</div>}
+          {errors.newPassword2 && <span>{errors.newPassword2}</span>}
         </div>
 
         <button
-          className="block btn bg-primary hover:bg-secondary"
+          className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
           onClick={this.handleSave}
         >
           Save

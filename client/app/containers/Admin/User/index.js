@@ -117,15 +117,14 @@ export class User extends React.PureComponent {
         roles.map(each => each.role_title).join(', '),
         `${email_verified}`,
         <>
-          <div className="flex">
-            <button
-              aria-label="Edit"
-              className=" px-1 text-center leading-none"
+          <Tooltip id="tooltip-left" title="Edit User" placement="left">
+            <IconButton
+              className={classes.tableActionButton}
               onClick={() => this.handleEdit(_id)}
             >
-              <i className="material-icons text-base text-indigo-500 hover:text-indigo-700">edit</i>
-            </button>
-          </div>
+              <CreateIcon />
+            </IconButton>
+          </Tooltip>
         </>,
       ],
     );

@@ -460,7 +460,7 @@ const AddEdit = props => {
 
                 <button
                   type="button"
-                  className="btn bg-primary hover:bg-secondary mr-2"
+                  className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme mr-2"
                   onClick={handleAddChildMenuSave}
                 >
                   Add Child Menu
@@ -468,7 +468,7 @@ const AddEdit = props => {
 
                 <button
                   type="button"
-                  className="btn bg-primary hover:bg-secondary"
+                  className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
                   onClick={handleSave}
                 >
                   Save

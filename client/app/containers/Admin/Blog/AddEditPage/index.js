@@ -17,7 +17,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
-// import Select from '@material-ui/core/Select';
+import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
@@ -45,8 +45,6 @@ import { IMAGE_BASE, DATE_FORMAT } from '../../../App/constants';
 import defaultImage from '../../../../assets/img/logo.svg';
 import Loading from '../../../../components/Loading';
 import WECkEditior from '../../../../components/CkEditor';
-import Inputs from '../../../../components/customComponents/Input';
-import Select from '../../../../components/Select';
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -97,7 +95,6 @@ class AddEdit extends React.PureComponent {
   state = {
     tempImage: defaultImage,
     startDate: new Date(),
-    selected: [],
   };
 
   componentDidMount() {
@@ -109,7 +106,6 @@ class AddEdit extends React.PureComponent {
     this.props.loadCategoryRequest();
     this.props.loadUsersRequest();
   }
-
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.one !== nextProps.one) {
@@ -157,13 +153,9 @@ class AddEdit extends React.PureComponent {
     this.props.setOneValue({ key: name, value: e.target.value });
   };
 
-  // handleMultipleSelectChange = e => {
-  //   e.persist();
-  //   this.props.setCategoryValue(e.target.value);
-  // };
-
-  handleMultipleSelectCategoryChange = e => {
-    this.props.setCategoryValue({value: e && e.map(each=> each.value)});
+  handleMultipleSelectChange = e => {
+    e.persist();
+    this.props.setCategoryValue(e.target.value);
   };
 
   handleTempMetaKeyword = e => {
@@ -301,20 +293,6 @@ class AddEdit extends React.PureComponent {
       errors,
     } = this.props;
     const { tempImage } = this.state;
-  
-    let listCategoryNormalized = {};
-    const listCategory = category.map(each => {
-      const obj = {
-        label: each.title,
-        value: each._id,
-      };
-      listCategoryNormalized = {
-        ...listCategoryNormalized,
-        [each._id]: obj,
-      };
-      return obj;
-    });
-
     const menuProps = {
       PaperProps: {
         style: {
@@ -355,32 +333,43 @@ class AddEdit extends React.PureComponent {
         </div>
         <PageContent>
           <div className="w-full md:w-1/2 pb-4">
-            <Inputs
-              label="Title"
-              inputclassName="inputbox"
-              inputid="blog-title"
-              inputType="text"
+            <label
+              className="label"
+              htmlFor="grid-blog-title"
+            >
+              Title
+            </label>
+            <input
+              className="inputbox"
+              id="blog-title"
+              type="text"
               value={(one && one.title) || ''}
               name="Blog Title"
               onChange={this.handleChange('title')}
-              error={errors && errors.title}
             />
+            <div id="component-error-text">{errors && errors.title}</div>
           </div>
           <div className="w-full md:w-1/2 pb-4">
-            <Inputs
-              label="Slug"
-              inputclassName="inputbox"
-              inputid="blog-slug-url"
-              inputType="text"
+            <label
+              className="label"
+              htmlFor="grid-blog-title"
+            >
+              Slug
+            </label>
+            <input
+              className="inputbox"
+              id="blog-slug-url"
+              type="text"
               value={(one && one.slug_url) || ''}
               name="Blog Slug"
               onChange={this.handleChange('slug_url')}
-              error={errors && errors.slug_url}
             />
+            <div id="component-error-text">{errors && errors.slug_url}</div>
           </div>
           <div className="w-full md:w-1/2 pb-4">
-            <label className="font-bold text-gray-700">Category</label>
-
+            <label className="label">
+              Category
+            </label>
             {/* <FormControl className={classes.formControl}>
               <Select
                 // className="inputbox"
@@ -409,32 +398,9 @@ class AddEdit extends React.PureComponent {
                 ))}
               </Select>
             </FormControl> */}
-
-            {/* <FormControl className={classes.formControl}> */}
-            <Select
-              className="React_Select"
-              id="category"
-              value={
-                one.category && one.category.map((each, index)=> {
-                  const catObj = listCategoryNormalized[each];
-                  if (!catObj) {
-                    return {
-                      label: 'loading',
-                      value: index,
-                    }
-                  }
-                  return catObj;
-                }) || []
-              }
-              name="category"
-              placeholder="Select Blog Category"
-              onChange={this.handleMultipleSelectCategoryChange}
-              isSearchable
-              isMulti
-              options={listCategory}
-              styles={customStyles}
-            />
-              {/* <Select
+            <FormControl className={classes.formControl}>
+              <Select
+                // className="inputbox"
                 multiple
                 displayEmpty
                 name="template_key"
@@ -455,12 +421,12 @@ class AddEdit extends React.PureComponent {
                     {each.title}
                   </MenuItem>
                 ))}
-              </Select> */}
-            {/* </FormControl> */}
+              </Select>
+            </FormControl>
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label
-              className="font-bold text-gray-700"
+              className="label"
               htmlFor="grid-blog-title"
             >
               Short Description
@@ -474,8 +440,10 @@ class AddEdit extends React.PureComponent {
               onChange={this.handleChange('short_description')}
             />
           </div>
-          <div>
-            <label className="font-bold text-gray-700">Blog Description</label>
+          <div className="pb-4">
+            <label className="label">
+              Blog Description
+            </label>
             <WECkEditior
               description={one.description}
               setOneValue={this.props.setOneValue}
@@ -485,7 +453,10 @@ class AddEdit extends React.PureComponent {
           </div>
 
           <div className="w-full md:w-1/2 pb-4 mt-4">
-            <label className="label" htmlFor="Image">
+            <label
+              className="label"
+              htmlFor="Image"
+            >
               Image
             </label>
             <Dropzone onDrop={files => this.onDrop(files, 'image')}>
@@ -503,7 +474,10 @@ class AddEdit extends React.PureComponent {
             </Dropzone>
           </div>
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label" htmlFor="grid-last-name">
+            <label
+              className="label"
+              htmlFor="grid-last-name"
+            >
               Published On
             </label>
             <DatePicker
@@ -525,7 +499,10 @@ class AddEdit extends React.PureComponent {
             /> */}
           </div>
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label" htmlFor="grid-last-name">
+            <label
+              className="label"
+              htmlFor="grid-last-name"
+            >
               Tags
             </label>
             <form onSubmit={this.insertTags}>
@@ -555,7 +532,10 @@ class AddEdit extends React.PureComponent {
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label" htmlFor="grid-last-name">
+            <label
+              className="label"
+              htmlFor="grid-last-name"
+            >
               Meta Tags
             </label>
             <form onSubmit={this.insertMetaTags}>
@@ -585,7 +565,10 @@ class AddEdit extends React.PureComponent {
             </Paper>
           </div>
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label" htmlFor="grid-last-name">
+            <label
+              className="label"
+              htmlFor="grid-last-name"
+            >
               Meta Keywords
             </label>
 
@@ -617,7 +600,10 @@ class AddEdit extends React.PureComponent {
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label" htmlFor="grid-last-name">
+            <label
+              className="label"
+              htmlFor="grid-last-name"
+            >
               Meta Description
             </label>
 
@@ -632,7 +618,10 @@ class AddEdit extends React.PureComponent {
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label className="label" htmlFor="grid-last-name">
+            <label
+              className="label"
+              htmlFor="grid-last-name"
+            >
               Author
             </label>
 
@@ -695,31 +684,6 @@ class AddEdit extends React.PureComponent {
 const withStyle = withStyles(styles);
 const withReducer = injectReducer({ key: 'blogManagePage', reducer });
 const withSaga = injectSaga({ key: 'blogManagePage', saga });
-
-const customStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    background: state.isFocused || state.isSelected ? '#5897FB' : 'white',
-    color: state.isFocused || state.isSelected ? 'white' : 'black',
-    padding: '6px 12px',
-  }),
-
-  menuList: () => ({
-    background: '#FFFFFF',
-    border: '1px solid #d4d9df',
-    boxShadow:'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-  }),
-
-  indicatorSeparator: () => ({
-    background: 'transparent',
-  }),
-
-  container: provided => ({
-    ...provided,
-    width: '100%',
-    minWidth: '100px',
-  }),
-};
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),

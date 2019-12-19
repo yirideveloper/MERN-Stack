@@ -110,7 +110,6 @@ export class SliderPage extends React.Component {
   };
 
   handleEdit = id => {
-    this.props.clearOne();
     this.props.push(`/admin/slider-manage/edit/${id}`);
   };
 
@@ -174,21 +173,38 @@ export class SliderPage extends React.Component {
         moment(added_at).format(DATE_FORMAT),
 
         <React.Fragment>
-           <div className="flex">
-            <button
+          <Tooltip
+            id="tooltip-top"
+            title="Edit Task"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
               aria-label="Edit"
-              className=" px-1 text-center leading-none"
+              className={classes.tableActionButton}
               onClick={() => this.handleEdit(_id)}
             >
-              <i className="material-icons text-base text-indigo-500 hover:text-indigo-700">edit</i>
-            </button>
-
-            <button className="ml-2 px-1 text-center leading-none"
+              <Edit
+                className={`${classes.tableActionButtonIcon} ${classes.edit}`}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            id="tooltip-top-start"
+            title="Remove"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
               onClick={() => this.handleOpen(_id)}
             >
-              <i className="material-icons text-base text-red-400 hover:text-red-600">delete</i>
-            </button>
-          </div>
+              <Close
+                className={`${classes.tableActionButtonIcon} ${classes.close}`}
+              />
+            </IconButton>
+          </Tooltip>
         </React.Fragment>,
       ],
     );
@@ -203,7 +219,7 @@ export class SliderPage extends React.Component {
         <Helmet>
           <title>Slider Listing</title>
         </Helmet>
-        <div className="flex justify-between mt-3 mb-3">
+        <div className="flex justify-between -mt-5 mb-3">
           {loading && loading == true ? <Loading /> : <></>}
           <PageHeader>Slider Manage</PageHeader>
         </div>
@@ -236,25 +252,20 @@ export class SliderPage extends React.Component {
 
               <button
                 className="bg-indigo-700 text-white px-2 leading-none items-center flex hover:bg-indigo-600"
-                onClick={this.handleAdd}
-              >
+                onClick={this.handleAdd}>
                 <i className="material-icons">add</i>Add Slider
-              </button>
+            </button>
             </div>
           </div>
 
           <div className="bg-gray-900 h-32 my-2 py-2 px-4 text-white font-mono">
             <code className="">
+              ...<br />
+              import  SlickSlider from 'client/app/components/SlickSlider';<br />
+              ...<br />
+              SlickSlider slideKey="key" /><br />
               ...
-              <br />
-              import SlickSlider from 'client/app/components/SlickSlider';
-              <br />
-              ...
-              <br />
-              SlickSlider slideKey="key" />
-              <br />
-              ...
-            </code>
+</code>
           </div>
 
           <Table
