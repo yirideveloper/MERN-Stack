@@ -129,9 +129,6 @@ const menuManageReducer = (state = initialState, action) =>
           ),
         };
         break;
-      case types.LOAD_MENU_REQUEST:
-        draft.sub_menu_form = action.payload.data;
-        break;
     }
   });
 
