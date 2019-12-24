@@ -4,10 +4,9 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import Button from '@material-ui/core/Button';
 
@@ -17,42 +16,26 @@ import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import { makeSelectErrors } from './selectors';
 
 import UsernameInput from './components/UsernameInput';
 import logo from '../../images/logo.png';
 
-const ForgotPasswordUser = ({
-  classes,
-  forgotPasswordRequest,
-  error,
-  clearError,
-}) => {
-  useEffect(() => {
-    clearError();
-  }, []);
-
+const ForgotPasswordUser = ({ classes, forgotPasswordRequest }) => {
   const handleSubmit = e => {
     e.preventDefault();
     forgotPasswordRequest();
   };
-  console.log('error', error);
   return (
     <div className="max-w-lg mx-auto p-16">
       <h1 className="text-2xl font-bold">Forgot your password?</h1>
-      <p>
-        Don’t worry! Just fill in your email and we’ll help you reset your
-        password.
-      </p>
+      <p >Don’t worry! Just fill in your email and we’ll help you reset your password.</p>
       <form className="my-4" onSubmit={handleSubmit}>
-        <UsernameInput error={error.email} />
+        <UsernameInput />
 
-        <button
-          className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
-          type="submit"
-        >
+        <button className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme" type="submit">
           SUBMIT
-        </button>
+          </button>
+
       </form>
 
       {/* <Link className={classes.smallFont} to="/login-user">
@@ -69,9 +52,7 @@ ForgotPasswordUser.propTypes = {
   forgotPasswordRequest: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  error: makeSelectErrors(),
-});
+const mapStateToProps = null;
 
 const withConnect = connect(
   mapStateToProps,
@@ -80,6 +61,7 @@ const withConnect = connect(
 
 const withReducer = injectReducer({ key: 'forgotPasswordUserPage', reducer });
 const withSaga = injectSaga({ key: 'forgotPasswordUserPage', saga });
+
 
 export default compose(
   withReducer,

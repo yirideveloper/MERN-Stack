@@ -33,12 +33,10 @@ const SidebarCategoriesList = props => {
   const {
     category,
     loadOneCategoryRequest,
-    loadMenuRequest,
     loading,
     setChildValue,
     setInnerStateValue,
     clearGeneralInfo,
-    clearSubMenu,
   } = props;
   const [openSet, setOpenSet] = useState({});
 
@@ -47,9 +45,7 @@ const SidebarCategoriesList = props => {
   };
 
   const handleClick = id => {
-    // setChildValue({ key: 'parent_menu', value: id });
-    clearSubMenu();
-    loadMenuRequest(id);
+    setChildValue({ key: 'parent_menu', value: id });
   };
 
   const handleCollapse = () => {
@@ -89,12 +85,12 @@ const SidebarCategoriesList = props => {
             onClick={() => handleSetClick(e._id)}
           >
             {openSet[e._id] ? (
-              <div className="text-grey-darker hover:text-primary cursor-pointer">
+              <div className="text-grey-darker hover:text-primary">
                 <IndeterminateCheckBoxOutlinedIcon />
                 <FolderIcon />
               </div>
             ) : (
-              <div className="text-grey-darker hover:text-primary cursor-pointer">
+              <div className="text-grey-darker hover:text-primary">
                 {e.child_menu[0]._id !== '' ? (
                   <AddBoxOutlinedIcon />
                 ) : (
@@ -104,10 +100,10 @@ const SidebarCategoriesList = props => {
                 <FolderIcon />
               </div>
             )}
-            <div className="flex items-center cursor-pointer">
+            <div className="flex items-center">
               <span
                 onClick={() => handleClick(e._id)}
-                className="dropdown-title capitalize ml-2 cursor-pointer"
+                className="dropdown-title capitalize ml-2"
               >
                 {e.title}
               </span>
