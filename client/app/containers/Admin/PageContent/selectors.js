@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
-import { selectContentsListingPageDomain } from '../Content/selectors';
 
 /**
  * Direct selector to the PagecontentListing state domain
@@ -41,12 +40,6 @@ export const makeSelectErrors = () =>
   createSelector(
     selectPageContentListingDomain,
     state => state.errors,
-  );
-
-export const makeSelectMetaTag = () =>
-  createSelector(
-    selectPageContentListingDomain,
-    state => state.tempMetaTag,
   );
 
 /**
