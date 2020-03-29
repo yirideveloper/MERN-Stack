@@ -19,7 +19,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import WithStyles from '@material-ui/core/styles/withStyles';
 import PageContent from '../../../components/PageContent/PageContent';
-import Checkbox from '@material-ui/core/Checkbox';
 
 import * as mapDispatchToProps from '../actions';
 import {
@@ -69,9 +68,6 @@ const FileList = ({
   const [deleteFile, setdeleteFile] = useState('');
   const [deleteOpen, setdeleteOpen] = useState(false);
   const [fileOpen, setfileOpen] = useState(false);
-
-  const [folderCheckbox, setfolderCheckbox] = useState(false);
-  const [fileCheckbox, setfileCheckbox] = useState(false);
 
   useEffect(() => {
     if (!folderAdded) {
@@ -228,16 +224,6 @@ const FileList = ({
     handleFolderLink(linkObj.id);
   };
 
-  const handleSelectMultipleButton = () => {
-    setfileCheckbox(!fileCheckbox);
-    setfolderCheckbox(false);
-  };
-
-  const handleRenameButton = () => {
-    setfileCheckbox(false);
-    setfolderCheckbox(!folderCheckbox);
-  };
-
   return (
     <PageContent loading={loading}>
       <Dialog open={open} onClose={handleClose} aria-labelledby="new-folder">
@@ -277,13 +263,6 @@ const FileList = ({
           />
         </div>
         <div className="flex">
-          <button
-            onClick={handleSelectMultipleButton}
-            className="items-center flex btn bg-pink-500 hover:bg-pink-400 mr-2"
-          >
-            <i className="material-icons text-base mr-2">filter</i>
-            <span>Select Multiple</span>
-          </button>
           <Dropzone onDrop={file => handleFileUpload(file, self._id)}>
             {({ getRootProps, getInputProps }) => (
               <section className="btn bg-info hover:bg-secondary mr-2 cursor-pointer">
@@ -297,22 +276,10 @@ const FileList = ({
           </Dropzone>
           <button
             onClick={handleAdd}
-            className="items-center flex btn bg-primary hover:bg-secondary mr-2"
+            className="items-center flex btn bg-primary hover:bg-secondary"
           >
             <i className="material-icons text-base mr-2">add</i>
             <span>New Folder</span>
-          </button>
-          <button
-            onClick={handleRenameButton}
-            className="items-center flex bg-yellow-600 hover:bg-yellow-400 btn mr-2"
-          >
-            {' '}
-            <i className="material-icons text-base mr-2">edit</i>
-            <span>Rename</span>
-          </button>
-          <button className="items-center flex btn bg-red-600 hover:bg-red-500">
-            <i className="material-icons text-base mr-2">delete</i>
-            <span>Delete</span>
           </button>
         </div>
       </div>
@@ -361,13 +328,13 @@ const FileList = ({
       <div className="flex flex-wrap bg-white mt-2 shadow p-4">
         {folders.data.map(each => (
           <div
-            className="mediaCont border p-1 relative overflow-hidden mr-4 hover:border-primary"
+            className="relative overflow-hidden mr-4 hover:bg-gray-100"
             key={each._id}
             // className="w-56 h-30 mb-8 p-2"
             onMouseOver={() => handleMouseOver(each._id)}
             onMouseLeave={() => handleMouseOver('')}
           >
-            {/* {over === each._id ? (
+            {over === each._id ? (
               <div className="w-full flex absolute justify-center">
                 <button
                   className="hover:text-blue-500"
@@ -384,45 +351,35 @@ const FileList = ({
               </div>
             ) : (
               ''
-            )} */}
-            <div className={`${folderCheckbox ? '' : 'mediaCheck'} absolute`}>
-              <Checkbox
-                value="primary"
-                color="primary"
-                style={{ padding: 0 }}
-                onClick={() => handleRename(each._id, each.name)}
-              />
-            </div>
+            )}
             <div
               // data-tooltip={each.name}
               className={`${
                 selected === each._id ? 'folder_media' : ''
-              } flex flex-col w-32 h-32 text-center cursor-pointer overflow-hidden mt-8`}
+              } flex flex-col justify-between w-32 h-32 text-center mt-4 cursor-pointer overflow-hidden`}
               onClick={() => handleSingleClick(each._id)}
               onDoubleClick={() => handleFolderLink(each._id)}
               onKeyDown={() => handleFolderLink(each._id)}
               role="presentation"
             >
-              <div className="flex h-24 justify-center">
-                <i
-                  className="material-icons text-yellow-500 self-center"
-                  style={{ fontSize: '6rem' }}
-                >
-                  folder
-                </i>
-              </div>
-              <div className="block text-sm truncate">{each.name}</div>
+              <i
+                className="material-icons text-yellow-500 self-center"
+                style={{ fontSize: '6rem' }}
+              >
+                folder
+              </i>
+              <div className="p-2 block text-sm truncate">{each.name}</div>
             </div>
           </div>
         ))}
         {files.data.map((each, index) => (
           <div
-            className="mediaCont border p-1 relative overflow-hidden mr-4 hover:border-primary"
+            className="relative overflow-hidden mr-4"
             key={each._id}
             onMouseOver={() => handleMouseOverFile(each._id)}
             onMouseLeave={() => handleMouseOverFile('')}
           >
-            {/* {overFile === each._id ? (
+            {overFile === each._id ? (
               <div className="w-full flex justify-center absolute">
                 <button
                   className="hover:text-primary"
@@ -433,32 +390,23 @@ const FileList = ({
               </div>
             ) : (
               ''
-            )} */}
-            <div className={`${fileCheckbox ? '' : 'mediaCheck'} absolute`}>
-              <Checkbox
-                value="primary"
-                color="primary"
-                style={{ padding: 0 }}
-              />
-            </div>
+            )}
             <div
               // data-tooltip={each.filename}
               className={`${
                 selected === each._id ? 'folder_media' : ''
-              } flex flex-col w-32 h-32 text-center cursor-pointer overflow-hidden mt-8`}
+              } flex flex-col justify-between w-32 h-32 mt-4 text-center cursor-pointer overflow-hidden`}
             >
-              <div className="flex h-24">
-                <img
-                  className="w-full h-24 object-contain"
-                  src={`${IMAGE_BASE}${each.path}`}
-                  alt={each.filename}
-                  onClick={() => handleSingleClick(each._id)}
-                  onDoubleClick={() => onSelect(each)}
-                  onKeyDown={() => handleFolderLink(each._id)}
-                  role="presentation"
-                />
-              </div>
-              <div className="truncate text-sm">{each.filename}</div>
+              <img
+                className="w-full h-24 object-contain"
+                src={`${IMAGE_BASE}${each.path}`}
+                alt={each.filename}
+                onClick={() => handleSingleClick(each._id)}
+                onDoubleClick={() => onSelect(each)}
+                onKeyDown={() => handleFolderLink(each._id)}
+                role="presentation"
+              />
+              <div className="truncate text-sm p-2">{each.filename}</div>
             </div>
           </div>
         ))}
