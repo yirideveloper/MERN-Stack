@@ -9,9 +9,15 @@ validation.sanitize = (req, res, next) => {
     {
       field: 'title',
       sanitize: {
-        trim: true,
+        rtrim: true,
       },
-    }
+    },
+    // {
+    //   field: 'link',
+    //   sanitize: {
+    //     trim: true,
+    //   },
+    // },
   ];
   otherHelper.sanitize(req, sanitizeArray);
   next();
