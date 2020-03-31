@@ -99,10 +99,6 @@ const FileList = ({
     clearChosen();
   }, [folderRename]);
 
-  useEffect(() => {
-    setSelectedButton('');
-  }, [files]);
-
   const onSelect = image => {
     if (props.selectFile) {
       props.selectFile(image);

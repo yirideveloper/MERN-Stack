@@ -26,22 +26,27 @@ export const EditorFileSelect = ({
   loadFilesRequest,
   location: { search },
   selectFile,
-  uploadMultiple,
 }) => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
   const queryObj = qs.parse(search);
 
+  const [images, setImages] = useState([]);
+
+  const handleImages = files => {
+    setImages(files);
+  };
+
+  console.log(images);
   useEffect(() => {
     loadFilesRequest(queryObj.path);
   }, [queryObj.path]);
-
   return (
     <div className="container mx-auto h-screen">
       <FileList
         queryObj={queryObj}
         selectFile={selectFile}
-        uploadMultiple={uploadMultiple}
+        uploadMultiple={handleImages}
       />
     </div>
   );
@@ -51,7 +56,6 @@ EditorFileSelect.propTypes = {
   loadFilesRequest: PropTypes.func.isRequired,
   location: PropTypes.shape({ search: PropTypes.string }).isRequired,
   selectFile: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  uploadMultiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 };
 
 EditorFileSelect.defaultProps = {
