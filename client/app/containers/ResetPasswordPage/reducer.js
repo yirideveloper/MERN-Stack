@@ -11,7 +11,6 @@ export const initialState = {
     code: '',
     password: '',
     confirm_password: '',
-    email: '',
   },
   loading: false,
   errors: {},
