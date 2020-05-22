@@ -32,7 +32,6 @@ import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
 import DeleteDialog from '../../../components/DeleteDialog';
 import Loading from '../../../components/Loading';
-import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   button: {
@@ -139,9 +138,6 @@ export class ContentsListingPage extends React.Component {
       ({ name, key, is_active, publish_from, publish_to, _id }) => [
         name,
         key,
-        <Link to={`/page/${key}`} target="_blank">
-          {`/page/${key}`}
-        </Link>,
         moment(publish_from).format(DATE_FORMAT),
         moment(publish_to).format(DATE_FORMAT),
         `${is_active}`,
@@ -240,7 +236,6 @@ export class ContentsListingPage extends React.Component {
             tableHead={[
               'Name',
               'Key',
-              'Link',
               'Pub From',
               'Pub To',
               'Is Active',
