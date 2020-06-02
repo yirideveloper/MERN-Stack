@@ -20,14 +20,12 @@ export const initialState = {
     description: '',
     publish_from: '',
     is_active: false,
-    is_page: false,
+    is_feature: false,
     publish_to: '',
-    meta_tag: [],
   },
   query: { find_name: '', find_key: '', size: 10 },
   loading: false,
-  errors: { name: '', key: '', description: '' },
-  tempMetaTag: '',
+  errors: { name: '', key: '', description: ''},
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -78,9 +76,6 @@ const reducer = (state = initialState, action) =>
             each => each._id != action.payload.data._id,
           ),
         };
-        break;
-      case types.SET_META_TAG_VALUE:
-        draft.tempMetaTag = action.payload;
         break;
     }
   });

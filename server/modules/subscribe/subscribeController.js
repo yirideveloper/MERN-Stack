@@ -1,27 +1,25 @@
 const httpStatus = require('http-status');
 const otherHelper = require('../../helper/others.helper');
 const subscribeSch = require('./subscribeSchema');
-const mailHelper = require('../../helper/email.helper');
-const renderMail = require('../template/templateController').internal;
 const subscribeController = {};
 
 subscribeController.GetSubscribe = async (req, res, next) => {
   try {
-    let { page, size, populate, selectQuery, searchQuery, sortQuery } = otherHelper.parseFilters(req, 10, false);
-    searchQuery = {
+    let { page, size, populate, selectq, searchq, sortq } = otherHelper.parseFilters(req, 10, false);
+    searchq = {
       is_subscribed: true,
-      ...searchQuery,
+      ...searchq,
     };
     if (req.query.find_email) {
-      searchQuery = {
+      searchq = {
         email: {
           $regex: req.query.find_email,
           $options: 'i',
         },
-        ...searchQuery,
+        ...searchq,
       };
     }
-    let subscriber = await otherHelper.getquerySendResponse(subscribeSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
+    let subscriber = await otherHelper.getquerySendResponse(subscribeSch, page, size, sortq, searchq, selectq, next, populate);
     return otherHelper.paginationSendResponse(res, httpStatus.OK, true, subscriber.data, 'subscriber get successful!!', page, size, subscriber.totaldata);
   } catch (err) {
     next(err);
@@ -30,12 +28,6 @@ subscribeController.GetSubscribe = async (req, res, next) => {
 subscribeController.SaveSubscribe = async (req, res, next) => {
   try {
     let subscriber = req.body;
-    const subscribeMail = await renderMail.renderTemplate('user_subscribe', { email: subscriber.email }, subscriber.email);
-    if (subscribeMail.error) {
-      console.log('render mail error: ', subscribeMail.error);
-    } else {
-      mailHelper.send(subscribeMail);
-    }
     subscriber.is_subscribed = true;
     const newSubscribe = new subscribeSch(subscriber);
     const subscriberSave = await newSubscribe.save();

@@ -3,30 +3,59 @@ const router = express.Router();
 const passport = require('passport');
 const validateRegisterInput = require('../../modules/user/userValidations');
 
-const loginLogs = require('../../modules/user/loginlogs/loginlogController').loginLogController;
+const loginlogs = require('../../modules/user/loginlogs/loginlogController').loginlogController;
+
 const fileUpload = require('../../helper/upload.helper')('public/user/');
 const uploader = fileUpload.uploader;
 const userModule = require('../../modules/user/userController');
 const { authorization, authorizationForLogout, authentication, getClientInfo } = require('../../middleware/authentication.middleware');
+/**
+ * @route GET api/user/test
+ * @description Tests users route
+ * @access Public
+ */
+router.get('/test', (req, res) =>
+  res.json({
+    msg: 'Users Works',
+  }),
+);
 
+/**
+ * @route GET api/user
+ * @description Check user is returning user or new  || for admin
+ * @access Public
+ */
 router.get('/', authorization, authentication, userModule.GetAllUser);
 
-router.post('/', userModule.CheckMail);
 /**
  * @route GET api/user/grby
  * @description Check user is returning user group by or new  || for admin
  * @access Public
  */
-router.get('/grby', authorization, authentication, userModule.GetAllUserGroupBy);
+router.get('/grby', authorization, userModule.GetAllUserGRBY);
 
+/**
+ * @route GET api/user
+ * @description Check user is returning user or new || for admin
+ * @access Public
+ */
 router.get('/detail/:id', authorization, authentication, userModule.GetUserDetail);
-
+/**
+ * @route GET api/user
+ * @description Check user is returning user or new || for admin
+ * @access Public
+ */
 router.post('/detail/:id', authorization, authentication, uploader.single('file'), validateRegisterInput.sanitizeUpdateProfile, validateRegisterInput.validateUpdateProfile, userModule.UpdateUserDetail);
-
+/**
+ * @route POST api/user
+ * @description Check user is returning user or new
+ * @access Public
+ */
+router.post('/', userModule.CheckMail);
 /**
  * @route POST api/user/change
  * @description update basic information of user
- * @access User
+ * @access Public
  */
 router.post('/change', authorization, validateRegisterInput.sanitizeAdd, validateRegisterInput.validateEdit, userModule.PostUser);
 
@@ -35,7 +64,7 @@ router.post('/change', authorization, validateRegisterInput.sanitizeAdd, validat
  * @description Update user is returning user or new
  * @access Public
  */
-router.post('/changepw', authorization, validateRegisterInput.sanitizeAdd, validateRegisterInput.validateAdd, userModule.PostUserPwd);
+router.post('/changepw', authorization, validateRegisterInput.sanitizeAdd, validateRegisterInput.validateAdd, userModule.PostUserPw);
 
 /**
  * @route POST api/user/register
@@ -57,14 +86,9 @@ router.post('/login/google/', getClientInfo, passport.authenticate('google-token
  * @access Public
  */
 router.post('/login/facebook/', getClientInfo, passport.authenticate('facebook-token'), userModule.loginGOath);
+
 /**
- * @route POST api/user/login/github
- * @description Login user using Github
- * @access Public
- */
-router.post('/login/github/', getClientInfo, passport.authenticate('github-token'), userModule.loginGOath);
-/**
- * @route POST api/user/register/admin
+ * @route POST api/user/register
  * @description Register user route || for admin
  * @access Public
  */
@@ -78,11 +102,11 @@ router.post('/register/admin', authorization, authentication, uploader.single('f
 router.post('/verifymail', userModule.Verifymail);
 
 /**
- * @route POST api/user/verifymail/resend
- * @description Resent Verify mail by user
+ * @route POST api/user/verifymail
+ * @description Verify mail by user
  * @access Public
  */
-router.post('/verifymail/resend', userModule.ResendVerificationCode);
+router.post('/verifymail/resend', authorization, userModule.ResendVerificationCode);
 
 /**
  * @route POST api/user/login
@@ -110,7 +134,21 @@ router.post('/resetpassword', userModule.ResetPassword);
  * @description change Password
  * @access Public
  */
-router.post('/changepassword', authorization, validateRegisterInput.validateChangePassword, userModule.changePassword);
+router.post('/changepassword', authorization, validateRegisterInput.validatechangePassword, userModule.changePassword);
+
+/**
+ * @route POST api/user/login/github
+ * @description Login user using Github
+ * @access Public
+ */
+router.post('/login/github/:access_token', userModule.GithubLogin);
+
+/**
+ * @route POST api/user/login/google
+ * @description Login user using Google
+ * @access Public
+ */
+router.post('/login/google/:access_token', userModule.OauthCodeToToken, userModule.GoogleLogin);
 
 /**
  * @route POST api/user/info
@@ -124,21 +162,21 @@ router.get('/info', authorization, userModule.Info);
  * @description returns the loginlogs
  * @access Private
  */
-router.get('/loginlogs', authorization, authentication, loginLogs.getLogList);
+router.get('/loginlogs', authorization, authentication, loginlogs.getLogList);
 
 /**
  * @route POST api/user/loginlogs/logout
  * @description remove token from loginlog
  * @access Private
  */
-router.post('/loginlogs/logout', authorization, validateRegisterInput.validateLogsLogoutAction, loginLogs.removeToken);
+router.post('/loginlogs/logout', authorization, validateRegisterInput.validateLoginlogsLogut, loginlogs.removeToken);
 
 /**
  * @route POST api/user/logout
  * @description remove token from loginlog
  * @access Public
  */
-router.get('/logout', authorizationForLogout, loginLogs.logout);
+router.get('/logout', authorizationForLogout, loginlogs.logout);
 
 /**
  * @route GET api/user/profile

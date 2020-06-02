@@ -3,15 +3,7 @@ const crypto = require('crypto');
 const Validator = require('validator');
 const isEmpty = require('../validation/isEmpty');
 const PhoneNumber = require('awesome-phonenumber');
-
 const otherHelper = {};
-
-otherHelper.mongoIdExistInArray = (mongodbIdArray, mongoDbId) => {
-  for (let i = 0; i < mongodbIdArray.length; i++) {
-    if (mongodbIdArray[i].toString() === mongoDbId.toString()) return true;
-  }
-  return false;
-};
 
 otherHelper.generateRandomHexString = len => {
   return crypto
@@ -56,16 +48,16 @@ otherHelper.parseFilters = (req, defaults, is_deleted) => {
   const size_default = defaults ? defaults : 10;
   let page;
   let size;
-  let sortQuery = { _id: -1 };
-  let searchQuery = {};
+  let sortq = { _id: -1 };
+  let searchq = {};
   let populate = [];
-  let selectQuery = { __v: 0 };
+  let selectq = { __v: 0 };
   if (is_deleted === undefined) {
   } else if (is_deleted === null) {
   } else {
     if (!isNaN(is_deleted)) {
-      searchQuery = { ...searchQuery, is_deleted: is_deleted };
-      selectQuery = { ...selectQuery, is_deleted: 0, deleted_at: 0, deleted_by: 0 };
+      searchq = { ...searchq, is_deleted: is_deleted };
+      selectq = { ...selectq, is_deleted: 0, deleted_at: 0, deleted_by: 0 };
     }
   }
   if (req.query.page && !isNaN(req.query.page) && req.query.page != 0) {
@@ -83,15 +75,15 @@ otherHelper.parseFilters = (req, defaults, is_deleted) => {
     let sortby = req.query.sort.charAt(0);
     if (sortby == 1 && !isNaN(sortby) && sortfield) {
       //one is ascending
-      sortQuery = sortfield;
+      sortq = sortfield;
     } else if (sortby == 0 && !isNaN(sortby) && sortfield) {
       //zero is descending
-      sortQuery = '-' + sortfield;
+      sortq = '-' + sortfield;
     } else {
-      sortQuery = '';
+      sortq = '';
     }
   }
-  return { page, size, sortQuery, searchQuery, selectQuery, populate };
+  return { page, size, sortq, searchq, selectq, populate };
 };
 
 otherHelper.sendResponse = (res, status, success, data, errors, msg, token) => {
@@ -113,13 +105,13 @@ otherHelper.paginationSendResponse = (res, status, success, data, msg, pageno, p
   if (typeof totaldata === 'number') response.totaldata = totaldata;
   return res.status(status).json(response);
 };
-otherHelper.getquerySendResponse = async (model, page, size, sortQuery, findquery, selectQueryuery, next, populate) => {
+otherHelper.getquerySendResponse = async (model, page, size, sortq, findquery, selectquery, next, populate) => {
   let datas = {};
   try {
     datas.data = await model
       .find(findquery)
-      .select(selectQueryuery)
-      .sort(sortQuery)
+      .select(selectquery)
+      .sort(sortq)
       .skip((page - 1) * size)
       .limit(size * 1)
       .populate(populate);

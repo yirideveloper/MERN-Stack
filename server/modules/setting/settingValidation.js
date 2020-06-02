@@ -1,7 +1,9 @@
 const isEmpty = require('../../validation/isEmpty');
 const otherHelper = require('../../helper/others.helper');
 const httpStatus = require('http-status');
+
 const settingConfig = require('./settingConfig');
+
 const settingValidation = {};
 
 settingValidation.validate = async (req, res, next) => {

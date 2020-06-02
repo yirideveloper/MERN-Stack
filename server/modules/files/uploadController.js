@@ -42,15 +42,7 @@ const fileUploadHelper = filePath => {
     });
   };
   return {
-    uploader: multer({
-      storage: storage,
-      fileFilter: (req, file, cb) => {
-        if (!file.mimetype.includes('jpeg') && !file.mimetype.includes('jpg') && !file.mimetype.includes('png') && !file.mimetype.includes('gif') && !file.mimetype.includes('pdf')) {
-          return cb(null, false, new Error('Only images are allowed'));
-        }
-        cb(null, true);
-      },
-    }),
+    uploader: multer({ storage: storage }),
   };
 };
 

@@ -146,7 +146,7 @@ class AccessManagePage extends React.PureComponent {
             })}
 
             <button
-              className="block btn bg-primary hover:bg-secondary"
+              className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
               onClick={this.handleSave}
             >
               Save

@@ -4,7 +4,7 @@ const otherHelper = require('../../helper/others.helper');
 const templateConfig = require('./templateConfig');
 const templateValidation = {};
 
-templateValidation.sanitized = (req, res, next) => {
+templateValidation.sanitze = (req, res, next) => {
   const sanitizeArray = [
     {
       field: 'template_name',

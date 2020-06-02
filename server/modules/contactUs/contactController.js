@@ -40,17 +40,17 @@ contactController.PostContact = async (req, res, next) => {
   }
 };
 contactController.GetContact = async (req, res, next) => {
-  let { page, size, populate, selectQuery, searchQuery, sortQuery } = otherHelper.parseFilters(req, 10, false);
+  let { page, size, populate, selectq, searchq, sortq } = otherHelper.parseFilters(req, 10, false);
   if (req.query.find_name) {
-    searchQuery = { name: { $regex: req.query.find_name, $options: 'i' }, ...searchQuery };
+    searchq = { name: { $regex: req.query.find_name, $options: 'i' }, ...searchq };
   }
   if (req.query.find_subject) {
-    searchQuery = { subject: { $regex: req.query.find_subject, $options: 'i' }, ...searchQuery };
+    searchq = { subject: { $regex: req.query.find_subject, $options: 'i' }, ...searchq };
   }
   if (req.query.find_added_at) {
-    searchQuery = { added_at: { $regex: req.query.find_added_at, $options: 'i' }, ...searchQuery };
+    searchq = { added_at: { $regex: req.query.find_added_at, $options: 'i' }, ...searchq };
   }
-  let contacts = await otherHelper.getquerySendResponse(contactSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
+  let contacts = await otherHelper.getquerySendResponse(contactSch, page, size, sortq, searchq, selectq, next, populate);
   return otherHelper.paginationSendResponse(res, httpStatus.OK, true, contacts.data, contactConfig.gets, page, size, contacts.totaldata);
 };
 

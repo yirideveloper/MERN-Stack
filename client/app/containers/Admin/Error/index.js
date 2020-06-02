@@ -153,33 +153,45 @@ export class Error extends React.Component {
         _id,
       }) => [
         error_message,
+        // error_stack,
         error_type,
         count,
         moment(added_at).format(DATE_FORMAT),
+        // console.log(last_added_at, 'dsds'),
         last_added_at != null
           ? moment(last_added_at).format(DATE_FORMAT)
           : moment(added_at).format(DATE_FORMAT),
         <React.Fragment>
-          <div className="flex">
-            <button
-              aria-label="Edit"
-              className=" px-1 text-center leading-none"
+          <Tooltip
+            id="tooltip-top-start"
+            title="View error stack"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="View stack"
+              className={classes.tableActionButton}
               onClick={() => this.handleShow(_id, error_stack)}
             >
-              <i className="material-icons text-base text-indigo-500 hover:text-indigo-700">
-                visibility
-              </i>
-            </button>
-
-            <button
-              className="ml-2 px-1 text-center leading-none"
+              <View className={`${classes.tableActionButtonIcon}`} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            id="tooltip-top-start"
+            title="Remove from list"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
               onClick={() => this.handleOpen(_id)}
             >
-              <i className="material-icons text-base text-red-400 hover:text-red-600">
-                delete
-              </i>
-            </button>
-          </div>
+              <Close
+                className={`${classes.tableActionButtonIcon} ${classes.close}`}
+              />
+            </IconButton>
+          </Tooltip>
         </React.Fragment>,
       ],
     );
@@ -194,10 +206,10 @@ export class Error extends React.Component {
               : this.handleDeleteAll()
           }
         />
-        <Dialog open={this.state.show} maxWidth="md" onClose={this.handleClose}>
+        <Dialog open={this.state.show} onClose={this.handleClose}>
           <DialogTitle>Error Stack</DialogTitle>
           <DialogContent>
-            <p>{this.state.stack}</p>
+            <pre>{this.state.stack}</pre>
           </DialogContent>
         </Dialog>
         <Helmet>
@@ -206,12 +218,13 @@ export class Error extends React.Component {
         <div className="flex justify-between mt-3 mb-3">
           {loading && loading == true ? <Loading /> : <></>}
           <PageHeader>Error Manage</PageHeader>
-          <button
-            className="btn bg-danger hover:bg-secondary"
+          <Button
+            variant="contained"
+            color="secondary"
             onClick={this.handleOpenAll}
           >
             Delete All
-          </button>
+          </Button>
         </div>
         <PageContent loading={loading}>
           <div className="flex">

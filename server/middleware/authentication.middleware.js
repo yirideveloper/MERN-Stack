@@ -12,6 +12,7 @@ const accessSch = require('../modules/role/accessSchema');
 const modulesSch = require('../modules/role/moduleSchema');
 const rolesSch = require('../modules/role/roleSchema');
 const authMiddleware = {};
+const mongoose = require('mongoose');
 
 const isEmpty = require('../validation/isEmpty');
 

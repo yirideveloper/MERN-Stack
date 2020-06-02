@@ -1,29 +1,28 @@
 const httpStatus = require('http-status');
+var objectId = require('mongoose').Types.ObjectId;
 const otherHelper = require('../../helper/others.helper');
 const contentSch = require('./contentSchema');
 const contentConfig = require('./contentConfig');
 const contentController = {};
+const internal = {};
 
 contentController.GetContent = async (req, res, next) => {
   try {
-    let { page, size, populate, selectQuery, searchQuery, sortQuery } = otherHelper.parseFilters(req, 10, false);
+    let { page, size, populate, selectq, searchq, sortq } = otherHelper.parseFilters(req, 10, false);
 
     if (req.query.find_name) {
-      searchQuery = { name: { $regex: req.query.find_name, $options: 'i' }, ...searchQuery };
+      searchq = { name: { $regex: req.query.find_name, $options: 'i' }, ...searchq };
     }
     if (req.query.find_key) {
-      searchQuery = { key: { $regex: req.query.find_key, $options: 'i' }, ...searchQuery };
+      searchq = { key: { $regex: req.query.find_key, $options: 'i' }, ...searchq };
     }
     if (req.query.find_publish_from) {
-      searchQuery = { publish_from: { $regex: req.query.find_publish_from, $options: 'i' }, ...searchQuery };
+      searchq = { publish_from: { $regex: req.query.find_publish_from, $options: 'i' }, ...searchq };
     }
     if (req.query.find_publish_to) {
-      searchQuery = { publish_to: { $regex: req.query.find_publish_to, $options: 'i' }, ...searchQuery };
+      searchq = { publish_to: { $regex: req.query.find_publish_to, $options: 'i' }, ...searchq };
     }
-    if (req.query.find_is_page) {
-      searchQuery = { ...searchQuery, is_page: req.query.find_is_page };
-    }
-    let datas = await otherHelper.getquerySendResponse(contentSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
+    let datas = await otherHelper.getquerySendResponse(contentSch, page, size, sortq, searchq, selectq, next, populate);
 
     return otherHelper.paginationSendResponse(res, httpStatus.OK, true, datas.data, contentConfig.gets, page, size, datas.totaldata);
   } catch (err) {

@@ -25,9 +25,11 @@ photomanipulate.changephoto = async (req, res, next) => {
         if (err) {
           return next(err);
         } else {
+          // modify the data here, then send it
           res.send(data);
         }
       });
+      // return res.send(`../public/${req.params.w}-${req.params.h}/${picpath}`);
     }).catch(err => {
       next(err);
     });

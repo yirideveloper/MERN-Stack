@@ -20,20 +20,12 @@ import ViewIcon from '@material-ui/icons/RemoveRedEyeOutlined';
 import SearchIcon from '@material-ui/icons/Search';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
 
 import Table from 'components/Table';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import {
-  makeSelectAll,
-  makeSelectQuery,
-  makeSelectLoading,
-  makeSelectRequesting,
-} from './selectors';
+import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
@@ -91,36 +83,15 @@ export class BlogCommentManagePage extends React.PureComponent {
     selectAll: false,
     selectApproved: false,
     selectDisapproved: false,
-    open: false,
-    status: '',
   };
 
   componentDidMount() {
     this.props.loadAllRequest(this.props.query);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.requesting != this.props.requesting) {
-      if (!nextProps.requesting) {
-        this.setState({ open: false });
-      }
-    }
-  }
-
   handleQueryChange = e => {
     e.persist();
     this.props.setQueryValue({ key: e.target.name, value: e.target.value });
-  };
-
-  handleCheckedQueryChange = name => e => {
-    e.persist();
-    this.props.setQueryValue({ key: name, value: e.target.checked });
-    if (name === 'find_is_approved' && this.props.query.find_is_disapproved) {
-      this.props.setQueryValue({ key: 'find_is_disapproved', value: false });
-    }
-    if (name === 'find_is_disapproved' && this.props.query.find_is_approved) {
-      this.props.setQueryValue({ key: 'find_is_approved', value: false });
-    }
   };
 
   handleSearch = () => {
@@ -159,35 +130,13 @@ export class BlogCommentManagePage extends React.PureComponent {
     this.setState({ selectDisapproved: !this.state.selectDisapproved });
   };
 
-  handleSelectAll = all_ids => {
-    if (this.state.selectAll === true) {
-      this.setState(state => ({
-        selectAll: !state.selectAll,
-        selected: [],
-      }));
-    } else {
-      this.setState(state => ({
-        selectAll: !state.selectAll,
-        selected: all_ids,
-      }));
-    }
+  handleSelectAll = () => {
+    this.setState({ selectAll: !this.state.selectAll });
   };
 
-  handleOpen = status => {
-    this.setState({ open: true, status });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleSave = () => {
-    if (this.state.status === 'Approve') {
-      this.props.approveRequest(this.state.selected);
-    } else {
-      this.props.disapproveRequest(this.state.selected);
-    }
-  };
+  // handleDisapprove = id => {
+  //   this.props.loadDisapproveRequest(id);
+  // };
 
   handleCheckedChange = id => {
     const index = this.state.selected.indexOf(id);
@@ -209,17 +158,21 @@ export class BlogCommentManagePage extends React.PureComponent {
       all: { data, page, size, totaldata },
       query,
       loading,
-      requesting,
     } = this.props;
     const tablePagination = { page, size, totaldata };
-    const selectAll = data.map(e => e._id);
     const tableData = data.map(
       ({ title, blog_id, status, added_at, added_by, updated_at, _id }) => [
         <>
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.selected.includes(_id) ? true : false}
+                checked={
+                  this.state.selectAll === true
+                    ? true
+                    : this.state.selected.includes(_id)
+                    ? true
+                    : false
+                }
                 onChange={() => this.handleCheckedChange(_id)}
               />
             }
@@ -230,19 +183,36 @@ export class BlogCommentManagePage extends React.PureComponent {
         status || 'onhold',
         added_by && added_by.name,
         moment(added_at).format(DATE_FORMAT),
-        moment(updated_at ? updated_at : added_at).format(DATE_FORMAT),
+        moment(updated_at).format(DATE_FORMAT),
         <>
-          <div className="flex">
-            <button
-              aria-label="Edit"
-              className=" px-1 text-center leading-none"
+          <Tooltip
+            id="tooltip-top-start"
+            title="View"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
               onClick={() => this.handleView(_id)}
             >
-              <i className="material-icons text-base text-indigo-500 hover:text-indigo-700">
-                visibility
-              </i>
-            </button>
-          </div>
+              <ViewIcon
+                className={`${classes.tableActionButtonIcon} ${classes.view}`}
+              />
+            </IconButton>
+          </Tooltip>
+          {/* <button
+            className="ml-2 underline text-blue-500"
+            onClick={() => this.handleApprove(_id, 'approve')}
+          >
+            Approve
+          </button>
+          <button
+            className="ml-2 underline text-primary"
+            onClick={() => this.handleDisapprove(_id, 'disapprove')}
+          >
+            Disapprove
+          </button> */}
         </>,
       ],
     );
@@ -255,37 +225,13 @@ export class BlogCommentManagePage extends React.PureComponent {
           {loading && loading === true ? <Loading /> : <></>}
           <PageHeader>Blog Comment Listing</PageHeader>
         </div>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="approve-disapprove"
-        >
-          <DialogTitle>
-            Are you sure you want to {this.state.status} ?
-          </DialogTitle>
-          <DialogActions>
-            {/* <div> */}
-            <button
-              onClick={this.handleClose}
-              className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
-            >
-              No
-            </button>
-            <button
-              onClick={this.handleSave}
-              className="py-2 px-6 rounded mt-4 text-sm text-white bg-blue-500 uppercase btn-theme"
-            >
-              Yes
-            </button>
-          </DialogActions>
-        </Dialog>
         <PageContent loading={loading}>
           <div className="flex">
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={query.find_is_approved}
-                  onChange={this.handleCheckedQueryChange('find_is_approved')}
+                  checked={this.state.selectApproved}
+                  onChange={this.handleSelectApproved}
                 />
               }
               label="Approved"
@@ -293,10 +239,8 @@ export class BlogCommentManagePage extends React.PureComponent {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={query.find_is_disapproved}
-                  onChange={this.handleCheckedQueryChange(
-                    'find_is_disapproved',
-                  )}
+                  checked={this.state.selectDisapproved}
+                  onChange={this.handleSelectDisapproved}
                 />
               }
               label="Disapproved"
@@ -335,31 +279,21 @@ export class BlogCommentManagePage extends React.PureComponent {
               </IconButton>
             </div>
           </div>
-          <div className="float-right">
-            <button
-              className="py-2 px-6 rounded mt-4 text-sm text-white bg-blue-500 uppercase btn-theme"
-              onClick={() => this.handleOpen('Approve')}
-            >
-              Approve
-            </button>
-            <button
-              className="py-2 px-6 rounded mt-4 ml-4 text-sm text-white bg-primary uppercase btn-theme"
-              onClick={() => this.handleOpen('Disapprove')}
-            >
-              Disapprove
-            </button>
+          <div className="ml-2">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.selectAll}
+                  onChange={this.handleSelectAll}
+                />
+              }
+              label="Select All"
+            />
           </div>
 
           <Table
             tableHead={[
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.selectAll}
-                    onChange={() => this.handleSelectAll(selectAll)}
-                  />
-                }
-              />,
+              'Selected',
               'Comment Title',
               'Blog',
               'Status',
@@ -382,7 +316,6 @@ const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
   loading: makeSelectLoading(),
-  requesting: makeSelectRequesting(),
 });
 
 const withConnect = connect(

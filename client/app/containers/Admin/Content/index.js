@@ -135,33 +135,45 @@ export class ContentsListingPage extends React.Component {
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
-      ({ name, key, is_active, publish_from, publish_to, _id }) => [
+      ({ name, key, is_active, published_from, published_to, _id }) => [
         name,
         key,
-        moment(publish_from).format(DATE_FORMAT),
-        moment(publish_to).format(DATE_FORMAT),
+        moment(published_from).format(DATE_FORMAT),
+        moment(published_to).format(DATE_FORMAT),
         `${is_active}`,
         <>
-          <div className="flex">
-            <button
+          <Tooltip
+            id="tooltip-top"
+            title="Edit Task"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
               aria-label="Edit"
-              className=" px-1 text-center leading-none"
+              className={classes.tableActionButton}
               onClick={() => this.handleEdit(_id)}
             >
-              <i className="material-icons text-base text-indigo-500 hover:text-indigo-700">
-                edit
-              </i>
-            </button>
-
-            <button
-              className="ml-2 px-1 text-center leading-none"
+              <Edit
+                className={`${classes.tableActionButtonIcon} ${classes.edit}`}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            id="tooltip-top-start"
+            title="Remove"
+            placement="top"
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              aria-label="Close"
+              className={classes.tableActionButton}
               onClick={() => this.handleOpen(_id)}
             >
-              <i className="material-icons text-base text-red-400 hover:text-red-600">
-                delete
-              </i>
-            </button>
-          </div>
+              <Close
+                className={`${classes.tableActionButtonIcon} ${classes.close}`}
+              />
+            </IconButton>
+          </Tooltip>
         </>,
       ],
     );
