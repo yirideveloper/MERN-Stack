@@ -22,12 +22,6 @@ export const makeSelectCategory = () =>
     selectDomain,
     state => state.category,
   );
-
-export const makeSelectHelper = () =>
-  createSelector(
-    selectDomain,
-    state => state.helper,
-  );
 export const makeSelectQuery = () =>
   createSelector(
     selectDomain,

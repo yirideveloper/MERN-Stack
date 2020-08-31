@@ -98,7 +98,6 @@ class AddEdit extends React.PureComponent {
     tempImage: defaultImage,
     startDate: new Date(),
     selected: [],
-    slug_generated: false,
   };
 
   componentDidMount() {
@@ -111,6 +110,7 @@ class AddEdit extends React.PureComponent {
     this.props.loadUsersRequest();
   }
 
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.one !== nextProps.one) {
       const { one } = nextProps;
@@ -118,9 +118,6 @@ class AddEdit extends React.PureComponent {
         const tempImage =
           one.image && one.image.path && `${IMAGE_BASE}${one.image.path}`;
         this.setState({ ...one, tempImage });
-      }
-      if (one.published_on) {
-        this.setState({ startDate: new Date(one.published_on) });
       }
     }
   }
@@ -136,31 +133,14 @@ class AddEdit extends React.PureComponent {
   };
 
   slugify = text => {
-    // return text
-    //   .toString()
-    //   .toLowerCase()
-    //   .replace(/\s+/g, '-') // Replace spaces with -
-    //   .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-    //   .replace(/\-\-+/g, '-') // Replace multiple - with single -
-    //   .replace(/^-+/, '') // Trim - from start of text
-    //   .replace(/-+$/, '')
-    //   .escape(); // Trim - from end of text
-
-    // const date = moment(this.state.startDate).format('YYYY/MM/DD');
-    // const serial = Math.floor(1000 + Math.random() * 9000).toString();
-    // const slug = date + '/' + serial;
-    // this.setState({ slug_generated: true });
-
-    // return slug;
-
-    // nepali slug
     return text
-      .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+      .toString()
       .toLowerCase()
-      .replace(/^\s+|\s+$/gm, '')
-      .replace(/\s+/g, '-')
-      .trim()
-      .toLowerCase();
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, ''); // Trim - from end of text
   };
 
   handleChange = name => event => {
@@ -183,11 +163,7 @@ class AddEdit extends React.PureComponent {
   // };
 
   handleMultipleSelectCategoryChange = e => {
-    this.props.setCategoryValue({ value: e && e.map(each => each.value) });
-  };
-
-  handleMultipleSelectAuthorChange = e => {
-    this.props.setAuthorValue({ value: e && e.map(each => each.value) });
+    this.props.setCategoryValue({value: e && e.map(each=> each.value)});
   };
 
   handleTempMetaKeyword = e => {
@@ -232,7 +208,7 @@ class AddEdit extends React.PureComponent {
     this.setState({ startDate: date });
     this.props.setOneValue({
       key: 'published_on',
-      value: moment(date).format('YYYY-MM-DD HH:mm'),
+      value: moment(date).format('YYYY-MM-DD'),
     });
   };
 
@@ -325,7 +301,7 @@ class AddEdit extends React.PureComponent {
       errors,
     } = this.props;
     const { tempImage } = this.state;
-
+  
     let listCategoryNormalized = {};
     const listCategory = category.map(each => {
       const obj = {
@@ -339,19 +315,6 @@ class AddEdit extends React.PureComponent {
       return obj;
     });
 
-    let listAuthorNormalized = {};
-    const listAuthor = users.map(each => {
-      const obj = {
-        label: each.name,
-        value: each._id,
-      };
-      listAuthorNormalized = {
-        ...listAuthorNormalized,
-        [each._id]: obj,
-      };
-      return obj;
-    });
-
     const menuProps = {
       PaperProps: {
         style: {
@@ -360,7 +323,7 @@ class AddEdit extends React.PureComponent {
         },
       },
     };
-    const cats = {};
+    let cats = {};
     category.map(e => {
       cats[e._id] = e;
       return null;
@@ -372,8 +335,8 @@ class AddEdit extends React.PureComponent {
         <Helmet>
           <title>
             {match && match.params && match.params.id
-              ? 'Edit News'
-              : 'Add News'}
+              ? 'Edit Blog'
+              : 'Add Blog'}
           </title>
         </Helmet>
         <div className="flex justify-between mt-3 mb-3">
@@ -386,8 +349,8 @@ class AddEdit extends React.PureComponent {
               <BackIcon />
             </IconButton>
             {match && match.params && match.params.id
-              ? 'Edit News'
-              : 'Add News'}
+              ? 'Edit Blog'
+              : 'Add Blog'}
           </PageHeader>
         </div>
         <PageContent>
@@ -413,7 +376,6 @@ class AddEdit extends React.PureComponent {
               name="Blog Slug"
               onChange={this.handleChange('slug_url')}
               error={errors && errors.slug_url}
-              disabled
             />
           </div>
           <div className="w-full md:w-1/2 pb-4">
@@ -453,18 +415,16 @@ class AddEdit extends React.PureComponent {
               className="React_Select"
               id="category"
               value={
-                (one.category &&
-                  one.category.map((each, index) => {
-                    const catObj = listCategoryNormalized[each];
-                    if (!catObj) {
-                      return {
-                        label: 'loading',
-                        value: index,
-                      };
+                one.category && one.category.map((each, index)=> {
+                  const catObj = listCategoryNormalized[each];
+                  if (!catObj) {
+                    return {
+                      label: 'loading',
+                      value: index,
                     }
-                    return catObj;
-                  })) ||
-                []
+                  }
+                  return catObj;
+                }) || []
               }
               name="category"
               placeholder="Select Blog Category"
@@ -474,7 +434,7 @@ class AddEdit extends React.PureComponent {
               options={listCategory}
               styles={customStyles}
             />
-            {/* <Select
+              {/* <Select
                 multiple
                 displayEmpty
                 name="template_key"
@@ -547,15 +507,9 @@ class AddEdit extends React.PureComponent {
               Published On
             </label>
             <DatePicker
-              showTimeSelect
               className="inputbox"
-              dateFormat="Pp"
-              // selected={new Date(one.published_on)}
               selected={this.state.startDate}
               onChange={this.handlePublishedOn}
-              dateFormat="MMMM d, yyyy h:mm aa"
-              timeFormat="HH:mm"
-              showTimeInput
             />
             {/* <input
               className="inputbox"
@@ -663,10 +617,7 @@ class AddEdit extends React.PureComponent {
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label
-              className="block uppercase tracking-wide text-gray-800 text-xs mb-2"
-              htmlFor="grid-last-name"
-            >
+            <label className="label" htmlFor="grid-last-name">
               Meta Description
             </label>
 
@@ -684,7 +635,7 @@ class AddEdit extends React.PureComponent {
             <label className="label" htmlFor="grid-last-name">
               Author
             </label>
-            {/* 
+
             <select
               className="inputbox"
               native="true"
@@ -700,91 +651,41 @@ class AddEdit extends React.PureComponent {
                     {each.name}
                   </option>
                 ))}
-            </select> */}
-
-            <Select
-              className="React_Select"
-              id="category"
-              value={
-                (one.author &&
-                  one.author.map((each, index) => {
-                    const authorObj = listAuthorNormalized[each];
-                    if (!authorObj) {
-                      return {
-                        label: null,
-                        value: index,
-                      };
-                    }
-                    return authorObj;
-                  })) ||
-                []
-              }
-              name="author"
-              placeholder="Select News Author"
-              onChange={this.handleMultipleSelectAuthorChange}
-              isSearchable
-              isMulti
-              options={listAuthor}
-              styles={customStyles}
-            />
+            </select>
           </div>
           <div id="component-error-text">{errors && errors.author}</div>
-          <div>
-            {/* <InputLabel style={{ color: '#AAAAAA' }}>Activity Type</InputLabel> */}
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={one.is_active || false}
-                  tabIndex={-1}
-                  onClick={this.handleCheckedChange('is_active')}
-                  color="primary"
-                />
-              }
-              label="Is Active"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={one.is_published || false}
-                  tabIndex={-1}
-                  onClick={this.handleCheckedChange('is_published')}
-                  color="primary"
-                />
-              }
-              label="Is Published"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={one.is_highlight || false}
-                  tabIndex={-1}
-                  onClick={this.handleCheckedChange('is_highlight')}
-                  color="primary"
-                />
-              }
-              label="Is Highlight"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={one.is_showcase || false}
-                  tabIndex={-1}
-                  onClick={this.handleCheckedChange('is_showcase')}
-                  color="primary"
-                />
-              }
-              label="Is Showcase"
-            />
-          </div>
 
-          <div className="w-full md:w-1/2 pb-4">
-            <button
-              className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
-              onClick={this.handleSave}
-            >
-              Save
-            </button>
-          </div>
+          {/* <InputLabel style={{ color: '#AAAAAA' }}>Activity Type</InputLabel> */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={one.is_active || false}
+                tabIndex={-1}
+                onClick={this.handleCheckedChange('is_active')}
+                color="primary"
+              />
+            }
+            label="Is Active"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={one.is_published || false}
+                tabIndex={-1}
+                onClick={this.handleCheckedChange('is_published')}
+                color="primary"
+              />
+            }
+            label="Is Published"
+          />
+
+          <br />
+          <button
+            className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
+            onClick={this.handleSave}
+          >
+            Save
+          </button>
         </PageContent>
       </React.Fragment>
     );
@@ -806,7 +707,7 @@ const customStyles = {
   menuList: () => ({
     background: '#FFFFFF',
     border: '1px solid #d4d9df',
-    boxShadow: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+    boxShadow:'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
   }),
 
   indicatorSeparator: () => ({
