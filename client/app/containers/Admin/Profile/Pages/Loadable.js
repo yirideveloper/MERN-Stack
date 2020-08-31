@@ -14,6 +14,3 @@ export const Informtions = loadable(() => import('./Information'), {
 export const ChangePasswords = loadable(() => import('./ChangePassword'), {
   fallback: <Loading />,
 });
-export const TwoFactor = loadable(() => import('./2FactorAuthentication'), {
-  fallback: <Loading />,
-});

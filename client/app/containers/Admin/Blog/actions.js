@@ -6,10 +6,6 @@
 
 import * as types from './constants';
 
-export const setValue = payload => ({
-  type: types.SET_VALUE,
-  payload,
-});
 export const setOneValue = payload => ({
   type: types.SET_ONE_VALUE,
   payload,

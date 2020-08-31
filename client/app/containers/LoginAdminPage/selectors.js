@@ -26,16 +26,6 @@ export const makeSelectPassword = () =>
     selectLoginAdminPageDomain,
     state => state.password,
   );
-export const makeSelectTwoFactor = () =>
-  createSelector(
-    selectLoginAdminPageDomain,
-    state => state.twoFactor,
-  );
-export const makeSelectHelperObj = () =>
-  createSelector(
-    selectLoginAdminPageDomain,
-    state => state.helperObj,
-  );
 export const makeSelectErrors = () =>
   createSelector(
     selectLoginAdminPageDomain,
