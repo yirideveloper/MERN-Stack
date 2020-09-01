@@ -8,27 +8,10 @@ export const makeSelectBlog = () =>
     selectDomain,
     state => state.blog,
   );
-
-export const makeSelectMessage = () =>
-  createSelector(
-    selectDomain,
-    state => state.message,
-  );
-
-export const makeSelectHighlight = () =>
-  createSelector(
-    selectDomain,
-    state => state.highlight,
-  );
 export const makeSelectLoading = () =>
   createSelector(
     selectDomain,
     state => state.loading,
-  );
-export const makeSelectHighlightLoading = () =>
-  createSelector(
-    selectDomain,
-    state => state.highlightLoading,
   );
 
 export const makeSelectRelatedBlogs = () =>
@@ -132,32 +115,8 @@ export const makeSelectLoadingBlogOfCat = () =>
     selectDomain,
     state => state.loadingBlogOfCat,
   );
-
-export const makeSelectLoadingMoreBlogOfCat = () =>
-  createSelector(
-    selectDomain,
-    state => state.loadingMoreBlogOfCat,
-  );
 export const makeSelectCategoryTitle = () =>
   createSelector(
     selectDomain,
     state => state.categoryTitle,
-  );
-
-export const makeSelectShowcaseLoading = () =>
-  createSelector(
-    selectDomain,
-    state => state.showcaseLoading,
-  );
-
-export const makeSelectShowcase = () =>
-  createSelector(
-    selectDomain,
-    state => state.showcase,
-  );
-
-export const makeSelectTrending = () =>
-  createSelector(
-    selectDomain,
-    state => state.trending,
   );

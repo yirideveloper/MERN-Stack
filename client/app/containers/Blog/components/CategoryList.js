@@ -1,54 +1,51 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { useInjectSaga } from 'utils/injectSaga';
-
 import { makeSelectCategory, makeSelectCategoryLoading } from '../selectors';
-import { loadCategoryRequest } from '../actions';
-import saga from '../saga';
-
-const key = 'blogPage';
+import * as mapDispatchToProps from '../actions';
+import ArchiveSkeleton from '../Skeleton/Archive';
 
 /* eslint-disable react/prefer-stateless-function */
-const CategoryListingPage = props => {
-  useInjectSaga({ key, saga });
-  useEffect(() => {
-    props.loadCategoryRequest();
-  }, []);
-  return (
-    <div className="flex items-center h-full">
-      {props.category.map(each => (
-        <div key={each._id} className="pr-8">
-          <Link
-            className="block py-3 no-underline text-gray-700 hover:text-black whitespace-no-wrap text-lg"
-            to={`/news/category/${each.slug_url}`}
-          >
-            {each.title}
-          </Link>
-        </div>
-      ))}
-    </div>
-  );
-};
+class CategoryListingPage extends React.Component {
+  componentDidMount() {
+    this.props.category.length === 0 && this.props.loadCategoryRequest();
+  }
 
-CategoryListingPage.propTypes = {
-  category: PropTypes.array.isRequired,
-  loadCategoryRequest: PropTypes.func.isRequired,
-};
+  render() {
+    const { category, loading } = this.props;
+    return loading ? (
+      <ArchiveSkeleton />
+    ) : (
+        <>
+          <h3 className="font-medium text-xl uppercase">Categories</h3>
+          {category ? (
+            <div className="pt-4">
+              {category.map(each => (
+                <div key={each._id} className="border-b border-dotted border-gray-600">
+                  <Link className="block py-3 no-underline text-gray-700 hover:text-black" to={`/blog/category/${each.slug_url}`}>
+                    {each.title}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : (
+              <div>No Categories</div>
+            )}
+        </>
+      );
+  }
+}
 
 const mapStateToProps = createStructuredSelector({
   category: makeSelectCategory(),
   loading: makeSelectCategoryLoading(),
 });
 
-const mapDispatchToProps = {
-  loadCategoryRequest,
-};
-
-export default connect(
+const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CategoryListingPage);
+);
+export default compose(withConnect)(CategoryListingPage);

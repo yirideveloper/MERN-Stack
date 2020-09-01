@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import {
-  makeSelectContent,
-  makeSelectUserIsAdmin,
-} from '../../containers/App/selectors';
+import { makeSelectContent } from '../../containers/App/selectors';
 import { loadContentRequest } from '../../containers/App/actions';
 
 /* eslint-disable react/no-danger */
@@ -26,33 +22,19 @@ class StaticContent extends React.PureComponent {
   }
 
   render() {
-    const { contentObj, is_Admin } = this.props;
+    const { contentObj } = this.props;
 
     if (!contentObj[this.props.contentKey]) return null; // maybe add a loader here
     return (
-      <>
-        {/* should be super admin */}
-        {is_Admin && (
-          <Link
-            to={`/admin/content-manage/edit/${this.props.contentKey}`}
-            target="_blank"
-          >
-            <button className="underline text-blue-600">Edit</button>
-          </Link>
-        )}
-        <div
-          dangerouslySetInnerHTML={{
-            __html: contentObj[this.props.contentKey],
-          }}
-        />
-      </>
+      <div
+        dangerouslySetInnerHTML={{ __html: contentObj[this.props.contentKey] }}
+      />
     );
   }
 }
 
 const mapStateToProps = createStructuredSelector({
   contentObj: makeSelectContent(),
-  is_Admin: makeSelectUserIsAdmin(),
 });
 
 const mapDispatchToProps = dispatch => ({
