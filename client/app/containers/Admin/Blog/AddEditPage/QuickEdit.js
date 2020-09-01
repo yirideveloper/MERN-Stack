@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
+
 // @material-ui/core components
 import { Checkbox } from '@material-ui/core/';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -14,7 +14,7 @@ import Inputs from '../../../../components/customComponents/Input';
 import Select from '../../../../components/Select';
 
 const customStyles = {
-  chip: () => { },
+  chip: () => {},
   option: (provided, state) => ({
     ...provided,
     background: state.isFocused || state.isSelected ? '#5897FB' : 'white',
@@ -101,7 +101,6 @@ const QuickEdit = props => {
   return (
     <>
       <div>
-        <h2 className="text-2xl mb-4">Quick Edit</h2>
         <div className="w-full  pb-4">
           <Inputs
             label="Title"
@@ -114,7 +113,7 @@ const QuickEdit = props => {
             error={errors && errors.title}
           />
         </div>
-        {/* <div className="w-full  pb-4">
+        <div className="w-full  pb-4">
           <Inputs
             label="Slug"
             inputclassName="inputbox"
@@ -125,7 +124,7 @@ const QuickEdit = props => {
             onChange={handleChange('slug_url')}
             error={errors && errors.slug_url}
           />
-        </div> */}
+        </div>
         <div className="w-full  pb-4">
           <label htmlFor="category" className="font-bold text-gray-700">
             Category
@@ -156,7 +155,7 @@ const QuickEdit = props => {
             styles={customStyles}
           />
         </div>
-        {/* <div className="w-full  pb-4">
+        <div className="w-full  pb-4">
           <label className="font-bold text-gray-700" htmlFor="grid-blog-title">
             Short Description
           </label>
@@ -168,7 +167,7 @@ const QuickEdit = props => {
             name="short_description"
             onChange={handleChange('short_description')}
           />
-        </div> */}
+        </div>
         <div className="w-full  pb-4">
           <label className="label" htmlFor="grid-last-name">
             Published On
@@ -177,15 +176,11 @@ const QuickEdit = props => {
             dateFormat="Pp"
             showTimeSelect
             className="inputbox"
-            selected={
-              one.published_on !== '' && one.published_on !== null
-                ? new Date(one.published_on)
-                : ''
-            }
+            selected={new Date(one.published_on)}
             onChange={handlePublishedOn}
           />
         </div>
-        {/* <div className="w-full  pb-4">
+        <div className="w-full  pb-4">
           <label className="label" htmlFor="grid-last-name">
             Tags
           </label>
@@ -288,7 +283,7 @@ const QuickEdit = props => {
             name="meta-description"
             onChange={handleChange('meta_description')}
           />
-        </div> */}
+        </div>
 
         <div className="w-full  pb-4">
           <label className="label" htmlFor="grid-last-name">

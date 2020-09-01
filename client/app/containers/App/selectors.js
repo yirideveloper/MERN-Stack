@@ -89,7 +89,7 @@ export const makeSelectMenu = () =>
     state => state.menu,
   );
 
-export const makeSelectBlogLoading = () =>
+export const makeSelecBlogLoading = () =>
   createSelector(
     selectGlobal,
     state => state.blogLoading,

@@ -12,10 +12,11 @@ const { authorization, authorizationForLogout, authentication, getClientInfo } =
 router.get('/', authorization, authentication, userModule.GetAllUser);
 
 router.post('/', userModule.CheckMail);
-router.get('/mfa', authorization, userModule.getMultiFAStatus);
-router.post('/mfa/email', authorization, userModule.postEmailFAStatus);
-router.post('/mfa/ga', authorization, userModule.postGoogleFAStatus);
-router.post('/mfa/ga/verify', authorization, userModule.verifyGoogleFAStatus);
+router.get('/2fa', authorization, userModule.getTwoFAStatus);
+router.post('/2fa', authorization, userModule.postTwoFAStatus);
+router.get('/2fa/ga', authorization, userModule.getGoogleTwoFAStatus);
+router.post('/2fa/ga', authorization, userModule.postGoogleTwoFAStatus);
+router.post('/2fa/ga/verify', authorization, userModule.verifyGoogleTwoFAStatus);
 /**
  * @route GET api/user/grby
  * @description Check user is returning user group by or new  || for admin
@@ -95,9 +96,8 @@ router.post('/verifymail/resend', userModule.ResendVerificationCode);
  */
 router.post('/login', validateRegisterInput.sanitizeLogin, validateRegisterInput.validateLoginInput, getClientInfo, userModule.Login);
 
-router.post('/login/mfa', getClientInfo, userModule.LoginAfterMultiFa);
-// router.post('/login/2fa', getClientInfo, userModule.LoginAfterTwoFa);
-// router.post('/login/2faga', getClientInfo, userModule.LoginAfterTwoFaGa);
+router.post('/login/2fa', getClientInfo, userModule.LoginAfterTwoFa);
+router.post('/login/2faga', getClientInfo, userModule.LoginAfterTwoFaGa);
 /**
  * @route POST api/user/forgotpassword
  * @description Forgot Password

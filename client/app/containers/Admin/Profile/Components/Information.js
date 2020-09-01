@@ -62,9 +62,12 @@ class UserPersonalInformationPage extends React.PureComponent {
   render() {
     const { classes, one, errors } = this.props;
     return (
-      <div className="ml-4 p-4 border">
-        <div className="w-full md:w-1/2 pb-4">
-          <label className="block font-bold text-gray-700">Name</label>
+      <React.Fragment>
+        <div className="w-full pb-4">
+          <label className="label">
+            Name
+          </label>
+
           <FormControl
             className="md:w-1/2"
             error={errors && errors.name && errors.name.length > 0}
@@ -82,8 +85,10 @@ class UserPersonalInformationPage extends React.PureComponent {
           </FormControl>
         </div>
 
-        <div className="w-full md:w-1/2 pb-4">
-          <label className="block font-bold text-gray-700">Email</label>
+        <div className="w-full pb-4">
+          <label className="label">
+            Email
+          </label>
 
           <FormControl
             className="md:w-1/2"
@@ -102,8 +107,10 @@ class UserPersonalInformationPage extends React.PureComponent {
           </FormControl>
         </div>
 
-        <div className="w-full md:w-1/2 pb-4">
-          <label className="block font-bold text-gray-700">Date Of Birth</label>
+        <div className="md:w-1/2 pb-4">
+          <label className="label">
+            Date Of Birth
+          </label>
 
           <DatePicker
             name="date_of_birth"
@@ -125,27 +132,20 @@ class UserPersonalInformationPage extends React.PureComponent {
         />
 
         <div className="w-full pb-2">
-          You are one of{' '}
-          <span className="font-bold">
-            {one.roles.map(each => `${each.role_title} `)}
-          </span>
+          You are one of {one.roles.map(each => `${each.role_title} `)}
         </div>
 
         <div className="w-full  pb-4">
-          Your account created at{' '}
-          <span className="font-bold">
-            {moment(one.added_at).format(DATE_FORMAT)}
-          </span>
+          Your account created at {moment(one.added_at).format(DATE_FORMAT)}
         </div>
 
         <button
-          type="button"
           className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
           onClick={this.handleSave}
         >
           Save
         </button>
-      </div>
+      </React.Fragment>
     );
   }
 }

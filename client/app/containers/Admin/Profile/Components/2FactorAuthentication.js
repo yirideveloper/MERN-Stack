@@ -20,7 +20,6 @@ import reducer from '../reducer';
 import saga from '../saga';
 import {
   makeSelectTwoFactor,
-  makeSelectHelperObj,
   makeSelectLoading,
   makeSelectErrors,
 } from '../selectors';
@@ -30,7 +29,6 @@ import {
   DatePicker,
   Checkbox,
 } from '../../../../components/customComponents';
-import Modal from '../../../../components/Modal';
 
 import { DATE_FORMAT } from '../../../App/constants';
 
@@ -41,118 +39,48 @@ export const TwoFactor = props => {
     classes,
     twoFactor,
     errors,
-    helperObj: { showGoogleTwoFactor },
     loading: { loadTwoFactor },
   } = props;
   useInjectSaga({ key, saga });
 
-  const handleClose = () => {
-    props.setValue({
-      name: 'helperObj',
-      key: 'showGoogleTwoFactor',
-      value: false,
-    });
-  };
-
   useEffect(() => {
-    handleClose();
     props.clearError();
     props.loadTwoFactorRequest();
   }, []);
 
-  const handleChecked = event => {
+  const handleChange = event => {
+    const isCheckbox = event.target.type === 'checkbox';
     props.setValue({
       name: 'twoFactor',
       key: event.target.name,
-      value: {
-        is_authenticate: event.target.checked,
-      },
-      // value:  event.target.checked ,
-    });
-    if (event.target.name === 'email') {
-      props.addEmailTwoFactorRequest({
-        is_authenticate: event.target.checked,
-      });
-    } else if (event.target.name === 'google_authenticate') {
-      props.addGoogleTwoFactorRequest({
-        is_authenticate: event.target.checked,
-      });
-    }
-  };
-
-  const handleChange = (event, name) => {
-    props.setValue({
-      name: 'twoFactor',
-      key: name,
-      value: {
-        ...twoFactor.google_authenticate,
-        [event.target.name]: event.target.value,
-      },
-      // value:  event.target.checked ,
+      value: isCheckbox ? event.target.checked : event.target.value,
     });
   };
 
-  const handleSubmitCode = () => {
+  const handleSave = () => {
     props.addTwoFactorRequest();
   };
 
   return loadTwoFactor ? (
-    <div className="ml-4 p-4 border">Loading</div>
+    <>Loading</>
   ) : (
-    <>
-      <Modal
-        open={showGoogleTwoFactor}
-        handleClose={handleClose}
-        handleUpdate={handleSubmitCode}
+    <div className="d-flex flex-col">
+      <Checkbox
+        label="Enable two factor authentication"
+        checked={twoFactor.is_two_fa}
+        name="is_two_fa"
+        type="checkbox"
+        color="primary"
+        onChange={handleChange}
+      />
+      <button
+        type="button"
+        className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
+        onClick={handleSave}
       >
-        <div>
-          <Input
-            id="two_factor_authentication"
-            name="two_factor_authentication"
-            label="Google Two factor authentication code"
-            disabled
-            readOnly
-            error={errors.two_fa_ga_auth_secret}
-            value={twoFactor && twoFactor.google_authenticate.auth_secret_setup}
-          />
-        </div>
-        <div>
-          <Input
-            id="code"
-            name="code"
-            label="Enter Your code"
-            error={errors.code}
-            value={twoFactor && twoFactor.code}
-            onChange={e => handleChange(e, 'google_authenticate')}
-          />
-          <p className="italic mt-2">
-            Note : Enter the code from Authentication App
-          </p>
-        </div>
-      </Modal>
-      <div className="ml-4 p-4 border">
-        <div>
-          <Checkbox
-            label="Enable Email two factor authentication"
-            checked={twoFactor.email.is_authenticate}
-            name="email"
-            type="checkbox"
-            color="primary"
-            onChange={handleChecked}
-          />
-        </div>
-        <div>
-          <Checkbox
-            label="Enable Google two factor authentication"
-            checked={twoFactor.google_authenticate.is_authenticate}
-            name="google_authenticate"
-            type="checkbox"
-            color="primary"
-            onChange={handleChecked}
-          />
-        </div>
-      </div>
-    </>
+        Save
+      </button>
+    </div>
   );
 };
 
@@ -172,7 +100,6 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   twoFactor: makeSelectTwoFactor(),
   loading: makeSelectLoading(),
-  helperObj: makeSelectHelperObj(),
 });
 
 const withConnect = connect(
