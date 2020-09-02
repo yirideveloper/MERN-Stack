@@ -23,7 +23,6 @@ contentController.GetContent = async (req, res, next) => {
     if (req.query.find_is_page) {
       searchQuery = { ...searchQuery, is_page: req.query.find_is_page };
     }
-    populate = [{ path: 'image' }];
     let datas = await otherHelper.getquerySendResponse(contentSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
 
     return otherHelper.paginationSendResponse(res, httpStatus.OK, true, datas.data, contentConfig.gets, page, size, datas.totaldata);
@@ -50,7 +49,7 @@ contentController.SaveContent = async (req, res, next) => {
 contentController.GetContentDetail = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const contents = await contentSch.findOne({ _id: id, is_deleted: false }).populate([{ path: 'image' }]);
+    const contents = await contentSch.findOne({ _id: id, is_deleted: false });
     return otherHelper.sendResponse(res, httpStatus.OK, true, contents, null, contentConfig.get, null);
   } catch (err) {
     next(err);
@@ -59,7 +58,7 @@ contentController.GetContentDetail = async (req, res, next) => {
 contentController.GetContentByKey = async (req, res, next) => {
   try {
     const key = req.params.key;
-    const contents = await contentSch.findOne({ key, is_deleted: false }).populate([{ path: 'image' }]);
+    const contents = await contentSch.findOne({ key, is_deleted: false });
     return otherHelper.sendResponse(res, httpStatus.OK, true, contents, null, contentConfig.get, null);
   } catch (err) {
     next(err);

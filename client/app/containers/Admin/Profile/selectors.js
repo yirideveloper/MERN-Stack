@@ -22,12 +22,6 @@ export const makeSelectTwoFactor = () =>
     substate => substate.twoFactor,
   );
 
-export const makeSelectHelperObj = () =>
-  createSelector(
-    selectUserPersonalInformationPageDomain,
-    substate => substate.helperObj,
-  );
-
 export const makeSelectLoading = () =>
   createSelector(
     selectUserPersonalInformationPageDomain,

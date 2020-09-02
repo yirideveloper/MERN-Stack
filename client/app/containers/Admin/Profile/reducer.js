@@ -12,15 +12,7 @@ export const initialState = {
   },
   changePassword: '',
   errors: {},
-  twoFactor: {
-    email: {
-      is_authenticate: false,
-    },
-    google_authenticate: {
-      is_authenticate: false,
-    },
-  },
-  helperObj: { showGoogleTwoFactor: false },
+  twoFactor: { is_two_fa: false },
   loading: { loadTwoFactor: false },
 };
 
@@ -52,27 +44,13 @@ const userPersonalInformationPageReducer = (state = initialState, action) =>
         break;
       case types.LOAD_TWO_FACTOR_SUCCESS:
         draft.loading.loadTwoFactor = false;
-        draft.twoFactor = { ...action.payload.data.multi_fa };
+        draft.twoFactor = action.payload.data;
         break;
       case types.LOAD_TWO_FACTOR_FAILURE:
         draft.loading.loadTwoFactor = false;
         break;
       case types.ADD_TWO_FACTOR_SUCCESS:
-        // draft.twoFactor = action.payload.data;
-        draft.helperObj.showGoogleTwoFactor = false;
-        break;
-      case types.ADD_GOOGLE_TWO_FACTOR_SUCCESS:
-        draft.twoFactor = {
-          ...state.twoFactor,
-          google_authenticate: {
-            email: action.payload.data.email,
-            auth_secret_setup:
-              action.payload.data.multi_fa.google_authenticate
-                .auth_secret_setup,
-            setup: action.payload.data.multi_fa.google_authenticate.setup,
-          },
-        };
-        draft.helperObj.showGoogleTwoFactor = true;
+        draft.twoFactor = action.payload.data;
         break;
     }
   });

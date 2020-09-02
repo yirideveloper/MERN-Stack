@@ -9,7 +9,6 @@ import {
   makeSelectUserIsAdmin,
 } from '../../containers/App/selectors';
 import { loadContentRequest } from '../../containers/App/actions';
-import { IMAGE_BASE } from '../../containers/App/constants';
 
 /* eslint-disable react/no-danger */
 class StaticContent extends React.PureComponent {
@@ -33,43 +32,14 @@ class StaticContent extends React.PureComponent {
     return (
       <>
         {/* should be super admin */}
-        {is_Admin &&
-          contentObj &&
-          contentObj.ids &&
-          contentObj.ids[this.props.contentKey] &&
-          (contentObj &&
-          contentObj.is_page &&
-          contentObj.is_page[this.props.contentKey] === false ? (
-            <Link
-              to={`/admin/content-manage/edit/${
-                contentObj.ids[this.props.contentKey]
-              }`}
-              target="_blank"
-            >
-              <button className="underline text-blue-600">Edit</button>
-            </Link>
-          ) : (
-            <Link
-              to={`/admin/page-manage/edit/${
-                contentObj.ids[this.props.contentKey]
-              }`}
-              target="_blank"
-            >
-              <button className="underline text-blue-600">Edit</button>
-            </Link>
-          ))}
-        {contentObj &&
-          contentObj.image &&
-          contentObj.image[this.props.contentKey] &&
-          contentObj.image[this.props.contentKey].path && (
-            <div>
-              <img
-                src={`${IMAGE_BASE}${
-                  contentObj.image[this.props.contentKey].path
-                }`}
-              />
-            </div>
-          )}
+        {is_Admin && (
+          <Link
+            to={`/admin/content-manage/edit/${this.props.contentKey}`}
+            target="_blank"
+          >
+            <button className="underline text-blue-600">Edit</button>
+          </Link>
+        )}
         <div
           dangerouslySetInnerHTML={{
             __html: contentObj[this.props.contentKey],

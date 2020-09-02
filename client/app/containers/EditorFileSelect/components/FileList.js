@@ -20,8 +20,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import WithStyles from '@material-ui/core/styles/withStyles';
 import Checkbox from '@material-ui/core/Checkbox';
 import PageContent from '../../../components/PageContent/PageContent';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 
 import * as mapDispatchToProps from '../actions';
 import {
@@ -33,10 +31,6 @@ import {
   makeSelectChosen,
   makeSelectChosenFiles,
   makeSelectChosenFolders,
-  makeSelectFileRenameLoading,
-  makeSelectRenameFile,
-  makeSelectShowRename,
-  makeSelectQuery,
 } from '../selectors';
 import { IMAGE_BASE } from '../../App/constants';
 import BreadCrumb from '../../../components/Breadcrumb/Loadable';
@@ -72,15 +66,6 @@ const FileList = ({
   addChosenFolder,
   chosen_folders,
   deleteMultipleRequest,
-  setRenameFileValue,
-  setShowRename,
-  rename_file,
-  fileRenameLoading,
-  showRename,
-  renameFileRequest,
-  setQueryValue,
-  query,
-  classes,
   ...props
 }) => {
   const [open, setOpen] = useState(false);
@@ -196,16 +181,6 @@ const FileList = ({
     renameFolderRequest();
   };
 
-  const handleRenameFile = (id, name) => {
-    setRenameFileValue({ key: '_id', value: id });
-    setRenameFileValue({ key: 'renamed_name', value: name });
-    setShowRename(true);
-  };
-
-  const closeFileRename = () => {
-    setShowRename(false);
-  };
-
   const handleRenameClose = () => {
     setShow(false);
   };
@@ -214,27 +189,13 @@ const FileList = ({
     setRename(e.target.value);
   };
 
-  const handleEditFile = e => {
-    setRenameFileValue({ key: 'renamed_name', value: e.target.value });
-  };
-
   const handleSaveRename = () => {
     loadNewFolderRequest({ key: self._id, value: rename_id, name: rename });
-  };
-
-  const handleSaveFileRename = () => {
-    renameFileRequest();
   };
 
   const handleEnter = e => {
     if (e.key === 'Enter') {
       loadNewFolderRequest({ key: self._id, value: rename_id, name: rename });
-    }
-  };
-
-  const handleFileEnter = e => {
-    if (e.key === 'Enter') {
-      renameFileRequest();
     }
   };
 
@@ -282,22 +243,6 @@ const FileList = ({
 
   const onClick = linkObj => {
     handleFolderLink(linkObj.id);
-  };
-
-  const handleQueryChange = name => event => {
-    event.persist();
-    const { value } = event.target;
-    setQueryValue({ key: name, value });
-  };
-
-  const handleQueryEnter = event => {
-    if (event.key === 'Enter') {
-      loadFilesRequest(queryObj);
-    }
-  };
-
-  const handleSearch = () => {
-    loadFilesRequest(queryObj);
   };
 
   const handleSelectMultipleButton = () => {
@@ -394,27 +339,6 @@ const FileList = ({
             routeList={routeList}
             onClick={onClick}
           />
-          <div className="flex justify-end">
-            <div className="waftformgroup flex relative mr-2">
-              <input
-                type="text"
-                id="contents-name"
-                placeholder="Search files by name"
-                className="m-auto inputbox"
-                value={query.search}
-                onChange={handleQueryChange('search')}
-                style={{ minWidth: '300px', paddingRight: '50px' }}
-                onKeyPress={handleQueryEnter}
-              />
-              <IconButton
-                aria-label="Search"
-                className={`${classes.waftsrch} waftsrchstyle`}
-                onClick={handleSearch}
-              >
-                <SearchIcon />
-              </IconButton>
-            </div>
-          </div>
         </div>
         <div className="flex media_btn">
           {selectedButton === 'Multiple' && chosen_files.length > 0 ? (
@@ -481,7 +405,6 @@ const FileList = ({
           )}
         </div>
       </div>
-      {/* folder rename */}
       <Dialog
         open={show}
         onClose={handleRenameClose}
@@ -514,44 +437,6 @@ const FileList = ({
           </button>
         </DialogActions>
       </Dialog>
-
-      {/* folder rename end */}
-
-      {/* file rename dialog */}
-      <Dialog
-        open={showRename}
-        onClose={closeFileRename}
-        aria-labelledby="rename-file"
-      >
-        <DialogTitle>Rename File</DialogTitle>
-        <DialogContent>
-          <input
-            autoFocus
-            id="rename"
-            type="text"
-            className="inputbox"
-            onChange={handleEditFile}
-            value={rename_file.renamed_name}
-            onKeyDown={handleFileEnter}
-          />
-        </DialogContent>
-        <DialogActions>
-          <button
-            onClick={closeFileRename}
-            color="bg-secondary px-4 py-2 text-sm rounded text-white flex items-center"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSaveFileRename}
-            className="bg-primary px-4 py-2 text-sm rounded text-white flex items-center"
-          >
-            Save
-          </button>
-        </DialogActions>
-      </Dialog>
-
-      {/* end file rename */}
       <DeleteDialog
         open={deleteOpen}
         doClose={handleDelClose}
@@ -643,14 +528,18 @@ const FileList = ({
             onMouseOver={() => handleMouseOverFile(each._id)}
             onMouseLeave={() => handleMouseOverFile('')}
           >
-            {selectedButton === 'Rename' && (
-              <button
-                className="hover:text-blue-500"
-                onClick={() => handleRenameFile(each._id, each.renamed_name)}
-              >
-                <Edit />
-              </button>
-            )}
+            {/* {overFile === each._id ? (
+              <div className="w-full flex justify-center absolute">
+                <button
+                  className="hover:text-primary"
+                  onClick={() => handleDeleteFile(each._id)}
+                >
+                  <Cancel />
+                </button>
+              </div>
+            ) : (
+              ''
+            )} */}
             <div className={`${fileCheckbox ? '' : 'mediaCheck'} absolute`}>
               {selectedButton === 'Multiple' && (
                 <Checkbox
@@ -686,7 +575,7 @@ const FileList = ({
                   role="presentation"
                 />
               </div>
-              <div className="truncate text-sm">{each.renamed_name}</div>
+              <div className="truncate text-sm">{each.filename}</div>
             </div>
           </div>
         ))}
@@ -722,10 +611,6 @@ const mapStateToProps = createStructuredSelector({
   chosen: makeSelectChosen(),
   chosen_files: makeSelectChosenFiles(),
   chosen_folders: makeSelectChosenFolders(),
-  fileRenameLoading: makeSelectFileRenameLoading(),
-  rename_file: makeSelectRenameFile(),
-  showRename: makeSelectShowRename(),
-  query: makeSelectQuery(),
 });
 
 const styles = theme => ({

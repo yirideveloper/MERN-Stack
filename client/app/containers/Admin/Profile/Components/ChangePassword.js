@@ -33,7 +33,9 @@ export class ChangePassword extends React.Component {
     this.props.clearError();
   }
 
-  static getDerivedStateFromProps = nextProps => ({ errors: nextProps.errors });
+  static getDerivedStateFromProps = nextProps => {
+    return { errors: nextProps.errors };
+  };
 
   handleChange = e => {
     e.persist();
@@ -88,9 +90,12 @@ export class ChangePassword extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className="ml-4 p-4 border">
+      <React.Fragment>
         <div className="w-full md:w-1/2 pb-4">
-          <label className="font-bold text-gray-700" htmlFor="oldPassword">
+          <label
+            className="label"
+            htmlFor="oldPassword"
+          >
             Old Password
           </label>
           <input
@@ -106,7 +111,10 @@ export class ChangePassword extends React.Component {
         </div>
 
         <div className="w-full md:w-1/2 pb-4">
-          <label className="font-bold text-gray-700" htmlFor="newPassword">
+          <label
+            className="label"
+            htmlFor="newPassword"
+          >
             New Password
           </label>
           <input
@@ -122,7 +130,10 @@ export class ChangePassword extends React.Component {
         </div>
 
         <div className="w-full md:w-1/2 pb-4">
-          <label className="font-bold text-gray-700" htmlFor="newPassword">
+          <label
+            className="label"
+            htmlFor="newPassword"
+          >
             Confirm New Password
           </label>
           <input
@@ -138,13 +149,12 @@ export class ChangePassword extends React.Component {
         </div>
 
         <button
-          type="button"
           className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
           onClick={this.handleSave}
         >
           Save
         </button>
-      </div>
+      </React.Fragment>
     );
   }
 }
