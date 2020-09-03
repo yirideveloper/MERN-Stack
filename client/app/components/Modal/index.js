@@ -1,15 +1,13 @@
 import React from 'react';
-
-import { Dialog,  DialogTitle, DialogActions, DialogContent } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import ClearIcon from '@material-ui/icons/Clear';
 
 export default function DeleteDialog(props) {
   const {
     open,
     handleClose,
     handleUpdate,
-    width = 'sm',
+    width = 'md',
     buttonLabel1 = 'No',
     buttonLabel2 = 'Update',
   } = props;
@@ -19,18 +17,13 @@ export default function DeleteDialog(props) {
       <Dialog
         open={open}
         fullWidth
-        maxWidth={width}        onClose={handleClose}
+        maxWidth={width}
+        onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-          <DialogTitle id="alert-dialog-title" className="border-b" style={{padding:'12px 20px',marginBottom:'1rem'}}>
-           <div className="flex justify-between">Two-Factor Authentication
-        <button className="hover:text-primary" onClick={handleClose}>
-            <ClearIcon/>
-          </button>
-          </div></DialogTitle>
         <DialogContent>{props.children}</DialogContent>
-        <DialogActions className="mt-2 border-t py-2" style={{ justifyContent: 'flex-end' }}>
+        <DialogActions style={{ justifyContent: 'center' }}>
           <button
             type="button"
             className="btn bg-info hover:bg-secondary"
