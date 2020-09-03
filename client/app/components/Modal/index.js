@@ -1,23 +1,23 @@
 import React from 'react';
-import { Dialog, DialogActions, DialogContent } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+  TextField,
+} from '@material-ui/core';
 
 export default function DeleteDialog(props) {
-  const {
-    open,
-    handleClose,
-    handleUpdate,
-    width = 'md',
-    buttonLabel1 = 'No',
-    buttonLabel2 = 'Update',
-  } = props;
+  const { open, handleClose, handleUpdate } = props;
 
   return (
     <div>
       <Dialog
         open={open}
         fullWidth
-        maxWidth={width}
+        maxWidth="md"
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -29,30 +29,17 @@ export default function DeleteDialog(props) {
             className="btn bg-info hover:bg-secondary"
             onClick={handleClose}
           >
-            {buttonLabel1}
+            No
           </button>
           <button
             type="button"
             className="btn bg-primary hover:bg-secondary"
             onClick={handleUpdate}
           >
-            {buttonLabel2}
+            Update
           </button>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
-
-DeleteDialog.propTypes = {
-  open: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  handleUpdate: PropTypes.func.isRequired,
-  width: PropTypes.string,
-  buttonLabel1: PropTypes.string,
-  buttonLabel2: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};

@@ -72,14 +72,7 @@ function* loginSuccessFunc(action) {
       variant: 'success',
     },
   };
-  if (
-    !(
-      action.payload.data &&
-      action.payload.data.multi_fa &&
-      (action.payload.data.multi_fa.google_authenticate.is_authenticate ||
-        action.payload.data.multi_fa.email.is_authenticate)
-    )
-  ) {
+  if (!(action.payload.data && action.payload.data.is_two_fa)) {
     const { token, data } = action.payload;
     yield put(setUser(data));
     yield put(setToken(token));
@@ -92,7 +85,7 @@ function* addTwoFactor(action) {
   const data = yield select(makeSelectTwoFactor());
   yield fork(
     Api.post(
-      `user/login/mfa`,
+      `user/login/2fa`,
       actions.addTwoFactorSuccess,
       actions.addTwoFactorFailure,
       data,

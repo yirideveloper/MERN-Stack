@@ -40,20 +40,11 @@ const LoginAdminPage = props => {
     emailError,
     passwordError,
     twoFactor,
-    helperObj: { showEmailTwoFactor, showGoogleTwoFactor },
+    helperObj: { showTwoFactor },
   } = props;
 
   const handleClose = () => {
-    props.setValue({
-      name: 'helperObj',
-      key: 'showEmailTwoFactor',
-      value: false,
-    });
-    props.setValue({
-      name: 'helperObj',
-      key: 'showGoogleTwoFactor',
-      value: false,
-    });
+    props.setValue({ name: 'helperObj', key: 'showTwoFactor', value: false });
   };
 
   React.useEffect(() => {
@@ -66,17 +57,16 @@ const LoginAdminPage = props => {
     loginRequest();
   };
 
-  const handleChange = (e, name) => {
+  const handleChange = e => {
     props.setValue({
       name: 'twoFactor',
-      key: 'multi_fa',
-      value: {
-        ...twoFactor.multi_fa,
-        [name]: {
-          ...twoFactor.multi_fa[name],
-          [e.target.name]: e.target.value,
-        },
-      },
+      key: e.target.name,
+      value: e.target.value,
+    });
+    props.setValue({
+      name: 'errors',
+      key: e.target.name,
+      value: '',
     });
   };
 
@@ -88,45 +78,21 @@ const LoginAdminPage = props => {
   return (
     <>
       <Modal
-        open={showEmailTwoFactor || showGoogleTwoFactor}
+        open={showTwoFactor}
         handleClose={handleClose}
         handleUpdate={handleSubmitCode}
-        buttonLabel2="Send"
-        width="sm"
       >
-        {showEmailTwoFactor && (
-          <div className="border p-2 m-2">
-            <Input
-              id="code"
-              name="code"
-              subLabel="Check inbox for the code"
-              label="Enter the code"
-              error={errors.code}
-              value={twoFactor && twoFactor.email && twoFactor.email.code}
-              onChange={e => handleChange(e, 'email')}
-              onKeyPress={e => e.key === 'Enter' && handleSubmitCode(e)}
-            />
-          </div>
-        )}
-
-        {showGoogleTwoFactor && (
-          <div className="border p-2 m-2">
-            <Input
-              id="code"
-              name="code"
-              subLabel="Copy code from Google Authentication App"
-              label="Enter the code"
-              error={errors.code}
-              value={
-                twoFactor &&
-                twoFactor.google_authenticate &&
-                twoFactor.google_authenticate.code
-              }
-              onChange={e => handleChange(e, 'google_authenticate')}
-              onKeyPress={e => e.key === 'Enter' && handleSubmitCode(e)}
-            />
-          </div>
-        )}
+        <div className="">
+          <Input
+            id="code"
+            name="two_fa_code"
+            subLabel="Check inbox for the code"
+            label="Enter the code"
+            error={errors.two_fa_code}
+            value={twoFactor && twoFactor.two_fa_code}
+            onChange={handleChange}
+          />
+        </div>
       </Modal>
       <div className="flex h-screen">
         <div className="hidden md:flex md:w-3/5 bg-primary items-center">

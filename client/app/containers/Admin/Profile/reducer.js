@@ -57,27 +57,14 @@ const userPersonalInformationPageReducer = (state = initialState, action) =>
       case types.LOAD_TWO_FACTOR_FAILURE:
         draft.loading.loadTwoFactor = false;
         break;
-      case types.ADD_EMAIL_TWO_FACTOR_REQUEST:
-        draft.twoFactor = {
-          ...state.twoFactor,
-          email: { ...state.twoFactor.email, ...action.payload.data },
-        };
-        break;
       case types.ADD_TWO_FACTOR_SUCCESS:
-        draft.twoFactor = {
-          ...state.twoFactor,
-          google_authenticate: {
-            ...state.twoFactor.google_authenticate,
-            ...action.payload.data,
-          },
-        };
+        // draft.twoFactor = action.payload.data;
         draft.helperObj.showGoogleTwoFactor = false;
         break;
       case types.ADD_GOOGLE_TWO_FACTOR_SUCCESS:
         draft.twoFactor = {
           ...state.twoFactor,
           google_authenticate: {
-            qrcode: action.payload.data.multi_fa.google_authenticate.qrcode,
             email: action.payload.data.email,
             auth_secret_setup:
               action.payload.data.multi_fa.google_authenticate
@@ -85,16 +72,7 @@ const userPersonalInformationPageReducer = (state = initialState, action) =>
             setup: action.payload.data.multi_fa.google_authenticate.setup,
           },
         };
-        draft.helperObj.showGoogleTwoFactor =
-          action.payload &&
-          action.payload.data &&
-          action.payload.data.multi_fa &&
-          action.payload.data.multi_fa.google_authenticate &&
-          action.payload.data.multi_fa.google_authenticate.hasOwnProperty(
-            'is_authenticate',
-          )
-            ? action.payload.data.multi_fa.google_authenticate.is_authenticate
-            : true;
+        draft.helperObj.showGoogleTwoFactor = true;
         break;
     }
   });
