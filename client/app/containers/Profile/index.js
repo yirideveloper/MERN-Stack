@@ -3,12 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
-import {
-  Information,
-  ChangePasswords,
-  VerifyEmail,
-  TwoFactor,
-} from './Pages/Loadable';
+import { Information, ChangePasswords, VerifyEmail } from './Pages/Loadable';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -35,7 +30,6 @@ const Blog = ({ match: { url } }) => {
             path={`${url}/change-password`}
             component={ChangePasswords}
           />
-          <Route exact path={`${url}/two-factor`} component={TwoFactor} />
         </Switch>
       </Layout>
     </>
