@@ -46,12 +46,6 @@ export const makeSelectErrors = () =>
     selectAdminModuleManageDomain,
     state => state.errors,
   );
-
-export const makeSelectSubModules = () =>
-  createSelector(
-    selectAdminModuleManageDomain,
-    state => state.sub_module,
-  );
 /**
  * Default selector used by AdminModuleManage
  */
