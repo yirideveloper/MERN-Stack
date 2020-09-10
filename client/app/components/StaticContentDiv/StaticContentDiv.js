@@ -46,7 +46,7 @@ class StaticContent extends React.PureComponent {
               }`}
               target="_blank"
             >
-              <button><i class="material-icons text-xl hover:text-indigo-700">edit</i></button>
+              <button className="underline text-blue-600">Edit</button>
             </Link>
           ) : (
             <Link
@@ -55,7 +55,7 @@ class StaticContent extends React.PureComponent {
               }`}
               target="_blank"
             >
-              <button> <i class="material-icons text-xl hover:text-indigo-700">edit</i></button>
+              <button className="underline text-blue-600">Edit</button>
             </Link>
           ))}
         {contentObj &&
