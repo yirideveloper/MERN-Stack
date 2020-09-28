@@ -54,12 +54,7 @@ const RoleAccess = props => {
   } = props;
 
   const [loading, setLoading] = useState(false);
-  const [expanded, setExpanded] = useState('panel1');
-  const [first, setFirst] = useState(true);
 
-  const handleFirst = () => {
-    setFirst(!first);
-  };
   useEffect(() => {
     loadModuleGroupRequest();
     if (match.params.id) {
@@ -74,12 +69,6 @@ const RoleAccess = props => {
       setLoading(true);
     }
   }, [loaders]);
-
-  useEffect(() => {
-    if (module_data && module_data.length > 0) {
-      setExpanded(module_data[0]._id);
-    }
-  }, [module_data]);
 
   const getAccessArray = module_id => {
     let access_array = [];
@@ -118,6 +107,13 @@ const RoleAccess = props => {
     saveRoleAccessRequest(match.params.id);
   };
 
+  const [expanded, setExpanded] = useState('panel1');
+  const [first, setFirst] = useState(true);
+
+  const handleFirst = () => {
+    setFirst(!first);
+  };
+
   return loading ? (
     <>
       <div className="flex justify-between mt-3 mb-3">
@@ -153,9 +149,9 @@ const RoleAccess = props => {
       </div>
       <PageContent>
         {module_data.map(each => (
-          <ExpansionPanel
-            expanded={each._id === expanded}
-            onClick={() => setExpanded(each._id)}
+             <ExpansionPanel
+            expanded={first}
+            onChange={handleFirst}
             className={classes.ExpansionPanelMainWrapper}
           >
             <ExpansionPanelSummary
@@ -167,17 +163,14 @@ const RoleAccess = props => {
                 content: classes.roleContent,
                 expandIcon: classes.roleExpandIcon,
                 expanded: classes.roleExpanded,
-              }}
-            >
-              <Typography className={classes.heading}>
-                <h4 className="font-medium m-0">{each.module_group} Group</h4>
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails style={{ display: 'block' }}>
+              }}>
+              <Typography className={classes.heading}><h4 className="text-lg font-medium m-0">{each.module_group} Group</h4></Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails style={{display:'block'}}>
               {each.modules.map(module => (
                 <fieldset className="formfieldset mb-2">
                   <legend
-                    className="text-lg px-2"
+                  className="text-lg px-2"
                     onClick={() => getAccessArray(module._id)}
                   >
                     {module.module_name}
@@ -187,28 +180,27 @@ const RoleAccess = props => {
                       module.path.map(module_path => (
                         <li className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mb-2">
                           <div className="mr-2">
-                            <FormControlLabel
-                              style={{ margin: '0' }}
-                              className="w-full px-2 py-1 bg-gray-100 rounded"
-                              control={
-                                <Checkbox
-                                  color="primary"
-                                  name={module_path._id}
-                                  checked={getAccessArray(module._id).includes(
-                                    module_path._id,
-                                  )}
-                                  onChange={handleAccessChange(module._id)}
-                                />
-                              }
-                              label={module_path.access_type}
-                            />
+                          <FormControlLabel style={{margin: '0'}}
+                            className="w-full px-2 py-1 bg-gray-100 rounded"
+                            control={
+                              <Checkbox
+                                color="primary"
+                                name={module_path._id}
+                                checked={getAccessArray(module._id).includes(
+                                  module_path._id,
+                                )}
+                                onChange={handleAccessChange(module._id)}
+                              />
+                            }
+                            label={module_path.access_type}
+                          />
                           </div>
                         </li>
                       ))}
                   </ul>
-                </fieldset>
+                  </fieldset>
               ))}
-            </ExpansionPanelDetails>
+           </ExpansionPanelDetails>
           </ExpansionPanel>
         ))}
         <button
