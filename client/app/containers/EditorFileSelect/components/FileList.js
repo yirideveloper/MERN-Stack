@@ -388,9 +388,14 @@ const FileList = ({
         </DialogActions>
       </Dialog>
       <div className="flex items-center justify-between mt-3 mb-3">
-      
-          <div className="flex">
-            <div className="waftformgroup flex relative">
+        <div className="my-auto">
+          <BreadCrumb
+            linkcomponent={LinkComponent}
+            routeList={routeList}
+            onClick={onClick}
+          />
+          <div className="flex justify-end">
+            <div className="waftformgroup flex relative mr-2">
               <input
                 type="text"
                 id="contents-name"
@@ -410,7 +415,7 @@ const FileList = ({
               </IconButton>
             </div>
           </div>
-        
+        </div>
         <div className="flex media_btn">
           {selectedButton === 'Multiple' && chosen_files.length > 0 ? (
             <button
@@ -475,14 +480,6 @@ const FileList = ({
             </button>
           )}
         </div>
-        
-        </div>
-        <div className="my-auto">
-          <BreadCrumb
-            linkcomponent={LinkComponent}
-            routeList={routeList}
-            onClick={onClick}
-          />
       </div>
       {/* folder rename */}
       <Dialog
@@ -740,16 +737,6 @@ const styles = theme => ({
     height: '40px',
     marginTop: 'auto',
     marginBottom: 'auto',
-  },
-  waftsrch: {
-    padding: 0,
-    position: 'absolute',
-    borderLeft: '1px solid #d9e3e9',
-    borderRadius: 0,
-    '&:hover': {
-      background: 'transparent',
-      color: '#404040',
-    },
   },
 });
 
