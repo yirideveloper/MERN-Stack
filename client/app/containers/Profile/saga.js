@@ -30,6 +30,7 @@ function* loadOne() {
 
 function* redirectOnSuccess() {
   yield take(types.ADD_EDIT_SUCCESS);
+  // yield put(push('/user/my-account'));
 }
 
 function* addEdit() {
@@ -62,6 +63,7 @@ function* addEditSuccessful(action) {
 
 function* redirectOnSuccessChangePP() {
   yield take(types.CHANGE_PASSWORD_SUCCESS);
+  // yield put(logoutRequest());
 }
 
 function* changePassword(action) {

@@ -50,7 +50,6 @@ contactController.GetContact = async (req, res, next) => {
   if (req.query.find_added_at) {
     searchQuery = { added_at: { $regex: req.query.find_added_at, $options: 'i' }, ...searchQuery };
   }
-  selectQuery = 'name email message subject added_at is_deleted';
   let contacts = await otherHelper.getQuerySendResponse(contactSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
   return otherHelper.paginationSendResponse(res, httpStatus.OK, true, contacts.data, contactConfig.gets, page, size, contacts.totaldata);
 };
