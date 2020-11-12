@@ -18,12 +18,6 @@ export const makeSelectAll = () =>
     substate => substate.all,
   );
 
-export const makeSelectShowForm = () =>
-  createSelector(
-    selectContentsListingPageDomain,
-    substate => substate.showForm,
-  );
-
 export const makeSelectOne = () =>
   createSelector(
     selectContentsListingPageDomain,

@@ -80,8 +80,3 @@ export const setMetaTagValue = payload => ({
   type: types.SET_META_TAG_VALUE,
   payload,
 });
-
-export const setShowForm = payload => ({
-  type: types.SET_SHOW_FORM,
-  payload,
-});

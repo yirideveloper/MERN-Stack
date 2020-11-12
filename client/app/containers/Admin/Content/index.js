@@ -25,12 +25,7 @@ import injectReducer from '../../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
-import {
-  makeSelectAll,
-  makeSelectQuery,
-  makeSelectLoading,
-  makeSelectShowForm,
-} from './selectors';
+import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
 
 import { DATE_FORMAT } from '../../App/constants';
 import PageHeader from '../../../components/PageHeader/PageHeader';
@@ -93,9 +88,6 @@ export class ContentsListingPage extends React.Component {
   state = {
     open: false,
     deleteId: '',
-    help: false,
-    showForm: false,
-    edit_id: '',
   };
 
   componentDidMount() {
@@ -108,17 +100,12 @@ export class ContentsListingPage extends React.Component {
   };
 
   handleEdit = id => {
-    //  this.props.push(`/admin/content-manage/edit/${id}`);
-    this.setState({ edit_id: id });
-    this.props.setShowForm(true);
+    this.props.push(`/admin/content-manage/edit/${id}`);
   };
 
   handleQueryChange = e => {
     e.persist();
-    this.props.setQueryValue({
-      key: e.target.name,
-      value: e.target.value,
-    });
+    this.props.setQueryValue({ key: e.target.name, value: e.target.value });
   };
 
   handleSearch = () => {
@@ -142,27 +129,12 @@ export class ContentsListingPage extends React.Component {
     this.props.loadAllRequest(paging);
   };
 
-  toggleHelp = () => {
-    this.setState({ help: !this.state.help });
-  };
-
-  handleShowForm = () => {
-    this.props.clearOne();
-
-    this.props.setShowForm(true);
-  };
-
-  handleCloseForm = () => {
-    this.props.setShowForm(false);
-  };
-
   render() {
     const { classes } = this.props;
     const {
       all: { data, page, size, totaldata },
       query,
       loading,
-      showForm,
     } = this.props;
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
@@ -212,18 +184,15 @@ export class ContentsListingPage extends React.Component {
 
         <div className="flex justify-between mt-3 mb-3">
           {loading && loading === true ? <Loading /> : <></>}
-          <PageHeader>Section Content </PageHeader>
+          <PageHeader>Section Content</PageHeader>
 
           <div className="flex items-center">
-            <span
-              className="inline-block text-blue-500 hover:text-blue-600 h text-xl px-5"
-              onClick={this.toggleHelp}
-            >
+            <span className="inline-block text-blue-500 hover:text-blue-600 h text-xl px-5">
               <FaRegQuestionCircle />
             </span>
             <button
               className="bg-blue-500 border border-blue-600 px-3 py-2 leading-none inline-flex items-center cursor-pointer hover:bg-blue-600 transition-all duration-100 ease-in text-sm text-white rounded"
-              onClick={this.handleShowForm}
+              onClick={this.handleAdd}
             >
               <FaPlus />
               <span className="pl-2">Add New</span>
@@ -231,26 +200,24 @@ export class ContentsListingPage extends React.Component {
           </div>
         </div>
 
-        {this.state.help && (
-          <div className="bg-white border rounded p-6 mb-6">
-            <p>
-              Section content a piece of content which can be inserted inside a
-              page single or multiple times.
-            </p>
-            <pre className="block overflow-x-auto mt-6 text-gray-600">
-              <span className="font-bold">import</span> StaticContentDiv{' '}
-              <span className="font-bold">from</span>{' '}
-              <span className="text-indigo-700">
-                '../../components/StaticContentDiv';
-              </span>
-              <br />
-              ....
-              <br />
-              &lt;StaticContentDiv contentKey=
-              <span className="text-indigo-700">"about"</span> /&gt;
-            </pre>
-          </div>
-        )}
+        <div className="bg-white border rounded p-6 mb-6">
+          <p>
+            Section content a piece of content which can be inserted inside a
+            page single or multiple times.
+          </p>
+          <pre className="block overflow-x-auto mt-6 text-gray-600">
+            <span className="font-bold">import</span> StaticContentDiv{' '}
+            <span className="font-bold">from</span>{' '}
+            <span className="text-indigo-700">
+              '../../components/StaticContentDiv';
+            </span>
+            <br />
+            ....
+            <br />
+            &lt;StaticContentDiv contentKey=
+            <span className="text-indigo-700">"about"</span> /&gt;
+          </pre>
+        </div>
 
         <PageContent loading={loading}>
           <div className="flex">
@@ -307,22 +274,15 @@ export class ContentsListingPage extends React.Component {
           />
         </PageContent>
 
-        {showForm && (
-          <div
-            className="absolute right-0 top-0 left-0 bottom-0 flex"
-            style={{
-              marginLeft: 240,
-              backdropFilter: 'blur(10px)',
-            }}
-          >
-            <div className="w-1/3" onClick={this.handleCloseForm} />
-            <div className="w-2/3 h-full overflow-auto pt-20">
-              <AddEdit edit_id={this.state.edit_id} />
-            </div>
+        <div
+          className="absolute right-0 top-0 left-0 bottom-0 flex"
+          style={{ marginLeft: 240, backdropFilter: 'blur(10px)' }}
+        >
+          <div className="w-1/3" />
+          <div className="w-2/3 h-full overflow-auto pt-20">
+            <AddEdit />
           </div>
-        )}
-
-        {/*  */}
+        </div>
       </>
     );
   }
@@ -332,7 +292,6 @@ const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   query: makeSelectQuery(),
   loading: makeSelectLoading(),
-  showForm: makeSelectShowForm(),
 });
 
 const withConnect = connect(
