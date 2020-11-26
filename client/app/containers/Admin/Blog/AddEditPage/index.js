@@ -34,8 +34,8 @@ import { IMAGE_BASE, DATE_FORMAT } from '../../../App/constants';
 import defaultImage from '../../../../assets/img/logo.svg';
 import Loading from '../../../../components/Loading';
 import WECkEditior from '../../../../components/CkEditor';
-import Select from '../../../../components/Select';
-import { FaArrowLeft, FaCheck } from 'react-icons/fa';
+// import Select from '../../../../components/Select';
+import { FaArrowLeft, FaCheck, FaTimes } from 'react-icons/fa';
 
 class AddEdit extends React.PureComponent {
   static propTypes = {
@@ -324,8 +324,8 @@ class AddEdit extends React.PureComponent {
         <Helmet>
           <title>
             {match && match.params && match.params.id
-              ? 'Edit News'
-              : 'Add News'}
+              ? 'Edit Blog'
+              : 'Add Blog'}
           </title>
         </Helmet>
         <div className="flex justify-between my-3">
@@ -334,14 +334,14 @@ class AddEdit extends React.PureComponent {
               <FaArrowLeft className="text-xl" />
             </span>
             {match && match.params && match.params.id
-              ? 'Edit News'
-              : 'Add News'}
+              ? 'Edit Blog'
+              : 'Add Blog'}
           </PageHeader>
         </div>
         <PageContent>
           <div className="w-full md:w-1/2 pb-4">
+            <label>Title</label>
             <input
-              label="Title"
               className="inputbox"
               id="blog-title"
               type="text"
@@ -352,8 +352,8 @@ class AddEdit extends React.PureComponent {
             />
           </div>
           <div className="w-full md:w-1/2 pb-4">
+            <label>Slug</label>
             <input
-              label="Slug"
               className="inputbox"
               id="blog-slug-url"
               type="text"
@@ -366,38 +366,7 @@ class AddEdit extends React.PureComponent {
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label className="text-sm">Category</label>
-
-            {/* <FormControl className={classes.formControl}>
-              <Select
-                // className="inputbox"
-                multiple
-                displayEmpty
-                name="template_key"
-                value={one.category || []}
-                input={<input />}
-                onChange={this.handleMultipleSelectChange}
-                renderValue={selected => {
-                  if (selected.length === 0) {
-                    return <em>Select Categories</em>;
-                  } else {
-                    return selected.join(', ');
-                  }
-                }}
-                MenuProps={menuProps}
-              >
-                <MenuItem value="" name="none" disabled>
-                  None
-                </MenuItem>
-                {category.map(each => (
-                  <MenuItem key={each._id} value={each._id} name={each.title}>
-                    {each.title}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl> */}
-
-            {/* <FormControl className={classes.formControl}> */}
-            <Select
+            {/* <Select
               className="React_Select"
               id="category"
               value={
@@ -421,7 +390,7 @@ class AddEdit extends React.PureComponent {
               isMulti
               options={listCategory}
               styles={customStyles}
-            />
+            /> */}
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label className="text-sm" htmlFor="grid-blog-title">
@@ -507,11 +476,14 @@ class AddEdit extends React.PureComponent {
               />
             </form>
             {one.tags.map((tag, index) => {
-              const icon = null;
               return (
-                <label key={`${tag}-${index}`}>
+                <label
+                  onClick={this.handleDelete(index)}
+                  className="tag"
+                  key={`${tag}-${index}`}
+                >
                   {tag}
-                  <span onClick={this.handleDelete(index)}>
+                  <span>
                     <FaTimes />
                   </span>
                 </label>
@@ -537,13 +509,16 @@ class AddEdit extends React.PureComponent {
               const icon = null;
 
               return (
-                <Chip
-                  key={`meta-${tag}-${index}`}
-                  icon={icon}
-                  label={tag}
+                <label
                   onDelete={this.handleMetaTagDelete(index)}
-                  className={classes.chip}
-                />
+                  className="tag"
+                  key={`meta-${tag}-${index}`}
+                >
+                  {tag}
+                  <span>
+                    <FaTimes />
+                  </span>
+                </label>
               );
             })}
           </div>
@@ -566,13 +541,16 @@ class AddEdit extends React.PureComponent {
               const icon = null;
 
               return (
-                <Chip
-                  key={`metakeywords-${tag}-${index}`}
-                  icon={icon}
-                  label={tag}
+                <label
                   onDelete={this.handleMetaKeywordDelete(index)}
-                  className={classes.chip}
-                />
+                  className="tag"
+                  key={`metakeywords-${tag}-${index}`}
+                >
+                  {tag}
+                  <span>
+                    <FaTimes />
+                  </span>
+                </label>
               );
             })}
           </div>
@@ -596,7 +574,7 @@ class AddEdit extends React.PureComponent {
             <label className="text-sm" htmlFor="grid-last-name">
               Author
             </label>
-            <Select
+            {/* <Select
               className="React_Select"
               id="category"
               value={
@@ -614,13 +592,13 @@ class AddEdit extends React.PureComponent {
                 []
               }
               name="author"
-              placeholder="Select News Author"
+              placeholder="Select Blog Author"
               onChange={this.handleMultipleSelectAuthorChange}
               isSearchable
               isMulti
               options={listAuthor}
               styles={customStyles}
-            />
+            /> */}
           </div>
           <div id="component-error-text">{errors && errors.author}</div>
           <div className="checkbox">
