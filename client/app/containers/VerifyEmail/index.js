@@ -18,6 +18,8 @@ import { makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
+import Input from '../../components/customComponents/Input';
+
 const key = 'verifyEmail';
 
 export const VerifyEmail = props => {
@@ -71,24 +73,24 @@ export const VerifyEmail = props => {
       ) : (
         <div className="mt-4">
           <div className="m-auto w-1/2">
-            <label>Email</label>
-            <input
-              className="inputbox"
+            <Input
+              label="Email"
+              inputclassName="inputbox"
               onChange={handleEmail('email')}
               value={form_email}
-              id="email"
-              type="text"
+              inputid="email"
+              inputType="text"
               name="Email"
             />
           </div>
           <div className="m-auto w-1/2 mt-2">
-            <label>Code</label>
-            <input
-              className="inputbox"
+            <Input
+              label="Code"
+              inputclassName="inputbox"
               onChange={handleCode('code')}
               value={form_code}
-              id="code"
-              type="text"
+              inputid="code"
+              inputType="text"
               name="Code"
             />
           </div>

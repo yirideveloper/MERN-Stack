@@ -11,7 +11,7 @@ import arrayMove from 'array-move';
 import { Helmet } from 'react-helmet';
 
 // @material-ui/core components
-
+import withStyles from '@material-ui/core/styles/withStyles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -35,7 +35,33 @@ import PageHeader from '../../../../components/PageHeader/PageHeader';
 import PageContent from '../../../../components/PageContent/PageContent';
 import Loading from '../../../../components/Loading';
 import EditorFileSelect from '../../../EditorFileSelect';
+import Input from '../../../../components/customComponents/Input';
 import { FaTrashAlt, FaArrowLeft } from 'react-icons/fa';
+
+const styles = () => ({
+  modal: { backgroundColor: '#fff', padding: '20' },
+
+  media: {
+    width: '100px',
+    height: '100px',
+    overflow: 'hidden',
+    marginRight: '20px',
+    marginBottom: '20px',
+    borderRadius: '6px',
+    background: '#f0f0f0',
+    display: 'inline-block',
+    '& > img': { maxWidth: '100%' },
+  },
+  backbtn: {
+    padding: 0,
+    height: '40px',
+    width: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    borderRadius: '50%',
+    marginRight: '5px',
+  },
+});
 
 const SortableImageItem = SortableElement(() => <div>***</div>);
 
@@ -48,6 +74,7 @@ const SortableImageList = SortableContainer(({ items, _this }) => (
           <div className="w-1/4 text-center -ml-8">
             {value.image ? (
               <img
+                className={_this.props.classes.media}
                 src={
                   typeof value.image === 'string'
                     ? `${IMAGE_BASE}${_this.state.files[value.image].path}`
@@ -244,6 +271,7 @@ class AddEdit extends React.PureComponent {
           </PageHeader>
         </div>
         <Dialog
+          className={classes.modal}
           aria-labelledby="max-width-dialog-title"
           open={this.state.open}
           onClose={this.handleClose}
@@ -268,11 +296,11 @@ class AddEdit extends React.PureComponent {
         </Helmet>
         <PageContent>
           <div className="w-full md:w-1/2 pb-4">
-            <label>Slider Name</label>
-            <input
-              className="inputbox"
-              id="slider-name"
-              type="text"
+            <Input
+              label="Slider Name"
+              inputclassName="inputbox"
+              inputid="slider-name"
+              inputType="text"
               value={one.slider_name}
               name="slider_name"
               onChange={this.handleChange('slider_name')}
@@ -281,11 +309,11 @@ class AddEdit extends React.PureComponent {
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label>Slider Key</label>
-            <input
-              className="inputbox"
-              id="slider-key"
-              type="text"
+            <Input
+              label="Slider Key"
+              inputclassName="inputbox"
+              inputid="slider-key"
+              inputType="text"
               value={one.slider_key}
               name="slider_key"
               onChange={this.handleChange('slider_key')}
@@ -335,6 +363,8 @@ class AddEdit extends React.PureComponent {
   }
 }
 
+const withStyle = withStyles(styles);
+
 const withReducer = injectReducer({ key: 'sliderManagePage', reducer });
 const withSaga = injectSaga({ key: 'sliderManagePage', saga });
 
@@ -351,6 +381,7 @@ const withConnect = connect(
 );
 export default compose(
   withRouter,
+  withStyle,
   withReducer,
   withSaga,
   withConnect,

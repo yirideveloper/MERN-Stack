@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -37,7 +38,7 @@ const PasswordInput = props => {
           className="inputbox"
         />
         <span
-          className="absolute right-0 top-0 mt-2 mr-2"
+          className={classes.EyeIcon}
           aria-label="Toggle password visibility"
           onClick={handleTogglePassword}
         >
@@ -66,4 +67,13 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(PasswordInput);
+const styles = theme => ({
+  EyeIcon: { position: 'absolute', right: 12, top: 6 },
+});
+
+const withStyle = withStyles(styles);
+
+export default compose(
+  withConnect,
+  withStyle,
+)(PasswordInput);

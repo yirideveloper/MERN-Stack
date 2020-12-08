@@ -6,9 +6,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 
+import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
+
 import MainListItems from './components/MainListItem';
 import { logoutRequest } from '../../containers/App/actions';
 import Logo from '../../assets/img/logo-white.svg';
@@ -254,9 +255,7 @@ const AdminLayout = ({ classes, logoutRequest: logout, roles, users }) => {
                 <div className="px-3 text-left">
                   <span className="block capitalize text-sm">{users.name}</span>
                   <span className="block leading-none truncate capitalize text-xs text-gray-600">
-                    {users.roles && users.roles[0] && users.roles[0].role_title
-                      ? users.roles[0].role_title
-                      : ''}
+                    superadmin
                   </span>
                 </div>
                 <FaAngleDown className="opacity-50" />

@@ -11,6 +11,8 @@ import { createStructuredSelector } from 'reselect';
 import { push } from 'connected-react-router';
 import { compose } from 'redux';
 
+import withStyles from '@material-ui/core/styles/withStyles';
+
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import {
@@ -31,6 +33,19 @@ import {
   FaUser,
   FaNewspaper,
 } from 'react-icons/fa';
+
+const styles = theme => ({
+  dashicon: {
+    fontSize: '50px',
+    display: 'block',
+    width: '100%',
+    marginBottom: '10px',
+    color: '#666',
+    '&:hover': {
+      color: '#000000',
+    },
+  },
+});
 
 /* eslint-disable react/prefer-stateless-function */
 export class Dashboard extends React.PureComponent {
@@ -92,7 +107,7 @@ export class Dashboard extends React.PureComponent {
           </div>
           <div className="w-1/4 -mr-8 bg-white rounded p-5 flex justify-between hover:text-black">
             <span className="text-gray-800 m-auto w-24 text-center font-bold">
-              <FaExclamationCircle />
+              <FaExclamationCircle className={classes.dashicon} />
               Total Errors
             </span>
             <span className="m-auto inline-block text-black text-2xl font-bold ml-4 w-12 h-12 text-center rounded-full bg-waftprimary-light leading-loose">
@@ -189,8 +204,10 @@ const withConnect = connect(
 
 const withReducer = injectReducer({ key: 'adminDashboard', reducer });
 const withSaga = injectSaga({ key: 'adminDashboard', saga });
+const withStyle = withStyles(styles);
 
 export default compose(
+  withStyle,
   withReducer,
   withSaga,
   withConnect,

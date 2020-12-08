@@ -10,6 +10,16 @@ import { Helmet } from 'react-helmet';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+// @material-ui/core components
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Checkbox, IconButton } from '@material-ui/core/';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
+import Input from '@material-ui/core/Input';
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import BackIcon from '@material-ui/icons/ArrowBack';
@@ -34,8 +44,38 @@ import { IMAGE_BASE, DATE_FORMAT } from '../../../App/constants';
 import defaultImage from '../../../../assets/img/logo.svg';
 import Loading from '../../../../components/Loading';
 import WECkEditior from '../../../../components/CkEditor';
-// import Select from '../../../../components/Select';
-import { FaArrowLeft, FaCheck, FaTimes } from 'react-icons/fa';
+import Inputs from '../../../../components/customComponents/Input';
+import Select from '../../../../components/Select';
+import { FaArrowLeft, FaCheck } from 'react-icons/fa';
+
+const styles = theme => ({
+  cardCategoryWhite: {
+    color: 'rgba(255,255,255,.62)',
+    margin: '0',
+    fontSize: '14px',
+    marginTop: '0',
+    marginBottom: '0',
+  },
+  cardTitleWhite: {
+    color: '#FFFFFF',
+    marginTop: '0px',
+    minHeight: 'auto',
+    fontWeight: '300',
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: '3px',
+    textDecoration: 'none',
+  },
+
+  backbtn: {
+    padding: 0,
+    height: '40px',
+    width: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    borderRadius: '50%',
+    marginRight: '5px',
+  },
+});
 
 class AddEdit extends React.PureComponent {
   static propTypes = {
@@ -312,6 +352,14 @@ class AddEdit extends React.PureComponent {
       return obj;
     });
 
+    const menuProps = {
+      PaperProps: {
+        style: {
+          maxHeight: 48 * 4.5 + 8,
+          width: 250,
+        },
+      },
+    };
     const cats = {};
     category.map(e => {
       cats[e._id] = e;
@@ -324,8 +372,8 @@ class AddEdit extends React.PureComponent {
         <Helmet>
           <title>
             {match && match.params && match.params.id
-              ? 'Edit Blog'
-              : 'Add Blog'}
+              ? 'Edit News'
+              : 'Add News'}
           </title>
         </Helmet>
         <div className="flex justify-between my-3">
@@ -334,17 +382,17 @@ class AddEdit extends React.PureComponent {
               <FaArrowLeft className="text-xl" />
             </span>
             {match && match.params && match.params.id
-              ? 'Edit Blog'
-              : 'Add Blog'}
+              ? 'Edit News'
+              : 'Add News'}
           </PageHeader>
         </div>
         <PageContent>
           <div className="w-full md:w-1/2 pb-4">
-            <label>Title</label>
-            <input
-              className="inputbox"
-              id="blog-title"
-              type="text"
+            <Inputs
+              label="Title"
+              inputclassName="inputbox"
+              inputid="blog-title"
+              inputType="text"
               value={(one && one.title) || ''}
               name="Blog Title"
               onChange={this.handleChange('title')}
@@ -352,11 +400,11 @@ class AddEdit extends React.PureComponent {
             />
           </div>
           <div className="w-full md:w-1/2 pb-4">
-            <label>Slug</label>
-            <input
-              className="inputbox"
-              id="blog-slug-url"
-              type="text"
+            <Inputs
+              label="Slug"
+              inputclassName="inputbox"
+              inputid="blog-slug-url"
+              inputType="text"
               value={(one && one.slug_url) || ''}
               name="Blog Slug"
               onChange={this.handleChange('slug_url')}
@@ -366,7 +414,38 @@ class AddEdit extends React.PureComponent {
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label className="text-sm">Category</label>
-            {/* <Select
+
+            {/* <FormControl className={classes.formControl}>
+              <Select
+                // className="inputbox"
+                multiple
+                displayEmpty
+                name="template_key"
+                value={one.category || []}
+                input={<Input />}
+                onChange={this.handleMultipleSelectChange}
+                renderValue={selected => {
+                  if (selected.length === 0) {
+                    return <em>Select Categories</em>;
+                  } else {
+                    return selected.join(', ');
+                  }
+                }}
+                MenuProps={menuProps}
+              >
+                <MenuItem value="" name="none" disabled>
+                  None
+                </MenuItem>
+                {category.map(each => (
+                  <MenuItem key={each._id} value={each._id} name={each.title}>
+                    {each.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl> */}
+
+            {/* <FormControl className={classes.formControl}> */}
+            <Select
               className="React_Select"
               id="category"
               value={
@@ -390,7 +469,30 @@ class AddEdit extends React.PureComponent {
               isMulti
               options={listCategory}
               styles={customStyles}
-            /> */}
+            />
+            {/* <Select
+                multiple
+                displayEmpty
+                name="template_key"
+                value={one.category || []}
+                input={<Input />}
+                onChange={this.handleMultipleSelectChange}
+                renderValue={selected =>
+                  this.handleSelectedValue(selected, cats)
+                }
+                MenuProps={menuProps}
+              >
+                <MenuItem value="" name="none" disabled>
+                  None
+                </MenuItem>
+                {category.map(each => (
+                  <MenuItem key={each._id} value={each._id} name={each.title}>
+                    <Checkbox checked={one.category.indexOf(each._id) > -1} />
+                    {each.title}
+                  </MenuItem>
+                ))}
+              </Select> */}
+            {/* </FormControl> */}
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label className="text-sm" htmlFor="grid-blog-title">
@@ -476,14 +578,11 @@ class AddEdit extends React.PureComponent {
               />
             </form>
             {one.tags.map((tag, index) => {
+              const icon = null;
               return (
-                <label
-                  onClick={this.handleDelete(index)}
-                  className="tag"
-                  key={`${tag}-${index}`}
-                >
+                <label key={`${tag}-${index}`}>
                   {tag}
-                  <span>
+                  <span onClick={this.handleDelete(index)}>
                     <FaTimes />
                   </span>
                 </label>
@@ -505,22 +604,21 @@ class AddEdit extends React.PureComponent {
                 onChange={this.handleTempMetaTag}
               />
             </form>
-            {one.meta_tag.map((tag, index) => {
-              const icon = null;
+            <Paper elevation={2}>
+              {one.meta_tag.map((tag, index) => {
+                const icon = null;
 
-              return (
-                <label
-                  onDelete={this.handleMetaTagDelete(index)}
-                  className="tag"
-                  key={`meta-${tag}-${index}`}
-                >
-                  {tag}
-                  <span>
-                    <FaTimes />
-                  </span>
-                </label>
-              );
-            })}
+                return (
+                  <Chip
+                    key={`meta-${tag}-${index}`}
+                    icon={icon}
+                    label={tag}
+                    onDelete={this.handleMetaTagDelete(index)}
+                    className={classes.chip}
+                  />
+                );
+              })}
+            </Paper>
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label className="text-sm" htmlFor="grid-last-name">
@@ -537,22 +635,21 @@ class AddEdit extends React.PureComponent {
                 onChange={this.handleTempMetaKeyword}
               />
             </form>
-            {one.keywords.map((tag, index) => {
-              const icon = null;
+            <Paper elevation={2}>
+              {one.keywords.map((tag, index) => {
+                const icon = null;
 
-              return (
-                <label
-                  onDelete={this.handleMetaKeywordDelete(index)}
-                  className="tag"
-                  key={`metakeywords-${tag}-${index}`}
-                >
-                  {tag}
-                  <span>
-                    <FaTimes />
-                  </span>
-                </label>
-              );
-            })}
+                return (
+                  <Chip
+                    key={`metakeywords-${tag}-${index}`}
+                    icon={icon}
+                    label={tag}
+                    onDelete={this.handleMetaKeywordDelete(index)}
+                    className={classes.chip}
+                  />
+                );
+              })}
+            </Paper>
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
@@ -574,7 +671,25 @@ class AddEdit extends React.PureComponent {
             <label className="text-sm" htmlFor="grid-last-name">
               Author
             </label>
-            {/* <Select
+            {/* 
+            <select
+              className="inputbox"
+              native="true"
+              value={(one && one.author) || ''}
+              onChange={this.handleDropDownChange('author')}
+            >
+              <option value="" disabled>
+                None
+              </option>
+              {users &&
+                users.map(each => (
+                  <option key={each._id} name={each.name} value={each._id}>
+                    {each.name}
+                  </option>
+                ))}
+            </select> */}
+
+            <Select
               className="React_Select"
               id="category"
               value={
@@ -592,13 +707,13 @@ class AddEdit extends React.PureComponent {
                 []
               }
               name="author"
-              placeholder="Select Blog Author"
+              placeholder="Select News Author"
               onChange={this.handleMultipleSelectAuthorChange}
               isSearchable
               isMulti
               options={listAuthor}
               styles={customStyles}
-            /> */}
+            />
           </div>
           <div id="component-error-text">{errors && errors.author}</div>
           <div className="checkbox">
@@ -675,6 +790,7 @@ class AddEdit extends React.PureComponent {
   }
 }
 
+const withStyle = withStyles(styles);
 const withReducer = injectReducer({ key: 'blogManagePage', reducer });
 const withSaga = injectSaga({ key: 'blogManagePage', saga });
 
@@ -721,6 +837,7 @@ const withConnect = connect(
 );
 
 export default compose(
+  withStyle,
   withReducer,
   withSaga,
   withConnect,

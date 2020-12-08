@@ -9,6 +9,12 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+// @material-ui/core
+import withStyles from '@material-ui/core/styles/withStyles';
+import CheckBox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 // core components
@@ -61,27 +67,41 @@ class UserPersonalInformationPage extends React.PureComponent {
       <div className="ml-4 p-4 border">
         <div className="w-full md:w-1/2 pb-4">
           <label className="block text-sm">Name</label>
-          <input
-            className="inputbox"
-            id="name"
-            type="text"
-            value={one.name || ''}
-            onChange={this.handleChange('name')}
-          />
-          <div id="component-error-text">{errors.name}</div>
+          <FormControl
+            className="md:w-1/2"
+            error={errors && errors.name && errors.name.length > 0}
+          >
+            <input
+              className="inputbox"
+              id="name"
+              type="text"
+              value={one.name || ''}
+              onChange={this.handleChange('name')}
+            />
+            <FormHelperText id="component-error-text">
+              {errors.name}
+            </FormHelperText>
+          </FormControl>
         </div>
 
         <div className="w-full md:w-1/2 pb-4">
           <label className="block text-sm">Email</label>
 
-          <input
-            className="inputbox"
-            id="email"
-            type="text"
-            value={one.email || ''}
-            onChange={this.handleChange('name')}
-          />
-          <div id="component-error-text">{errors.email}</div>
+          <FormControl
+            className="md:w-1/2"
+            error={errors && errors.email && errors.email.length > 0}
+          >
+            <input
+              className="inputbox"
+              id="email"
+              type="text"
+              value={one.email || ''}
+              onChange={this.handleChange('name')}
+            />
+            <FormHelperText id="component-error-text">
+              {errors.email}
+            </FormHelperText>
+          </FormControl>
         </div>
 
         <div className="w-full md:w-1/2 pb-4">
@@ -149,4 +169,11 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-export default compose(withConnect)(UserPersonalInformationPage);
+const styles = theme => ({});
+
+const withStyle = withStyles(styles);
+
+export default compose(
+  withConnect,
+  withStyle,
+)(UserPersonalInformationPage);

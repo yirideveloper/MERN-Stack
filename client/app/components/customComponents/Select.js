@@ -44,7 +44,7 @@ Select.propTypes = {
 
 const CustomSelect = ({
   label,
-  className,
+  inputclassName,
   value,
   name,
   options,
@@ -56,7 +56,7 @@ const CustomSelect = ({
   <React.Fragment>
     {label && <label className="text-sm">{label}</label>}
     <select
-      className={className}
+      className={inputclassName}
       value={value || ''}
       name={name || 'name'}
       {...restProps}
@@ -116,7 +116,7 @@ export function ReactSelect({
       {label && <label className="text-sm">{label}</label>}
       <ReactSelectLibrary
         name={name}
-        className="inputbox"
+        inputclassName="inputbox"
         value={value}
         onChange={handleSelect}
         options={options}

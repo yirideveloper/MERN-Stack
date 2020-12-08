@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-
+import withStyles from '@material-ui/core/styles/withStyles';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import { createStructuredSelector } from 'reselect';
@@ -16,7 +16,8 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { withStyles } from '@material-ui/core/styles';
+
+import { Input } from '../../components/customComponents';
 import UsernameInput from './components/UsernameInput';
 import PasswordInput from './components/PasswordInput';
 import { FB_APP_ID, FB_APP_FIELDS, GOOGLE_CLIENT_ID } from '../App/constants';
@@ -126,11 +127,11 @@ const LoginUserPage = props => {
       >
         {showEmailTwoFactor && (
           <div className="border p-2 m-2">
-            <label>Enter the code</label>
-            <label className="text-xs">Check inbox for the code</label>
-            <input
+            <Input
               id="code"
               name="code"
+              subLabel="Check inbox for the code"
+              label="Enter the code"
               error={errors && errors.multi_fa && errors.multi_fa.email.code}
               value={twoFactor && twoFactor.email && twoFactor.email.code}
               onChange={e => handleChange(e, 'email')}
@@ -141,13 +142,11 @@ const LoginUserPage = props => {
 
         {showGoogleTwoFactor && (
           <div className="border p-2 m-2">
-            <label>Enter the code</label>
-            <label className="text-xs">
-              Copy code from Google Authentication App
-            </label>
-            <input
+            <Input
               id="code"
               name="code"
+              subLabel="Copy code from Google Authentication App"
+              label="Enter the code"
               error={
                 errors &&
                 errors.multi_fa &&

@@ -6,17 +6,26 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { Helmet } from 'react-helmet';
 
+import Fab from '@material-ui/core/Fab';
+import EditIcon from '@material-ui/icons/Edit';
+// @material-ui/core components
+import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+// core components
 import reducer from '../reducer';
 import saga from '../saga';
 import { makeSelectAccess, makeSelectLoading } from '../selectors';
 import * as mapDispatchToProps from '../actions';
 import PageHeader from '../../../../components/PageHeader/PageHeader';
 import PageContent from '../../../../components/PageContent/PageContent';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import { IconButton } from '@material-ui/core';
 import '../style.css';
-import { FaPencilAlt, FaArrowLeft, FaSearch, FaPlus } from 'react-icons/fa';
 
 class AccessManagePage extends React.PureComponent {
   static propTypes = {
@@ -92,16 +101,14 @@ class AccessManagePage extends React.PureComponent {
             </span>
             {`Edit Access for ${Module.module_name}`}
           </PageHeader>
-
-          <div className="flex items-center">
-            <button
-              className="bg-blue-500 border border-blue-600 px-3 py-2 leading-none inline-flex items-center cursor-pointer hover:bg-blue-600 transition-all duration-100 ease-in text-sm text-white rounded"
-              onClick={this.handleEditAccess}
-            >
-              <FaPlus />
-              <span className="pl-2">Add New</span>
-            </button>
-          </div>
+          <Fab
+            color="primary"
+            aria-label="Edit Access"
+            className={classes.fab}
+            onClick={this.handleEditAccess}
+          >
+            <EditIcon />
+          </Fab>
         </div>
         <PageContent>
           {Roles.map(role => {
@@ -115,27 +122,28 @@ class AccessManagePage extends React.PureComponent {
             return (
               <div className="mb-4 border rounded mt-6 p-2" key={role._id}>
                 <h3
-                  className="font-bold bg-white px-2 relative text-lg ml-2 inline-block"
+                  className="font-bold bg-white px-2 relative ml-2 inline-block"
                   style={{ top: -21 }}
                 >
                   {role.role_title}
                 </h3>
-                <div
+                <ToggleButtonGroup
+                  className={classes.accesslist}
                   value={accesses}
                   onChange={(_, module_id) =>
                     this.handleAccessUpdate(module_id, role._id, Module._id)
                   }
                 >
                   {Module.path.map(eachPath => (
-                    <div
-                      className="bg-white text-sm px-2 py-1 inline-flex mr-2 mb-2 rounded border lowercase cursor-pointer hover:bg-blue-100 hover:border-blue-200 hover:text-blue-500"
+                    <ToggleButton
+                      className={classes.accessbtn}
                       key={`${eachPath._id}-${role._id}`}
                       value={eachPath._id}
                     >
                       {eachPath.access_type}
-                    </div>
+                    </ToggleButton>
                   ))}
-                </div>
+                </ToggleButtonGroup>
               </div>
             );
           })}
@@ -144,7 +152,7 @@ class AccessManagePage extends React.PureComponent {
             className="block btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
             onClick={this.handleSave}
           >
-            Save Changes
+            Save
           </button>
         </PageContent>
       </React.Fragment>
@@ -165,8 +173,43 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
+const styles = theme => ({
+  backbtn: {
+    padding: 0,
+    height: '40px',
+    width: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    borderRadius: '50%',
+    marginRight: '5px',
+  },
+  fab: {
+    width: '40px',
+    height: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+
+  toggleContainer: {
+    height: 56,
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    margin: `${theme.spacing(1)}px 0`,
+    background: theme.palette.background.default,
+  },
+
+  accesslist: {
+    boxShadow: 'none',
+  },
+});
+
+const withStyle = withStyles(styles);
+
 export default compose(
   withReducer,
   withSaga,
   withConnect,
+  withStyle,
 )(AccessManagePage);
