@@ -10,7 +10,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 // @material-ui/core
-import withStyles from '@material-ui/core/styles/withStyles';
+
 import CheckBox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -27,7 +27,6 @@ import {
 } from '../selectors';
 import { DATE_FORMAT } from '../../App/constants';
 import * as mapDispatchToProps from '../actions';
-import Input from '../../../components/customComponents/Input';
 
 class UserPersonalInformationPage extends React.PureComponent {
   static propTypes = {
@@ -69,41 +68,34 @@ class UserPersonalInformationPage extends React.PureComponent {
       <div>Loading</div>
     ) : (
       <React.Fragment>
-        <div
-          className="w-full md:w-1/2 pb-4"
-          error={errors && errors.name && errors.name.length > 0}
-        >
-          <Input
-            label="Name"
-            inputclassName="inputbox"
-            inputid="name"
-            inputType="text"
+        <div className="w-full md:w-1/2 pb-4">
+          <label>Name</label>
+          <input
+            className="inputbox"
+            id="name"
+            type="text"
             name="Name"
             value={one.name || ''}
             onChange={this.handleChange('name')}
-            error={errors.name}
           />
+          <div className="error">{errors.name}</div>
         </div>
 
-        <div
-          className="w-full md:w-1/2 pb-4"
-          error={errors && errors.email && errors.email.length > 0}
-        >
-          <Input
-            label="Email"
-            inputclassName="inputbox"
-            inputid="email"
-            inputType="text"
+        <div className="w-full md:w-1/2 pb-4">
+          <label>Email</label>
+          <input
+            className="inputbox"
+            id="email"
+            type="text"
             name="Email"
             value={one.email || ''}
             onChange={this.handleChange('name')}
-            error={errors.email}
           />
+          <div className="error">{errors.email}</div>
         </div>
 
         <div className="md:w-1/2 pb-4">
           <label className="text-sm">Date Of Birth</label>
-
           <DatePicker
             name="date_of_birth"
             className="inputbox"
@@ -116,16 +108,9 @@ class UserPersonalInformationPage extends React.PureComponent {
           />
         </div>
 
-        {/* <FormControlLabel
-          control={
-            <CheckBox checked={one.email_verified || false} color="primary" />
-          }
-          label="Email Verified"
-        /> */}
-
         <div className="w-full pb-4">
           <div>
-            <span className="text-sm">Role :</span>{' '}
+            <label className="text-sm">Role :</label>{' '}
             {one.roles.map(each => (
               <span key={each._id} className="rounded border px-4 py-2 mr-2">
                 {each.role_title}{' '}
@@ -142,7 +127,7 @@ class UserPersonalInformationPage extends React.PureComponent {
           className="block btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
           onClick={this.handleSave}
         >
-          Save
+          Save Changes
         </button>
       </React.Fragment>
     );
@@ -160,10 +145,6 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-const styles = theme => ({});
-
-const withStyle = withStyles(styles);
-
 const withReducer = injectReducer({
   key: 'userPersonalInformationPage',
   reducer,
@@ -174,5 +155,4 @@ export default compose(
   withConnect,
   withReducer,
   withSaga,
-  withStyle,
 )(UserPersonalInformationPage);
