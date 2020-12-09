@@ -244,7 +244,7 @@ const AddEdit = props => {
                         {errors &&
                           errors.sub_menu_form &&
                           errors.sub_menu_form.title && (
-                            <div className="error">
+                            <div id="component-error-text">
                               {errors.sub_menu_form.title}
                             </div>
                           )}
@@ -273,7 +273,7 @@ const AddEdit = props => {
                         {errors &&
                           errors.sub_menu_form &&
                           errors.sub_menu_form.url && (
-                            <div className="error">
+                            <div id="component-error-text">
                               {errors.sub_menu_form.url}
                             </div>
                           )}
@@ -292,7 +292,7 @@ const AddEdit = props => {
                         {errors &&
                           errors.sub_menu_form &&
                           errors.sub_menu_form.order && (
-                            <div className="error">
+                            <div id="component-error-text">
                               {errors.sub_menu_form.order}
                             </div>
                           )}
@@ -307,7 +307,7 @@ const AddEdit = props => {
                           {errors &&
                             errors.sub_menu_form &&
                             errors.sub_menu_form.parent_menu && (
-                              <div className="error">
+                              <div id="component-error-text">
                                 {errors.sub_menu_form.parent_menu}
                               </div>
                             )}
@@ -349,7 +349,9 @@ const AddEdit = props => {
                         </select>
 
                         {errors && errors.title && (
-                          <div className="error">{errors.is_internal}</div>
+                          <div id="component-error-text">
+                            {errors.is_internal}
+                          </div>
                         )}
                       </div>
                       <div className="w-full md:w-1/2 pb-4">
@@ -369,7 +371,7 @@ const AddEdit = props => {
                           <option value="_parent">_parent</option>
                         </select>
                         {errors && errors.title && (
-                          <div className="error">{errors.target}</div>
+                          <div id="component-error-text">{errors.target}</div>
                         )}
                       </div>
                       <button
@@ -406,7 +408,7 @@ const AddEdit = props => {
                     onChange={handleTitleChange}
                   />
                   {errors && errors.title && (
-                    <div className="error">{errors.title}</div>
+                    <div id="component-error-text">{errors.title}</div>
                   )}
                 </div>
 
@@ -422,7 +424,7 @@ const AddEdit = props => {
                     onChange={handleChange('key')}
                   />
                   {errors && errors.key && (
-                    <div className="error">{errors.key}</div>
+                    <div id="component-error-text">{errors.key}</div>
                   )}
                 </div>
 
@@ -438,7 +440,7 @@ const AddEdit = props => {
                     onChange={handleChange('order')}
                   />
                   {errors && errors.title && (
-                    <div className="error">{errors.order}</div>
+                    <div id="component-error-text">{errors.order}</div>
                   )}
                 </div>
                 <div className="w-full md:w-1/2 pb-4">

@@ -12,18 +12,21 @@ const NameInput = props => {
   const hasError = Boolean(error);
   return (
     <div className="mb-4">
-      <label className="label" htmlFor="username">
+      <label
+        className="label"
+        htmlFor="username"
+      >
         Name
       </label>
       <input
-        // error={hasError.toString()}
+        error={hasError.toString()}
         onChange={handleChange}
         value={name}
         className="inputbox"
         type="text"
       />
 
-      {error && <div className="error">{error}</div>}
+      {error && <div id="component-error-text">{error}</div>}
     </div>
   );
 };
