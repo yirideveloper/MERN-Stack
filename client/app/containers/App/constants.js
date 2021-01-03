@@ -69,7 +69,3 @@ export const LOAD_LATEST_BLOGS_FAILURE = 'app/App/LOAD_LATEST_BLOGS_FAILURE';
 export const LOAD_MENU_REQUEST = 'app/App/LOAD_MENU_REQUEST';
 export const LOAD_MENU_SUCCESS = 'app/App/LOAD_MENU_SUCCESS';
 export const LOAD_MENU_FAILURE = 'app/App/LOAD_MENU_FAILURE';
-
-export const LOAD_FAQ_REQUEST = 'app/App/LOAD_FAQ_REQUEST';
-export const LOAD_FAQ_SUCCESS = 'app/App/LOAD_FAQ_SUCCESS';
-export const LOAD_FAQ_FAILURE = 'app/App/LOAD_FAQ_FAILURE';

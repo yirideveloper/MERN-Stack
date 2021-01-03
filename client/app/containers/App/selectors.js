@@ -94,9 +94,3 @@ export const makeSelectBlogLoading = () =>
     selectGlobal,
     state => state.blogLoading,
   );
-
-export const makeSelectFaqData = () =>
-  createSelector(
-    selectGlobal,
-    state => state.faqData,
-  );

@@ -27,10 +27,6 @@ export const initialState = {
   latestBlogs: {},
   menu: {},
   blogLoading: false,
-  faqData: {
-    cat: {},
-    faq: [],
-  },
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -138,9 +134,6 @@ const appReducer = (state = initialState, action = { type: '' }) =>
           [action.payload.data.key]: action.payload.data.child,
         };
         break;
-
-      case types.LOAD_FAQ_SUCCESS:
-        draft.faqData = action.payload.data;
     }
   });
 

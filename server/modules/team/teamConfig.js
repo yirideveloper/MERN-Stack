@@ -5,9 +5,6 @@ module.exports = {
     descriptionLength: 'This field should be between 5 to 2000',
     isMongoId: 'Please select an author!!',
   },
-  errorIn: {
-    inputErrors: 'invalid Inputs',
-  },
   save: 'team saved successfully.',
   get: 'teams get successfully.',
   delete: 'team deleted successfully!!',

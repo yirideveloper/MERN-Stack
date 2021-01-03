@@ -2,7 +2,6 @@ const httpStatus = require('http-status');
 const isEmpty = require('../../validation/isEmpty');
 const otherHelper = require('../../helper/others.helper');
 const templateConfig = require('./templateConfig');
-const templateSch = require('./templateSchema');
 const templateValidation = {};
 
 templateValidation.sanitized = (req, res, next) => {
@@ -60,7 +59,7 @@ templateValidation.sanitized = (req, res, next) => {
   next();
 };
 
-templateValidation.validate = async (req, res, next) => {
+templateValidation.validate = (req, res, next) => {
   const validateArray = [
     {
       field: '_id',
@@ -183,20 +182,9 @@ templateValidation.validate = async (req, res, next) => {
       ],
     },
   ];
-  let errors = otherHelper.validation(req.body, validateArray);
-
-  let key_filter = { is_deleted: false, template_key: data.template_key }
-  if (data._id) {
-    key_filter = { ...key_filter, _id: { $ne: data._id } }
-  }
-  const already_key = await templateSch.findOne(key_filter);
-  if (already_key && already_key._id) {
-    errors = { ...errors, template_key: 'template_key already exist' }
-  }
-
-
+  const errors = otherHelper.validation(req.body, validateArray);
   if (!isEmpty(errors)) {
-    return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, templateConfig.errorIn.inputErrors, null);
+    return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, 'invalid input', null);
   } else {
     next();
   }

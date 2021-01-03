@@ -5,9 +5,6 @@ module.exports = {
     unique: 'This field should be unique',
     duplicateKey: 'The key you have provided is already taken. Please enter another key',
   },
-  errorIn: {
-    inputErrors: 'Invalid Inputs',
-  },
   get: 'Slider get successful!!',
   save: 'Slider save successful!!',
   delete: 'Slider delete successful!!',
