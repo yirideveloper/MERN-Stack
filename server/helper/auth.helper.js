@@ -10,16 +10,14 @@ module.exports = passport => {
   passport.deserializeUser((user, done) => {
     done(null, user);
   });
-  const isFacebookAuth = await settingSch.findOne({ key: 'allow_facebook_login' }, { value: 1, _id: 0 });
-  const isGoogleAuth = await settingSch.findOne({ key: 'allow_google_login' }, { value: 1, _id: 0 });
-
-  if (isGoogleAuth.value == true) {
+  if (isGoogleAuth) {
     const GoogleTokenStrategy = require('passport-google-token').Strategy;
+
     passport.use(
       new GoogleTokenStrategy(
         {
-          clientID: client_id.value,
-          clientSecret: client_secret.value,
+          clientID: googleAuth.client_id,
+          clientSecret: googleAuth.client_secret,
         },
         async (accessToken, refreshToken, profile, cb, req) => {
           try {
@@ -34,16 +32,13 @@ module.exports = passport => {
       ),
     );
   }
-  if (isFacebookAuth == true) {
+  if (isFacebookAuth) {
     const FacebookTokenStrategy = require('passport-facebook-token');
-    const FACEBOOK_APP_ID = await settingSch.findOne({ key: 'app_id' }, { value: 1, _id: 0 });
-    const FACEBOOK_APP_SECRET = await settingSch.findOne({ key: 'app_secret' }, { value: 1, _id: 0 });
-
     passport.use(
       new FacebookTokenStrategy(
         {
-          clientID: FACEBOOK_APP_ID.value,
-          clientSecret: FACEBOOK_APP_SECRET.value,
+          clientID: facebookAuth.FACEBOOK_APP_ID,
+          clientSecret: facebookAuth.FACEBOOK_APP_SECRET,
         },
         async (accessToken, refreshToken, profile, done) => {
           try {
