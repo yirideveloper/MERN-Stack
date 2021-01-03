@@ -5,7 +5,6 @@ const blogSch = require('./blogSchema');
 const blogViewCountSch = require('./blogViewCountSchema');
 const blogCatSch = require('./categorySchema');
 const moment = require('moment');
-const blogViewCountSchema = require('./blogViewCountSchema');
 const blogController = {};
 const objectId = require('mongoose').Types.ObjectId;
 
@@ -448,6 +447,7 @@ blogController.SaveBlog = async (req, res, next) => {
       if (!blogs.tags) blogs.tags = [];
       if (!blogs.keywords) blogs.keywords = [];
       if (!blogs.author) blogs.author = req.user.id;
+
       const update = await blogSch.findByIdAndUpdate(
         blogs._id,
         {
@@ -457,6 +457,7 @@ blogController.SaveBlog = async (req, res, next) => {
       );
       return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, blogConfig.save, null);
     } else {
+      blogs.added_by = req.user.id;
       blogs.published_on = new Date();
       blogs.image = req.file;
       const newBlog = new blogSch(blogs);

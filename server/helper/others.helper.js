@@ -167,6 +167,7 @@ otherHelper.sanitize = (req, sanitizeArray) => {
     if (sanitization.toDate) {
       sanitizefield = Validator.toDate(sanitizefield);
     }
+    req.body[sanitizeObj.field] = sanitizefield;
   });
   return true;
 };
@@ -206,9 +207,12 @@ otherHelper.validation = (data, validationArray) => {
           }
           break;
         case 'IsMongoId':
+          if (!Validator.isEmpty(value)) {
+
           if (!Validator.isMongoId(value)) {
             errors[validationObj.field] = val.msg;
           }
+        }
           break;
         case 'IsIn':
           if (val.option) {
