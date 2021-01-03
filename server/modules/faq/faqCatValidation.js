@@ -32,7 +32,6 @@ faqCatValidation.Sanitize = (req, res, next) => {
 };
 
 faqCatValidation.Validation = async (req, res, next) => {
-    let data = req.body
     const validateArray = [
         {
             field: 'title',
