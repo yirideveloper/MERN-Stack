@@ -1,8 +1,6 @@
 const httpStatus = require('http-status');
 const isEmpty = require('../../validation/isEmpty');
 const otherHelper = require('../../helper/others.helper');
-const sanitizeHelper = require('../../helper/sanitize.helper');
-const validateHelper = require('../../helper/validate.helper');
 const templateConfig = require('./templateConfig');
 const templateSch = require('./templateSchema');
 const templateValidation = {};
@@ -58,7 +56,7 @@ templateValidation.sanitized = (req, res, next) => {
       },
     },
   ];
-  sanitizeHelper.sanitize(req, sanitizeArray);
+  otherHelper.sanitize(req, sanitizeArray);
   next();
 };
 
@@ -185,7 +183,7 @@ templateValidation.validate = async (req, res, next) => {
       ],
     },
   ];
-  let errors = validateHelper.validation(req.body, validateArray);
+  let errors = otherHelper.validation(req.body, validateArray);
 
   let key_filter = { is_deleted: false, template_key: data.template_key }
   if (data._id) {
