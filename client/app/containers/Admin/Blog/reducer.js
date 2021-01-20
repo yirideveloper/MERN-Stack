@@ -126,11 +126,23 @@ const reducer = (state = initialState, action) =>
       case types.SET_ERROR_VALUE:
         draft.errors = action.payload;
         break;
+      case types.ADD_EDIT_REQUEST:
+        draft.loading = true;
+        break;
       case types.ADD_EDIT_SUCCESS:
         draft.helper.showQuickEdit = false;
+        draft.loading = false;
+        const tempArray = draft.all.data;
+        for (let index = 0; index < tempArray.length; index++) {
+          const element = tempArray[index];
+          if (element._id === action.payload.data._id) {
+            draft.all.data[index] = { ...action.payload.data };
+          }
+        }
         break;
       case types.ADD_EDIT_FAILURE:
         draft.errors = action.payload.errors;
+        draft.loading = false;
         break;
     }
   });

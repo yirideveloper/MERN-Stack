@@ -1,11 +1,13 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import * as mapDispatchToProps from '../actions';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { makeSelectPassword, makeSelectPasswordError } from '../selectors';
+import * as mapDispatchToProps from '../actions';
 
 const PasswordInput = props => {
   const { password, setStoreValue, error, classes } = props;
@@ -39,7 +41,7 @@ const PasswordInput = props => {
           aria-label="Toggle password visibility"
           onClick={handleTogglePassword}
         >
-          {isSecure ? <FaRegEye /> : <FaRegEyeSlash />}
+          {isSecure ? <Visibility /> : <VisibilityOff />}
         </span>
       </div>
       {error && <div className="error">{error}</div>}
@@ -51,6 +53,7 @@ PasswordInput.propTypes = {
   password: PropTypes.string.isRequired,
   setStoreValue: PropTypes.func.isRequired,
   error: PropTypes.string,
+  classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
