@@ -8,11 +8,7 @@ module.exports = {
   }, errorIn: {
     inputErrors: 'input errors'
   },
-  save: 'blog saved successfully.',
-  get: 'blogs get successfully.',
-  delete: 'blog deleted successfully!!',
-  update: 'blog updated successfully ',
-  categorySave: 'blog category saved successfully.',
-  categoryUpdate: 'blog category updated successfully ',
-
+  save: 'bug saved successfully.',
+  get: 'bugs get successfully.',
+  delete: 'bug deleted successfully!!',
 };

@@ -1,13 +1,5 @@
 import { LOCATION_CHANGE, push } from 'connected-react-router';
-import {
-  call,
-  cancel,
-  fork,
-  put,
-  select,
-  take,
-  takeLatest,
-} from 'redux-saga/effects';
+import { call, cancel, fork, put, select, take, takeLatest } from 'redux-saga/effects';
 import Api from 'utils/Api';
 import { enqueueSnackbar } from '../../App/actions';
 import { makeSelectToken } from '../../App/selectors';
@@ -19,7 +11,7 @@ function* loadCategory(action) {
   const token = yield select(makeSelectToken());
   yield call(
     Api.get(
-      'blog/category/active',
+      'blog/category',
       actions.loadCategorySuccess,
       actions.loadCategoryFailure,
       token,

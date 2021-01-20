@@ -73,8 +73,6 @@ export class ContentsListingPage extends React.Component {
 
   handleEdit = id => {
     this.props.push(`/admin/content-manage/edit/${id}`);
-    this.props.clearOne();
-
     // this.setState({ edit_id: id });
     // this.props.setShowForm(true);
   };

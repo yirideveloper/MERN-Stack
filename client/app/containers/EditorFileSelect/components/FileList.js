@@ -40,7 +40,7 @@ import {
   FaTrash,
   FaFolder,
   FaSearch,
-  FaEdit,
+  FaEdit
 } from 'react-icons/fa';
 
 const LinkComponent = ({ children, staticContext, ...props }) => (
@@ -337,7 +337,6 @@ const FileList = ({
   };
 
   const onChooseFile = image => {
-    console.log('here', image);
     addChosenFile(image);
   };
 
@@ -588,11 +587,11 @@ const FileList = ({
                 <>
                   <div className="checkbox">
                     <input
-                      id={`${each._id}-secondary`}
+                      id="secondary"
                       type="checkbox"
                       onClick={() => addChosenFolder(each)}
                     />
-                    <label htmlFor={`${each._id}-secondary`}>
+                    <label htmlFor="secondary">
                       <span className="box">
                         <FaCheck className="check-icon" />
                       </span>
@@ -640,11 +639,11 @@ const FileList = ({
               {selectedButton === 'Multiple' && (
                 <div className="checkbox">
                   <input
-                    id={`${index}-multipleselect`}
+                    id="multipleselect"
                     type="checkbox"
                     onClick={() => onChooseFile(each)}
                   />
-                  <label htmlFor={`${index}-multipleselect`}>
+                  <label htmlFor="multipleselect">
                     <span className="box">
                       <FaCheck className="check-icon" />
                     </span>
@@ -654,11 +653,11 @@ const FileList = ({
               {selectedButton === 'Delete' && (
                 <div className="checkbox">
                   <input
-                    id={`${index}-dltmultiple`}
+                    id="dltmultiple"
                     type="checkbox"
                     onClick={() => addChosenFile(each)}
                   />
-                  <label htmlFor={`${index}-dltmultiple`}>
+                  <label htmlFor="dltmultiple">
                     <span className="box">
                       <FaCheck className="check-icon" />
                     </span>

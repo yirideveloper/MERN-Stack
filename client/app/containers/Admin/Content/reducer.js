@@ -50,7 +50,6 @@ const reducer = (state = initialState, action) =>
         break;
       case types.CLEAR_ONE:
         draft.one = initialState.one;
-        draft.tempMetaTag = '';
         break;
       case types.SET_QUERY_VALUE:
         draft.query[action.payload.key] = action.payload.value;
@@ -71,7 +70,7 @@ const reducer = (state = initialState, action) =>
         break;
       case types.LOAD_ONE_SUCCESS:
         draft.loading = false;
-        draft.one = { ...initialState.one, ...action.payload.data };
+        draft.one = action.payload.data;
         break;
       case types.LOAD_ONE_FAILURE:
         draft.loading = false;
