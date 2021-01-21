@@ -1,16 +1,19 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { makeSelectUser } from '../../App/selectors';
+import Tick from '@material-ui/icons/Done';
+import Clear from '@material-ui/icons/Clear';
 import reducer from '../reducer';
 import saga from '../saga';
+import { makeSelectUser } from '../../App/selectors';
 import { makeSelectToken } from '../selectors';
-
+import '../styles.css';
 
 function App(props) {
   const { user, token } = props;
@@ -22,16 +25,16 @@ function App(props) {
             className="mb-2 block text-green-500 hover:text-primary"
             to="/user/profile"
           >
-            Email verified <FaCheck />
+            Email verified <Tick />
           </NavLink>
         ) : (
-            <NavLink
-              className="mb-2 block text-red-500 text-primary"
-              to="/user/profile/verify"
-            >
-              Email not verified <FaTimes />
-            </NavLink>
-          )}
+          <NavLink
+            className="mb-2 block text-red-500 text-primary"
+            to="/user/profile/verify"
+          >
+            Email not verified <Clear />
+          </NavLink>
+        )}
         <h2 className="text-2xl mb-2 font-bold">Profile</h2>
 
         <NavLink
