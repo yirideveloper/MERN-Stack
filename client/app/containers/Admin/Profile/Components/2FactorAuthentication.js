@@ -6,8 +6,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 
-// @material-ui/core
-import withStyles from '@material-ui/core/styles/withStyles';
 import { useInjectSaga } from 'utils/injectSaga';
 
 import injectReducer from 'utils/injectReducer';
@@ -21,11 +19,6 @@ import {
   makeSelectErrors,
 } from '../selectors';
 import * as mapDispatchToProps from '../actions';
-import {
-  Input,
-  DatePicker,
-  Checkbox,
-} from '../../../../components/customComponents';
 import Modal from '../../../../components/Modal';
 import { FaCheck } from 'react-icons/fa';
 
@@ -103,15 +96,15 @@ export const TwoFactor = props => {
         handleUpdate={handleSubmitCode}
       >
         <div>
-          <Input
-            id="two_factor_authentication"
-            name="two_factor_authentication"
-            label="Google Two factor authentication code"
+          <label>Google Two factor authorization code</label>
+          <input
+            id="two_factor_authorization"
+            name="two_factor_authorization"
             disabled
             readOnly
-            error={errors.two_fa_ga_auth_secret}
             value={twoFactor && twoFactor.google_authenticate.auth_secret_setup}
           />
+          <div className="error">{errors.two_fa_ga_auth_secret}</div>
         </div>
         <div className="py-2">
           <svg
@@ -132,15 +125,15 @@ export const TwoFactor = props => {
           </svg>
         </div>
         <div>
-          <Input
+          <label>Enter Your code</label>
+          <input
             id="code"
             name="code"
-            label="Enter Your code"
-            error={errors.code}
             value={twoFactor && twoFactor.code}
             onChange={e => handleChange(e, 'google_authenticate')}
           />
-          <p className="italic mt-2">
+          <div className="error">{errors.code}</div>
+          <p className="italic mt-2 text-sm">
             Note : Enter the code from Authentication App
           </p>
         </div>
@@ -157,7 +150,7 @@ export const TwoFactor = props => {
             <span className="box">
               <FaCheck className="check-icon" />
             </span>
-            Enable email authentication
+            Enable email authorization
           </label>
         </div>
 
@@ -172,7 +165,7 @@ export const TwoFactor = props => {
             <span className="box">
               <FaCheck className="check-icon" />
             </span>
-            Enable Google two factor authentication
+            Enable Google two factor authorization
           </label>
         </div>
       </div>
@@ -204,11 +197,4 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-const styles = theme => ({});
-
-const withStyle = withStyles(styles);
-
-export default compose(
-  withConnect,
-  withStyle,
-)(TwoFactor);
+export default compose(withConnect)(TwoFactor);

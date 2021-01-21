@@ -2,17 +2,20 @@ const {
   oauthConfig: { googleAuth, facebookAuth },
   isOauthConfig: { isGoogleAuth, isFacebookAuth },
 } = require('../config/keys');
+const settingHelper = require('./settings.helper')
 
-module.exports = passport => {
+module.exports = async passport => {
   passport.serializeUser((user, done) => {
     done(null, user);
   });
   passport.deserializeUser((user, done) => {
     done(null, user);
   });
-  if (isGoogleAuth) {
-    const GoogleTokenStrategy = require('passport-google-token').Strategy;
+  const isFacebookAuth = await settingHelper('allow_facebook_login');// settingSch.findOne({ key: 'allow_facebook_login' }, { value: 1, _id: 0 });
+  const isGoogleAuth = await settingHelper('allow_google_login');//settingSch.findOne({ key: 'allow_google_login' }, { value: 1, _id: 0 });
 
+  if (isGoogleAuth.value == true) {
+    const GoogleTokenStrategy = require('passport-google-token').Strategy;
     passport.use(
       new GoogleTokenStrategy(
         {
@@ -32,13 +35,16 @@ module.exports = passport => {
       ),
     );
   }
-  if (isFacebookAuth) {
+  if (isFacebookAuth == true) {
     const FacebookTokenStrategy = require('passport-facebook-token');
+    const FACEBOOK_APP_ID = await settingHelper('app_id');// settingSch.findOne({ key: 'app_id' }, { value: 1, _id: 0 });
+    const FACEBOOK_APP_SECRET = await settingHelper('app_secret');// settingSch.findOne({ key: 'app_secret' }, { value: 1, _id: 0 });
+
     passport.use(
       new FacebookTokenStrategy(
         {
-          clientID: facebookAuth.FACEBOOK_APP_ID,
-          clientSecret: facebookAuth.FACEBOOK_APP_SECRET,
+          clientID: FACEBOOK_APP_ID.value,
+          clientSecret: FACEBOOK_APP_SECRET.value,
         },
         async (accessToken, refreshToken, profile, done) => {
           try {

@@ -11,8 +11,6 @@ import { createStructuredSelector } from 'reselect';
 import { push } from 'connected-react-router';
 import { compose } from 'redux';
 
-import withStyles from '@material-ui/core/styles/withStyles';
-
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import {
@@ -26,6 +24,7 @@ import reducer from './reducer';
 import saga from './saga';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import LinkBoth from '../../../components/LinkBoth';
+import Dialog from '../../../components/Dialog/index';
 
 import {
   FaStickyNote,
@@ -33,19 +32,6 @@ import {
   FaUser,
   FaNewspaper,
 } from 'react-icons/fa';
-
-const styles = theme => ({
-  dashicon: {
-    fontSize: '50px',
-    display: 'block',
-    width: '100%',
-    marginBottom: '10px',
-    color: '#666',
-    '&:hover': {
-      color: '#000000',
-    },
-  },
-});
 
 /* eslint-disable react/prefer-stateless-function */
 export class Dashboard extends React.PureComponent {
@@ -56,12 +42,23 @@ export class Dashboard extends React.PureComponent {
     this.props.loadBlogRequest();
   }
 
+  state = { open: false };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     const { classes, users, info, errors, blogs } = this.props;
     return (
       <>
         <div className="flex justify-between my-3">
-          <PageHeader>Dashboard</PageHeader>
+          <PageHeader>Dashboard </PageHeader>
+
         </div>
         <div className="bg-white rounded p-4">
           {info.map(each => (
@@ -107,7 +104,7 @@ export class Dashboard extends React.PureComponent {
           </div>
           <div className="w-1/4 -mr-8 bg-white rounded p-5 flex justify-between hover:text-black">
             <span className="text-gray-800 m-auto w-24 text-center font-bold">
-              <FaExclamationCircle className={classes.dashicon} />
+              <FaExclamationCircle />
               Total Errors
             </span>
             <span className="m-auto inline-block text-black text-2xl font-bold ml-4 w-12 h-12 text-center rounded-full bg-waftprimary-light leading-loose">
@@ -166,16 +163,44 @@ export class Dashboard extends React.PureComponent {
                     </div>
                   ))
                 ) : (
-                  <div className="flex justify-between">
-                    <h2 className="w-full m-auto h-full text-xl font-bold text-red-500">
-                      No Errors
+                    <div className="flex justify-between">
+                      <h2 className="w-full m-auto h-full text-xl font-bold text-red-500">
+                        No Errors
                     </h2>
-                  </div>
-                )}
+                    </div>
+                  )}
               </div>
             </div>
           </div>
         </div>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          title={<h2> Demo Dialog </h2>}
+          body={
+            <div>
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was
+              popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop
+              publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.
+            </div>
+          }
+          actions={
+            <button
+              type="button"
+              className="bg-red-400 p-2 text-white"
+              onClick={this.handleClose}
+            >
+              Close
+            </button>
+          }
+        />
       </>
     );
   }
@@ -204,10 +229,8 @@ const withConnect = connect(
 
 const withReducer = injectReducer({ key: 'adminDashboard', reducer });
 const withSaga = injectSaga({ key: 'adminDashboard', saga });
-const withStyle = withStyles(styles);
 
 export default compose(
-  withStyle,
   withReducer,
   withSaga,
   withConnect,

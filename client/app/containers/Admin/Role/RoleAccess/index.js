@@ -1,42 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-
-// @material-ui/core
-import withStyles from '@material-ui/core/styles/withStyles';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-
-import injectSaga from 'utils/injectSaga';
+import { FaArrowLeft, FaCheck } from 'react-icons/fa';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
-// core components
+import injectSaga from 'utils/injectSaga';
+import Loading from '../../../../components/Loading';
+import PageContent from '../../../../components/PageContent/PageContent';
+import PageHeader from '../../../../components/PageHeader/PageHeader';
+import Panel from '../../../../components/Panel';
+import '../../../../components/Table/table.css';
+import * as mapDispatchToProps from '../actions';
 import reducer from '../reducer';
 import saga from '../saga';
-import {
-  makeSelectModuleData,
-  makeSelectLoaders,
-  makeSelectErrors,
-  makeSelectRoleData,
-} from '../selectors';
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import * as mapDispatchToProps from '../actions';
-import PageHeader from '../../../../components/PageHeader/PageHeader';
-import PageContent from '../../../../components/PageContent/PageContent';
-import BackIcon from '@material-ui/icons/ArrowBack';
-import { IconButton } from '@material-ui/core';
-import Loading from '../../../../components/Loading';
-import '../../../../components/Table/table.css';
+import { makeSelectErrors, makeSelectLoaders, makeSelectModuleData, makeSelectRoleData } from '../selectors';
 import './style.css';
-import { FaArrowLeft } from 'react-icons/fa';
+
 
 const RoleAccess = props => {
   const {
@@ -119,57 +100,26 @@ const RoleAccess = props => {
 
   return loading ? (
     <>
-      <div className="flex justify-between my-3">
-        <PageHeader>
-          <span className="backbtn" onClick={this.handleGoBack}>
-            <FaArrowLeft className="text-xl" />
-          </span>
-          Role Access
-        </PageHeader>
-      </div>
-      <h2>Loading</h2>
       <Loading />
     </>
   ) : (
-    <React.Fragment>
-      <Helmet>
-        <title>Role Access</title>
-      </Helmet>
-      <div className="flex justify-between my-3">
-        <PageHeader>
-          <span className="backbtn" onClick={handleBack}>
-            <FaArrowLeft className="text-xl" />
-          </span>
+      <React.Fragment>
+        <Helmet>
+          <title>Role Access</title>
+        </Helmet>
+        <div className="flex justify-between my-3">
+          <PageHeader>
+            <span className="backbtn" onClick={handleBack}>
+              <FaArrowLeft className="text-xl" />
+            </span>
           Role Access
         </PageHeader>
-      </div>
-      <PageContent>
-        {module_data.map((each, index) => (
-          <Accordion
-            key={`${each._id}-${index}`}
-            // expanded={each._id === expanded}
-            onClick={() => setExpanded(each._id)}
-            className={classes.ExpansionPanelMainWrapper}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
-              classes={{
-                root: classes.roleRoot,
-                content: classes.roleContent,
-                expandIcon: classes.roleExpandIcon,
-                expanded: classes.roleExpanded,
-              }}
-            >
-              <Typography className={classes.heading}>
-                <span className="text-lg font-medium m-0">
-                  {each.module_group} Group
-                </span>
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails style={{ display: 'block' }}>
-              {each.modules.map(module => (
+        </div>
+        <PageContent>
+          {module_data.map((each, index) => (
+            <Panel
+              title={`${each.module_group} Group`}
+              body={each.modules.map(module => (
                 <fieldset
                   key={`${module._id}-${each._id}-${index}`}
                   className="formfieldset mb-2"
@@ -184,9 +134,8 @@ const RoleAccess = props => {
                     {module.path.length > 0 &&
                       module.path.map(module_path => (
                         <li
-                          key={`${module_path._id}-${module._id}-${
-                            each._id
-                          }-${index}`}
+                          key={`${module_path._id}-${module._id}-${each._id
+                            }-${index}`}
                           className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mb-2"
                         >
                           <div className="mr-2">
@@ -213,18 +162,17 @@ const RoleAccess = props => {
                   </ul>
                 </fieldset>
               ))}
-            </AccordionDetails>
-          </Accordion>
-        ))}
-        <button
-          className="block btn bg-blue-500 border border-blue-600 hover:bg-blue-600 mt-4"
-          onClick={handleSave}
-        >
-          Save
+            />
+          ))}
+          <button
+            className="btn bg-blue-500 hover:bg-blue-600 mt-4"
+            onClick={handleSave}
+          >
+            Save Role Access
         </button>
-      </PageContent>
-    </React.Fragment>
-  );
+        </PageContent>
+      </React.Fragment>
+    );
 };
 
 const withReducer = injectReducer({ key: 'adminRole', reducer });
@@ -242,76 +190,9 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-const styles = theme => ({
-  backbtn: {
-    padding: 0,
-    height: '40px',
-    width: '40px',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    borderRadius: '50%',
-    marginRight: '5px',
-  },
-
-  waftsrch: {
-    padding: 0,
-    position: 'absolute',
-    borderLeft: '1px solid #d9e3e9',
-    borderRadius: 0,
-    '&:hover': {
-      background: 'transparent',
-      color: '#404040',
-    },
-  },
-  secondaryHeading: {
-    color: '#ff3b30',
-    textTransform: 'Capitalize',
-  },
-  paper: {
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(6))]: {
-      marginBottom: theme.spacing(6),
-      padding: theme.spacing(3),
-    },
-  },
-
-  ExpansionPanelMainWrapper: {
-    marginBottom: '8px',
-    boxShadow: 'none',
-  },
-
-  roleRoot: {
-    minHeight: '44px',
-  },
-
-  roleContent: {
-    margin: '6px 0px',
-  },
-
-  roleExpandIcon: {
-    padding: '0px 12px',
-  },
-
-  roleExpanded: {
-    borderBottom: '1px solid gainsboro',
-    margin: '6px 0px !important',
-    '& > div': {
-      borderBottom: 'none',
-      margin: '6px 0px',
-    },
-  },
-
-  topography: {
-    width: '100%',
-  },
-});
-
-const withStyle = withStyles(styles);
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
-  withStyle,
 )(RoleAccess);

@@ -11,11 +11,12 @@ const { secretOrKey } = require('../config/keys');
 const accessSch = require('../modules/role/accessSchema');
 const modulesSch = require('../modules/role/moduleSchema');
 const rolesSch = require('../modules/role/roleSchema');
+const settingSch = require('../modules/setting/settingSchema');
 const authMiddleware = {};
 
 const isEmpty = require('../validation/isEmpty');
 
-authMiddleware.authorization = async (req, res, next) => {
+authMiddleware.authentication = async (req, res, next) => {
   try {
     let token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization || req.headers.token;
     if (token && token.length) {
@@ -35,7 +36,7 @@ authMiddleware.authorization = async (req, res, next) => {
   }
 };
 
-authMiddleware.authorizationForLogout = async (req, res, next) => {
+authMiddleware.authenticationForLogout = async (req, res, next) => {
   try {
     let token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization || req.headers.token;
     if (token && token.length) {
@@ -50,7 +51,7 @@ authMiddleware.authorizationForLogout = async (req, res, next) => {
   }
 };
 
-authMiddleware.authentication = async (req, res, next) => {
+authMiddleware.authorization = async (req, res, next) => {
   try {
     const user = req.user;
     const role = await rolesSch.find({ _id: { $in: user.roles } }, { _id: 1 });
@@ -113,4 +114,34 @@ authMiddleware.getClientInfo = async (req, res, next) => {
   req.clinfo = info;
   return next();
 };
+
+authMiddleware.isPublicFacebookRegistrationAllow = async (req, res, next) => {
+  try {
+    let checkis_public_registration = await settingSch.findOne({ key: 'is_public_registration' }, { value: 1, _id: 0 });
+    let checkis_fblogin = await settingSch.findOne({ key: 'allow_facebook_login' }, { value: 1, _id: 0 });
+    if (checkis_public_registration.value == false || checkis_fblogin.value == false) {
+      return otherHelper.sendResponse(res, HttpStatus.NOT_ACCEPTABLE, false, null, null, 'facebook login function disabled', 'null');
+    } else {
+      return next();
+    }
+
+  } catch (err) {
+    next(err);
+  }
+}
+
+authMiddleware.isPublicGoogleRegistrationAllow = async (req, res, next) => {
+  try {
+    let checkis_public_registration = await settingSch.findOne({ key: 'is_public_registration' }, { value: 1, _id: 0 });
+    let checkis_googlelogin = await settingSch.findOne({ key: 'allow_google_login' }, { value: 1, _id: 0 });
+    if (checkis_public_registration.value == false || checkis_googlelogin.value == false) {
+      return otherHelper.sendResponse(res, HttpStatus.NOT_ACCEPTABLE, false, null, null, 'google login function disabled', 'null');
+    } else {
+      return next();
+    }
+
+  } catch (err) {
+    next(err);
+  }
+}
 module.exports = authMiddleware;

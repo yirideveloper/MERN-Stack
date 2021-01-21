@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-// @material-ui/core components
-import { Checkbox } from '@material-ui/core/';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Inputs from '../../../../components/customComponents/Input';
-import Select from '../../../../components/Select';
 import { FaCheck } from 'react-icons/fa';
+import Select from '../../../../components/Select';
 
 const customStyles = {
-  chip: () => {},
+  chip: () => { },
   option: (provided, state) => ({
     ...provided,
     background: state.isFocused || state.isSelected ? '#5897FB' : 'white',
@@ -67,15 +63,6 @@ const QuickEdit = props => {
     };
     return obj;
   });
-
-  const menuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 48 * 4.5 + 8,
-        width: 250,
-      },
-    },
-  };
   const cats = {};
   category.map(e => {
     cats[e._id] = e;
@@ -87,16 +74,16 @@ const QuickEdit = props => {
       <div>
         <h2 className="text-2xl mb-4">Quick Edit</h2>
         <div className="w-full  pb-4">
-          <Inputs
-            label="Title"
-            inputclassName="inputbox"
-            inputid="blog-title"
-            inputType="text"
+          <label>Title</label>
+          <input
+            className="inputbox"
+            id="blog-title"
+            type="text"
             value={(one && one.title) || ''}
             name="Blog Title"
             onChange={handleChange('title')}
-            error={errors && errors.title}
           />
+          <div className="error">{errors && errors.title}</div>
         </div>
 
         <div className="w-full  pb-4">
@@ -168,7 +155,7 @@ const QuickEdit = props => {
               ))}
           </select>
         </div>
-        <div id="component-error-text">{errors && errors.author}</div>
+        <div className="error">{errors && errors.author}</div>
         <div className="checkbox">
           <input
             checked={one.is_active || false}

@@ -1,56 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import CKEditor from 'react-ckeditor-component';
-import { withRouter } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Helmet } from 'react-helmet';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-// @material-ui/core components
-import withStyles from '@material-ui/core/styles/withStyles';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-// core components
-import injectSaga from 'utils/injectSaga';
+import { Helmet } from 'react-helmet';
+import { FaArrowLeft, FaCheck } from 'react-icons/fa';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+import WECkEditior from '../../../../components/CkEditor';
+import Loading from '../../../../components/Loading';
+import PageContent from '../../../../components/PageContent/PageContent';
+import PageHeader from '../../../../components/PageHeader/PageHeader';
+import { DATE_FORMAT } from '../../../App/constants';
+import { makeSelectToken } from '../../../App/selectors';
+import * as mapDispatchToProps from '../actions';
 import reducer from '../reducer';
 import saga from '../saga';
 import {
-  makeSelectOne,
-  makeSelectLoading,
-  makeSelectErrors,
-  makeSelectMetaTag,
-} from '../selectors';
-import * as mapDispatchToProps from '../actions';
-import { DATE_FORMAT } from '../../../App/constants';
-import PageHeader from '../../../../components/PageHeader/PageHeader';
-import PageContent from '../../../../components/PageContent/PageContent';
-import BackIcon from '@material-ui/icons/ArrowBack';
-import { IconButton } from '@material-ui/core';
-import Loading from '../../../../components/Loading';
-import { makeSelectToken } from '../../../App/selectors';
-import WECkEditior from '../../../../components/CkEditor';
-import Input from '../../../../components/customComponents/Input';
-import { FaCheck, FaArrowLeft } from 'react-icons/fa';
+  makeSelectErrors, makeSelectLoading,
 
-const styles = {
-  backbtn: {
-    padding: 0,
-    height: '40px',
-    width: '40px',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    borderRadius: '50%',
-    marginRight: '5px',
-  },
-};
+  makeSelectMetaTag, makeSelectOne
+} from '../selectors';
+
 
 class AddEdit extends React.PureComponent {
   static propTypes = {
@@ -68,9 +44,10 @@ class AddEdit extends React.PureComponent {
 
   componentDidMount() {
     this.props.clearErrors();
-    if (this.props.edit_id && this.props.edit_id !== '') {
-      this.props.loadOneRequest(this.props.edit_id);
+    if (this.props.match.params && this.props.match.params.id !== '') {
+      this.props.loadOneRequest(this.props.match.params.id);
     }
+    console.log(this.props.match.id);
   }
 
   handleEditorChange = (e, name) => {
@@ -140,123 +117,123 @@ class AddEdit extends React.PureComponent {
     return loading && loading == true ? (
       <Loading />
     ) : (
-      <>
-        <Helmet>
-          <title>
-            {' '}
-            {edit_id && edit_id !== ''
-              ? 'Edit Section Content'
-              : 'Add Section Content'}
-          </title>
-        </Helmet>
-        <div className="flex justify-between my-3">
-          <PageHeader>
-            <span className="backbtn" onClick={this.handleGoBack}>
-              <FaArrowLeft className="text-xl" />
-            </span>
-            {match && match.params && match.params.id
-              ? 'Edit Static Content'
-              : 'Add Static Content'}
-          </PageHeader>
-        </div>
-
-        <PageContent className="bg-white border- p-4">
-          <div className="w-full md:w-1/2 pb-4">
-            <Input
-              label="Content Title"
-              inputclassName="inputbox"
-              inputid="grid-last-name"
-              inputType="text"
-              value={one.name}
-              onChange={this.handleChange('name')}
-              error={errors.name}
-            />
+        <>
+          <Helmet>
+            <title>
+              {' '}
+              {edit_id && edit_id !== ''
+                ? 'Edit Section Content'
+                : 'Add Section Content'}
+            </title>
+          </Helmet>
+          <div className="flex justify-between my-3">
+            <PageHeader>
+              <span className="backbtn" onClick={this.handleGoBack}>
+                <FaArrowLeft className="text-xl" />
+              </span>
+              {match && match.params && match.params.id
+                ? 'Edit Static Content'
+                : 'Add Static Content'}
+            </PageHeader>
           </div>
 
-          <div className="w-full md:w-1/2 pb-4">
-            <Input
-              label="Content Key"
-              inputclassName="inputbox"
-              inputid="grid-last-name"
-              inputType="text"
-              value={one.key}
-              onChange={this.handleChange('key')}
-              error={errors.key}
-            />{' '}
-          </div>
-
-          <div>
-            <WECkEditior
-              description={one.description}
-              setOneValue={this.props.setOneValue}
-            />
-            <div id="component-error-text">{errors.description}</div>
-          </div>
-
-          <div className="w-full md:w-1/2 pb-4">
-            <Input
-              label="Meta Title"
-              inputclassName="inputbox"
-              inputid="grid-last-meta_title"
-              inputType="text"
-              value={one.meta_title}
-              onChange={this.handleChange('meta_title')}
-              error={errors.meta_title}
-            />
-          </div>
-          <div className="w-full md:w-1/2 pb-4">
-            <Input
-              label="Meta Description"
-              inputclassName="inputbox"
-              inputid="grid-last-meta_description"
-              inputType="text"
-              value={one.meta_description}
-              onChange={this.handleChange('meta_description')}
-              error={errors.meta_description}
-            />
-          </div>
-          <div className="w-full md:w-1/2 pb-4">
-            <label className="text-sm" htmlFor="grid-last-name">
-              Meta Tags
-            </label>
-            <form onSubmit={this.insertMetaTags}>
+          <PageContent className="bg-white border- p-4">
+            <div className="w-full md:w-1/2 pb-4">
+              <label>Content Title</label>
               <input
                 className="inputbox"
-                id="blog-meta-tags"
+                id="grid-last-name"
                 type="text"
-                value={tempMetaTag || ''}
-                name="Tags"
-                onChange={this.handleTempMetaTag}
+                value={one.name}
+                onChange={this.handleChange('name')}
               />
-            </form>
-            <Paper elevation={2}>
+              <div className="error">{errors && errors.name}</div>
+            </div>
+
+            <div className="w-full md:w-1/2 pb-4">
+              <label>Content Key</label>
+              <input
+                className="inputbox"
+                id="grid-last-name"
+                type="text"
+                value={one.key}
+                onChange={this.handleChange('key')}
+              />{' '}
+              <div className="error">{errors && errors.key}</div>
+            </div>
+
+            <div>
+              <WECkEditior
+                description={one.description}
+                setOneValue={this.props.setOneValue}
+              />
+              <div className="error">{errors.description}</div>
+            </div>
+
+            <div className="w-full md:w-1/2 pb-4">
+              <label>Meta Title</label>
+              <input
+                className="inputbox"
+                id="grid-last-meta_title"
+                type="text"
+                value={one.meta_title}
+                onChange={this.handleChange('meta_title')}
+              />
+              <div className="error">{errors && errors.meta_title}</div>
+            </div>
+            <div className="w-full md:w-1/2 pb-4">
+              <label>Meta Description</label>
+              <input
+                className="inputbox"
+                id="grid-last-meta_description"
+                type="text"
+                value={one.meta_description}
+                onChange={this.handleChange('meta_description')}
+              />
+              <div className="error">{errors && errors.meta_description}</div>
+            </div>
+            <div className="w-full md:w-1/2 pb-4">
+              <label className="text-sm" htmlFor="grid-last-name">
+                Meta Tags
+            </label>
+              <form onSubmit={this.insertMetaTags}>
+                <input
+                  className="inputbox"
+                  id="blog-meta-tags"
+                  type="text"
+                  value={tempMetaTag || ''}
+                  name="Tags"
+                  onChange={this.handleTempMetaTag}
+                />
+              </form>
               {one.meta_tag &&
                 one.meta_tag.map((tag, index) => {
                   const icon = null;
 
                   return (
-                    <Chip
-                      key={`meta-${tag}-${index}`}
-                      icon={icon}
-                      label={tag}
+                    <label
                       onDelete={this.handleMetaTagDelete(index)}
-                      className={classes.chip}
-                    />
+                      className="tag"
+                      key={`meta-${tag}-${index}`}
+                    >
+                      {tag}
+                      <span>
+                        <FaTimes />
+                      </span>
+                    </label>
                   );
                 })}
-            </Paper>
-          </div>
+            </div>
 
-          <div className="flex w-full justify-between md:w-1/2 px-2">
-            <div className="w-full md:w-1/2 -ml-2">
-              <div margin="normal" className={classes.formControl}>
+            <div className="flex w-full justify-between md:w-1/2 px-2">
+              <div className="w-full md:w-1/2 -ml-2">
                 <label className="text-sm" htmlFor="grid-last-name">
                   Published From
-                </label>
+              </label>
                 <DatePicker
                   margin="normal"
                   name="publish_from"
-                  className={[classes.textField, 'inputbox']}
+                  className="inputbox"
                   value={
                     (one.publish_from &&
                       moment(one.publish_from).format(DATE_FORMAT)) ||
@@ -265,17 +242,15 @@ class AddEdit extends React.PureComponent {
                   onChange={this.handleDateChange('publish_from')}
                 />
               </div>
-            </div>
 
-            <div className="w-full md:w-1/2 -mr-2">
-              <div margin="normal" className={classes.formControl}>
+              <div className="w-full md:w-1/2 -mr-2">
                 <label className="text-sm" htmlFor="grid-last-name">
                   Published To
-                </label>
+              </label>
                 <DatePicker
                   margin="normal"
                   name="publish_to"
-                  className={[classes.textField, 'inputbox']}
+                  className="inputbox"
                   value={
                     (one.publish_to &&
                       moment(one.publish_to).format(DATE_FORMAT)) ||
@@ -285,36 +260,34 @@ class AddEdit extends React.PureComponent {
                 />
               </div>
             </div>
-          </div>
 
-          <div className="checkbox">
-            <input
-              checked={one.is_active || false}
-              onClick={this.handleCheckedChange('is_active')}
-              id="is_active"
-              type="checkbox"
-            />
-            <label htmlFor="is_active">
-              <span className="box">
-                <FaCheck className="check-icon" />
-              </span>
+            <div className="checkbox">
+              <input
+                checked={one.is_active || false}
+                onClick={this.handleCheckedChange('is_active')}
+                id="is_active"
+                type="checkbox"
+              />
+              <label htmlFor="is_active">
+                <span className="box">
+                  <FaCheck className="check-icon" />
+                </span>
               Is Active
             </label>
-          </div>
+            </div>
 
-          <button
-            className="block btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
-            onClick={this.handleSave}
-          >
-            Save Content
+            <button
+              className="block btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
+              onClick={this.handleSave}
+            >
+              Save Content
           </button>
-        </PageContent>
-      </>
-    );
+          </PageContent>
+        </>
+      );
   }
 }
 
-const withStyle = withStyles(styles);
 const withReducer = injectReducer({ key: 'contentsListingPage', reducer });
 const withSaga = injectSaga({ key: 'contentsListingPage', saga });
 
@@ -333,7 +306,6 @@ const withConnect = connect(
 
 export default compose(
   withRouter,
-  withStyle,
   withReducer,
   withSaga,
   withConnect,

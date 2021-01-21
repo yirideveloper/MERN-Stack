@@ -1,90 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import moment from 'moment';
+import Table from 'components/Table';
 import { push } from 'connected-react-router';
-import { Helmet } from 'react-helmet';
-import Select from 'react-select';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
-// @material-ui/core components
-import withStyles from '@material-ui/core/styles/withStyles';
-import AddIcon from '@material-ui/icons/Add';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import Edit from '@material-ui/icons/Edit';
-import SearchIcon from '@material-ui/icons/Search';
-import Close from '@material-ui/icons/Close';
-import Fab from '@material-ui/core/Fab';
-import View from '@material-ui/icons/RemoveRedEyeOutlined';
-import { Checkbox } from '@material-ui/core/';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-// core components
-import Table from 'components/Table';
-
-import { DATE_FORMAT } from '../../App/constants';
-import injectSaga from '../../../utils/injectSaga';
+import { Helmet } from 'react-helmet';
+import { FaBan, FaPlus, FaRegCheckCircle } from 'react-icons/fa';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import Select from 'react-select';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import DeleteDialog from '../../../components/DeleteDialog';
+import Loading from '../../../components/Loading';
+import Modal from '../../../components/Modal';
+import PageContent from '../../../components/PageContent/PageContent';
+import PageHeader from '../../../components/PageHeader/PageHeader';
 import injectReducer from '../../../utils/injectReducer';
+import injectSaga from '../../../utils/injectSaga';
+import { DATE_FORMAT } from '../../App/constants';
+import * as mapDispatchToProps from './actions';
+import QuickEdit from './AddEditPage/QuickEdit';
 import reducer from './reducer';
 import saga from './saga';
-import * as mapDispatchToProps from './actions';
-import {
-  makeSelectAll,
-  makeSelectQuery,
-  makeSelectHelper,
-  makeSelectLoading,
-  makeSelectOne,
-  makeSelectUsers,
-  makeSelectCategory,
-  makeSelectChip,
-  makeSelectTag,
-  makeSelectMetaTag,
-  makeSelectMetaKeyword,
-  makeSelectErrors,
-} from './selectors';
+import { makeSelectAll, makeSelectCategory, makeSelectChip, makeSelectErrors, makeSelectHelper, makeSelectLoading, makeSelectMetaKeyword, makeSelectMetaTag, makeSelectOne, makeSelectQuery, makeSelectTag, makeSelectUsers } from './selectors';
 
-import PageHeader from '../../../components/PageHeader/PageHeader';
-import PageContent from '../../../components/PageContent/PageContent';
-import DeleteDialog from '../../../components/DeleteDialog';
-import Modal from '../../../components/Modal';
-import Loading from '../../../components/Loading';
-import LinkBoth from '../../../components/LinkBoth';
-import QuickEdit from './AddEditPage/QuickEdit';
-import { FaBan, FaRegCheckCircle } from 'react-icons/fa';
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-  fab: {
-    width: '40px',
-    height: '40px',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-  },
-  tableActionButton: {
-    padding: 0,
-    '&:hover': {
-      background: 'transparent',
-      color: '#404040',
-    },
-  },
-
-  waftsrch: {
-    padding: 0,
-    position: 'absolute',
-    borderLeft: '1px solid #d9e3e9',
-    borderRadius: 0,
-    '&:hover': {
-      background: 'transparent',
-      color: '#404040',
-    },
-  },
-});
 
 /* eslint-disable react/prefer-stateless-function */
 export class BlogManagePage extends React.Component {
@@ -396,61 +337,67 @@ export class BlogManagePage extends React.Component {
         author,
         _id,
       }) => [
-        <>
-          <Link
-            to={`/news/${moment(added_at).format('YYYY/MM/DD')}/${_id}`}
-            target="_blank"
-            className="block font-bold text-base text-blue-500 cursor-pointer hover:underline"
-          >
-            {title}
-          </Link>{' '}
-          <div className="flex py-2">
-            <button
-              aria-label="Edit"
-              type="button"
-              className="border-r px-1 text-center leading-none hover:text-blue-500 whitespace-no-wrap text-sm"
-              onClick={() => this.handleEdit(_id)}
+          <>
+            <Link
+              to={`/news/${moment(added_at).format('YYYY/MM/DD')}/${_id}`}
+              target="_blank"
+              className="block font-bold text-base text-blue-500 cursor-pointer hover:underline"
             >
-              Edit
+              {title}
+            </Link>{' '}
+            <div className="flex py-2">
+              <button
+                aria-label="Edit"
+                type="button"
+                className="border-r px-1 text-center leading-none hover:text-blue-500 whitespace-nowrap text-sm"
+                onClick={() => this.handleEdit(_id)}
+              >
+                Edit
             </button>
-            <button
-              aria-label="Edit"
-              type="button"
-              className="border-r px-1 text-center leading-none hover:text-blue-500 whitespace-no-wrap text-sm"
-              onClick={() => this.handleLoadOne(_id)}
-            >
-              Quick Edit
+              <button
+                aria-label="Edit"
+                type="button"
+                className="border-r px-1 text-center leading-none hover:text-blue-500 whitespace-nowrap text-sm"
+                onClick={() => this.handleLoadOne(_id)}
+              >
+                Quick Edit
             </button>
 
-            <button
-              className="px-1 text-center leading-none text-red-500 whitespace-no-wrap text-sm"
-              type="button"
-              onClick={() => this.handleOpen(_id)}
-            >
-              Delete
+              <button
+                className="px-1 text-center leading-none text-red-500 whitespace-nowrap text-sm"
+                type="button"
+                onClick={() => this.handleOpen(_id)}
+              >
+                Delete
             </button>
-          </div>
-        </>,
-        (category && category.map(each => each.title).join(', ')) || 'No',
-        <span className="whitespace-no-wrap">
-          {moment(added_at).format(DATE_FORMAT)}
-        </span>,
-        <span className="whitespace-no-wrap">
-          {moment(published_on).format('YYYY-MM-DD HH:mm')}
-        </span>,
-        // `${is_highlight}`,
-        // `${is_showcase}`,
-        // `${is_active}`,
-        <>{is_published ? <FaRegCheckCircle /> : <FaBan />} </>,
-        // tags.join(','),
-        (
-          <p className="">
-            {author &&
-              author.length > 0 &&
-              author.map(author => author.name).join(', ')}
-          </p>
-        ) || '',
-      ],
+            </div>
+          </>,
+          (category && category.map(each => each.title).join(', ')) || 'No',
+          <span className="whitespace-nowrap">
+            {moment(added_at).format(DATE_FORMAT)}
+          </span>,
+          <span className="whitespace-nowrap">
+            {moment(published_on).format('YYYY-MM-DD HH:mm')}
+          </span>,
+          // `${is_highlight}`,
+          // `${is_showcase}`,
+          // `${is_active}`,
+          <>
+            {is_published ? (
+              <FaRegCheckCircle className="text-green-500" />
+            ) : (
+                <FaBan className="text-red-400" />
+              )}{' '}
+          </>,
+          // tags.join(','),
+          (
+            <p className="">
+              {author &&
+                author.length > 0 &&
+                author.map(author => author.name).join(', ')}
+            </p>
+          ) || '',
+        ],
     );
 
     const activeData =
@@ -524,16 +471,16 @@ export class BlogManagePage extends React.Component {
               Showcase({msg && msg.showcase ? msg.showcase : null})
             </span>
           </PageHeader>
-          <Fab
-            color="primary"
-            aria-label="Add"
-            className={classes.fab}
-            round="true"
-            onClick={this.handleAdd}
-            elevation={0}
-          >
-            <AddIcon />
-          </Fab>
+
+          <div className="flex items-center">
+            <button
+              className="bg-blue-500 border border-blue-600 px-3 py-2 leading-none inline-flex items-center cursor-pointer hover:bg-blue-600 transition-all duration-100 ease-in text-sm text-white rounded"
+              onClick={this.handleAdd}
+            >
+              <FaPlus />
+              <span className="pl-2">Add New</span>
+            </button>
+          </div>
         </div>
         <div className="bg-white rounded p-2 mb-4">
           <div className="flex -mx-1 items-center">
@@ -714,11 +661,8 @@ const withConnect = connect(
 const withReducer = injectReducer({ key: 'blogManagePage', reducer });
 const withSaga = injectSaga({ key: 'blogManagePage', saga });
 
-const withStyle = withStyles(styles);
-
 export default compose(
   withRouter,
-  withStyle,
   withReducer,
   withSaga,
   withConnect,

@@ -12,8 +12,6 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
-import withStyles from '@material-ui/core/styles/withStyles';
-
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
@@ -60,8 +58,8 @@ const SignupUserPage = ({
                 <span className="ml-2">Sing Up</span>
               </div>
             ) : (
-              'Sign Up'
-            )}
+                'Sign Up'
+              )}
           </button>
           <Link
             className="inline-block align-baseline text-xs text-blue-700 hover:text-blue-700-darker"
@@ -141,10 +139,7 @@ const styles = {
   },
 };
 
-const withStyle = withStyles(styles);
-
 export default compose(
-  withStyle,
   withReducer,
   withSaga,
   withConnect,

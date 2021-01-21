@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import withStyles from '@material-ui/core/styles/withStyles';
+
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import { createStructuredSelector } from 'reselect';
@@ -16,8 +16,6 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-
-import { Input } from '../../components/customComponents';
 import UsernameInput from './components/UsernameInput';
 import PasswordInput from './components/PasswordInput';
 import { FB_APP_ID, FB_APP_FIELDS, GOOGLE_CLIENT_ID } from '../App/constants';
@@ -120,38 +118,37 @@ const LoginUserPage = props => {
               </div>
             </>
           ) : (
-            'Continue'
-          )
+              'Continue'
+            )
         }
         width="sm"
       >
         {showEmailTwoFactor && (
           <div className="border p-2 m-2">
-            <Input
+            <label>Enter the code</label>
+            <label className="text-xs">Check inbox for the code</label>
+            <input
               id="code"
               name="code"
-              subLabel="Check inbox for the code"
-              label="Enter the code"
-              error={errors && errors.multi_fa && errors.multi_fa.email.code}
               value={twoFactor && twoFactor.email && twoFactor.email.code}
               onChange={e => handleChange(e, 'email')}
               onKeyPress={e => e.key === 'Enter' && handleSubmitCode(e)}
             />
+            <div className="error">
+              {errors && errors.multi_fa && errors.multi_fa.email.code}
+            </div>
           </div>
         )}
 
         {showGoogleTwoFactor && (
           <div className="border p-2 m-2">
-            <Input
+            <label>Enter the code</label>
+            <label className="text-xs">
+              Copy code from Google Authentication App
+            </label>
+            <input
               id="code"
               name="code"
-              subLabel="Copy code from Google Authentication App"
-              label="Enter the code"
-              error={
-                errors &&
-                errors.multi_fa &&
-                errors.multi_fa.google_authenticate.code
-              }
               value={
                 twoFactor &&
                 twoFactor.google_authenticate &&
@@ -160,6 +157,11 @@ const LoginUserPage = props => {
               onChange={e => handleChange(e, 'google_authenticate')}
               onKeyPress={e => e.key === 'Enter' && handleSubmitCode(e)}
             />
+            <div className="error">
+              {errors &&
+                errors.multi_fa &&
+                errors.multi_fa.google_authenticate.code}
+            </div>
           </div>
         )}
       </Modal>
@@ -182,8 +184,8 @@ const LoginUserPage = props => {
                   <span className="ml-2">Login</span>
                 </div>
               ) : (
-                'Login'
-              )}
+                  'Login'
+                )}
             </button>
           </form>
           <Link
@@ -224,7 +226,7 @@ const LoginUserPage = props => {
               icon="fa-facebook"
             />
             <GoogleLogin
-              className={`${classes.googbtn} flex jusitify-center flex-1`}
+              // className={`${classes.googbtn} flex jusitify-center flex-1`}
               clientId={GOOGLE_CLIENT_ID}
               buttonText="Google"
               onSuccess={loginWithGoogleRequest}
@@ -274,18 +276,8 @@ const withConnect = connect(
 const withReducer = injectReducer({ key: 'loginUserPage', reducer });
 const withSaga = injectSaga({ key: 'loginUserPage', saga });
 
-const styles = {
-  googbtn: {
-    boxShadow: 'none!important',
-    border: '1px solid gainsboro!important',
-    borderLeft: 'none!important',
-  },
-};
-
-const withStyle = withStyles(styles);
 
 export default compose(
-  withStyle,
   withReducer,
   withSaga,
   withConnect,
