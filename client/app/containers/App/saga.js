@@ -101,16 +101,6 @@ function* loadMenu(action) {
   );
 }
 
-function* loadFaq(action) {
-  yield call(
-    Api.get(
-      `faq/key/${action.payload}`,
-      actions.loadFaqSuccess,
-      actions.loadFaqFailure,
-    ),
-  );
-}
-
 export default function* defaultSaga() {
   yield takeEvery(types.LOAD_MENU_REQUEST, loadMenu);
   yield takeEvery(types.LOAD_CONTENT_REQUEST, loadContent);
@@ -120,5 +110,4 @@ export default function* defaultSaga() {
   yield takeLatest(types.LOGOUT_REQUEST, logOut);
   yield takeLeading(types.SESSION_EXPIRED, sessionExpired);
   yield takeLeading(types.NETWORK_ERROR, networkError);
-  yield takeEvery(types.LOAD_FAQ_REQUEST, loadFaq);
 }

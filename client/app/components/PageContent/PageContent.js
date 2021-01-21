@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const PageContent = props => {
   const { loading, children } = props;
   return (
     <div
-      className={`${loading ? 'bg-white border p-4 rounded' : 'bg-white border p-4 rounded'
-        }`}
+      className={`${
+        loading ? 'bg-white border p-4 rounded' : 'bg-white border p-4 rounded'
+      }`}
     >
       {children}
     </div>

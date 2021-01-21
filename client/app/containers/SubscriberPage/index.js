@@ -55,7 +55,7 @@ export class SubscriberPage extends React.PureComponent {
           value={email}
           onChange={this.handleChange('email')}
         />
-        <div className="error">{errors}</div>
+        <div id="component-error-text">{errors}</div>
 
         <button
           type="submit"

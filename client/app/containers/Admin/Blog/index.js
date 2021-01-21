@@ -1,44 +1,90 @@
-import Table from 'components/Table';
-import { push } from 'connected-react-router';
-import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import moment from 'moment';
+import { push } from 'connected-react-router';
+import { Helmet } from 'react-helmet';
+import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Helmet } from 'react-helmet';
-import { FaBan, FaPlus, FaRegCheckCircle } from 'react-icons/fa';
-import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import Select from 'react-select';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import DeleteDialog from '../../../components/DeleteDialog';
-import Loading from '../../../components/Loading';
-import Modal from '../../../components/Modal';
-import PageContent from '../../../components/PageContent/PageContent';
-import PageHeader from '../../../components/PageHeader/PageHeader';
-import injectReducer from '../../../utils/injectReducer';
-import injectSaga from '../../../utils/injectSaga';
+
+// @material-ui/core components
+import withStyles from '@material-ui/core/styles/withStyles';
+import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import Edit from '@material-ui/icons/Edit';
+import SearchIcon from '@material-ui/icons/Search';
+import Close from '@material-ui/icons/Close';
+import Fab from '@material-ui/core/Fab';
+import View from '@material-ui/icons/RemoveRedEyeOutlined';
+import { Checkbox } from '@material-ui/core/';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+// core components
+import Table from 'components/Table';
+
 import { DATE_FORMAT } from '../../App/constants';
-import * as mapDispatchToProps from './actions';
-import QuickEdit from './AddEditPage/QuickEdit';
+import injectSaga from '../../../utils/injectSaga';
+import injectReducer from '../../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
+import * as mapDispatchToProps from './actions';
 import {
   makeSelectAll,
-  makeSelectCategory,
-  makeSelectChip,
-  makeSelectErrors,
+  makeSelectQuery,
   makeSelectHelper,
   makeSelectLoading,
-  makeSelectMetaKeyword,
-  makeSelectMetaTag,
   makeSelectOne,
-  makeSelectQuery,
-  makeSelectTag,
-  makeSelectUpateCalled,
   makeSelectUsers,
+  makeSelectCategory,
+  makeSelectChip,
+  makeSelectTag,
+  makeSelectMetaTag,
+  makeSelectMetaKeyword,
+  makeSelectErrors,
 } from './selectors';
+
+import PageHeader from '../../../components/PageHeader/PageHeader';
+import PageContent from '../../../components/PageContent/PageContent';
+import DeleteDialog from '../../../components/DeleteDialog';
+import Modal from '../../../components/Modal';
+import Loading from '../../../components/Loading';
+import LinkBoth from '../../../components/LinkBoth';
+import QuickEdit from './AddEditPage/QuickEdit';
+import { FaBan, FaRegCheckCircle } from 'react-icons/fa';
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+  fab: {
+    width: '40px',
+    height: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  tableActionButton: {
+    padding: 0,
+    '&:hover': {
+      background: 'transparent',
+      color: '#404040',
+    },
+  },
+
+  waftsrch: {
+    padding: 0,
+    position: 'absolute',
+    borderLeft: '1px solid #d9e3e9',
+    borderRadius: 0,
+    '&:hover': {
+      background: 'transparent',
+      color: '#404040',
+    },
+  },
+});
 
 /* eslint-disable react/prefer-stateless-function */
 export class BlogManagePage extends React.Component {
@@ -86,7 +132,6 @@ export class BlogManagePage extends React.Component {
     ) {
       props.loadAllRequest(props.query);
     }
-
     return true;
   }
 
@@ -143,7 +188,6 @@ export class BlogManagePage extends React.Component {
     this.props.loadCategoryRequest();
     this.props.loadUsersRequest();
     this.props.setValue({ name: 'helper', key: 'showQuickEdit', value: true });
-    this.props.setUpdateCalled(false);
   };
 
   handleEditorChange = (e, name) => {
@@ -223,7 +267,6 @@ export class BlogManagePage extends React.Component {
 
   handleSave = () => {
     this.props.addEditRequest();
-    this.props.setUpdateCalled(true);
   };
 
   handleMetaKeywordDelete = index => () => {
@@ -398,13 +441,7 @@ export class BlogManagePage extends React.Component {
         // `${is_highlight}`,
         // `${is_showcase}`,
         // `${is_active}`,
-        <>
-          {is_published ? (
-            <FaRegCheckCircle className="text-green-500" />
-          ) : (
-            <FaBan className="text-red-400" />
-          )}{' '}
-        </>,
+        <>{is_published ? <FaRegCheckCircle /> : <FaBan />} </>,
         // tags.join(','),
         (
           <p className="">
@@ -440,7 +477,6 @@ export class BlogManagePage extends React.Component {
               value: false,
             })
           }
-          loading={loading}
           handleUpdate={this.handleSave}
         >
           <QuickEdit
@@ -469,7 +505,6 @@ export class BlogManagePage extends React.Component {
             tempMetaTag={tempMetaTag}
             tempMetaKeyword={tempMetaKeyword}
             errors={errors}
-            setUpdateCalled={this.props.setUpdateCalled}
           />
         </Modal>
         <div className="flex justify-between my-3">
@@ -489,16 +524,16 @@ export class BlogManagePage extends React.Component {
               Showcase({msg && msg.showcase ? msg.showcase : null})
             </span>
           </PageHeader>
-
-          <div className="flex items-center">
-            <button
-              className="bg-blue-500 border border-blue-600 px-3 py-2 leading-none inline-flex items-center cursor-pointer hover:bg-blue-600 transition-all duration-100 ease-in text-sm text-white rounded"
-              onClick={this.handleAdd}
-            >
-              <FaPlus />
-              <span className="pl-2">Add New</span>
-            </button>
-          </div>
+          <Fab
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            round="true"
+            onClick={this.handleAdd}
+            elevation={0}
+          >
+            <AddIcon />
+          </Fab>
         </div>
         <div className="bg-white rounded p-2 mb-4">
           <div className="flex -mx-1 items-center">
@@ -669,7 +704,6 @@ const mapStateToProps = createStructuredSelector({
   tempMetaKeyword: makeSelectMetaKeyword(),
   users: makeSelectUsers(),
   errors: makeSelectErrors(),
-  updateCalled: makeSelectUpateCalled(),
 });
 
 const withConnect = connect(
@@ -680,8 +714,11 @@ const withConnect = connect(
 const withReducer = injectReducer({ key: 'blogManagePage', reducer });
 const withSaga = injectSaga({ key: 'blogManagePage', saga });
 
+const withStyle = withStyles(styles);
+
 export default compose(
   withRouter,
+  withStyle,
   withReducer,
   withSaga,
   withConnect,

@@ -1,38 +1,81 @@
-import { push } from 'connected-react-router';
-import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import Dropzone from 'react-dropzone';
+import moment from 'moment';
+import { Helmet } from 'react-helmet';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Dropzone from 'react-dropzone';
-import { Helmet } from 'react-helmet';
-import { FaArrowLeft, FaCheck, FaTimes } from 'react-icons/fa';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import injectReducer from 'utils/injectReducer';
+
+// @material-ui/core components
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Checkbox, IconButton } from '@material-ui/core/';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
+import Input from '@material-ui/core/Input';
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
 import injectSaga from 'utils/injectSaga';
-import defaultImage from '../../../../assets/img/logo.svg';
-import WECkEditior from '../../../../components/CkEditor';
-import Loading from '../../../../components/Loading';
-import PageContent from '../../../../components/PageContent/PageContent';
-import PageHeader from '../../../../components/PageHeader/PageHeader';
-import Select from '../../../../components/Select';
-import { IMAGE_BASE } from '../../../App/constants';
-import * as mapDispatchToProps from '../actions';
+import injectReducer from 'utils/injectReducer';
+import BackIcon from '@material-ui/icons/ArrowBack';
 import reducer from '../reducer';
 import saga from '../saga';
 import {
+  makeSelectOne,
+  makeSelectUsers,
   makeSelectCategory,
   makeSelectChip,
-  makeSelectErrors,
-  makeSelectLoading,
-  makeSelectMetaKeyword,
-  makeSelectMetaTag,
-  makeSelectOne,
   makeSelectTag,
-  makeSelectUsers,
+  makeSelectMetaTag,
+  makeSelectMetaKeyword,
+  makeSelectLoading,
+  makeSelectErrors,
 } from '../selectors';
+import * as mapDispatchToProps from '../actions';
+
+import PageHeader from '../../../../components/PageHeader/PageHeader';
+import PageContent from '../../../../components/PageContent/PageContent';
+import { IMAGE_BASE, DATE_FORMAT } from '../../../App/constants';
+import defaultImage from '../../../../assets/img/logo.svg';
+import Loading from '../../../../components/Loading';
+import WECkEditior from '../../../../components/CkEditor';
+import Inputs from '../../../../components/customComponents/Input';
+import Select from '../../../../components/Select';
+import { FaArrowLeft, FaCheck } from 'react-icons/fa';
+
+const styles = theme => ({
+  cardCategoryWhite: {
+    color: 'rgba(255,255,255,.62)',
+    margin: '0',
+    fontSize: '14px',
+    marginTop: '0',
+    marginBottom: '0',
+  },
+  cardTitleWhite: {
+    color: '#FFFFFF',
+    marginTop: '0px',
+    minHeight: 'auto',
+    fontWeight: '300',
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: '3px',
+    textDecoration: 'none',
+  },
+
+  backbtn: {
+    padding: 0,
+    height: '40px',
+    width: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    borderRadius: '50%',
+    marginRight: '5px',
+  },
+});
 
 class AddEdit extends React.PureComponent {
   static propTypes = {
@@ -309,6 +352,14 @@ class AddEdit extends React.PureComponent {
       return obj;
     });
 
+    const menuProps = {
+      PaperProps: {
+        style: {
+          maxHeight: 48 * 4.5 + 8,
+          width: 250,
+        },
+      },
+    };
     const cats = {};
     category.map(e => {
       cats[e._id] = e;
@@ -321,8 +372,8 @@ class AddEdit extends React.PureComponent {
         <Helmet>
           <title>
             {match && match.params && match.params.id
-              ? 'Edit Blog'
-              : 'Add Blog'}
+              ? 'Edit News'
+              : 'Add News'}
           </title>
         </Helmet>
         <div className="flex justify-between my-3">
@@ -331,38 +382,69 @@ class AddEdit extends React.PureComponent {
               <FaArrowLeft className="text-xl" />
             </span>
             {match && match.params && match.params.id
-              ? 'Edit Blog'
-              : 'Add Blog'}
+              ? 'Edit News'
+              : 'Add News'}
           </PageHeader>
         </div>
         <PageContent>
           <div className="w-full md:w-1/2 pb-4">
-            <label>Title</label>
-            <input
-              className="inputbox"
-              id="blog-title"
-              type="text"
+            <Inputs
+              label="Title"
+              inputclassName="inputbox"
+              inputid="blog-title"
+              inputType="text"
               value={(one && one.title) || ''}
               name="Blog Title"
               onChange={this.handleChange('title')}
+              error={errors && errors.title}
             />
-            <div className="error">{errors && errors.title}</div>
           </div>
           <div className="w-full md:w-1/2 pb-4">
-            <label>Slug</label>
-            <input
-              className="inputbox"
-              id="blog-slug-url"
-              type="text"
+            <Inputs
+              label="Slug"
+              inputclassName="inputbox"
+              inputid="blog-slug-url"
+              inputType="text"
               value={(one && one.slug_url) || ''}
               name="Blog Slug"
               onChange={this.handleChange('slug_url')}
+              error={errors && errors.slug_url}
               disabled
             />
-            <div className="error">{errors && errors.slug_url}</div>
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label className="text-sm">Category</label>
+
+            {/* <FormControl className={classes.formControl}>
+              <Select
+                // className="inputbox"
+                multiple
+                displayEmpty
+                name="template_key"
+                value={one.category || []}
+                input={<Input />}
+                onChange={this.handleMultipleSelectChange}
+                renderValue={selected => {
+                  if (selected.length === 0) {
+                    return <em>Select Categories</em>;
+                  } else {
+                    return selected.join(', ');
+                  }
+                }}
+                MenuProps={menuProps}
+              >
+                <MenuItem value="" name="none" disabled>
+                  None
+                </MenuItem>
+                {category.map(each => (
+                  <MenuItem key={each._id} value={each._id} name={each.title}>
+                    {each.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl> */}
+
+            {/* <FormControl className={classes.formControl}> */}
             <Select
               className="React_Select"
               id="category"
@@ -388,6 +470,29 @@ class AddEdit extends React.PureComponent {
               options={listCategory}
               styles={customStyles}
             />
+            {/* <Select
+                multiple
+                displayEmpty
+                name="template_key"
+                value={one.category || []}
+                input={<Input />}
+                onChange={this.handleMultipleSelectChange}
+                renderValue={selected =>
+                  this.handleSelectedValue(selected, cats)
+                }
+                MenuProps={menuProps}
+              >
+                <MenuItem value="" name="none" disabled>
+                  None
+                </MenuItem>
+                {category.map(each => (
+                  <MenuItem key={each._id} value={each._id} name={each.title}>
+                    <Checkbox checked={one.category.indexOf(each._id) > -1} />
+                    {each.title}
+                  </MenuItem>
+                ))}
+              </Select> */}
+            {/* </FormControl> */}
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label className="text-sm" htmlFor="grid-blog-title">
@@ -409,7 +514,7 @@ class AddEdit extends React.PureComponent {
               setOneValue={this.props.setOneValue}
             />
 
-            <div className="error">{errors && errors.description}</div>
+            <div id="component-error-text">{errors && errors.description}</div>
           </div>
 
           <div className="w-full md:w-1/2 pb-4 mt-4">
@@ -473,14 +578,11 @@ class AddEdit extends React.PureComponent {
               />
             </form>
             {one.tags.map((tag, index) => {
+              const icon = null;
               return (
-                <label
-                  onClick={this.handleDelete(index)}
-                  className="tag"
-                  key={`${tag}-${index}`}
-                >
+                <label key={`${tag}-${index}`}>
                   {tag}
-                  <span>
+                  <span onClick={this.handleDelete(index)}>
                     <FaTimes />
                   </span>
                 </label>
@@ -502,22 +604,21 @@ class AddEdit extends React.PureComponent {
                 onChange={this.handleTempMetaTag}
               />
             </form>
-            {one.meta_tag.map((tag, index) => {
-              const icon = null;
+            <Paper elevation={2}>
+              {one.meta_tag.map((tag, index) => {
+                const icon = null;
 
-              return (
-                <label
-                  onDelete={this.handleMetaTagDelete(index)}
-                  className="tag"
-                  key={`meta-${tag}-${index}`}
-                >
-                  {tag}
-                  <span>
-                    <FaTimes />
-                  </span>
-                </label>
-              );
-            })}
+                return (
+                  <Chip
+                    key={`meta-${tag}-${index}`}
+                    icon={icon}
+                    label={tag}
+                    onDelete={this.handleMetaTagDelete(index)}
+                    className={classes.chip}
+                  />
+                );
+              })}
+            </Paper>
           </div>
           <div className="w-full md:w-1/2 pb-4">
             <label className="text-sm" htmlFor="grid-last-name">
@@ -534,22 +635,21 @@ class AddEdit extends React.PureComponent {
                 onChange={this.handleTempMetaKeyword}
               />
             </form>
-            {one.keywords.map((tag, index) => {
-              const icon = null;
+            <Paper elevation={2}>
+              {one.keywords.map((tag, index) => {
+                const icon = null;
 
-              return (
-                <label
-                  onDelete={this.handleMetaKeywordDelete(index)}
-                  className="tag"
-                  key={`metakeywords-${tag}-${index}`}
-                >
-                  {tag}
-                  <span>
-                    <FaTimes />
-                  </span>
-                </label>
-              );
-            })}
+                return (
+                  <Chip
+                    key={`metakeywords-${tag}-${index}`}
+                    icon={icon}
+                    label={tag}
+                    onDelete={this.handleMetaKeywordDelete(index)}
+                    className={classes.chip}
+                  />
+                );
+              })}
+            </Paper>
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
@@ -571,6 +671,24 @@ class AddEdit extends React.PureComponent {
             <label className="text-sm" htmlFor="grid-last-name">
               Author
             </label>
+            {/* 
+            <select
+              className="inputbox"
+              native="true"
+              value={(one && one.author) || ''}
+              onChange={this.handleDropDownChange('author')}
+            >
+              <option value="" disabled>
+                None
+              </option>
+              {users &&
+                users.map(each => (
+                  <option key={each._id} name={each.name} value={each._id}>
+                    {each.name}
+                  </option>
+                ))}
+            </select> */}
+
             <Select
               className="React_Select"
               id="category"
@@ -589,7 +707,7 @@ class AddEdit extends React.PureComponent {
                 []
               }
               name="author"
-              placeholder="Select Blog Author"
+              placeholder="Select News Author"
               onChange={this.handleMultipleSelectAuthorChange}
               isSearchable
               isMulti
@@ -597,7 +715,7 @@ class AddEdit extends React.PureComponent {
               styles={customStyles}
             />
           </div>
-          <div className="error">{errors && errors.author}</div>
+          <div id="component-error-text">{errors && errors.author}</div>
           <div className="checkbox">
             <input
               onClick={this.handleCheckedChange('is_active')}
@@ -662,7 +780,6 @@ class AddEdit extends React.PureComponent {
             <button
               className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
               onClick={this.handleSave}
-              disabled={loading}
             >
               Save
             </button>
@@ -673,6 +790,7 @@ class AddEdit extends React.PureComponent {
   }
 }
 
+const withStyle = withStyles(styles);
 const withReducer = injectReducer({ key: 'blogManagePage', reducer });
 const withSaga = injectSaga({ key: 'blogManagePage', saga });
 
@@ -719,6 +837,7 @@ const withConnect = connect(
 );
 
 export default compose(
+  withStyle,
   withReducer,
   withSaga,
   withConnect,

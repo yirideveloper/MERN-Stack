@@ -2,9 +2,6 @@ const httpStatus = require('http-status');
 const isEmpty = require('../../validation/isEmpty');
 const menuConfig = require('./menuConfig');
 const otherHelper = require('../../helper/others.helper');
-const sanitizeHelper = require('../../helper/sanitize.helper');
-const validateHelper = require('../../helper/validate.helper');
-const { menuSch } = require('./menuschema')
 const validation = {};
 
 validation.sanitize = (req, res, next) => {
@@ -14,23 +11,13 @@ validation.sanitize = (req, res, next) => {
       sanitize: {
         trim: true,
       },
-    }, {
-      field: 'order',
-      sanitize: {
-        trim: true,
-      },
-    }, {
-      field: 'key',
-      sanitize: {
-        trim: true,
-      },
     },
   ];
-  sanitizeHelper.sanitize(req, sanitizeArray);
+  otherHelper.sanitize(req, sanitizeArray);
   next();
 };
 
-validation.validate = async (req, res, next) => {
+validation.validate = (req, res, next) => {
   const data = req.body;
   const validateArray = [
     {
@@ -59,32 +46,11 @@ validation.validate = async (req, res, next) => {
         },
       ],
     },
-    {
-      field: 'order',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: menuConfig.validate.empty,
-        }, {
-          condition: 'IsInt',
-          msg: menuConfig.validate.isInt,
-        },
-      ],
-    },
   ];
-  let errors = validateHelper.validation(data, validateArray);
-
-  let key_filter = { is_deleted: false, key: data.key }
-  if (data._id) {
-    key_filter = { ...key_filter, _id: { $ne: data._id } }
-  }
-  const already_key = await menuSch.findOne(key_filter);
-  if (already_key && already_key._id) {
-    errors = { ...errors, key: 'key already exist' }
-  }
+  const errors = otherHelper.validation(data, validateArray);
 
   if (!isEmpty(errors)) {
-    return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, menuConfig.errorIn.invalidInputs, null);
+    return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, 'input errors', null);
   } else {
     next();
   }
@@ -105,7 +71,7 @@ validation.itemSanitize = (req, res, next) => {
       },
     },
   ];
-  sanitizeHelper.sanitize(req, sanitizeArray);
+  otherHelper.sanitize(req, sanitizeArray);
   next();
 };
 
@@ -160,19 +126,6 @@ validation.itemValidate = (req, res, next) => {
       ],
     },
     {
-      field: 'order',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: menuConfig.validate.empty,
-        },
-        {
-          condition: 'IsInt',
-          msg: menuConfig.validate.invalid,
-        },
-      ],
-    },
-    {
       field: 'is_internal',
       validate: [
         {
@@ -195,10 +148,10 @@ validation.itemValidate = (req, res, next) => {
       ],
     },
   ];
-  const errors = validateHelper.validation(data, validateArray);
+  const errors = otherHelper.validation(data, validateArray);
 
   if (!isEmpty(errors)) {
-    return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, menuConfig.errorIn.invalidInputs, null);
+    return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, 'input errors', null);
   } else {
     next();
   }

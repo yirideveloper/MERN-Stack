@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class DateInput extends React.PureComponent {
   static propTypes = {

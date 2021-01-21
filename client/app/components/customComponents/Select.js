@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import ReactSelectLibrary from 'react-select';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import ReactSelectLibrary from 'react-select';
 
 export const Select = ({
   label,
@@ -44,7 +44,7 @@ Select.propTypes = {
 
 const CustomSelect = ({
   label,
-  className,
+  inputclassName,
   value,
   name,
   options,
@@ -56,7 +56,7 @@ const CustomSelect = ({
   <React.Fragment>
     {label && <label className="text-sm">{label}</label>}
     <select
-      className={className}
+      className={inputclassName}
       value={value || ''}
       name={name || 'name'}
       {...restProps}
@@ -116,7 +116,7 @@ export function ReactSelect({
       {label && <label className="text-sm">{label}</label>}
       <ReactSelectLibrary
         name={name}
-        className="inputbox"
+        inputclassName="inputbox"
         value={value}
         onChange={handleSelect}
         options={options}

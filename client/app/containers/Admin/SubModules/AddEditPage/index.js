@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import 'react-datepicker/dist/react-datepicker.css';
 // @material-ui/core components
-
+import withStyles from '@material-ui/core/styles/withStyles';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core';
 
@@ -24,7 +24,20 @@ import * as mapDispatchToProps from '../actions';
 import PageHeader from '../../../../components/PageHeader/PageHeader';
 import PageContent from '../../../../components/PageContent/PageContent';
 import Loading from '../../../../components/Loading';
+import Input from '../../../../components/customComponents/Input';
 import { FaArrowLeft } from 'react-icons/fa';
+
+const styles = {
+  backbtn: {
+    padding: 0,
+    height: '40px',
+    width: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    borderRadius: '50%',
+    marginRight: '5px',
+  },
+};
 
 const key = 'subModules';
 
@@ -66,11 +79,7 @@ const AddEdit = props => {
   };
 
   const handleSave = () => {
-    if (one.module_group === '') {
-      props.setErrors({ key: 'module_group', value: 'This field is required' });
-    } else {
-      addEditRequest();
-    }
+    addEditRequest();
   };
 
   const handleCheckedChange = name => event => {
@@ -95,27 +104,27 @@ const AddEdit = props => {
         </div>
         <PageContent>
           <div className="w-full md:w-1/2 pb-4">
-            <label>Module Group</label>
-            <input
-              className="inputbox"
-              id="grid-group"
-              type="text"
+            <Input
+              label="Module Group"
+              inputclassName="inputbox"
+              inputid="grid-group"
+              inputType="text"
               value={one.module_group}
               onChange={handleChange('module_group')}
+              error={errors.module_group}
             />
-            <div className="error">{errors.module_group}</div>
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
-            <label>Order</label>
-            <input
-              className="inputbox"
-              id="grid-value"
-              type="text"
+            <Input
+              label="Order"
+              inputclassName="inputbox"
+              inputid="grid-value"
+              inputType="text"
               value={one.order}
               onChange={handleChange('order')}
+              error={errors.order}
             />
-            <div className="error">{errors.order}</div>
           </div>
 
           <div className="w-full md:w-1/2">
@@ -132,20 +141,20 @@ const AddEdit = props => {
               value={one.description}
               onChange={handleChange('description')}
             />
-            <div className="error">{errors.description}</div>
+            <div id="component-error-text">{errors.description}</div>
           </div>
 
-          {/* <div className="w-full md:w-1/2 pb-4">
-            <label>Module Group Main</label>
-            <input
-              className="inputbox"
-              id="grid-group"
-              type="text"
+          <div className="w-full md:w-1/2 pb-4">
+            <Input
+              label="Module Group Main"
+              inputclassName="inputbox"
+              inputid="grid-group"
+              inputType="text"
               value={one.module_group_main}
               onChange={handleChange('module_group_main')}
+              error={errors.module_group_main}
             />
-            <div className="error">{errors.module_group_main}</div>
-          </div> */}
+          </div>
 
           <button
             type="button"
@@ -175,6 +184,8 @@ AddEdit.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
+const withStyle = withStyles(styles);
+
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
   loading: makeSelectLoading(),
@@ -188,5 +199,6 @@ const withConnect = connect(
 
 export default compose(
   withRouter,
+  withStyle,
   withConnect,
 )(AddEdit);

@@ -1,8 +1,6 @@
 const httpStatus = require('http-status');
 const isEmpty = require('../../validation/isEmpty');
 const otherHelper = require('../../helper/others.helper');
-const sanitizeHelper = require('../../helper/sanitize.helper');
-const validateHelper = require('../../helper/validate.helper');
 const validation = {};
 
 validation.sanitizeComment = (req, res, next) => {
@@ -14,7 +12,7 @@ validation.sanitizeComment = (req, res, next) => {
       },
     },
   ];
-  sanitizeHelper.sanitize(req, sanitizeArray);
+  otherHelper.sanitize(req, sanitizeArray);
   next();
 };
 validation.validateComment = (req, res, next) => {
@@ -28,17 +26,9 @@ validation.validateComment = (req, res, next) => {
           msg: 'This field is required!!',
         },
       ],
-    }, {
-      field: 'blog_id',
-      validate: [
-        {
-          condition: 'IsMongoId',
-          msg: 'This field is required!!',
-        },
-      ],
     },
   ];
-  const errors = validateHelper.validation(data, validateArray);
+  const errors = otherHelper.validation(data, validateArray);
   if (!isEmpty(errors)) {
     return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, 'input errors', null);
   } else {

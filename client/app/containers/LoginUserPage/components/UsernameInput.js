@@ -12,11 +12,14 @@ const EmailInput = props => {
   const hasError = Boolean(errors);
   return (
     <div className="mb-4">
-      <label className="label" htmlFor="username">
+      <label
+        className="label"
+        htmlFor="username"
+      >
         Email
       </label>
       <input
-        // error={hasError.toString()}
+        error={hasError.toString()}
         onChange={handleChange}
         value={email}
         className="inputbox"
@@ -24,7 +27,7 @@ const EmailInput = props => {
         type="text"
       />
 
-      {errors && <div className="error">{errors}</div>}
+      {errors && <div id="component-error-text">{errors}</div>}
     </div>
   );
 };

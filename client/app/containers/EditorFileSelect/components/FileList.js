@@ -7,12 +7,16 @@ import queryString from 'query-string';
 import { createStructuredSelector } from 'reselect';
 import Dropzone from 'react-dropzone';
 
+import InputBase from '@material-ui/core/InputBase';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import WithStyles from '@material-ui/core/styles/withStyles';
+import Checkbox from '@material-ui/core/Checkbox';
 import PageContent from '../../../components/PageContent/PageContent';
-import { FaCheck } from 'react-icons/fa';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
 
 import * as mapDispatchToProps from '../actions';
 import {
@@ -40,7 +44,6 @@ import {
   FaTrash,
   FaFolder,
   FaSearch,
-  FaEdit,
 } from 'react-icons/fa';
 
 const LinkComponent = ({ children, staticContext, ...props }) => (
@@ -337,7 +340,6 @@ const FileList = ({
   };
 
   const onChooseFile = image => {
-    console.log('here', image);
     addChosenFile(image);
   };
 
@@ -581,24 +583,16 @@ const FileList = ({
                   className="hover:text-blue-500"
                   onClick={() => handleRename(each._id, each.name)}
                 >
-                  <FaEdit />
+                  <Edit />
                 </button>
               )}
               {selectedButton === 'Delete' && (
-                <>
-                  <div className="checkbox">
-                    <input
-                      id={`${each._id}-secondary`}
-                      type="checkbox"
-                      onClick={() => addChosenFolder(each)}
-                    />
-                    <label htmlFor={`${each._id}-secondary`}>
-                      <span className="box">
-                        <FaCheck className="check-icon" />
-                      </span>
-                    </label>
-                  </div>
-                </>
+                <Checkbox
+                  value="secondary"
+                  color="secondary"
+                  style={{ padding: 0 }}
+                  onClick={() => addChosenFolder(each)}
+                />
               )}
             </div>
             <div
@@ -633,37 +627,25 @@ const FileList = ({
                 className="hover:text-blue-500"
                 onClick={() => handleRenameFile(each._id, each.renamed_name)}
               >
-                <FaEdit />
+                <Edit />
               </button>
             )}
             <div className={`${fileCheckbox ? '' : 'mediaCheck'} absolute`}>
               {selectedButton === 'Multiple' && (
-                <div className="checkbox">
-                  <input
-                    id={`${index}-multipleselect`}
-                    type="checkbox"
-                    onClick={() => onChooseFile(each)}
-                  />
-                  <label htmlFor={`${index}-multipleselect`}>
-                    <span className="box">
-                      <FaCheck className="check-icon" />
-                    </span>
-                  </label>
-                </div>
+                <Checkbox
+                  value="primary"
+                  color="primary"
+                  style={{ padding: 0 }}
+                  onClick={() => onChooseFile(each)}
+                />
               )}
               {selectedButton === 'Delete' && (
-                <div className="checkbox">
-                  <input
-                    id={`${index}-dltmultiple`}
-                    type="checkbox"
-                    onClick={() => addChosenFile(each)}
-                  />
-                  <label htmlFor={`${index}-dltmultiple`}>
-                    <span className="box">
-                      <FaCheck className="check-icon" />
-                    </span>
-                  </label>
-                </div>
+                <Checkbox
+                  value="secondary"
+                  color="secondary"
+                  style={{ padding: 0 }}
+                  onClick={() => addChosenFile(each)}
+                />
               )}
             </div>
             <div
@@ -725,9 +707,36 @@ const mapStateToProps = createStructuredSelector({
   query: makeSelectQuery(),
 });
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+  fab: {
+    width: '40px',
+    height: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  waftsrch: {
+    padding: 0,
+    position: 'absolute',
+    borderLeft: '1px solid #d9e3e9',
+    borderRadius: 0,
+    '&:hover': {
+      background: 'transparent',
+      color: '#404040',
+    },
+  },
+});
+
+const withStyle = WithStyles(styles);
+
 const withConnect = connect(
   mapStateToProps,
   { ...mapDispatchToProps, push },
 );
 
-export default compose(withConnect)(FileList);
+export default compose(
+  withConnect,
+  withStyle,
+)(FileList);

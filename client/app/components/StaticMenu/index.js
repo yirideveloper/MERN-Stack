@@ -4,16 +4,16 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
-import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { loadMenuRequest } from '../../containers/App/actions';
+import { compose } from 'redux';
 import { makeSelectMenu } from '../../containers/App/selectors';
-import './style.css';
+import { loadMenuRequest } from '../../containers/App/actions';
 
+import './style.css';
 /* eslint-disable react/prefer-stateless-function */
 class StaticMenu extends React.PureComponent {
   static propTypes = {

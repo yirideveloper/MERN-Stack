@@ -9,9 +9,18 @@ import { Helmet } from 'react-helmet';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+// @material-ui/core components
+import withStyles from '@material-ui/core/styles/withStyles';
+// core components
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-
+import {
+  IconButton,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+} from '@material-ui/core';
+import BackIcon from '@material-ui/icons/ArrowBack';
 import reducer from '../reducer';
 import saga from '../saga';
 import * as mapDispatchToProps from '../actions';
@@ -35,6 +44,17 @@ import WECkEditior from '../../../../components/CkEditor';
 import DeleteDialog from '../../../../components/DeleteDialog';
 import { FaArrowLeft } from 'react-icons/fa';
 
+const styles = {
+  backbtn: {
+    padding: 0,
+    height: '40px',
+    width: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    borderRadius: '50%',
+    marginRight: '5px',
+  },
+};
 const key = 'menuManage';
 
 const AddEdit = props => {
@@ -244,7 +264,7 @@ const AddEdit = props => {
                         {errors &&
                           errors.sub_menu_form &&
                           errors.sub_menu_form.title && (
-                            <div className="error">
+                            <div id="component-error-text">
                               {errors.sub_menu_form.title}
                             </div>
                           )}
@@ -273,7 +293,7 @@ const AddEdit = props => {
                         {errors &&
                           errors.sub_menu_form &&
                           errors.sub_menu_form.url && (
-                            <div className="error">
+                            <div id="component-error-text">
                               {errors.sub_menu_form.url}
                             </div>
                           )}
@@ -292,7 +312,7 @@ const AddEdit = props => {
                         {errors &&
                           errors.sub_menu_form &&
                           errors.sub_menu_form.order && (
-                            <div className="error">
+                            <div id="component-error-text">
                               {errors.sub_menu_form.order}
                             </div>
                           )}
@@ -307,7 +327,7 @@ const AddEdit = props => {
                           {errors &&
                             errors.sub_menu_form &&
                             errors.sub_menu_form.parent_menu && (
-                              <div className="error">
+                              <div id="component-error-text">
                                 {errors.sub_menu_form.parent_menu}
                               </div>
                             )}
@@ -349,7 +369,9 @@ const AddEdit = props => {
                         </select>
 
                         {errors && errors.title && (
-                          <div className="error">{errors.is_internal}</div>
+                          <div id="component-error-text">
+                            {errors.is_internal}
+                          </div>
                         )}
                       </div>
                       <div className="w-full md:w-1/2 pb-4">
@@ -369,7 +391,7 @@ const AddEdit = props => {
                           <option value="_parent">_parent</option>
                         </select>
                         {errors && errors.title && (
-                          <div className="error">{errors.target}</div>
+                          <div id="component-error-text">{errors.target}</div>
                         )}
                       </div>
                       <button
@@ -406,7 +428,7 @@ const AddEdit = props => {
                     onChange={handleTitleChange}
                   />
                   {errors && errors.title && (
-                    <div className="error">{errors.title}</div>
+                    <div id="component-error-text">{errors.title}</div>
                   )}
                 </div>
 
@@ -422,7 +444,7 @@ const AddEdit = props => {
                     onChange={handleChange('key')}
                   />
                   {errors && errors.key && (
-                    <div className="error">{errors.key}</div>
+                    <div id="component-error-text">{errors.key}</div>
                   )}
                 </div>
 
@@ -438,7 +460,7 @@ const AddEdit = props => {
                     onChange={handleChange('order')}
                   />
                   {errors && errors.title && (
-                    <div className="error">{errors.order}</div>
+                    <div id="component-error-text">{errors.order}</div>
                   )}
                 </div>
                 <div className="w-full md:w-1/2 pb-4">
@@ -496,6 +518,8 @@ const AddEdit = props => {
   );
 };
 
+const withStyle = withStyles(styles);
+
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
   loading: makeSelectLoading(),
@@ -524,5 +548,6 @@ AddEdit.propTypes = {
 };
 export default compose(
   withRouter,
+  withStyle,
   withConnect,
 )(AddEdit);

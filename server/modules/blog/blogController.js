@@ -5,6 +5,7 @@ const blogSch = require('./blogSchema');
 const blogViewCountSch = require('./blogViewCountSchema');
 const blogCatSch = require('./categorySchema');
 const moment = require('moment');
+const blogViewCountSchema = require('./blogViewCountSchema');
 const blogController = {};
 const objectId = require('mongoose').Types.ObjectId;
 
@@ -447,7 +448,6 @@ blogController.SaveBlog = async (req, res, next) => {
       if (!blogs.tags) blogs.tags = [];
       if (!blogs.keywords) blogs.keywords = [];
       if (!blogs.author) blogs.author = req.user.id;
-
       const update = await blogSch.findByIdAndUpdate(
         blogs._id,
         {
@@ -457,7 +457,6 @@ blogController.SaveBlog = async (req, res, next) => {
       );
       return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, blogConfig.save, null);
     } else {
-      blogs.added_by = req.user.id;
       blogs.published_on = new Date();
       blogs.image = req.file;
       const newBlog = new blogSch(blogs);
@@ -495,12 +494,12 @@ blogController.SaveBlogCategory = async (req, res, next) => {
         },
         { new: true },
       );
-      return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, blogConfig.categoryUpdate, null);
+      return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, blogConfig.csave, null);
     } else {
       blogcats.image = req.file;
       const newBlog = new blogCatSch(blogcats);
       const catSave = await newBlog.save();
-      return otherHelper.sendResponse(res, httpStatus.OK, true, catSave, null, blogConfig.categorySave, null);
+      return otherHelper.sendResponse(res, httpStatus.OK, true, catSave, null, blogConfig.csave, null);
     }
   } catch (err) {
     next(err);
@@ -769,20 +768,6 @@ blogController.updateViewCount = async (req, res, next) => {
       d = await newBlogCount.save();
     }
     return otherHelper.sendResponse(res, httpStatus.OK, true, null, null, null, null);
-  } catch (err) {
-    next(err);
-  }
-};
-
-blogController.GetBlogCategoryActive = async (req, res, next) => {
-  try {
-    let { page, size, populate, selectQuery, searchQuery, sortQuery } = otherHelper.parseFilters(req, 10, false);
-    selectQuery = 'title slug_url description image is_active added_by added_at updated_at updated_by is_deleted';
-
-    searchQuery = { is_active: true, ...searchQuery };
-
-    let blogCategories = await otherHelper.getQuerySendResponse(blogCatSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
-    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, blogCategories.data, blogConfig.cget, page, size, blogCategories.totaldata);
   } catch (err) {
     next(err);
   }

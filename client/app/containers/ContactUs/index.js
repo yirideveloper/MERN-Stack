@@ -1,5 +1,5 @@
 import React from 'react';
-
+import withStyles from '@material-ui/core/styles/withStyles';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
@@ -23,11 +23,30 @@ import {
 import * as mapDispatchToProps from './actions';
 import { RECAPTCHA_SITE_KEY } from '../App/constants';
 
+const styles = {
+  cardCategoryWhite: {
+    color: 'rgba(255,255,255,.62)',
+    margin: '0',
+    fontSize: '14px',
+    marginTop: '0',
+    marginBottom: '0',
+  },
+  cardTitleWhite: {
+    color: '#FFFFFF',
+    marginTop: '0px',
+    minHeight: 'auto',
+    fontWeight: '300',
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: '3px',
+    textDecoration: 'none',
+  },
+};
 const recaptchaRef = React.createRef();
 class ContactUs extends React.Component {
   state = { name: '', email: '', subject: '', message: '', reCaptcha: '' };
 
-  componentDidMount() {}
+  componentDidMount() {
+  }
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -71,41 +90,56 @@ class ContactUs extends React.Component {
         <div className="container mx-auto my-10">
           <div className="flex flex-wrap">
             <div className="w-full sm:w-full md:w-1/2">
+              <h2 className="text-xl font-bold">GET IN TOUCH</h2>
               <div className="flex">
                 <div className="w-full md:w-1/2 pr-2">
-                  <label>Name</label>
                   <TextField
                     id="name"
+                    fullWidth
+                    label="Name"
                     type="name"
                     name="name"
+                    margin="normal"
+                    variant="outlined"
                     value={name}
                     onChange={this.handleChange('name')}
                   />
                 </div>
                 <div className="w-full md:w-1/2  pl-2">
-                  <label>Email</label>
-                  <input
+                  <TextField
                     id="email"
+                    fullWidth
+                    label="Email"
                     type="email"
                     name="email"
+                    margin="normal"
+                    variant="outlined"
                     value={email}
                     onChange={this.handleChange('email')}
                   />
                 </div>
               </div>
-              <label>Subject</label>
-              <input
+
+              <TextField
                 id="subject"
+                label="Subject"
                 type="subject"
                 name="subject"
+                margin="normal"
+                variant="outlined"
+                fullWidth
                 value={subject}
                 onChange={this.handleChange('subject')}
               />
-              <label>Message</label>
-              <textarea
+              <TextField
                 id="message"
+                label="Message"
+                fullWidth
+                multiline
                 rows="4"
+                margin="normal"
                 placeholder="Message"
+                variant="outlined"
                 value={message}
                 onChange={this.handleChange('message')}
               />
@@ -113,14 +147,14 @@ class ContactUs extends React.Component {
               {isRequesting && isRequesting == true ? (
                 <CircularProgress color="primary" disableShrink />
               ) : (
-                <form onSubmit={this.onSubmit}>
-                  <ReCAPTCHA
-                    ref={recaptchaRef}
-                    sitekey={RECAPTCHA_SITE_KEY}
-                    onChange={this.onChange}
-                  />
-                </form>
-              )}
+                  <form onSubmit={this.onSubmit}>
+                    <ReCAPTCHA
+                      ref={recaptchaRef}
+                      sitekey={RECAPTCHA_SITE_KEY}
+                      onChange={this.onChange}
+                    />
+                  </form>
+                )}
 
               <button
                 type="button"
@@ -129,13 +163,14 @@ class ContactUs extends React.Component {
                 onClick={this.handleSave}
               >
                 Save Message
-              </button>
+                </button>
               <div>
                 <h1>{this.props.error}</h1>
               </div>
             </div>
 
-            <div className="w-full mt-10 sm:w-full md:w-1/2 md:pl-10 md:mt-0">
+            <div
+              className="w-full mt-10 sm:w-full md:w-1/2 md:pl-10 md:mt-0">
               <StaticContentDiv contentKey="contactdetail" />
             </div>
 
@@ -151,6 +186,7 @@ class ContactUs extends React.Component {
           </div>
         </div>
       </div>
+
     );
   }
 }
@@ -175,8 +211,11 @@ const withConnect = connect(
 const withReducer = injectReducer({ key: 'contactUs', reducer });
 const withSaga = injectSaga({ key: 'contactUs', saga });
 
+const withStyle = withStyles(styles);
+
 export default compose(
   withRouter,
+  withStyle,
   withReducer,
   withSaga,
   withConnect,

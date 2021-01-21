@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
@@ -22,11 +23,15 @@ const PasswordInput = props => {
   const hasError = Boolean(errors);
   return (
     <div className="mb-4">
-      <label className="label" htmlFor="Password">
+      <label
+        className="label"
+        htmlFor="Password"
+      >
         Password
       </label>
       <div className="relative">
         <input
+          error={hasError.toString()}
           onChange={handleChange}
           value={password}
           id="Password"
@@ -34,17 +39,15 @@ const PasswordInput = props => {
           className="inputbox"
         />
         <span
-          className="absolute right-0 top-0 mt-2 mr-2"
+          className={classes.EyeIcon}
           aria-label="Toggle password visibility"
           onClick={handleTogglePassword}
         >
           {isSecure ? <Visibility /> : <VisibilityOff />}
         </span>
-
-        {/* <div className="error">{hasError.toString()}</div> */}
       </div>
 
-      {errors && <div className="error">{errors}</div>}
+      {errors && <div id="component-error-text">{errors}</div>}
       <Link
         className="inline-block align-baseline text-xs text-blue-700 hover:text-blue-700-darker"
         to="/forgot-password-user"
@@ -72,4 +75,13 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(PasswordInput);
+const styles = theme => ({
+  EyeIcon: { position: 'absolute', right: 12, top: 6 },
+});
+
+const withStyle = withStyles(styles);
+
+export default compose(
+  withConnect,
+  withStyle,
+)(PasswordInput);

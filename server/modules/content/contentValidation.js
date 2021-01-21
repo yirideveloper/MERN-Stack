@@ -2,9 +2,6 @@ const httpStatus = require('http-status');
 const isEmpty = require('../../validation/isEmpty');
 const contentConfig = require('./contentConfig');
 const otherHelper = require('../../helper/others.helper');
-const sanitizeHelper = require('../../helper/sanitize.helper');
-const validateHelper = require('../../helper/validate.helper');
-const contentSch = require('./contentSchema');
 const validations = {};
 
 validations.sanitize = (req, res, next) => {
@@ -28,10 +25,10 @@ validations.sanitize = (req, res, next) => {
       },
     },
   ];
-  sanitizeHelper.sanitize(req, sanitizeArray);
+  otherHelper.sanitize(req, sanitizeArray);
   next();
 };
-validations.validation = async (req, res, next) => {
+validations.validation = (req, res, next) => {
   const data = req.body;
   const validateArray = [
     {
@@ -61,15 +58,6 @@ validations.validation = async (req, res, next) => {
       ],
     },
     {
-      field: 'image',
-      validate: [
-        {
-          condition: 'IsMongoId',
-          msg: contentConfig.validation.IsMongoId,
-        },
-      ],
-    },
-    {
       field: 'description',
       validate: [
         {
@@ -83,19 +71,9 @@ validations.validation = async (req, res, next) => {
       ],
     },
   ];
-  let errors = validateHelper.validation(data, validateArray);
-
-  let key_filter = { is_deleted: false, key: data.key }
-  if (data._id) {
-    key_filter = { ...key_filter, _id: { $ne: data._id } }
-  }
-  const already_key = await contentSch.findOne(key_filter);
-  if (already_key && already_key._id) {
-    errors = { ...errors, key: 'key already exist' }
-  }
-
+  const errors = otherHelper.validation(data, validateArray);
   if (!isEmpty(errors)) {
-    return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, contentConfig.errorIn.inputErrors, null);
+    return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, 'input error', null);
   } else {
     next();
   }

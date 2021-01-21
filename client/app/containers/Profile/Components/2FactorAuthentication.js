@@ -6,6 +6,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import moment from 'moment';
+
+// @material-ui/core
+import withStyles from '@material-ui/core/styles/withStyles';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import injectSaga, { useInjectSaga } from 'utils/injectSaga';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
@@ -21,10 +26,14 @@ import {
   makeSelectLoadingObj,
 } from '../selectors';
 import * as mapDispatchToProps from '../actions';
+import {
+  Input,
+  DatePicker,
+  Checkbox,
+} from '../../../components/customComponents';
 import Modal from '../../../components/Modal';
 
 import { DATE_FORMAT } from '../../App/constants';
-import { FaCheck } from 'react-icons/fa';
 
 const key = 'userPersonalInformationPage';
 
@@ -102,15 +111,15 @@ export const TwoFactor = props => {
         buttonLabel2={setGoogleCode ? 'Sending...' : 'Send'}
       >
         <div>
-          <label>Google Two factor authorization code</label>
-          <input
-            id="two_factor_authorization"
-            name="two_factor_authorization"
+          <Input
+            id="two_factor_authentication"
+            name="two_factor_authentication"
+            label="Google Two factor authentication code"
             disabled
             readOnly
+            error={errors.two_fa_ga_auth_secret}
             value={twoFactor && twoFactor.google_authenticate.auth_secret_setup}
           />
-          <div className="error">{errors.two_fa_ga_auth_secret}</div>
         </div>
         <div className="m-2">
           <svg
@@ -131,53 +140,42 @@ export const TwoFactor = props => {
           </svg>
         </div>
         <div>
-          <label>Enter Your Code</label>
-          <input
+          <Input
             id="code"
             name="code"
+            label="Enter Your code"
+            error={errors.code}
             value={twoFactor && twoFactor.code}
             onChange={e => handleChange(e, 'google_authenticate')}
           />
-          <div className="error">{errors.code}</div>
-
           <p className="italic mt-2">
             Note : Enter the code from Authentication App
           </p>
         </div>
       </Modal>
       <div className="ml-4 p-4">
-        <div className="checkbox">
-          <input
+        <div>
+          <Checkbox
+            label="Enable Email two factor authentication"
             checked={twoFactor.email.is_authenticate}
-            id="email"
+            name="email"
             type="checkbox"
+            color="primary"
             onChange={handleChecked}
           />
-          <label htmlFor="email">
-            <span className="box">
-              <FaCheck className="check-icon" />
-            </span>
-            Enable Email two factor authorization
-          </label>
+          {addEmailAuth && 'Loading...'}
         </div>
-
-        {addEmailAuth && 'Loading...'}
-
-        <div className="checkbox">
-          <input
+        <div>
+          <Checkbox
+            label="Enable Google two factor authentication"
             checked={twoFactor.google_authenticate.is_authenticate}
-            id="google_authenticate"
+            name="google_authenticate"
             type="checkbox"
+            color="primary"
             onChange={handleChecked}
           />
-          <label htmlFor="google_authenticate">
-            <span className="box">
-              <FaCheck className="check-icon" />
-            </span>
-            Enable Google two factor authorization
-          </label>
+          {addGoogleAuth && 'Loading...'}
         </div>
-        {addGoogleAuth && 'Loading...'}
       </div>
     </>
   );
@@ -208,4 +206,11 @@ const withConnect = connect(
   { ...mapDispatchToProps, push },
 );
 
-export default compose(withConnect)(TwoFactor);
+const styles = theme => ({});
+
+const withStyle = withStyles(styles);
+
+export default compose(
+  withConnect,
+  withStyle,
+)(TwoFactor);

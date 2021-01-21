@@ -4,18 +4,18 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Slider from 'react-slick';
-import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import 'slick-carousel/slick/slick-theme.css';
+import { compose } from 'redux';
+import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
-import { loadSlideRequest } from '../../containers/App/actions';
-import { IMAGE_BASE } from '../../containers/App/constants';
+import 'slick-carousel/slick/slick-theme.css';
 import { makeSelectSlide } from '../../containers/App/selectors';
+import { loadSlideRequest } from '../../containers/App/actions';
 import LinkBoth from '../LinkBoth';
+import { IMAGE_BASE } from '../../containers/App/constants';
 import './index.css';
 
 /* eslint-disable react/prefer-stateless-function */

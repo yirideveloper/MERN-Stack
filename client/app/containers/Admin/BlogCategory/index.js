@@ -13,6 +13,11 @@ import { push } from 'connected-react-router';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
 
+import withStyles from '@material-ui/core/styles/withStyles';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import Fab from '@material-ui/core/Fab';
 import Table from 'components/Table';
 
 import injectSaga from 'utils/injectSaga';
@@ -28,7 +33,36 @@ import PageHeader from '../../../components/PageHeader/PageHeader';
 import PageContent from '../../../components/PageContent/PageContent';
 import DeleteDialog from '../../../components/DeleteDialog';
 import lid from '../../../assets/img/lid.svg';
-import { FaPencilAlt, FaPlus, FaSearch } from 'react-icons/fa';
+import { FaPencilAlt } from 'react-icons/fa';
+const styles = theme => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+  fab: {
+    width: '40px',
+    height: '40px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  tableActionButton: {
+    padding: 0,
+    '&:hover': {
+      background: 'transparent',
+      color: '#404040',
+    },
+  },
+
+  waftsrch: {
+    padding: 0,
+    position: 'absolute',
+    borderLeft: '1px solid #d9e3e9',
+    borderRadius: 0,
+    '&:hover': {
+      background: 'transparent',
+      color: '#404040',
+    },
+  },
+});
 
 /* eslint-disable react/prefer-stateless-function */
 export class BlogCategory extends React.PureComponent {
@@ -138,33 +172,37 @@ export class BlogCategory extends React.PureComponent {
         <div className="flex justify-between my-3">
           {loading && loading == true ? <Loading /> : <></>}
           <PageHeader>Blog Category Manage</PageHeader>
-          <div className="flex items-center">
-            <button
-              className="bg-blue-500 border border-blue-600 px-3 py-2 leading-none inline-flex items-center cursor-pointer hover:bg-blue-600 transition-all duration-100 ease-in text-sm text-white rounded"
-              onClick={this.handleAdd}
-            >
-              <FaPlus />
-              <span className="pl-2">Add New</span>
-            </button>
-          </div>
+          <Fab
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            round="true"
+            onClick={this.handleAdd}
+            elevation={0}
+          >
+            <AddIcon />
+          </Fab>
         </div>
         <PageContent loading={loading}>
-          <div className="flex relative mr-4 max-w-sm">
-            <input
-              type="text"
-              name="find_title"
-              id="doc-title"
-              placeholder="Search Blog Category"
-              className="m-auto inputbox pr-6"
-              value={query.find_title}
-              onChange={this.handleQueryChange}
-            />
-            <span
-              className="inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer hover:text-blue-600"
-              onClick={this.handleSearch}
-            >
-              <FaSearch />
-            </span>
+          <div className="flex">
+            <div className="flex relative mr-2">
+              <input
+                type="text"
+                name="find_title"
+                id="doc-title"
+                placeholder="Search Blog Category"
+                className="m-auto inputbox"
+                value={query.find_title}
+                onChange={this.handleQueryChange}
+              />
+              <IconButton
+                aria-label="Search"
+                className={`${classes.waftsrch} waftsrchstyle`}
+                onClick={this.handleSearch}
+              >
+                <SearchIcon />
+              </IconButton>
+            </div>
           </div>
 
           <Table
@@ -203,7 +241,10 @@ const withReducer = injectReducer({
 });
 const withSaga = injectSaga({ key: 'BlogCategory', saga });
 
+const withStyle = withStyles(styles);
+
 export default compose(
+  withStyle,
   withReducer,
   withSaga,
   withConnect,

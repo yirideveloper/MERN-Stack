@@ -39,8 +39,6 @@ import AddEditPageManage from '../containers/Admin/PageContent/AddEditPage/Loada
 
 import SubModules from '../containers/Admin/SubModules/Loadable';
 import AddEditSubModules from '../containers/Admin/SubModules/AddEditPage/Loadable';
-import GlobalSetting from '../containers/Admin/GlobalSetting/Loadable';
-import GlobalSettingAddEdit from '../containers/Admin/GlobalSetting/AddEdit';
 
 const routes = [
   {
@@ -302,23 +300,6 @@ const routes = [
     exact: true,
     path: '/admin/sub-modules/add',
     component: AddEditSubModules,
-  },
-  {
-    exact: true,
-    path: '/admin/global-setting',
-    component: GlobalSetting,
-  },
-
-  {
-    exact: true,
-    path: '/admin/global-setting/add',
-    component: GlobalSettingAddEdit,
-  },
-
-  {
-    exact: true,
-    path: '/admin/global-setting/edit/:id',
-    component: GlobalSettingAddEdit,
   },
 ];
 
