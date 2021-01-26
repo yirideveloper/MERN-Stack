@@ -1,8 +1,7 @@
 import {
   Dialog,
   DialogActions,
-  DialogContent,
-  DialogTitle,
+  DialogContent, DialogTitle
 } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from 'prop-types';
@@ -16,7 +15,6 @@ export default function DeleteDialog(props) {
     width = 'sm',
     buttonLabel1 = 'No',
     buttonLabel2 = 'Update',
-    loading,
   } = props;
 
   return (
@@ -57,7 +55,6 @@ export default function DeleteDialog(props) {
             type="button"
             className="btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
             onClick={handleUpdate}
-            disabled={loading !== undefined && loading === true ? true : false}
           >
             {buttonLabel2}
           </button>

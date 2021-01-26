@@ -70,9 +70,3 @@ export const makeSelectUsers = () =>
     selectDomain,
     state => state.users,
   );
-
-export const makeSelectUpateCalled = () =>
-  createSelector(
-    selectDomain,
-    state => state.updateCalled,
-  );
