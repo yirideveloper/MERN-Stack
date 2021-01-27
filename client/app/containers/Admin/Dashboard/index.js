@@ -58,13 +58,7 @@ export class Dashboard extends React.PureComponent {
       <>
         <div className="flex justify-between my-3">
           <PageHeader>Dashboard </PageHeader>
-          <button
-            type="button"
-            className="bg-primary text-white p-2"
-            onClick={this.handleOpen}
-          >
-            Show Dialog
-          </button>
+
         </div>
         <div className="bg-white rounded p-4">
           {info.map(each => (
@@ -86,34 +80,34 @@ export class Dashboard extends React.PureComponent {
               className="text-gray-800 no-underline hover:text-black font-bold"
             >
               <FaStickyNote className="text-5xl mx-auto" />
-              Write Post
+              <div className="mt-1">Write Post</div>
             </LinkBoth>
           </div>
-          <div className="w-1/4 -ml-4 bg-white rounded p-5 text-center hover:text-black">
+          <div className="w-1/4 bg-white rounded p-5 text-center hover:text-black">
             <LinkBoth
               className="text-gray-800 no-underline hover:text-black font-bold"
               to="https://waftengine.org/documentation"
               target="_blank"
             >
               <FaNewspaper className="text-5xl mx-auto" />
-              View Doc
+              <div className="mt-1">View Doc</div>
             </LinkBoth>
           </div>
-          <div className="w-1/4 -ml-4 -mr-4 bg-white rounded p-5 flex justify-between hover:text-black">
+          <div className="w-1/4 bg-white rounded p-5 flex justify-between hover:text-black">
             <span className="text-gray-800 m-auto w-24 text-center font-bold">
               <FaUser className="text-5xl mx-auto" />
-              Total Users{' '}
+              <div className="mt-1">Total Users</div>
             </span>
-            <span className="m-auto inline-block text-black text-2xl font-bold ml-4 w-12 h-12 text-center rounded-full bg-waftprimary-light leading-loose">
+            <span className="m-auto inline-block text-black text-2xl font-bold ml-4 w-8 h-8 text-center rounded-full bg-waftprimary-light leading-loose">
               {users.totaldata}
             </span>
           </div>
           <div className="w-1/4 -mr-8 bg-white rounded p-5 flex justify-between hover:text-black">
             <span className="text-gray-800 m-auto w-24 text-center font-bold">
-              <FaExclamationCircle />
-              Total Errors
+              <FaExclamationCircle className="text-5xl mx-auto"/>
+              <div className="mt-1">Total Errors</div>
             </span>
-            <span className="m-auto inline-block text-black text-2xl font-bold ml-4 w-12 h-12 text-center rounded-full bg-waftprimary-light leading-loose">
+            <span className="m-auto inline-block text-black text-2xl font-bold ml-4 w-8 h-8 text-center rounded-full bg-waftprimary-light leading-loose">
               {errors.totaldata}
             </span>
           </div>
@@ -169,12 +163,12 @@ export class Dashboard extends React.PureComponent {
                     </div>
                   ))
                 ) : (
-                  <div className="flex justify-between">
-                    <h2 className="w-full m-auto h-full text-xl font-bold text-red-500">
-                      No Errors
+                    <div className="flex justify-between">
+                      <h2 className="w-full m-auto h-full text-xl font-bold text-red-500">
+                        No Errors
                     </h2>
-                  </div>
-                )}
+                    </div>
+                  )}
               </div>
             </div>
           </div>

@@ -152,6 +152,7 @@ validations.validateModuleGroup = async (req, res, next) => {
     },
   ];
   let errors = validateHelper.validation(data, validateArray);
+
   let key_filter = { is_deleted: false, module_group: data.module_group }
   if (data._id) {
     key_filter = { ...key_filter, _id: { $ne: data._id } }
@@ -160,6 +161,7 @@ validations.validateModuleGroup = async (req, res, next) => {
   if (already_key && already_key._id) {
     errors = { ...errors, module_group: 'module_group already exist' }
   }
+
 
   if (!isEmpty(errors)) {
     return otherHelper.sendResponse(res, httpStatus.BAD_REQUEST, false, null, errors, roleConfig.errorIn.inputErrors, null);

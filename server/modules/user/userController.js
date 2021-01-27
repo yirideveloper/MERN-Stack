@@ -151,8 +151,8 @@ userController.PostUser = async (req, res, next) => {
 userController.PostUserPwd = async (req, res, next) => {
   try {
     let user = {};
-    const { email, name, email_verified, roles, bio } = req.body;
-    user = { email, name, email_verified, roles, bio };
+    const { email, name, email_verified, roles } = req.body;
+    user = { email, name, email_verified, roles };
     let salt = await bcrypt.genSalt(10);
     let hashPwd = await bcrypt.hash(req.body.password, salt);
     if (req.body && req.body._id) {

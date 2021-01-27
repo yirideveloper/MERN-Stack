@@ -86,16 +86,6 @@ const AddEdit = props => {
   const handleChildChange = name => event => {
     event.persist();
     props.setChildValue({ key: name, value: event.target.value });
-    if (name === 'title') {
-      const url = event.target.value
-        .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
-        .toLowerCase()
-        .replace(/^\s+|\s+$/gm, '')
-        .replace(/\s+/g, '-')
-        .trim()
-        .toLowerCase();
-      props.setChildValue({ key: 'url', value: url });
-    }
   };
 
   const handleGoBack = () => {
@@ -295,7 +285,7 @@ const AddEdit = props => {
                         <input
                           className="inputbox"
                           id="grid-last-name"
-                          type="number"
+                          type="text"
                           value={subMenu.order || ''}
                           onChange={handleChildChange('order')}
                         />
@@ -307,8 +297,7 @@ const AddEdit = props => {
                             </div>
                           )}
                       </div>
-                      <div className="flex flex-wrap justify-between px-2">
-                        <div className="w-full md:w-1/2 pb-4 -ml-2">
+                        <div className="w-full md:w-1/2 pb-4">
                           <label className="label" htmlFor="grid-last-name">
                             Category
                           </label>
@@ -322,23 +311,7 @@ const AddEdit = props => {
                               </div>
                             )}
                         </div>
-                      </div>
-                      <div className="w-full md:w-1/2 ">
-                        <div className="checkbox">
-                          <input
-                            checked={subMenu.is_active || false}
-                            onChange={handleCheckedChildChange('is_active')}
-                            id="is_active"
-                            type="checkbox"
-                          />
-                          <label htmlFor="is_active">
-                            <span className="box">
-                              <FaCheck className="check-icon" />
-                            </span>
-                            Is Active
-                          </label>
-                        </div>
-                      </div>
+                      
                       <div className="w-full md:w-1/2 pb-4">
                         <label className="label" htmlFor="grid-last-name">
                           Link Type
@@ -363,7 +336,7 @@ const AddEdit = props => {
                         )}
                       </div>
                       <div className="w-full md:w-1/2 pb-4">
-                        <label className="label" htmlFor="grid-last-name">
+                        <label className="label" htmlFor="product_type">
                           Target
                         </label>
                         <select
@@ -373,8 +346,8 @@ const AddEdit = props => {
                           name="target"
                           onChange={handleChildChange('target')}
                         >
-                          <option value="_blank">_blank</option>
                           <option value="_self">_self</option>
+                          <option value="_blank">_blank</option>
                           <option value="_top">_top</option>
                           <option value="_parent">_parent</option>
                         </select>
@@ -382,9 +355,25 @@ const AddEdit = props => {
                           <div className="error">{errors.target}</div>
                         )}
                       </div>
+                      <div className="w-full md:w-1/2">
+                        <div className="checkbox">
+                          <input
+                            checked={subMenu.is_active || false}
+                            onChange={handleCheckedChildChange('is_active')}
+                            id="is_active"
+                            type="checkbox"
+                          />
+                          <label htmlFor="is_active">
+                            <span className="box">
+                              <FaCheck className="check-icon" />
+                            </span>
+                            Is Active
+                          </label>
+                        </div>
+                      </div>
                       <button
                         type="button"
-                        className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
+                        className="btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
                         onClick={handleChildSave}
                       >
                         Save
@@ -392,7 +381,7 @@ const AddEdit = props => {
                       {subMenu._id && (
                         <button
                           type="button"
-                          className="py-2 px-6 rounded mt-4 text-sm text-white uppercase btn-theme ml-2 bg-danger"
+                          className="text-white btn-waft btn-red"
                           onClick={() => handleOpen(subMenu._id)}
                         >
                           Delete
@@ -405,12 +394,12 @@ const AddEdit = props => {
             ) : (
               <>
                 <div className="w-full md:w-1/2 pb-4">
-                  <label className="label" htmlFor="grid-last-name">
+                  <label className="label" htmlFor="menu_title">
                     Title
                   </label>
                   <input
                     className="inputbox"
-                    id="grid-last-name"
+                    id="menu_title"
                     type="text"
                     value={one.title || ''}
                     onChange={handleTitleChange}
@@ -421,12 +410,12 @@ const AddEdit = props => {
                 </div>
 
                 <div className="w-full md:w-1/2 pb-4">
-                  <label className="label" htmlFor="grid-last-name">
+                  <label className="label" htmlFor="menu_key">
                     Key
                   </label>
                   <input
                     className="inputbox"
-                    id="grid-last-name"
+                    id="menu_key"
                     type="text"
                     value={one.key || ''}
                     onChange={handleChange('key')}
@@ -437,12 +426,12 @@ const AddEdit = props => {
                 </div>
 
                 <div className="w-full md:w-1/2 pb-4">
-                  <label className="label" htmlFor="grid-last-name">
+                  <label className="label" htmlFor="menu_order">
                     Order
                   </label>
                   <input
                     className="inputbox"
-                    id="grid-last-name"
+                    id="menu_order"
                     type="number"
                     value={one.order || ''}
                     onChange={handleChange('order')}
@@ -470,7 +459,7 @@ const AddEdit = props => {
 
                 <button
                   type="button"
-                  className="btn bg-blue-500 border border-blue-600 hover:bg-blue-600 mr-2"
+                  className="btn text-white  bg-green-500 border border-green-600 hover:bg-green-600 mr-2"
                   onClick={handleAddChildMenuSave}
                 >
                   Add Child Menu
@@ -478,7 +467,7 @@ const AddEdit = props => {
 
                 <button
                   type="button"
-                  className="btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
+                  className="btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
                   onClick={handleSave}
                 >
                   Save
@@ -486,7 +475,7 @@ const AddEdit = props => {
                 {subMenu._id && (
                   <button
                     type="button"
-                    className="btn-waft btn-red"
+                    className="text-white btn-waft btn-red"
                     onClick={() => handleOpen(subMenu._id)}
                   >
                     Delete

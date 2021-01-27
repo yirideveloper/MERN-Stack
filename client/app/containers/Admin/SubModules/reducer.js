@@ -69,14 +69,12 @@ const subModulesReducer = (state = initialState, action) =>
         break;
 
       case types.DELETE_ONE_SUCCESS:
-        if (action.payload !== undefined && action.payload.data !== undefined) {
-          draft.all = {
-            ...draft.all,
-            data: draft.all.data.filter(
-              each => each._id != action.payload.data._id,
-            ),
-          };
-        }
+        draft.all = {
+          ...draft.all,
+          data: draft.all.data.filter(
+            each => each._id != action.payload.data._id,
+          ),
+        };
         break;
 
       case types.SET_ERRORS:

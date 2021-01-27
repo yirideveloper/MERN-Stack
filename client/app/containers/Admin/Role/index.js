@@ -4,34 +4,33 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { push } from 'connected-react-router';
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
 import Table from 'components/Table';
-import CreateIcon from '@material-ui/icons/Create';
-import reducer from './reducer';
-import saga from './saga';
-import * as mapDispatchToProps from './actions';
-import { makeSelectAll, makeSelectQuery, makeSelectLoading } from './selectors';
-
-import PageHeader from '../../../components/PageHeader/PageHeader';
-import PageContent from '../../../components/PageContent/PageContent';
-import DeleteDialog from '../../../components/DeleteDialog';
-import Loading from '../../../components/Loading';
+import { push } from 'connected-react-router';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Helmet } from 'react-helmet';
 import {
-  FaTrashAlt,
   FaKey,
   FaPencilAlt,
   FaPlus,
-  FaSearch,
+  FaSearch, FaTrashAlt
 } from 'react-icons/fa';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+import DeleteDialog from '../../../components/DeleteDialog';
+import Loading from '../../../components/Loading';
+import PageContent from '../../../components/PageContent/PageContent';
+import PageHeader from '../../../components/PageHeader/PageHeader';
+import * as mapDispatchToProps from './actions';
+import reducer from './reducer';
+import saga from './saga';
+import { makeSelectAll, makeSelectLoading, makeSelectQuery } from './selectors';
+import lid from '../../../assets/img/lid.svg';
+
+
 
 /* eslint-disable react/prefer-stateless-function */
 export class AdminRole extends React.PureComponent {
@@ -115,7 +114,32 @@ export class AdminRole extends React.PureComponent {
         description,
         `${is_active}`,
         <>
-          <div className="flex">
+         <div className="flex">
+         <span
+              className="w-8 h-8 inline-flex justify-center items-center leading-none cursor-pointer hover:bg-green-100 rounded-full relative edit-icon"
+              onClick={() => this.handleAccess(_id)}
+            >
+              <FaKey className="text-base text-green-500 hover:text-green-600" />
+            </span>
+            <span
+              className="w-8 h-8 inline-flex justify-center items-center leading-none cursor-pointer hover:bg-blue-100 rounded-full relative edit-icon"
+              onClick={() => this.handleEdit(_id)}
+            >
+              <FaPencilAlt className="pencil" />
+
+              {/* <img className="pencil" src={pencil} alt="" /> */}
+              <span className="bg-blue-500 dash" />
+            </span>
+
+            <span
+              className="ml-4 w-8 h-8 inline-flex justify-center items-center leading-none cursor-pointer hover:bg-red-100 rounded-full relative trash-icon"
+              onClick={() => this.handleOpen(_id)}
+            >
+              <img className="trash-lid" src={lid} alt="trash-id" />
+              <span className="w-3 h-3 rounded-b-sm bg-red-500 mt-1" />
+            </span>
+          </div>
+          {/* <div className="flex">
             <button
               className="ml-2 px-1 text-center leading-none"
               onClick={() => this.handleAccess(_id)}
@@ -136,7 +160,7 @@ export class AdminRole extends React.PureComponent {
             >
               <FaTrashAlt className="text-base text-red-400 hover:text-red-600" />
             </button>
-          </div>
+          </div> */}
         </>,
       ],
     );
