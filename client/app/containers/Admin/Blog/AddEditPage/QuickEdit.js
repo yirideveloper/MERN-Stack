@@ -1,12 +1,15 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FaCheck } from 'react-icons/fa';
+// @material-ui/core components
+import { Checkbox } from '@material-ui/core/';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '../../../../components/Select';
+import { FaCheck } from 'react-icons/fa';
 
 const customStyles = {
-  chip: () => { },
+  chip: () => {},
   option: (provided, state) => ({
     ...provided,
     background: state.isFocused || state.isSelected ? '#5897FB' : 'white',
