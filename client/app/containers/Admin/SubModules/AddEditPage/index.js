@@ -65,11 +65,7 @@ const AddEdit = props => {
   };
 
   const handleSave = () => {
-    if (one.module_group === '') {
-      props.setErrors({ key: 'module_group', value: 'This field is required' });
-    } else {
-      addEditRequest();
-    }
+    addEditRequest();
   };
 
   const handleCheckedChange = name => event => {
@@ -124,34 +120,34 @@ const AddEdit = props => {
               >
                 Description
             </label>
-            <textarea
-              className="inputbox"
-              id="grid-description"
-              type="text"
-              value={one.description}
-              onChange={handleChange('description')}
-            />
-            <div className="error">{errors.description}</div>
-          </div>
+              <textarea
+                className="inputbox"
+                id="grid-description"
+                type="text"
+                value={one.description}
+                onChange={handleChange('description')}
+              />
+              <div className="error">{errors.description}</div>
+            </div>
 
-          {/* <div className="w-full md:w-1/2 pb-4">
-            <label>Module Group Main</label>
-            <input
-              className="inputbox"
-              id="grid-group"
-              type="text"
-              value={one.module_group_main}
-              onChange={handleChange('module_group_main')}
-            />
-            <div className="error">{errors.module_group_main}</div>
-          </div> */}
+            <div className="w-full md:w-1/2 pb-4">
+              <label>Module Group Main</label>
+              <input
+                className="inputbox"
+                id="grid-group"
+                type="text"
+                value={one.module_group_main}
+                onChange={handleChange('module_group_main')}
+              />
+              <div className="error">{errors.module_group_main}</div>
+            </div>
 
-          <button
-            type="button"
-            className="text-white py-2 px-4 rounded mt-4 bg-primary uppercase btn-theme"
-            onClick={handleSave}
-          >
-            Save
+            <button
+              type="button"
+              className="text-white py-2 px-4 rounded mt-4 bg-primary uppercase btn-theme"
+              onClick={handleSave}
+            >
+              Save
           </button>
           </PageContent>
         </div>

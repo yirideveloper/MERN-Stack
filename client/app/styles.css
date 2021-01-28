@@ -2,68 +2,10 @@
 
 @tailwind components;
 
-@tailwind utilities;
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-family: inherit;
-  font-weight: 600;
-  line-height: 1.2;
-  color: inherit;
-}
-
-h1,
-.h1 {
-  font-size: 2.5rem;
-}
-
-h2,
-.h2 {
-  font-size: 2rem;
-}
-
-h3,
-.h3 {
-  font-size: 1.75rem;
-}
-
-h4,
-.h4 {
-  font-size: 1.5rem;
-}
-
-h5,
-.h5 {
-  font-size: 1.25rem;
-}
-
-h6,
-.h6 {
-  font-size: 1rem;
-}
-
-.list-circle {
-  list-style-type: circle;
-  padding-left: 40px;
-}
-
 /* custom css starts */
 
 body {
   font-family: 'Roboto', sans-serif;
-  color: #555;
 }
 
 button:focus,
@@ -121,12 +63,12 @@ select.inputbox {
 }
 
 .error {
-  position: relative;
-  top:4px;
   color: #ff3b30;
   margin: 0;
   font-size: 0.75rem;
   text-align: left;
+  margin-top: 8px;
+  min-height: 1em;
 }
 
 .waft-gradient {
@@ -169,16 +111,19 @@ select.inputbox {
 }
 
 .btn {
-  @apply py-2 px-4 rounded text-sm mt-4 transition-all duration-200;
+  @apply py-2 px-4 text-white text-sm mt-4 transition-all duration-200;
 }
 .qr-code {
   transform: scale(4);
 }
 .tag {
-  @apply cursor-pointer border rounded bg-gray-200 mt-2 mr-1 px-2 py-1 text-sm inline-flex items-center;
+  @apply cursor-pointer bg-gray-200 mt-2 mr-1 px-2 py-1 text-sm inline-flex items-center;
 }
 .tag span {
   @apply text-xs p-1;
+}
+.fade {
+  transition: opacity .25s linear
 }
 
 @keyframes arrowtip {
@@ -189,6 +134,20 @@ select.inputbox {
     top: 20px;
   }
 }
+
+
+@keyframes slideDialog {
+  from {
+    top: 0;
+    opacity:0
+  }
+  to {
+    opacity:1;
+    top: 100px;
+  }
+}
+.slide-dialog {
+  animation: slideDialog 0.2s ease-in-out; }
 
 .arrow_box {
   border: solid transparent;
@@ -235,7 +194,7 @@ select.inputbox {
 }
 
 .checkbox .box {
-  @apply w-5 h-5 rounded-sm border border-gray-400 mr-2 cursor-pointer inline-flex justify-center items-center relative transition duration-200;
+  @apply w-5 border-gray-400 mr-2 cursor-pointer inline-flex justify-center items-center relative transition duration-200;
 }
 
 .checkbox label {
@@ -284,7 +243,7 @@ select.inputbox {
 }
 .label-inactive,
 .label-active {
-  @apply inline-block rounded-full py-px px-2 border bg-gray-100 text-xs text-gray-400;
+  @apply inline-block py-px px-2 bg-gray-100 text-xs text-gray-400;
 }
 .label-active {
   @apply bg-green-100 text-green-500 border-green-200;
@@ -339,39 +298,5 @@ select.inputbox {
   padding: 4px;
 }
 
-/* admin icons */
 
-.trash-lid {
-  position: absolute;
-  left: 8px;
-  top: 9px;
-}
-.pencil,
-.trash-lid,
-.dash {
-  transition: all 0.1s ease-in-out;
-}
-.pencil {
-  position: relative;
-  right: 0;
-  color: #4299e1;
-  font-size: 16px;
-}
-
-.trash-icon:hover .trash-lid {
-  top: 7px;
-}
-.dash {
-  position: absolute;
-  height: 2px;
-  width: 0px;
-  background: #4299e1;
-  left: 6px;
-  bottom: 8px;
-}
-.edit-icon:hover .dash {
-  width: 8px;
-}
-.edit-icon:hover .pencil {
-  right: -3px;
-}
+@tailwind utilities;

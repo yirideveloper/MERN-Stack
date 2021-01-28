@@ -37,7 +37,7 @@ class AddEdit extends React.PureComponent {
   };
 
   state = {
-    isSecure: true,
+    isSecure: false,
   };
 
   componentDidMount() {
@@ -118,7 +118,7 @@ class AddEdit extends React.PureComponent {
               </span>
               {id ? 'Edit' : 'Add'} User
           </PageHeader>
-        </div>
+          </div>
           <PageContent>
             <div className="w-full md:w-1/2 pb-4">
               <h3 className="text-lg font-bold mb-2">Basic Information</h3>
@@ -140,9 +140,7 @@ class AddEdit extends React.PureComponent {
                 value={users.name || ''}
                 onChange={this.handleChange('name')}
               />
-                {errors && errors.name && errors.name.trim() !== '' && (
               <div className="error">{(errors && errors.name) || ''}</div>
-                )}
             </div>
             <div className="w-full md:w-1/2 pb-4">
               <label className="text-sm">Bio</label>
@@ -171,9 +169,7 @@ class AddEdit extends React.PureComponent {
                 </label>
               </div>
             ))}
-              {errors && errors.roles && errors.roles.trim() !== '' && (
             <div className="error">{(errors && errors.roles) || ''}</div>
-              )}
 
             <div className="checkbox">
               <input
@@ -193,9 +189,8 @@ class AddEdit extends React.PureComponent {
 
             {id ? (
               <button
-                className="btn text-white bg-green-500 border border-green-600 hover:bg-green-600"
+                className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
                 onClick={this.handleSave}
-                style={{marginTop:'0'}}
               >
                 Save
               </button>
@@ -224,7 +219,7 @@ class AddEdit extends React.PureComponent {
               <div className="error">{errors.password || ''}</div>
             </div>
             <button
-              className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+              className="block btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
               onClick={this.handleUpdate}
             >
               {id ? 'Update Password' : 'Save'}

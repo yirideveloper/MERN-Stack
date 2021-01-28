@@ -151,9 +151,7 @@ class AddEdit extends React.PureComponent {
               onChange={this.handleChange('title')}
             />
           </div>
-          {errors && errors.title && errors.title.trim() !== '' && (
           <div className="error">{errors && errors.title}</div>
-          )}
 
           <div className="w-full md:w-1/2 pb-4">
             <label>Slug</label>
@@ -165,9 +163,7 @@ class AddEdit extends React.PureComponent {
               name="slug"
               onChange={this.handleChange('slug_url')}
             />
-              {errors && errors.slug_url && errors.slug_url.trim() !== '' && (
             <div className="error">{errors && errors.slug_url}</div>
-              )}
           </div>
 
           <div className="w-full md:w-1/2 pb-4">
@@ -175,17 +171,14 @@ class AddEdit extends React.PureComponent {
             <input
               className="inputbox"
               id="order"
-              type="number"
+              type="text"
               value={(one && one.order) || ''}
               onChange={this.handleChange('order')}
-              min="0"
             />
-              {errors && errors.order && errors.order.trim() !== '' && (
             <div className="error">{errors && errors.order}</div>
-              )}
           </div>
           <div className="pb-4">
-            <label>Blog Category Description</label>
+            <label className="text-sm">Blog Category Description</label>
             <CKEditor
               name="cat-description"
               content={one && one.description}
@@ -231,9 +224,8 @@ class AddEdit extends React.PureComponent {
           </div>
 
           <button
-            className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+            className="block btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
             onClick={this.handleSave}
-            disabled={loading}
           >
             Save
           </button>

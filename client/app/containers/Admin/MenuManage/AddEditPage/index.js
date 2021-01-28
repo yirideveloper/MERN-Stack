@@ -297,7 +297,8 @@ const AddEdit = props => {
                             </div>
                           )}
                       </div>
-                        <div className="w-full md:w-1/2 pb-4">
+                      <div className="flex flex-wrap justify-between px-2">
+                        <div className="w-full md:w-1/2 pb-4 -ml-2">
                           <label className="label" htmlFor="grid-last-name">
                             Category
                           </label>
@@ -311,7 +312,23 @@ const AddEdit = props => {
                               </div>
                             )}
                         </div>
-                      
+                      </div>
+                      <div className="w-full md:w-1/2 ">
+                        <div className="checkbox">
+                          <input
+                            checked={subMenu.is_active || false}
+                            onChange={handleCheckedChildChange('is_active')}
+                            id="is_active"
+                            type="checkbox"
+                          />
+                          <label htmlFor="is_active">
+                            <span className="box">
+                              <FaCheck className="check-icon" />
+                            </span>
+                            Is Active
+                          </label>
+                        </div>
+                      </div>
                       <div className="w-full md:w-1/2 pb-4">
                         <label className="label" htmlFor="grid-last-name">
                           Link Type
@@ -336,7 +353,7 @@ const AddEdit = props => {
                         )}
                       </div>
                       <div className="w-full md:w-1/2 pb-4">
-                        <label className="label" htmlFor="product_type">
+                        <label className="label" htmlFor="grid-last-name">
                           Target
                         </label>
                         <select
@@ -346,8 +363,8 @@ const AddEdit = props => {
                           name="target"
                           onChange={handleChildChange('target')}
                         >
-                          <option value="_self">_self</option>
                           <option value="_blank">_blank</option>
+                          <option value="_self">_self</option>
                           <option value="_top">_top</option>
                           <option value="_parent">_parent</option>
                         </select>
@@ -355,25 +372,9 @@ const AddEdit = props => {
                           <div className="error">{errors.target}</div>
                         )}
                       </div>
-                      <div className="w-full md:w-1/2">
-                        <div className="checkbox">
-                          <input
-                            checked={subMenu.is_active || false}
-                            onChange={handleCheckedChildChange('is_active')}
-                            id="is_active"
-                            type="checkbox"
-                          />
-                          <label htmlFor="is_active">
-                            <span className="box">
-                              <FaCheck className="check-icon" />
-                            </span>
-                            Is Active
-                          </label>
-                        </div>
-                      </div>
                       <button
                         type="button"
-                        className="btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+                        className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
                         onClick={handleChildSave}
                       >
                         Save
@@ -381,7 +382,7 @@ const AddEdit = props => {
                       {subMenu._id && (
                         <button
                           type="button"
-                          className="text-white btn-waft btn-red"
+                          className="py-2 px-6 rounded mt-4 text-sm text-white uppercase btn-theme ml-2 bg-danger"
                           onClick={() => handleOpen(subMenu._id)}
                         >
                           Delete
@@ -394,12 +395,12 @@ const AddEdit = props => {
             ) : (
               <>
                 <div className="w-full md:w-1/2 pb-4">
-                  <label className="label" htmlFor="menu_title">
+                  <label className="label" htmlFor="grid-last-name">
                     Title
                   </label>
                   <input
                     className="inputbox"
-                    id="menu_title"
+                    id="grid-last-name"
                     type="text"
                     value={one.title || ''}
                     onChange={handleTitleChange}
@@ -410,12 +411,12 @@ const AddEdit = props => {
                 </div>
 
                 <div className="w-full md:w-1/2 pb-4">
-                  <label className="label" htmlFor="menu_key">
+                  <label className="label" htmlFor="grid-last-name">
                     Key
                   </label>
                   <input
                     className="inputbox"
-                    id="menu_key"
+                    id="grid-last-name"
                     type="text"
                     value={one.key || ''}
                     onChange={handleChange('key')}
@@ -426,12 +427,12 @@ const AddEdit = props => {
                 </div>
 
                 <div className="w-full md:w-1/2 pb-4">
-                  <label className="label" htmlFor="menu_order">
+                  <label className="label" htmlFor="grid-last-name">
                     Order
                   </label>
                   <input
                     className="inputbox"
-                    id="menu_order"
+                    id="grid-last-name"
                     type="number"
                     value={one.order || ''}
                     onChange={handleChange('order')}
@@ -459,7 +460,7 @@ const AddEdit = props => {
 
                 <button
                   type="button"
-                  className="btn text-white  bg-green-500 border border-green-600 hover:bg-green-600 mr-2"
+                  className="btn bg-blue-500 border border-blue-600 hover:bg-blue-600 mr-2"
                   onClick={handleAddChildMenuSave}
                 >
                   Add Child Menu
@@ -467,7 +468,7 @@ const AddEdit = props => {
 
                 <button
                   type="button"
-                  className="btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+                  className="btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
                   onClick={handleSave}
                 >
                   Save
@@ -475,7 +476,7 @@ const AddEdit = props => {
                 {subMenu._id && (
                   <button
                     type="button"
-                    className="text-white btn-waft btn-red"
+                    className="btn-waft btn-red"
                     onClick={() => handleOpen(subMenu._id)}
                   >
                     Delete

@@ -131,8 +131,3 @@ export const setErrorValue = payload => ({
   type: types.SET_ERROR_VALUE,
   payload,
 });
-
-export const setUpdateCalled = payload => ({
-  type: types.SET_UPDATE_CALLED,
-  payload,
-});

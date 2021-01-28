@@ -28,7 +28,6 @@ import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import { makeSelectAll, makeSelectLoading, makeSelectQuery } from './selectors';
-import lid from '../../../assets/img/lid.svg';
 
 
 
@@ -114,30 +113,27 @@ export class AdminRole extends React.PureComponent {
         description,
         `${is_active}`,
         <>
-         <div className="flex">
-         <span
-              className="w-8 h-8 inline-flex justify-center items-center leading-none cursor-pointer hover:bg-green-100 rounded-full relative edit-icon"
+          <div className="flex">
+            <button
+              className="ml-2 px-1 text-center leading-none"
               onClick={() => this.handleAccess(_id)}
             >
               <FaKey className="text-base text-green-500 hover:text-green-600" />
-            </span>
-            <span
-              className="w-8 h-8 inline-flex justify-center items-center leading-none cursor-pointer hover:bg-blue-100 rounded-full relative edit-icon"
+            </button>
+            <button
+              aria-label="Edit"
+              className=" px-1 text-center leading-none"
               onClick={() => this.handleEdit(_id)}
             >
-              <FaPencilAlt className="pencil" />
+              <FaPencilAlt className="text-base text-blue-500 hover:text-blue-600" />
+            </button>
 
-              {/* <img className="pencil" src={pencil} alt="" /> */}
-              <span className="bg-blue-500 dash" />
-            </span>
-
-            <span
-              className="ml-4 w-8 h-8 inline-flex justify-center items-center leading-none cursor-pointer hover:bg-red-100 rounded-full relative trash-icon"
+            <button
+              className="ml-2 px-1 text-center leading-none"
               onClick={() => this.handleOpen(_id)}
             >
-              <img className="trash-lid" src={lid} alt="trash-id" />
-              <span className="w-3 h-3 rounded-b-sm bg-red-500 mt-1" />
-            </span>
+              <FaTrashAlt className="text-base text-red-400 hover:text-red-600" />
+            </button>
           </div>
         </>,
       ],

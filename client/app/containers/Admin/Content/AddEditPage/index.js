@@ -5,6 +5,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Helmet } from 'react-helmet';
+import { FaArrowLeft, FaCheck } from 'react-icons/fa';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -15,7 +16,9 @@ import WECkEditior from '../../../../components/CkEditor';
 import Loading from '../../../../components/Loading';
 import PageContent from '../../../../components/PageContent/PageContent';
 import PageHeader from '../../../../components/PageHeader/PageHeader';
+import { DATE_FORMAT } from '../../../App/constants';
 import { makeSelectToken } from '../../../App/selectors';
+import * as mapDispatchToProps from '../actions';
 import reducer from '../reducer';
 import saga from '../saga';
 import {
@@ -24,9 +27,6 @@ import {
   makeSelectMetaTag, makeSelectOne
 } from '../selectors';
 
-import * as mapDispatchToProps from '../actions';
-import { DATE_FORMAT } from '../../../App/constants';
-import { FaCheck, FaArrowLeft, FaTimes } from 'react-icons/fa';
 
 class AddEdit extends React.PureComponent {
   static propTypes = {
@@ -47,6 +47,7 @@ class AddEdit extends React.PureComponent {
     if (this.props.match.params && this.props.match.params.id !== '') {
       this.props.loadOneRequest(this.props.match.params.id);
     }
+    console.log(this.props.match.id);
   }
 
   handleEditorChange = (e, name) => {
@@ -141,65 +142,55 @@ class AddEdit extends React.PureComponent {
               <label>Content Title</label>
               <input
                 className="inputbox"
-                id="content_title"
+                id="grid-last-name"
                 type="text"
                 value={one.name}
                 onChange={this.handleChange('name')}
               />
-             {errors && errors.name && errors.name.trim() !== '' && (
-              <div className="error">{errors.name}</div>
-             )}
+              <div className="error">{errors && errors.name}</div>
             </div>
 
             <div className="w-full md:w-1/2 pb-4">
               <label>Content Key</label>
               <input
                 className="inputbox"
-                id="content_key"
+                id="grid-last-name"
                 type="text"
                 value={one.key}
                 onChange={this.handleChange('key')}
-              />
-              {errors && errors.key && errors.key.trim() !== '' && (
+              />{' '}
               <div className="error">{errors && errors.key}</div>
-              )}   
             </div>
 
-            <div className="pb-4">
+            <div>
               <WECkEditior
                 description={one.description}
                 setOneValue={this.props.setOneValue}
               />
-              {errors && errors.description && errors.description.trim() !== '' && (
               <div className="error">{errors.description}</div>
-              )}
             </div>
 
             <div className="w-full md:w-1/2 pb-4">
               <label>Meta Title</label>
               <input
                 className="inputbox"
-                id="meta_title"
+                id="grid-last-meta_title"
                 type="text"
                 value={one.meta_title}
                 onChange={this.handleChange('meta_title')}
               />
-              {errors && errors.meta_title && errors.meta_title.trim() !== '' && (
-              <div className="error">{errors.meta_title}</div>)
-               }
+              <div className="error">{errors && errors.meta_title}</div>
             </div>
             <div className="w-full md:w-1/2 pb-4">
               <label>Meta Description</label>
               <input
                 className="inputbox"
-                id="meta_description"
+                id="grid-last-meta_description"
                 type="text"
                 value={one.meta_description}
                 onChange={this.handleChange('meta_description')}
               />
-              {errors && errors.meta_description && (
-              <div className="error">{errors.meta_description}</div>
-              )}
+              <div className="error">{errors && errors.meta_description}</div>
             </div>
             <div className="w-full md:w-1/2 pb-4">
               <label className="text-sm" htmlFor="grid-last-name">
@@ -208,7 +199,7 @@ class AddEdit extends React.PureComponent {
               <form onSubmit={this.insertMetaTags}>
                 <input
                   className="inputbox"
-                  id="meta-tags"
+                  id="blog-meta-tags"
                   type="text"
                   value={tempMetaTag || ''}
                   name="Tags"
@@ -286,7 +277,7 @@ class AddEdit extends React.PureComponent {
             </div>
 
             <button
-              className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+              className="block btn bg-blue-500 border border-blue-600 hover:bg-blue-600"
               onClick={this.handleSave}
             >
               Save Content

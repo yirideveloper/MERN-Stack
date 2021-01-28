@@ -24,21 +24,8 @@ import * as mapDispatchToProps from './actions';
 import QuickEdit from './AddEditPage/QuickEdit';
 import reducer from './reducer';
 import saga from './saga';
-import {
-  makeSelectAll,
-  makeSelectCategory,
-  makeSelectChip,
-  makeSelectErrors,
-  makeSelectHelper,
-  makeSelectLoading,
-  makeSelectMetaKeyword,
-  makeSelectMetaTag,
-  makeSelectOne,
-  makeSelectQuery,
-  makeSelectTag,
-  makeSelectUpateCalled,
-  makeSelectUsers,
-} from './selectors';
+import { makeSelectAll, makeSelectCategory, makeSelectChip, makeSelectErrors, makeSelectHelper, makeSelectLoading, makeSelectMetaKeyword, makeSelectMetaTag, makeSelectOne, makeSelectQuery, makeSelectTag, makeSelectUsers } from './selectors';
+
 
 /* eslint-disable react/prefer-stateless-function */
 export class BlogManagePage extends React.Component {
@@ -86,7 +73,6 @@ export class BlogManagePage extends React.Component {
     ) {
       props.loadAllRequest(props.query);
     }
-
     return true;
   }
 
@@ -143,7 +129,6 @@ export class BlogManagePage extends React.Component {
     this.props.loadCategoryRequest();
     this.props.loadUsersRequest();
     this.props.setValue({ name: 'helper', key: 'showQuickEdit', value: true });
-    this.props.setUpdateCalled(false);
   };
 
   handleEditorChange = (e, name) => {
@@ -223,7 +208,6 @@ export class BlogManagePage extends React.Component {
 
   handleSave = () => {
     this.props.addEditRequest();
-    this.props.setUpdateCalled(true);
   };
 
   handleMetaKeywordDelete = index => () => {
@@ -353,67 +337,67 @@ export class BlogManagePage extends React.Component {
         author,
         _id,
       }) => [
-        <>
-          <Link
-            to={`/news/${moment(added_at).format('YYYY/MM/DD')}/${_id}`}
-            target="_blank"
-            className="block font-bold text-base text-blue-500 cursor-pointer hover:underline"
-          >
-            {title}
-          </Link>{' '}
-          <div className="flex py-2">
-            <button
-              aria-label="Edit"
-              type="button"
-              className="border-r px-1 text-center leading-none hover:text-blue-500 whitespace-no-wrap text-sm"
-              onClick={() => this.handleEdit(_id)}
+          <>
+            <Link
+              to={`/news/${moment(added_at).format('YYYY/MM/DD')}/${_id}`}
+              target="_blank"
+              className="block font-bold text-base text-blue-500 cursor-pointer hover:underline"
             >
-              Edit
+              {title}
+            </Link>{' '}
+            <div className="flex py-2">
+              <button
+                aria-label="Edit"
+                type="button"
+                className="border-r px-1 text-center leading-none hover:text-blue-500 whitespace-nowrap text-sm"
+                onClick={() => this.handleEdit(_id)}
+              >
+                Edit
             </button>
-            <button
-              aria-label="Edit"
-              type="button"
-              className="border-r px-1 text-center leading-none hover:text-blue-500 whitespace-no-wrap text-sm"
-              onClick={() => this.handleLoadOne(_id)}
-            >
-              Quick Edit
+              <button
+                aria-label="Edit"
+                type="button"
+                className="border-r px-1 text-center leading-none hover:text-blue-500 whitespace-nowrap text-sm"
+                onClick={() => this.handleLoadOne(_id)}
+              >
+                Quick Edit
             </button>
 
-            <button
-              className="px-1 text-center leading-none text-red-500 whitespace-no-wrap text-sm"
-              type="button"
-              onClick={() => this.handleOpen(_id)}
-            >
-              Delete
+              <button
+                className="px-1 text-center leading-none text-red-500 whitespace-nowrap text-sm"
+                type="button"
+                onClick={() => this.handleOpen(_id)}
+              >
+                Delete
             </button>
-          </div>
-        </>,
-        (category && category.map(each => each.title).join(', ')) || 'No',
-        <span className="whitespace-no-wrap">
-          {moment(added_at).format(DATE_FORMAT)}
-        </span>,
-        <span className="whitespace-no-wrap">
-          {moment(published_on).format('YYYY-MM-DD HH:mm')}
-        </span>,
-        // `${is_highlight}`,
-        // `${is_showcase}`,
-        // `${is_active}`,
-        <>
-          {is_published ? (
-            <FaRegCheckCircle className="text-green-500" />
-          ) : (
-            <FaBan className="text-red-400" />
-          )}{' '}
-        </>,
-        // tags.join(','),
-        (
-          <p className="">
-            {author &&
-              author.length > 0 &&
-              author.map(author => author.name).join(', ')}
-          </p>
-        ) || '',
-      ],
+            </div>
+          </>,
+          (category && category.map(each => each.title).join(', ')) || 'No',
+          <span className="whitespace-nowrap">
+            {moment(added_at).format(DATE_FORMAT)}
+          </span>,
+          <span className="whitespace-nowrap">
+            {moment(published_on).format('YYYY-MM-DD HH:mm')}
+          </span>,
+          // `${is_highlight}`,
+          // `${is_showcase}`,
+          // `${is_active}`,
+          <>
+            {is_published ? (
+              <FaRegCheckCircle className="text-green-500" />
+            ) : (
+                <FaBan className="text-red-400" />
+              )}{' '}
+          </>,
+          // tags.join(','),
+          (
+            <p className="">
+              {author &&
+                author.length > 0 &&
+                author.map(author => author.name).join(', ')}
+            </p>
+          ) || '',
+        ],
     );
 
     const activeData =
@@ -440,7 +424,6 @@ export class BlogManagePage extends React.Component {
               value: false,
             })
           }
-          loading={loading}
           handleUpdate={this.handleSave}
         >
           <QuickEdit
@@ -469,7 +452,6 @@ export class BlogManagePage extends React.Component {
             tempMetaTag={tempMetaTag}
             tempMetaKeyword={tempMetaKeyword}
             errors={errors}
-            setUpdateCalled={this.props.setUpdateCalled}
           />
         </Modal>
         <div className="flex justify-between my-3">
@@ -595,13 +577,11 @@ export class BlogManagePage extends React.Component {
               />
             </div>
             <div className="px-1 w-1/6">
-            <label></label>
               <button
                 aria-label="Search"
-                className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+                className="bg-secondary mt-4 px-4 py-2 font-lg block text-white text-center w-full rounded leading-tighter mt-6"
                 onClick={this.handleSearch}
                 type="button"
-                style={{marginTop:'1.5rem'}}
               >
                 Search
               </button>
@@ -671,7 +651,6 @@ const mapStateToProps = createStructuredSelector({
   tempMetaKeyword: makeSelectMetaKeyword(),
   users: makeSelectUsers(),
   errors: makeSelectErrors(),
-  updateCalled: makeSelectUpateCalled(),
 });
 
 const withConnect = connect(

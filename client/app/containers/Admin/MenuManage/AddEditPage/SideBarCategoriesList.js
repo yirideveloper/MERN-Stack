@@ -106,7 +106,7 @@ const SidebarCategoriesList = props => {
       <button
         type="button"
         onClick={() => clearSubMenu()}
-        className="btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+        className="py-2 px-6 w-full rounded mt-4 text-sm text-white bg-primary uppercase btn-theme"
       >
         Add New
       </button>

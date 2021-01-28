@@ -81,7 +81,7 @@ function* addEdit() {
 
 function* addEditSuccessFunc(action) {
   const snackbarData = {
-    message: action.payload.msg || 'Save success!!',
+    message: action.payload.msg || 'Update success!!',
     options: {
       variant: 'success',
     },
