@@ -1,9 +1,9 @@
-const colors = require('./colors')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   purge: [],
   presets: [],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
       sm: '640px',
@@ -15,15 +15,7 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      primary: '#2A3C85',
-      secondary: '#4d62ba',
-      success: '#28a745',
-      danger: '#dc3545',
-      warning: '#ffc107',
-      info: '#17a2b8',
-      light: '#f8f9fa',
-      dark: '#343a40',
-      link: 'transparent',
+
       black: colors.black,
       white: colors.white,
       gray: colors.coolGray,
@@ -110,7 +102,7 @@ module.exports = {
     },
     borderColor: (theme) => ({
       ...theme('colors'),
-      // DEFAULT: theme('colors.gray.200', 'currentColor'),
+      DEFAULT: theme('colors.gray.200', 'currentColor'),
     }),
     borderOpacity: (theme) => theme('opacity'),
     borderRadius: {
@@ -543,7 +535,7 @@ module.exports = {
     placeholderColor: (theme) => theme('colors'),
     placeholderOpacity: (theme) => theme('opacity'),
     ringColor: (theme) => ({
-      // DEFAULT: theme('colors.blue.500', '#3b82f6'),
+      DEFAULT: theme('colors.blue.500', '#3b82f6'),
       ...theme('colors'),
     }),
     ringOffsetColor: (theme) => theme('colors'),
