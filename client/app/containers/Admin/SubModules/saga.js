@@ -89,7 +89,6 @@ function* deleteSuccessFunc(action) {
     },
   };
   yield put(enqueueSnackbar(snackbarData));
-  yield put(actions.loadAllRequest());
 }
 
 function* deleteFailureFunc(action) {

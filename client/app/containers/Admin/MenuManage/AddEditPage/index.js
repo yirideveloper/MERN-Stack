@@ -86,16 +86,6 @@ const AddEdit = props => {
   const handleChildChange = name => event => {
     event.persist();
     props.setChildValue({ key: name, value: event.target.value });
-    if (name === 'title') {
-      const url = event.target.value
-        .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
-        .toLowerCase()
-        .replace(/^\s+|\s+$/gm, '')
-        .replace(/\s+/g, '-')
-        .trim()
-        .toLowerCase();
-      props.setChildValue({ key: 'url', value: url });
-    }
   };
 
   const handleGoBack = () => {
@@ -295,7 +285,7 @@ const AddEdit = props => {
                         <input
                           className="inputbox"
                           id="grid-last-name"
-                          type="number"
+                          type="text"
                           value={subMenu.order || ''}
                           onChange={handleChildChange('order')}
                         />
