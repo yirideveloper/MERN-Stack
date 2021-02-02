@@ -7,7 +7,10 @@ import queryString from 'query-string';
 import { createStructuredSelector } from 'reselect';
 import Dropzone from 'react-dropzone';
 
-import Dialog from '../../../components/Dialog/index';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import PageContent from '../../../components/PageContent/PageContent';
 import { FaCheck } from 'react-icons/fa';
 
@@ -358,9 +361,9 @@ const FileList = ({
 
   return (
     <PageContent loading={loading}>
-      <Dialog open={open} onClose={handleClose}   title={`New Folder`}
-       body={
-       <div className="w-5/6 sm:w-80">
+      <Dialog open={open} onClose={handleClose} aria-labelledby="new-folder">
+        <DialogTitle>New Folder</DialogTitle>
+        <DialogContent>
           <input
             autoFocus
             id="name"
@@ -369,26 +372,23 @@ const FileList = ({
             onChange={handleInput}
             value={one.name}
           />
-          </div>
-       }
-       actions={
-         <>
+        </DialogContent>
+        <DialogActions>
           <button
             onClick={handleClose}
-            className="block btn margin-none text-white bg-red-500 border border-red-600 hover:bg-red-600 mr-1"
+            color="bg-secondary px-4 py-2 text-sm rounded text-white flex items-center"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="block btn margin-none text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+            className="bg-primary px-4 py-2 text-sm rounded text-white flex items-center"
             disabled={folderAdded}
           >
             Save
           </button>
-          </>
-       }
-       />
+        </DialogActions>
+      </Dialog>
       <div className="flex items-center justify-between my-3">
         <div className="flex">
           <div className="flex relative">
@@ -495,9 +495,10 @@ const FileList = ({
       <Dialog
         open={show}
         onClose={handleRenameClose}
-        title={`Rename Folder`}
-        body={
-          <div className="w-5/6 sm:w-80">
+        aria-labelledby="rename-folder"
+      >
+        <DialogTitle>Rename Folder</DialogTitle>
+        <DialogContent>
           <input
             autoFocus
             id="rename"
@@ -507,32 +508,30 @@ const FileList = ({
             value={rename}
             onKeyDown={handleEnter}
           />
-          </div>
-          }
-          actions={
-            <>
+        </DialogContent>
+        <DialogActions>
           <button
             onClick={handleRenameClose}
-            className="block btn margin-none text-white bg-red-500 border border-red-600 hover:bg-red-600 mr-1"
+            color="bg-secondary px-4 py-2 text-sm rounded text-white flex items-center"
           >
             Cancel
           </button>
           <button
             onClick={handleSaveRename}
-            className="block btn margin-none text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+            className="bg-primary px-4 py-2 text-sm rounded text-white flex items-center"
           >
             Save
           </button>
-       </>
-          }
-       />
+        </DialogActions>
+      </Dialog>
 
       <Dialog
         open={showRename}
         onClose={closeFileRename}
-        title={`Rename File`}
-        body={
-          <div className="w-5/6 sm:w-80">
+        aria-labelledby="rename-file"
+      >
+        <DialogTitle>Rename File</DialogTitle>
+        <DialogContent>
           <input
             autoFocus
             id="rename"
@@ -542,26 +541,22 @@ const FileList = ({
             value={rename_file.renamed_name}
             onKeyDown={handleFileEnter}
           />
-          </div>
-        }
-
-        actions={
-          <>
+        </DialogContent>
+        <DialogActions>
           <button
             onClick={closeFileRename}
-            className="block btn margin-none text-white bg-red-500 border border-red-600 hover:bg-red-600 mr-1"
+            color="bg-secondary px-4 py-2 text-sm rounded text-white flex items-center"
           >
             Cancel
           </button>
           <button
             onClick={handleSaveFileRename}
-            className="block btn margin-none text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+            className="bg-primary px-4 py-2 text-sm rounded text-white flex items-center"
           >
             Save
           </button>
-          </>
-        }
-      />
+        </DialogActions>
+      </Dialog>
 
       {/* end file rename */}
       <DeleteDialog
@@ -586,10 +581,10 @@ const FileList = ({
             <div className={`${folderCheckbox ? '' : 'mediaCheck'} absolute`}>
               {selectedButton === 'Rename' && (
                 <button
-                  className="flex w-8 h-8 bg-white shadow rounded-full"
+                  className="hover:text-blue-500"
                   onClick={() => handleRename(each._id, each.name)}
                 >
-                 <FaEdit className="text-sm inline-block text-black m-auto hover:text-primary" title="Edit" />
+                  <FaEdit />
                 </button>
               )}
               {selectedButton === 'Delete' && (
@@ -641,10 +636,10 @@ const FileList = ({
             {selectedButton === 'Rename' && (
               <div className="absolute">
               <button
-                className="flex w-8 h-8 bg-white shadow rounded-full"
+                className="hover:text-blue-500"
                 onClick={() => handleRenameFile(each._id, each.renamed_name)}
               >
-                <FaEdit className="text-sm inline-block text-black m-auto hover:text-primary" title="Edit" />
+                <FaEdit />
               </button>
               </div>
             )}

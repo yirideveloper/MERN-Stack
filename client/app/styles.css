@@ -172,7 +172,7 @@ select.inputbox {
 }
 
 .btn.margin-none{
-  @apply mt-0;
+  @apply m-0;
 }
 .qr-code {
   transform: scale(4);
