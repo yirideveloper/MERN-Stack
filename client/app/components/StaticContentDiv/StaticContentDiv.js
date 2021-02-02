@@ -45,9 +45,7 @@ class StaticContent extends React.PureComponent {
                   }`}
                 target="_blank"
               >
-                <div className="flex w-8 h-8 bg-white shadow rounded-full absolute">
-                  <FaPen className="text-sm inline-block text-black m-auto hover:text-primary" title="Edit" />
-                </div>
+                <FaPen />
               </Link>
             ) : (
               <Link
@@ -55,9 +53,7 @@ class StaticContent extends React.PureComponent {
                   }`}
                 target="_blank"
               >
-                 <div className="flex w-8 h-8 bg-white shadow rounded-full absolute">
-                  <FaPen className="text-sm inline-block text-black m-auto hover:text-primary" title="Edit" />
-                </div>
+                <FaPen />
               </Link>
             ))}
         {contentObj &&
