@@ -23,13 +23,13 @@ contactController.PostContact = async (req, res, next) => {
       if (renderMail.error) {
         console.log('render mail error: ', renderMail.error);
       } else {
-        emailHelper.send(renderedMail, next);
+        emailHelper.send(renderedMail);
       }
-      const renderedMailForAdmin = await renderMail.renderTemplate('contact_to_user', data, user.email);
+      const renderedMailforAdmin = await renderMail.renderTemplate('contact_to_user', data, user.email);
       if (renderMail.error) {
         console.log('render mail error: ', renderMail.error);
       } else {
-        emailHelper.send(renderedMailForAdmin, next);
+        emailHelper.send(renderedMailforAdmin);
       }
       return otherHelper.sendResponse(res, httpStatus.OK, true, user, null, contactConfig.save, null);
     } else {
@@ -52,7 +52,7 @@ contactController.GetContact = async (req, res, next) => {
   }
   selectQuery = 'name email message subject added_at is_deleted';
   let contacts = await otherHelper.getQuerySendResponse(contactSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
-  return otherHelper.paginationSendResponse(res, httpStatus.OK, true, contacts.data, contactConfig.gets, page, size, contacts.totalData);
+  return otherHelper.paginationSendResponse(res, httpStatus.OK, true, contacts.data, contactConfig.gets, page, size, contacts.totaldata);
 };
 
 contactController.GetContactById = async (req, res, next) => {

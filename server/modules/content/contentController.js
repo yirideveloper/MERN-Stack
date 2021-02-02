@@ -24,9 +24,9 @@ contentController.GetContent = async (req, res, next) => {
       searchQuery = { ...searchQuery, is_page: req.query.find_is_page };
     }
     populate = [{ path: 'image' }];
-    let pulledData = await otherHelper.getQuerySendResponse(contentSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
+    let datas = await otherHelper.getQuerySendResponse(contentSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
 
-    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, pulledData.data, contentConfig.gets, page, size, pulledData.totalData);
+    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, datas.data, contentConfig.gets, page, size, datas.totaldata);
   } catch (err) {
     next(err);
   }

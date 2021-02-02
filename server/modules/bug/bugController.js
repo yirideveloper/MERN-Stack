@@ -24,7 +24,7 @@ bugController.GetErrors = async (req, res, next) => {
       searchQuery = { error_stack: { $regex: req.query.find_errors, $options: 'i' }, ...searchQuery };
     }
     let bugs = await otherHelper.getQuerySendResponse(bugSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
-    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, bugs.data, 'Here are the error folks!!', page, size, bugs.totalData);
+    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, bugs.data, 'Here are the error folks!!', page, size, bugs.totaldata);
   } catch (err) {
     next(err);
   }
@@ -32,11 +32,11 @@ bugController.GetErrors = async (req, res, next) => {
 bugController.GetErrorsGroupBy = async (req, res, next) => {
   try {
     const bugs = await bugSch.aggregate([{ $group: { _id: '$error_type', count: { $sum: 1 } } }, { $sort: { count: -1 } }]);
-    let totalData = 0;
+    let totaldata = 0;
     bugs.forEach(each => {
-      totalData = totalData + each.count;
+      totaldata = totaldata + each.count;
     });
-    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, bugs, 'errors by group by get success!!', 1, 1, totalData);
+    return otherHelper.paginationSendResponse(res, httpStatus.OK, true, bugs, 'errors by group by get success!!', 1, 1, totaldata);
   } catch (err) {
     next(err);
   }

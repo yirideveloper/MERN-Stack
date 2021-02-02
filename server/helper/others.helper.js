@@ -1,5 +1,7 @@
 'use strict';
 const crypto = require('crypto');
+const Validator = require('validator');
+const isEmpty = require('../validation/isEmpty');
 const PhoneNumber = require('awesome-phonenumber');
 
 const otherHelper = {};
@@ -77,14 +79,14 @@ otherHelper.parseFilters = (req, defaults, is_deleted) => {
     size = size_default;
   }
   if (req.query.sort) {
-    let sortField = req.query.sort.slice(1);
-    let sortBy = req.query.sort.charAt(0);
-    if (sortBy == 1 && !isNaN(sortBy) && sortField) {
+    let sortfield = req.query.sort.slice(1);
+    let sortby = req.query.sort.charAt(0);
+    if (sortby == 1 && !isNaN(sortby) && sortfield) {
       //one is ascending
-      sortQuery = sortField;
-    } else if (sortBy == 0 && !isNaN(sortBy) && sortField) {
+      sortQuery = sortfield;
+    } else if (sortby == 0 && !isNaN(sortby) && sortfield) {
       //zero is descending
-      sortQuery = '-' + sortField;
+      sortQuery = '-' + sortfield;
     } else {
       sortQuery = '';
     }
@@ -101,28 +103,28 @@ otherHelper.sendResponse = (res, status, success, data, errors, msg, token) => {
   if (token !== null) response.token = token;
   return res.status(status).json(response);
 };
-otherHelper.paginationSendResponse = (res, status, success, data, msg, pageNo, pagesize, totalData) => {
+otherHelper.paginationSendResponse = (res, status, success, data, msg, pageno, pagesize, totaldata) => {
   const response = {};
   if (data) response.data = data;
   if (success !== null) response.success = success;
   if (msg) response.msg = msg;
-  if (pageNo) response.page = pageNo;
+  if (pageno) response.page = pageno;
   if (pagesize) response.size = pagesize;
-  if (typeof totalData === 'number') response.totalData = totalData;
+  if (typeof totaldata === 'number') response.totaldata = totaldata;
   return res.status(status).json(response);
 };
 otherHelper.getQuerySendResponse = async (model, page, size, sortQuery, searchQuery, selectQuery, next, populate) => {
-  let pulledData = {};
+  let datas = {};
   try {
-    pulledData.data = await model
+    datas.data = await model
       .find(searchQuery)
       .select(selectQuery)
       .sort(sortQuery)
       .skip((page - 1) * size)
       .limit(size * 1)
       .populate(populate);
-    pulledData.totalData = await model.countDocuments(searchQuery);
-    return pulledData;
+    datas.totaldata = await model.countDocuments(searchQuery);
+    return datas;
   } catch (err) {
     next(err);
   }
