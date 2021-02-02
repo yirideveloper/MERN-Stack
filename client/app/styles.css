@@ -172,10 +172,10 @@ select.inputbox {
 }
 
 .btn.margin-none{
-  @apply m-0;
+  @apply mt-0;
 }
 .qr-code {
-  transform: scale(4);
+  transform: scale(2);
 }
 .tag {
   @apply cursor-pointer bg-gray-200 mt-2 mr-1 px-2 py-1 text-sm inline-flex items-center;
