@@ -12,7 +12,11 @@ import { compose } from 'redux';
 import moment from 'moment';
 import { push } from 'connected-react-router';
 import { Helmet } from 'react-helmet';
-import Dialog from 'components/Dialog/index';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+
 // core components
 import Table from 'components/Table';
 
@@ -29,7 +33,6 @@ import PageContent from '../../../components/PageContent/PageContent';
 import DeleteDialog from '../../../components/DeleteDialog';
 import Loading from '../../../components/Loading';
 import { FaRegEye, FaTrashAlt, FaSearch } from 'react-icons/fa';
-import lid from '../../../assets/img/lid.svg';
 
 /* eslint-disable react/prefer-stateless-function */
 export class Error extends React.Component {
@@ -131,19 +134,20 @@ export class Error extends React.Component {
           : moment(added_at).format(DATE_FORMAT),
         <React.Fragment>
           <div className="flex">
-            <span
-              className="w-8 h-8 inline-flex justify-center items-center leading-none cursor-pointer hover:bg-blue-100 rounded-full relative"
+            <button
+              aria-label="Edit"
+              className=" px-1 text-center leading-none"
               onClick={() => this.handleShow(_id, error_stack)}
             >
-             <FaRegEye className="text-base text-blue-500" />
-            </span>
-            <span
-              className="ml-4 w-8 h-8 inline-flex justify-center items-center leading-none cursor-pointer hover:bg-red-100 rounded-full relative trash-icon"
+              <FaRegEye className="text-base text-blue-500 hover:text-blue-600" />
+            </button>
+
+            <button
+              className="ml-2 px-1 text-center leading-none"
               onClick={() => this.handleOpen(_id)}
             >
-              <img className="trash-lid" src={lid} alt="trash-id" />
-              <span className="w-3 h-3 rounded-b-sm bg-red-500 mt-1" />
-            </span>
+              <FaTrashAlt className="text-base text-red-500 hover:text-red-600" />
+            </button>
           </div>
         </React.Fragment>,
       ],
@@ -159,30 +163,12 @@ export class Error extends React.Component {
               : this.handleDeleteAll()
           }
         />
-
-<Dialog
-          open={this.state.show}
-          className="w-5/6"
-          onClose={this.handleClose}
-          title={`Error Stack`}
-          body={
-            <p>{this.state.stack}</p>
-          }
-          actions={
-            <button
-              type="button"
-              className="block btn margin-none text-white bg-red-500 border border-red-600 hover:bg-red-600"
-              onClick={this.handleClose}
-            >
-              Close 
-            </button>
-          }/>
-        {/* <Dialog open={this.state.show} maxWidth="md" onClose={this.handleClose}>
+        <Dialog open={this.state.show} maxWidth="md" onClose={this.handleClose}>
           <DialogTitle>Error Stack</DialogTitle>
           <DialogContent>
             <p>{this.state.stack}</p>
           </DialogContent>
-        </Dialog> */}
+        </Dialog>
         <Helmet>
           <title>Error Listing</title>
         </Helmet>
@@ -190,7 +176,7 @@ export class Error extends React.Component {
           {loading && loading == true ? <Loading /> : <></>}
           <PageHeader>Error Manage</PageHeader>
           <button
-            className="items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
+            className="btn bg-danger hover:bg-secondary"
             onClick={this.handleOpenAll}
           >
             Delete All

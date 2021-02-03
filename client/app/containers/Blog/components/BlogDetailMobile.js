@@ -13,6 +13,8 @@ import {
   EmailIcon,
   // FacebookShareCount,
 } from 'react-share';
+
+import Dialog from '@material-ui/core/Dialog';
 import LinkBoth from '../../../components/LinkBoth';
 import { IMAGE_BASE, DATE_FORMAT } from '../../App/constants';
 import BlogDetailSkeleton from '../Skeleton/BlogDetail';

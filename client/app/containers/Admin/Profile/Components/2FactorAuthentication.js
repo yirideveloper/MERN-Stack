@@ -97,21 +97,20 @@ export const TwoFactor = props => {
       >
         <div>
           <label>Google Two factor authorization code</label>
-          <p className="text-xs bg-gray-100 rounded p-2">{twoFactor && twoFactor.google_authenticate.auth_secret_setup}</p>
-          {/* <input
+          <input
             id="two_factor_authorization"
             name="two_factor_authorization"
             disabled
             readOnly
             value={twoFactor && twoFactor.google_authenticate.auth_secret_setup}
-          /> */}
+          />
           <div className="error">{errors.two_fa_ga_auth_secret}</div>
         </div>
         <div className="py-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="100"
-            height="100"
+            width="200"
+            height="200"
             fill="true"
           >
             <path
@@ -129,7 +128,6 @@ export const TwoFactor = props => {
           <label>Enter Your code</label>
           <input
             id="code"
-            className="inputbox"
             name="code"
             value={twoFactor && twoFactor.code}
             onChange={e => handleChange(e, 'google_authenticate')}
@@ -145,11 +143,10 @@ export const TwoFactor = props => {
           <input
             checked={twoFactor.email.is_authenticate}
             onChange={handleChecked}
-            id="is_active_email"
+            id="is_active"
             type="checkbox"
-            name="email"
           />
-          <label htmlFor="is_active_email">
+          <label htmlFor="is_active">
             <span className="box">
               <FaCheck className="check-icon" />
             </span>
@@ -161,11 +158,10 @@ export const TwoFactor = props => {
           <input
             checked={twoFactor.google_authenticate.is_authenticate}
             onChange={handleChecked}
-            id="is_active_google"
+            id="is_active"
             type="checkbox"
-            name="google_authenticate"
           />
-          <label htmlFor="is_active_google">
+          <label htmlFor="is_active">
             <span className="box">
               <FaCheck className="check-icon" />
             </span>
@@ -196,6 +192,9 @@ const mapStateToProps = createStructuredSelector({
   helperObj: makeSelectHelperObj(),
 });
 
-const withConnect = connect(mapStateToProps, { ...mapDispatchToProps, push });
+const withConnect = connect(
+  mapStateToProps,
+  { ...mapDispatchToProps, push },
+);
 
 export default compose(withConnect)(TwoFactor);

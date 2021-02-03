@@ -159,11 +159,11 @@ export function Template({
             <WECkEditior
               description={one.body || ''}
               setOneValue={setOneValue}
-              is_body
+              is_body={true}
             />
           </div>
 
-          <button className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600">
+          <button className="py-2 px-6 rounded mt-4 text-sm text-white bg-primary uppercase btn-theme">
             Save
           </button>
         </form>
@@ -189,9 +189,16 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
 });
 
-const withConnect = connect(mapStateToProps, { ...mapDispatchToProps, push });
+const withConnect = connect(
+  mapStateToProps,
+  { ...mapDispatchToProps, push },
+);
 
 const withReducer = injectReducer({ key: 'adminTemplateListingPage', reducer });
 const withSaga = injectSaga({ key: 'adminTemplateListingPage', saga });
 
-export default compose(withReducer, withSaga, withConnect)(Template);
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(Template);

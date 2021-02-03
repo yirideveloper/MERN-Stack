@@ -1,3 +1,5 @@
+import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -14,7 +16,7 @@ import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import {
-  makeSelectContactDetail, makeSelectErrorMsg, makeSelectIsRequesting,  makeSelectError,
+  makeSelectContactDetail, makeSelectErrorMsg, makeSelectIsRequesting,
   makeSelectSuccess
 } from './selectors';
 
@@ -53,7 +55,7 @@ class ContactUs extends React.Component {
   };
 
   render() {
-    const { isRequesting, contactDetail,  errors } = this.props;
+    const { isRequesting, contactDetail } = this.props;
     const { name, email, subject, message } = this.state;
 
     return (
@@ -67,86 +69,47 @@ class ContactUs extends React.Component {
         <div className="container mx-auto my-10">
           <div className="flex flex-wrap">
             <div className="w-full sm:w-full md:w-1/2">
-              
-        <h2 class="text-xl font-bold">Get In Touch With Us</h2>
-            <div className="flex flex-wrap justify-start lg:justify-between lg:px-2">
-                <div className="w-full lg:w-1/2 pb-4 m-0 lg:-ml-2">
-                  <label
-                    className="block uppercase tracking-wide text-grey-darker text-xs mb-2 text-black"
-                    htmlFor="name"
-                  >
-                    Name
-                  </label>
-                  <input
-                    onChange={this.handleChange('name')}
-                    value={name}
-                    className="inputbox"
+              <div className="flex">
+                <div className="w-full md:w-1/2 pr-2">
+                  <label>Name</label>
+                  <TextField
                     id="name"
-                    type="text"
+                    type="name"
+                    name="name"
+                    value={name}
+                    onChange={this.handleChange('name')}
                   />
-                  {errors && errors.name && (
-                    <div id="component-error-text">{errors.name}</div>
-                  )}
                 </div>
-                <div className="w-full lg:w-1/2 pb-4 m-0 lg:-mr-2">
-                  <label
-                    className="block uppercase tracking-wide text-grey-darker text-xs mb-2 text-black"
-                    htmlFor="email"
-                  >
-                    Email
-                  </label>
+                <div className="w-full md:w-1/2  pl-2">
+                  <label>Email</label>
                   <input
+                    id="email"
+                    type="email"
+                    name="email"
                     value={email}
                     onChange={this.handleChange('email')}
-                    className="inputbox"
-                    id="email"
-                    type="text"
                   />
-                  {errors && errors.email && (
-                    <div id="component-error-text">{errors.email}</div>
-                  )}
                 </div>
               </div>
-              <div className="w-full pb-4">
-                <label
-                  className="block uppercase tracking-wide text-grey-darker text-xs mb-2 text-black"
-                  htmlFor="subject"
-                >
-                  Subject
-                </label>
-                <input
-                  value={subject}
-                  onChange={this.handleChange('subject')}
-                  className="inputbox"
-                  id="subject"
-                  type="text"
-                />
-                {errors && errors.subject && (
-                  <div id="component-error-text">{errors.subject}</div>
-                )}
-              </div>
-              <div className="w-full pb-4">
-                <label
-                  className="block uppercase tracking-wide text-grey-darker text-xs mb-2 text-black"
-                  htmlFor="subject"
-                >
-                  Message
-                </label>
-                <textarea
-                  rows="4"
-                  value={message}
-                  onChange={this.handleChange('message')}
-                  className="inputbox"
-                  id="message"
-                  type="text"
-                />
-                {errors && errors.message && (
-                  <div id="component-error-text">{errors.message}</div>
-                )}
-              </div>
+              <label>Subject</label>
+              <input
+                id="subject"
+                type="subject"
+                name="subject"
+                value={subject}
+                onChange={this.handleChange('subject')}
+              />
+              <label>Message</label>
+              <textarea
+                id="message"
+                rows="4"
+                placeholder="Message"
+                value={message}
+                onChange={this.handleChange('message')}
+              />
 
               {isRequesting && isRequesting == true ? (
-               <>Loading</>
+                <CircularProgress color="primary" disableShrink />
               ) : (
                   <form onSubmit={this.onSubmit}>
                     <ReCAPTCHA
@@ -159,15 +122,15 @@ class ContactUs extends React.Component {
 
               <button
                 type="button"
-                className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+                className="text-white py-2 px-4 rounded mt-4 bg-primary font-bold"
                 disabled={isRequesting}
                 onClick={this.handleSave}
               >
                 Save Message
               </button>
-              {/* <div>
+              <div>
                 <h1>{this.props.error}</h1>
-              </div> */}
+              </div>
             </div>
 
             <div className="w-full mt-10 sm:w-full md:w-1/2 md:pl-10 md:mt-0">
@@ -189,7 +152,6 @@ const mapStateToProps = createStructuredSelector({
   isRequesting: makeSelectIsRequesting(),
   success: makeSelectSuccess(),
   error: makeSelectErrorMsg(),
-  errors: makeSelectError(),
   contactDetail: makeSelectContactDetail(),
 });
 

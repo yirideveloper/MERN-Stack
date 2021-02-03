@@ -28,42 +28,39 @@ export const VerifyEmail = props => {
     loading,
   } = props;
 
-  const [formEmail, setEmail] = useState('');
-  const [formCode, setCode] = useState('');
+  const [form_email, setEmail] = useState('');
+  const [form_code, setCode] = useState('');
 
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
   useEffect(() => {
     if (email !== '' && code !== undefined) {
-      props.loadVerifyEmailRequest({ email, code });
+      props.loadVerifyEmailRequest({ email: email, code: code });
     }
     if (email !== '') {
       setEmail(email);
     }
-    if (code !== undefined && code !== '') {
-      setCode(code);
-    }
   }, []);
   const handleVerify = () => {
-    if (formCode !== '' && formEmail !== '') {
-      props.loadVerifyEmailRequest({ email: formEmail, code: formCode });
+    if (form_code !== '' && form_email !== '') {
+      props.loadVerifyEmailRequest({ email: form_email, code: form_code });
     }
   };
 
-  const handleEmail = () => event => {
-    const { value } = event.target;
+  const handleEmail = name => event => {
+    const value = event.target.value;
     setEmail(value);
   };
 
-  const handleCode = () => event => {
-    const { value } = event.target;
+  const handleCode = name => event => {
+    const value = event.target.value;
     setCode(value);
   };
 
   const handleResend = () => {
-    if (formEmail !== '') {
-      props.resendMailRequest({ email: formEmail });
+    if (form_email !== '') {
+      props.resendMailRequest({ email: form_email });
     }
   };
 
@@ -74,22 +71,22 @@ export const VerifyEmail = props => {
       ) : (
         <div className="mt-4">
           <div className="m-auto w-1/2">
-            <label htmlFor="email">Email</label>
+            <label>Email</label>
             <input
               className="inputbox"
               onChange={handleEmail('email')}
-              value={formEmail}
+              value={form_email}
               id="email"
               type="text"
               name="Email"
             />
           </div>
           <div className="m-auto w-1/2 mt-2">
-            <label htmlFor="code">Code</label>
+            <label>Code</label>
             <input
               className="inputbox"
               onChange={handleCode('code')}
-              value={formCode}
+              value={form_code}
               id="code"
               type="text"
               name="Code"
@@ -121,19 +118,17 @@ export const VerifyEmail = props => {
 
 VerifyEmail.propTypes = {
   loading: PropTypes.bool.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      email: PropTypes.string,
-      code: PropTypes.string,
-    }),
-  }),
-  loadVerifyEmailRequest: PropTypes.func.isRequired,
-  resendMailRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
 });
 
-const withConnect = connect(mapStateToProps, { ...mapDispatchToProps, push });
-export default compose(withConnect, memo)(VerifyEmail);
+const withConnect = connect(
+  mapStateToProps,
+  { ...mapDispatchToProps, push },
+);
+export default compose(
+  withConnect,
+  memo,
+)(VerifyEmail);

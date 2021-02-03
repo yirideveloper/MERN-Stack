@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaInfo} from 'react-icons/fa';
 
 export const Input = ({
   label,
@@ -65,7 +64,7 @@ const CustomInput = ({
           {label}
           {tooltip && (
             <span className="tooltip ml-1">
-              <FaInfo/>
+              <i className="material-icons text-sm">info</i>
               <span className="tooltip-content">{tooltip}</span>
             </span>
           )}

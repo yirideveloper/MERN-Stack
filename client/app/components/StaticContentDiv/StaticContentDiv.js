@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaPen } from 'react-icons/fa';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
@@ -45,9 +45,7 @@ class StaticContent extends React.PureComponent {
                   }`}
                 target="_blank"
               >
-                <div className="flex w-8 h-8 bg-white shadow rounded-full absolute">
-                  <FaEdit className="text-sm inline-block text-black m-auto hover:text-primary" title="Edit" />
-                </div>
+                <FaPen />
               </Link>
             ) : (
               <Link
@@ -55,9 +53,7 @@ class StaticContent extends React.PureComponent {
                   }`}
                 target="_blank"
               >
-                 <div className="flex w-8 h-8 bg-white shadow rounded-full absolute">
-                  <FaEdit className="text-sm inline-block text-black m-auto hover:text-primary" title="Edit" />
-                </div>
+                <FaPen />
               </Link>
             ))}
         {contentObj &&
