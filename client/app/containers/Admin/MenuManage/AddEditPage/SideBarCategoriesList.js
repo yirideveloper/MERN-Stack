@@ -45,28 +45,28 @@ const SidebarCategoriesList = props => {
         <>
           <li
             key={`${e._id}-${parentId}`}
-            className="py-2 pr-4 pl-4 cursor-pointer flex items-center capitalize text-gray-800 hover:text-primary text-sm"
+            className="abc pt-1 pb-1 pr-4 pl-4 cursor-pointer flex items-center capitalize text-gray-800 hover:text-primary text-sm"
             onClick={() => handleSetClick(e._id)}
           >
             {openSet[e._id] ? (
-              <div className="flex items-center text-gray-300 hover:text-white cursor-pointer">
-                <FaMinus className="mr-1 text-white"/>
-                <FaFolder className="text-yellow-500 text-base"/>
+              <div className="flex text-grey-darker hover:text-primary cursor-pointer">
+                <FaMinus className="mr-1"/>
+                <FaFolder />
               </div>
             ) : (
-              <div className="flex items-center text-grey-darker text-gray-300 hover:text-white cursor-pointer">
+              <div className="flex text-grey-darker hover:text-primary cursor-pointer">
                 {e.child_menu[0]._id !== '' ? (
-                  <FaPlus className="mr-1 text-white"/>
+                  <FaPlus className="mr-1"/>
                 ) : (
-                  <FaMinus className="mr-1 text-white"/>
+                  <FaMinus className="mr-1"/>
                 )}
-                <FaFolder className="text-yellow-500 text-base"/>
+                <FaFolder />
               </div>
             )}
             <div className="flex items-center cursor-pointer">
               <span
                 onClick={() => handleClick(e._id)}
-                className="dropdown-title capitalize ml-2 cursor-pointer text-gray-300 hover:text-white"
+                className="dropdown-title capitalize ml-2 cursor-pointer"
               >
                 {e.title}
               </span>
@@ -74,7 +74,7 @@ const SidebarCategoriesList = props => {
           </li>
 
           <Collapse in={openSet[e._id]} timeout="auto" unmountOnExit>
-            <div className="list-reset pl-8 text-gray-300 hover:text-white">
+            <div className="list-reset pl-8">
               {e.child_menu.map(el => (
                 <div key={el._id}>{categoryFunction(el, e._id)}</div>
               ))}
@@ -86,9 +86,9 @@ const SidebarCategoriesList = props => {
           {e._id !== '' && (
             <div
               onClick={() => handleClick(e._id)}
-              className="pt-1 pb-1 pr-4 pl-4 cursor-pointer flex items-center capitalize text-gray-300 text-sm hover:text-white"
+              className="pt-1 pb-1 pr-4 pl-4 cursor-pointer flex items-center capitalize text-gray-800 hover:text-primary text-sm"
             >
-              <FaFile className="mr-2 text-base text-white" />
+              <FaFile className="mr-2" />
               {`${e.title}`}
             </div>
           )}
@@ -98,18 +98,18 @@ const SidebarCategoriesList = props => {
   );
 
   return (
-    <div>
+    <div className="list-reset">
       <button
         type="button"
         onClick={() => clearSubMenu()}
-        className="btn w-full margin-none text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+        className="btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
       >
         Add New
       </button>
       {category.length <= 0 ? (
         <h1 />
       ) : (
-        category.map(e => <div className="rounded my-2 bg-gray-600" key={e._id}>{categoryFunction(e)}</div>)
+        category.map(e => <div key={e._id}>{categoryFunction(e)}</div>)
       )}
     </div>
   );

@@ -123,14 +123,12 @@ class AddEdit extends React.PureComponent {
             {id ? 'Edit' : 'Add'} User
           </PageHeader>
         </div>
-       
-        <PageContent>
         {window.location.pathname.includes('edit') && (
-          <div className="flex border border-b-0 Waft_Tab">
+          <div className="flex border border-b-0 profile_nav">
             <button
               type="button "
               className={`block py-2 px-4 hover:text-primary  border-r ${
-                this.state.tab === 'basic' ? 'active' : ''
+                this.state.tab === 'basic' ? 'text-primary underline' : ''
               }`}
               onClick={() => this.handleTab('basic')}
             >
@@ -139,7 +137,7 @@ class AddEdit extends React.PureComponent {
             <button
               type="button "
               className={`block py-2 px-4 hover:text-primary  border-r ${
-                this.state.tab === 'reset' ? 'active' : ''
+                this.state.tab === 'reset' ? 'text-primary underline' : ''
               }`}
               onClick={() => this.handleTab('reset')}
             >
@@ -147,8 +145,9 @@ class AddEdit extends React.PureComponent {
             </button>
           </div>
         )}
+        <PageContent>
           {this.state.tab === 'basic' && (
-            <div className="p-4 border">
+            <>
               <div className="w-full md:w-1/2 pb-4">
                 {window.location.pathname.includes('edit') ? null : (
                   <h3 className="text-lg font-bold mb-2">Basic Information</h3>
@@ -226,7 +225,7 @@ class AddEdit extends React.PureComponent {
               {id ? (
                 <div className="mt-4">
                   <button
-                    className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+                    className="btn text-white bg-green-500 border border-green-600 hover:bg-green-600"
                     onClick={this.handleSave}
                     style={{ marginTop: '0' }}
                   >
@@ -272,10 +271,10 @@ class AddEdit extends React.PureComponent {
                   </button>
                 </>
               ) : null}
-            </div>
+            </>
           )}
           {this.state.tab === 'reset' && (
-            <div className="p-4 border">
+            <>
               <div className="w-full md:w-1/2 pb-4">
                 <label className="label">Password</label>
                 <div className="relative">
@@ -302,7 +301,7 @@ class AddEdit extends React.PureComponent {
               >
                 {id ? 'Update Password' : 'Save'}
               </button>
-            </div>
+            </>
           )}
         </PageContent>
       </>
