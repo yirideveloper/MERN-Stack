@@ -102,25 +102,11 @@ validation.validate = (req, res, next) => {
       ],
     },
     {
-      field: 'skills',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: teamConfig.validate.empty,
-        }
-      ],
-    },
-    {
       field: 'gender',
       validate: [
         {
           condition: 'IsEmpty',
           msg: teamConfig.validate.empty,
-        },
-        {
-          condition: 'IsIn',
-          msg: teamConfig.validate.empty,
-          option: ['male', 'female', 'other'],
         }
       ],
     },
