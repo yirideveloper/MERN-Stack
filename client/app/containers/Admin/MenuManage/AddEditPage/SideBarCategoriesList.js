@@ -3,14 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
-import IndeterminateCheckBoxOutlinedIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import Collapse from '@material-ui/core/Collapse';
-import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
-import FolderIcon from '@material-ui/icons/Folder';
-import DescriptionIcon from '@material-ui/icons/Description';
 import * as mapDispatchToProps from '../actions';
 import { makeSelectCategory, makeSelectLoading } from '../selectors';
+import { FaFolder , FaMinus, FaPlus, FaFile} from 'react-icons/fa';
 
 const SidebarCategoriesList = props => {
   const {
@@ -49,28 +45,28 @@ const SidebarCategoriesList = props => {
         <>
           <li
             key={`${e._id}-${parentId}`}
-            className="abc pt-1 pb-1 pr-4 pl-4 cursor-pointer flex items-center capitalize text-gray-800 hover:text-primary text-sm"
+            className="py-2 pr-4 pl-4 cursor-pointer flex items-center capitalize text-gray-800 hover:text-primary text-sm"
             onClick={() => handleSetClick(e._id)}
           >
             {openSet[e._id] ? (
-              <div className="text-grey-darker hover:text-primary cursor-pointer">
-                <IndeterminateCheckBoxOutlinedIcon />
-                <FolderIcon />
+              <div className="flex items-center text-gray-100 hover:text-white cursor-pointer">
+                <FaMinus className="mr-1 text-white"/>
+                <FaFolder className="text-yellow-500 text-base"/>
               </div>
             ) : (
-              <div className="text-grey-darker hover:text-primary cursor-pointer">
+              <div className="flex items-center text-grey-darker text-gray-100 hover:text-white cursor-pointer">
                 {e.child_menu[0]._id !== '' ? (
-                  <AddBoxOutlinedIcon />
+                  <FaPlus className="mr-1 text-white"/>
                 ) : (
-                  <CheckBoxOutlineBlankOutlinedIcon />
+                  <FaMinus className="mr-1 text-white"/>
                 )}
-                <FolderIcon />
+                <FaFolder className="text-yellow-500 text-base"/>
               </div>
             )}
             <div className="flex items-center cursor-pointer">
               <span
                 onClick={() => handleClick(e._id)}
-                className="dropdown-title capitalize ml-2 cursor-pointer"
+                className="dropdown-title capitalize ml-2 cursor-pointer text-gray-100 hover:text-white"
               >
                 {e.title}
               </span>
@@ -78,7 +74,7 @@ const SidebarCategoriesList = props => {
           </li>
 
           <Collapse in={openSet[e._id]} timeout="auto" unmountOnExit>
-            <div className="list-reset pl-8">
+            <div className="list-reset pl-8 text-gray-100 hover:text-white">
               {e.child_menu.map(el => (
                 <div key={el._id}>{categoryFunction(el, e._id)}</div>
               ))}
@@ -90,9 +86,9 @@ const SidebarCategoriesList = props => {
           {e._id !== '' && (
             <div
               onClick={() => handleClick(e._id)}
-              className="pt-1 pb-1 pr-4 pl-4 cursor-pointer flex items-center capitalize text-gray-800 hover:text-primary text-sm"
+              className="pt-1 pb-1 pr-4 pl-4 cursor-pointer flex items-center capitalize text-gray-100 text-sm hover:text-white"
             >
-              <DescriptionIcon />
+              <FaFile className="mr-2 text-base text-white" />
               {`${e.title}`}
             </div>
           )}
@@ -102,18 +98,18 @@ const SidebarCategoriesList = props => {
   );
 
   return (
-    <div className="list-reset">
+    <div>
       <button
         type="button"
         onClick={() => clearSubMenu()}
-        className="btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+        className="btn w-full margin-none text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
       >
         Add New
       </button>
       {category.length <= 0 ? (
         <h1 />
       ) : (
-        category.map(e => <div key={e._id}>{categoryFunction(e)}</div>)
+        category.map(e => <div className="rounded my-2 bg-gray-600" key={e._id}>{categoryFunction(e)}</div>)
       )}
     </div>
   );

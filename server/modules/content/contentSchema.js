@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const contentSchema = new schema({
-  name: { type: String },
-  key: { type: String },
-  description: { type: String },
+  name: { type: String, required: true },
+  key: { type: String, required: true },
+  description: { type: String, required: true },
   image: { type: schema.Types.ObjectId, ref: 'file' },
   publish_from: { type: Date },
   publish_to: { type: Date },

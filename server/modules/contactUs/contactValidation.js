@@ -90,15 +90,6 @@ validateInput.validate = async (req, res, next) => {
         },
       ],
     },
-    {
-      field: 'subject',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: config.validate.msgEmp,
-        }
-      ],
-    },
   ];
   const errors = validateHelper.validation(data, validateArray);
   if (!isEmpty(errors)) {

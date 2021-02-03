@@ -191,7 +191,6 @@ validation.itemValidate = (req, res, next) => {
         {
           condition: 'IsEmpty',
           msg: menuConfig.validate.empty,
-          option: ['_blank', '_self', '_parent', '_top']
         },
       ],
     },
