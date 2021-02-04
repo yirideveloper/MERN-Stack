@@ -247,7 +247,7 @@ export class SliderPage extends React.Component {
             tableData={tableData}
             pagination={tablePagination}
             handlePagination={this.handlePagination}
-            emptyDataMsg="No Slider Found"
+            emptyDataMsg
           />
         </PageContent>
       </>
