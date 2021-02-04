@@ -142,7 +142,7 @@ class AddEdit extends React.PureComponent {
           onClose={this.handleClose}
           title={`Select Images`}
           body={
-            <div>
+            <div className="h-screen overflow-auto">
               <EditorFileSelect
                 location={location}
                 selectFile={file => this.handleImageChange(file)}
