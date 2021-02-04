@@ -19,7 +19,7 @@ export const initialState = {
     data: [],
     page: 1,
     size: 10,
-    totalData: 0,
+    totaldata: 0,
   },
   one: {
     title: '',

@@ -38,7 +38,7 @@ export class ContentsListingPage extends React.Component {
     clearOne: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
-    classes: PropTypes.object,
+    classes: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
     all: PropTypes.shape({
       data: PropTypes.array.isRequired,
@@ -263,9 +263,16 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
 });
 
-const withConnect = connect(mapStateToProps, { ...mapDispatchToProps, push });
+const withConnect = connect(
+  mapStateToProps,
+  { ...mapDispatchToProps, push },
+);
 
 const withReducer = injectReducer({ key: 'PagecontentListing', reducer });
 const withSaga = injectSaga({ key: 'PagecontentListing', saga });
 
-export default compose(withReducer, withSaga, withConnect)(ContentsListingPage);
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(ContentsListingPage);

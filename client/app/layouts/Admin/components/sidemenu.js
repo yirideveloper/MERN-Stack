@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 import {
@@ -49,7 +50,7 @@ const menu = [
         icon: <FaAlignLeft />,
       },
       {
-        key: '2.9',
+        key: '2.2',
         name: 'Page',
         icon: <FaRegFile />,
         link: '/admin/page-manage',

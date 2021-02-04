@@ -77,11 +77,7 @@ const adminUserManagePageReducer = (state = initialState, action) =>
         break;
       case types.LOAD_ALL_SUCCESS:
         draft.loading = false;
-        draft.all = {
-          ...draft.all,
-          ...action.payload,
-          totaldata: action.payload.totalData,
-        };
+        draft.all = action.payload;
         break;
       case types.LOAD_ALL_FAILURE:
         draft.loading = false;

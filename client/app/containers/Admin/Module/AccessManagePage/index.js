@@ -85,7 +85,7 @@ class AccessManagePage extends React.PureComponent {
       loading,
     } = this.props;
     return loading && loading == true ? (
-      <>Loading...</>
+      <div class="circular_loader waftloader"></div>
     ) : (
         <React.Fragment>
           <Helmet>
