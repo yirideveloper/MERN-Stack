@@ -131,11 +131,11 @@ export class SliderPage extends React.Component {
 
     const {
       classes,
-      all: { data, page, size, totalData },
+      all: { data, page, size, totaldata },
       query,
       loading,
     } = this.props;
-    const tablePagination = { page, size, totaldata: totalData };
+    const tablePagination = { page, size, totaldata };
     const tableData = data.map(
       ({ slider_name, slider_key, images, added_at, _id }) => [
         slider_name,
@@ -260,7 +260,10 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
 });
 
-const withConnect = connect(mapStateToProps, { ...mapDispatchToProps, push });
+const withConnect = connect(
+  mapStateToProps,
+  { ...mapDispatchToProps, push },
+);
 
 const withReducer = injectReducer({ key: 'sliderManagePage', reducer });
 const withSaga = injectSaga({ key: 'sliderManagePage', saga });
