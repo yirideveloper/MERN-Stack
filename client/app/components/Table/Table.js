@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './table.css';
+import Loader from '../../assets/img/loading_transparent.gif';
 
 /* eslint-disable react/no-array-index-key */
 function CustomTable({ ...props }) {
@@ -16,14 +17,14 @@ function CustomTable({ ...props }) {
     emptyDataMsg,
   } = props;
   return (
-    <div className="bg-white mt-4">
+    <div className="bg-white mt-4 border-t">
       <table className="w-full text-left table table-auto">
         {tableHead !== undefined ? (
           <thead>
             <tr>
               {tableHead.map((prop, key) => (
                 <th
-                  className="py-2 px-2 font-bold text-sm text-gray-800 border-t border-b border-gray-300"
+                  className="py-2 px-2 font-bold text-sm text-gray-800 border-b border-gray-300"
                   key={key}
                 >
                   {prop}
@@ -52,7 +53,11 @@ function CustomTable({ ...props }) {
             <tbody>
               <tr>
                 <td colSpan={tableHead.length} className="py-2 text-center">
-                <div class="circular_loader waftloader"></div>
+                  <img
+                    src={Loader}
+                    alt="loading"
+                    className="inline-block w-8 h-8"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -62,7 +67,7 @@ function CustomTable({ ...props }) {
 
       {(tableData.length < 1 || pagination.totaldata === 0) &&
         (loading === false || !loading) && (
-          <p className="text-center px-2 py-1 text-sm border-gray-200 text-gray-700">
+          <p className="px-2 py-1 text-sm border-gray-200 text-gray-700">
             {emptyDataMsg || 'No Data Found'}
           </p>
         )}
