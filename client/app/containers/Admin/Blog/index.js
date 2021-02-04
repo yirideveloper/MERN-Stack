@@ -13,7 +13,6 @@ import Select from 'react-select';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import DeleteDialog from '../../../components/DeleteDialog';
-import Dialog from '../../../components/Dialog/index';
 import Loading from '../../../components/Loading';
 import Modal from '../../../components/Modal';
 import PageContent from '../../../components/PageContent/PageContent';
@@ -399,13 +398,13 @@ export class BlogManagePage extends React.Component {
           // `${is_highlight}`,
           // `${is_showcase}`,
           // `${is_active}`,
-          <div className="flex justify-center">
+          <>
             {is_published ? (
               <FaRegCheckCircle className="text-green-500" />
             ) : (
                 <FaBan className="text-red-400" />
               )}{' '}
-          </div>,
+          </>,
           // tags.join(','),
           (
             <p className="">
@@ -432,9 +431,8 @@ export class BlogManagePage extends React.Component {
         <Helmet>
           <title>News Listing</title>
         </Helmet>
-        <Dialog
+        <Modal
           open={showQuickEdit}
-          className="w-5/6 sm:w-96"
           handleClose={() =>
             this.props.setValue({
               name: 'helper',
@@ -442,10 +440,9 @@ export class BlogManagePage extends React.Component {
               value: false,
             })
           }
-          // loading={loading}
-          // handleUpdate={this.handleSave}
-          title={`Quick Edit`}
-          body={
+          loading={loading}
+          handleUpdate={this.handleSave}
+        >
           <QuickEdit
             handleEditorChange={this.handleEditorChange}
             handleCheckedChange={this.handleCheckedChange}
@@ -474,17 +471,7 @@ export class BlogManagePage extends React.Component {
             errors={errors}
             setUpdateCalled={this.props.setUpdateCalled}
           />
-          }
-          actions={
-            <button
-              type="button"
-              className="block btn margin-none text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
-              onClick={this.handleSave}
-            >
-              Update
-            </button>
-          }
-          />
+        </Modal>
         <div className="flex justify-between my-3">
           {loading && loading == true ? <Loading /> : <></>}
           <PageHeader>
