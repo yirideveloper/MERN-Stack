@@ -80,7 +80,7 @@ export const Comments = props => {
   };
 
   return commentLoading ? (
-    <div class="circlular_loader waftloader"></div>
+    <>Loading...</>
   ) : (
       <div>
         <h2 className="mt-4" htmlFor="comment">
