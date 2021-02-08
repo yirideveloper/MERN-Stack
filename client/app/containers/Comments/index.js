@@ -25,10 +25,6 @@ import {
 } from './selectors';
 
 
-
-
-// import Slider from '../../components/SlickSlider';
-
 const key = 'comments';
 
 export const Comments = props => {
@@ -187,11 +183,7 @@ export const Comments = props => {
             </div>
           </DialogTitle>
         </Dialog>
-        {/* <Slider slideKey="homeSlider" /> */}
       </div>
-
-
-
     );
 };
 
