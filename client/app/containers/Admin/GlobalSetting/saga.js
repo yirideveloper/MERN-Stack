@@ -27,7 +27,7 @@ function* loadWithdraw(action) {
   }
   yield call(
     Api.get(
-      `setting/all?${query}`,
+      `setting?${query}`,
       actions.loadWithdrawSuccess,
       actions.loadWithdrawFailure,
       token,
@@ -39,7 +39,7 @@ function* loadOne(action) {
   const token = yield select(makeSelectToken());
   yield call(
     Api.get(
-      `setting/single/${action.payload}`,
+      `setting/key/${action.payload}`,
       actions.loadOneSuccess,
       actions.loadOneFailure,
       token,

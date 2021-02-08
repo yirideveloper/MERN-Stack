@@ -18,11 +18,6 @@ export const initialState = {
   one: {
     key: '',
     value: '',
-    type: '',
-    sub_type: '',
-    description: '',
-    email_setting: '',
-    is_active: true,
   },
 };
 
@@ -36,7 +31,6 @@ const globalSettingReducer = (state = initialState, action) =>
       case types.LOAD_WITHDRAW_SUCCESS:
         draft.loading = false;
         draft.withdraw = action.payload;
-        draft.withdraw.totaldata = action.payload.totalData;
         break;
       case types.LOAD_WITHDRAW_FAILURE:
         draft.loading = false;
