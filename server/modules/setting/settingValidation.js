@@ -9,14 +9,21 @@ const settingValidation = {};
 
 settingValidation.validate = async (req, res, next) => {
   const data = req.body;
-  const type = req.params.type
   const validateArray = [
     {
-      field: 'value',
+      field: 'title',
       validate: [
         {
           condition: 'IsEmpty',
           msg: settingConfig.validate.empty,
+        },
+        {
+          condition: 'IsLength',
+          msg: settingConfig.validate.titleLength,
+          options: {
+            min: 2,
+            max: 50,
+          },
         },
       ],
     },
@@ -32,15 +39,9 @@ settingValidation.validate = async (req, res, next) => {
   ]
   let errors = validateHelper.validation(data, validateArray);
 
-  let key_filter = { is_deleted: false, type: type, key: data.key }
-  if (data.sub_type) {
-    key_filter = { ...key_filter, sub_type: data.sub_type, }
-  }
+  let key_filter = { is_deleted: false, key: data.key }
   if (data._id) {
-    key_filter = { ...key_filter, type: type, _id: { $ne: data._id } }
-    if (data.sub_type) {
-      key_filter = { ...key_filter, sub_type: data.sub_type, }
-    }
+    key_filter = { ...key_filter, _id: { $ne: data._id } }
   }
   const already_key = await settingSch.findOne(key_filter);
   if (already_key && already_key._id) {
