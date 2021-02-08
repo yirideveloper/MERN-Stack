@@ -163,8 +163,3 @@ export const removeServerRoutes = payload => ({
   type: types.REMOVE_SERVER_ROUTES,
   payload,
 });
-
-export const setAccessUpdate = payload => ({
-  type: types.SET_ACCESS_UPDATE,
-  payload,
-});
