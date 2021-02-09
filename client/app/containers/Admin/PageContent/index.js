@@ -121,6 +121,8 @@ export class ContentsListingPage extends React.Component {
         >
           {`/page/${key}`}
         </Link>,
+        moment(publish_from).format(DATE_FORMAT),
+        moment(publish_to).format(DATE_FORMAT),
         <>
           {is_active ? (
             <span className="label-active">active</span>
@@ -213,12 +215,11 @@ export class ContentsListingPage extends React.Component {
                 value={query.find_name}
                 onChange={this.handleQueryChange}
                 style={{ paddingRight: '50px' }}
-                onKeyDown={this.handleKeyPress}
               />
               <span
-                className="inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+                className="inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer hover:text-blue-600"
                 onClick={this.handleSearch}
-
+                onKeyDown={this.handleKeyPress}
               >
                 <FaSearch />
               </span>
@@ -233,11 +234,11 @@ export class ContentsListingPage extends React.Component {
                 className="m-auto inputbox pr-6"
                 value={query.find_key}
                 onChange={this.handleQueryChange}
-                onKeyDown={this.handleKeyPress}
               />
               <span
-                className="inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+                className="inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer hover:text-blue-600"
                 onClick={this.handleSearch}
+                onKeyDown={this.handleKeyPress}
               >
                 <FaSearch />
               </span>
@@ -249,6 +250,8 @@ export class ContentsListingPage extends React.Component {
               'Name',
               'Key',
               'Link',
+              'Pub From',
+              'Pub To',
               'Is Active',
               'Action',
             ]}

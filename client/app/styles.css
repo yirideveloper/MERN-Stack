@@ -81,18 +81,29 @@ div.react-datepicker__input-container {
 }
 
 .inputbox {
-  @apply block w-full py-2 px-3 transition-all bg-white border border-gray-300 rounded text-sm;
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  transition: all 0.2s ease-out;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.875rem;
 }
 .inputbox:focus {
   outline: 0;
   box-shadow: 0 0 0 2px #bee3f8;
   border: 1px solid #63b3ed;
 }
-
+.inputbox.bg-white {
+  background: #ffffff;
+}
+select.inputbox {
+  height: 36px;
+}
 .inputbox[disabled] {
   opacity: 0.5;
 }
-label { @apply text-sm}
 
 .waftsrchstyle {
   width: 40px;
@@ -147,6 +158,10 @@ label { @apply text-sm}
   100% {
     background-position: -200% 0;
   }
+}
+
+.ease-in-out {
+  transition: all 0.2s ease-in-out;
 }
 .rotate-90 {
   transform: rotate(-90deg);
@@ -284,7 +299,7 @@ label { @apply text-sm}
 }
 
 .checkbox .box {
-  @apply w-5 h-5 border border-gray-300 rounded mr-2 cursor-pointer inline-flex justify-center items-center relative transition-all;
+  @apply w-5 h-5 border border-gray-500 rounded mr-2 cursor-pointer inline-flex justify-center items-center relative transition duration-200;
 }
 
 .checkbox label {
@@ -396,7 +411,7 @@ label { @apply text-sm}
 .trash-lid {
   position: absolute;
   left: 8px;
-  top: 8px;
+  top: 9px;
 }
 .pencil,
 .trash-lid,
@@ -406,8 +421,8 @@ label { @apply text-sm}
 .pencil {
   position: relative;
   right: 0;
-  color: #3b82f6;
-  font-size: 18px;
+  color: #4299e1;
+  font-size: 16px;
 }
 
 .trash-icon:hover .trash-lid {
@@ -418,14 +433,14 @@ label { @apply text-sm}
   height: 2px;
   width: 0px;
   background: #4299e1;
-  left: 8px;
-  bottom:7px;
+  left: 6px;
+  bottom: 8px;
 }
 .edit-icon:hover .dash {
-  width: 5px;
+  width: 8px;
 }
 .edit-icon:hover .pencil {
-  right: -4px;
+  right: -3px;
 }
 
 /* animation */

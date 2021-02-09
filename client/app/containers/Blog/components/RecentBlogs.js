@@ -31,8 +31,9 @@ function RecentBlogs(props) {
           <div className="flex-1 mr-7">
             <Link
               className="no-underline hover:text-blue-500 text-xl block text-gray-700"
-              to={`/blog/${moment(blog.added_at).format('YYYY/MM/DD')}/${blog._id
-                }`}
+              to={`/news/${moment(blog.added_at).format('YYYY/MM/DD')}/${
+                blog._id
+              }`}
             >
               {blog.title}
             </Link>
@@ -43,8 +44,9 @@ function RecentBlogs(props) {
           </div>
           <Link
             className="block overflow-hidden w-24 h-24 article-img-container"
-            to={`/blog/${moment(blog.added_at).format('YYYY/MM/DD')}/${blog._id
-              }`}
+            to={`/news/${moment(blog.added_at).format('YYYY/MM/DD')}/${
+              blog._id
+            }`}
           >
             <img
               src={`${IMAGE_BASE}${blog && blog.image && blog.image.path}`}

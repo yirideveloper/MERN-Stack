@@ -1,15 +1,17 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FaAngleDown } from 'react-icons/fa';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
-import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import {
-  makeSelectAccess, makeSelectLocation
-} from '../../../containers/App/selectors';
+import { compose } from 'redux';
+import Collapse from '@material-ui/core/Collapse';
 import menus from './sidemenu';
+import { FaAngleDown } from 'react-icons/fa';
 
+import {
+  makeSelectLocation,
+  makeSelectAccess,
+} from '../../../containers/App/selectors';
 
 const MainListItem = ({ location: { pathname }, access }) => {
   const [openSet, setOpenSet] = useState({});
@@ -38,7 +40,7 @@ const MainListItem = ({ location: { pathname }, access }) => {
           <>
             <div
               key={e.key}
-              className={`py-3 cursor-pointer flex items-center justify-between ease-in transition-opacity duration-100 opacity-75 hover:opacity-100 text-sm pl-${e.key.split(
+              className={`py-3 cursor-pointer flex items-center justify-between ease-in transition-opacity duration-100 opacity-75 hover:opacity-100 text-base pl-${e.key.split(
                 '.',
               ).length * 4}`}
               onClick={() => handleSetClick(e.key)}
@@ -48,33 +50,33 @@ const MainListItem = ({ location: { pathname }, access }) => {
                 <span className="dropdown-title text-white pl-4">{e.name}</span>
               </div>
               <FaAngleDown
-                className={`text-sm text-white mr-4 transition-all duration-100 ease-in-out ${!openSet[e.key] ? 'rotate-90' : ''
-                  }`}
+                className={`text-sm text-white mr-4 transition-all duration-100 ease-in-out ${
+                  !openSet[e.key] ? 'rotate-90' : ''
+                }`}
               />
             </div>
-            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openSet[e.key] ? 'max-h-0' : 'max-h-screen'
-              }`}>
+            <Collapse in={openSet[e.key]} timeout="auto" unmountOnExit>
               {e.menu.map(el => (
                 <div key={el.key}>{menuFunction(el)}</div>
               ))}
-            </div>
+            </Collapse>
           </>
         ) : (
-            <div
-              selected={pathname === e.link}
-              className={e.key.split('.').length === 1 ? '' : ''}
+          <div
+            selected={pathname === e.link}
+            className={e.key.split('.').length === 1 ? '' : ''}
+          >
+            <Link
+              to={`${e.link}`}
+              className={`text-gray-200 text-base no-underline flex items-center ease-in transition-opacity duration-100 opacity-75 hover:opacity-100 py-3 pl-${e.key.split(
+                '.',
+              ).length * 4}`}
             >
-              <Link
-                to={`${e.link}`}
-                className={`text-gray-200 text-sm no-underline flex items-center ease-in transition-opacity duration-100 opacity-75 hover:opacity-100 py-3 pl-${e.key.split(
-                  '.',
-                ).length * 4}`}
-              >
-                <span className="inline-block">{e.icon}</span>
-                <span className="pl-4">{e.name}</span>
-              </Link>
-            </div>
-          )}
+              <span className="inline-block">{e.icon}</span>
+              <span className="pl-4">{e.name}</span>
+            </Link>
+          </div>
+        )}
       </div>
     );
   };

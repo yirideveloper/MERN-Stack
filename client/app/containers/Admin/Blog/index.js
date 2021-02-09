@@ -126,6 +126,12 @@ export class BlogManagePage extends React.Component {
     this.props.loadAllRequest(this.props.query);
   };
 
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.handleSearch();
+    }
+  };
+
   handlePagination = paging => {
     this.props.setQueryValue({ key: 'page', value: paging.page });
     this.props.setQueryValue({ key: 'size', value: paging.size });
@@ -609,6 +615,7 @@ export class BlogManagePage extends React.Component {
                 aria-label="Search"
                 className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
                 onClick={this.handleSearch}
+                onKeyDown={this.handleKeyPress}
                 type="button"
                 style={{ marginTop: '1.5rem' }}
               >

@@ -17,6 +17,7 @@ import {
   makeSelectLoading,
   makeSelectMessage,
 } from '../selectors';
+import { makeSelectComment } from '../../Comments/selectors';
 import { makeSelectUser } from '../../App/selectors';
 import BlogDetail from '../components/BlogDetail';
 export class BlogPage extends React.Component {
@@ -55,6 +56,7 @@ export class BlogPage extends React.Component {
       loading,
       match: { url },
       message,
+      comments,
     } = this.props;
 
     return (
@@ -67,6 +69,7 @@ export class BlogPage extends React.Component {
             blog={blog}
             loading={loading}
             message={message}
+            comments={comments}
           />
         </div>
       </>
@@ -79,6 +82,7 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
   user: makeSelectUser(),
   message: makeSelectMessage(),
+  comments: makeSelectComment(),
 });
 
 const withConnect = connect(

@@ -1,21 +1,22 @@
-import { push } from 'connected-react-router';
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FaUserAlt } from 'react-icons/fa';
+import PropTypes from 'prop-types';
+
+import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
 import { compose } from 'redux';
+import { push } from 'connected-react-router';
+import { Menu, MenuItem } from '@material-ui/core';
 import { createStructuredSelector } from 'reselect';
-import logo from '../../../assets/img/logo.svg';
-import DropdownMenu from '../../../components/DropdownMenu/index';
-import { logoutRequest } from '../../../containers/App/actions';
 import {
   makeSelectToken,
-  makeSelectUser
+  makeSelectUser,
 } from '../../../containers/App/selectors';
-import './header.css';
+import { logoutRequest } from '../../../containers/App/actions';
+import logo from '../../../assets/img/logo.svg';
 import HeaderMenu from './HeaderMenu';
-
+import { FaUserAlt } from 'react-icons/fa';
+import './header.css';
+import DropdownMenu from '../../../components/DropdownMenu/index';
 
 const Header = props => {
   const { classes, token, user, logoutRequest: logout } = props;
@@ -47,8 +48,8 @@ const Header = props => {
   };
 
   return (
-    <header className="border-b lg:border-b">
-      <div className="container mx-auto flex justify-between flex-wrap relative">
+    <header className="WaftHeader border-b lg:border-b">
+      <div className="container flex justify-between flex-wrap relative">
         <div className="py-2 p w-full md:w-1/2 lg:w-1/6 order-2 md:order-none">
           <Link to="/">
             <img src={logo} alt="WaftEngine" />
@@ -102,42 +103,42 @@ const Header = props => {
             </button>
           </div>
         ) : (
-            <div className="w-full text-base flex flex-wrap justify-end header_right pb-2 border-b px-5 md:w-1/2 md:border-b-0 md:pb-0 lg:w-1/3">
-              <DropdownMenu
-                main={
-                  <button>
-                    <div className="text-base flex items-center">
-                      <span className="ml-2 mr-2">{user.name} | </span>
-                      <FaUserAlt className="text-base" />
-                    </div>
-                  </button>
-                }
-                items={
-                  <>
-                    {user.isAdmin && (
-                      <Link
-                        to="/admin/dashboard"
-                        style={{ textDecoration: 'none', color: 'black' }}
-                        onClick={handleClose}
-                        className="py-2 block px-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100"
-                      >
-                        <p>Dashboard</p>
-                      </Link>
-                    )}
+          <div className="w-full text-base flex flex-wrap justify-end header_right pb-2 border-b px-5 md:w-1/2 md:border-b-0 md:pb-0 lg:w-1/3">
+            <DropdownMenu
+              main={
+                <button>
+                  <div className="text-base flex items-center">
+                    <span className="ml-2 mr-2">{user.name} | </span>
+                    <FaUserAlt className="text-base" />
+                  </div>
+                </button>
+              }
+              items={
+                <>
+                  {user.isAdmin && (
                     <Link
-                      to="/user/profile"
+                      to="/admin/dashboard"
                       style={{ textDecoration: 'none', color: 'black' }}
                       onClick={handleClose}
                       className="py-2 block px-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100"
                     >
-                      <p>Profile</p>
+                      <p>Dashboard</p>
                     </Link>
-                    <p className="py-2 block px-4 hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>Log Out</p>
-                  </>
-                }
-              />
-            </div>
-          )}
+                  )}
+                  <Link
+                    to="/user/profile"
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    onClick={handleClose}
+                    className="py-2 block px-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100"
+                  >
+                    <p>Profile</p>
+                  </Link>
+                  <p className="py-2 block px-4 hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>Log Out</p>
+                </>
+              }
+            />
+          </div>
+        )}
       </div>
     </header>
   );

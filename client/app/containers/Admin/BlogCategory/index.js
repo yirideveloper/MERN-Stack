@@ -12,7 +12,6 @@ import { compose } from 'redux';
 import { push } from 'connected-react-router';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 
 import Table from 'components/Table';
 
@@ -104,7 +103,7 @@ export class BlogCategory extends React.PureComponent {
     const tablePagination = { page, size, totaldata };
     const tableData = data.map(
       ({ title, image, slug_url, is_active, added_at, updated_at, _id }) => [
-        <Link className="text-blue-500" target="_blank" to={`/blog/category/${_id}`}>{title}</Link>,
+        title,
         (image && image.fieldname) || '',
         '' + is_active,
         moment(added_at).format(DATE_FORMAT),
@@ -168,8 +167,9 @@ export class BlogCategory extends React.PureComponent {
               onKeyDown={this.handleKeyPress}
             />
             <span
-              className="inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+              className="inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer hover:text-blue-600"
               onClick={this.handleSearch}
+              onKeyDown={this.handleKeyPress}
             >
               <FaSearch />
             </span>

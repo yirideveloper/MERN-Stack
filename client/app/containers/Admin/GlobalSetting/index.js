@@ -88,8 +88,9 @@ export const GlobalSetting = props => {
 
   const tableData = data.map(({ key, value, type, _id }) => [
     key,
-    value,
     type,
+
+    `${value}`,
 
     <>
       <div className="flex">
@@ -142,7 +143,7 @@ export const GlobalSetting = props => {
               onKeyDown={handleKeyPress}
             />
             <span
-              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer hover:text-blue-600"
               onClick={handleSearch}
             >
               <FaSearch />
@@ -160,7 +161,7 @@ export const GlobalSetting = props => {
               onKeyDown={handleKeyPress}
             />
             <span
-              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer hover:text-blue-600"
               onClick={handleSearch}
             >
               <FaSearch />
@@ -169,7 +170,7 @@ export const GlobalSetting = props => {
         </div>
         <Table
           tableData={tableData}
-          tableHead={['Key', 'Value', 'Type', 'Actions']}
+          tableHead={['Key', 'Type', 'Value', 'Is active', 'Actions']}
           pagination={tablePagination}
           handlePagination={handlePagination}
         />
