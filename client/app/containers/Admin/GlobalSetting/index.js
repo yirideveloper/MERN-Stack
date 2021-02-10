@@ -159,12 +159,18 @@ export const GlobalSetting = props => {
               <option value="">Choose type</option>
               {types &&
                 types.length > 0 &&
-                types.map(each => (
-                  <option value={each.name} key={each._id}>
-                    {each.name}
+                types.map((each, index) => (
+                  <option value={each} key={`ty-${index}`}>
+                    {each}
                   </option>
                 ))}
             </select>
+            <span
+              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+              onClick={handleSearch}
+            >
+              <FaSearch />
+            </span>
           </div>
           <div className="flex relative mr-2">
             <select
@@ -181,16 +187,22 @@ export const GlobalSetting = props => {
 
                   {sub_types &&
                     sub_types.length > 0 &&
-                    sub_types.map(each => (
-                      <option value={each.name} key={each._id}>
-                        {each.name}
+                    sub_types.map((each, index) => (
+                      <option value={each} key={index}>
+                        {each}
                       </option>
                     ))}
                 </>
               ) : (
-                  <option value="">Choose type first</option>
-                )}
+                <option value="">Choose type first</option>
+              )}
             </select>
+            <span
+              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+              onClick={handleSearch}
+            >
+              <FaSearch />
+            </span>
           </div>
 
           <div className="flex relative">
