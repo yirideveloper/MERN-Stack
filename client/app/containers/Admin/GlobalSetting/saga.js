@@ -127,6 +127,30 @@ function* deleteFailureFunc(action) {
   yield put(enqueueSnackbar(snackbarData));
 }
 
+function* loadType(action) {
+  const token = yield select(makeSelectToken());
+  yield call(
+    Api.get(
+      `setting/all/type`,
+      actions.loadTypeSuccess,
+      actions.loadTypeFailure,
+      token,
+    ),
+  );
+}
+
+function* loadSubType(action) {
+  const token = yield select(makeSelectToken());
+  yield call(
+    Api.get(
+      `setting/all/subtype/${action.payload}`,
+      actions.loadSubTypeSuccess,
+      actions.loadSubTypeFailure,
+      token,
+    ),
+  );
+}
+
 // Individual exports for testing
 export default function* globalSettingSaga() {
   yield takeLatest(types.LOAD_WITHDRAW_REQUEST, loadWithdraw);
@@ -134,4 +158,6 @@ export default function* globalSettingSaga() {
   yield takeLatest(types.SAVE_REQUEST, save);
   yield takeLatest(types.SAVE_SUCCESS, saveSuccessFunc);
   yield takeLatest(types.SAVE_FAILURE, saveFailureFunc);
+  yield takeLatest(types.LOAD_TYPE_REQUEST, loadType);
+  yield takeLatest(types.LOAD_SUB_TYPE_REQUEST, loadSubType);
 }
