@@ -81,7 +81,7 @@ export const GlobalSetting = props => {
     setQueryValue({ key: e.target.name, value: e.target.value });
     if (e.target.name === 'find_type') {
       loadSubTypeRequest(e.target.value);
-      setQueryValue({ key: 'find_sub_type', value: '' });
+      setQueryValue({ key: 'find_sub_types', value: '' });
     }
   };
 
@@ -159,18 +159,12 @@ export const GlobalSetting = props => {
               <option value="">Choose type</option>
               {types &&
                 types.length > 0 &&
-                types.map((each, index) => (
-                  <option value={each} key={`ty-${index}`}>
-                    {each}
+                types.map(each => (
+                  <option value={each.name} key={each._id}>
+                    {each.name}
                   </option>
                 ))}
             </select>
-            <span
-              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
-              onClick={handleSearch}
-            >
-              <FaSearch />
-            </span>
           </div>
           <div className="flex relative mr-2">
             <select
@@ -187,22 +181,16 @@ export const GlobalSetting = props => {
 
                   {sub_types &&
                     sub_types.length > 0 &&
-                    sub_types.map((each, index) => (
-                      <option value={each} key={index}>
-                        {each}
+                    sub_types.map(each => (
+                      <option value={each.name} key={each._id}>
+                        {each.name}
                       </option>
                     ))}
                 </>
               ) : (
-                <option value="">Choose type first</option>
-              )}
+                  <option value="">Choose type first</option>
+                )}
             </select>
-            <span
-              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
-              onClick={handleSearch}
-            >
-              <FaSearch />
-            </span>
           </div>
 
           <div className="flex relative">
