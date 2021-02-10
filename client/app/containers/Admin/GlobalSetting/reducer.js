@@ -24,8 +24,6 @@ export const initialState = {
     email_setting: '',
     is_active: true,
   },
-  types: [],
-  sub_types: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -75,14 +73,6 @@ const globalSettingReducer = (state = initialState, action) =>
         break;
       case types.SAVE_FAILURE:
         draft.loading = false;
-        break;
-
-      case types.LOAD_TYPE_SUCCESS:
-        draft.types = action.payload.data;
-        break;
-
-      case types.LOAD_SUB_TYPE_SUCCESS:
-        draft.sub_types = action.payload.data;
         break;
     }
   });
