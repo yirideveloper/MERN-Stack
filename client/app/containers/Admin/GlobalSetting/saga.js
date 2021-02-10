@@ -158,6 +158,4 @@ export default function* globalSettingSaga() {
   yield takeLatest(types.SAVE_REQUEST, save);
   yield takeLatest(types.SAVE_SUCCESS, saveSuccessFunc);
   yield takeLatest(types.SAVE_FAILURE, saveFailureFunc);
-  yield takeLatest(types.LOAD_TYPE_REQUEST, loadType);
-  yield takeLatest(types.LOAD_SUB_TYPE_REQUEST, loadSubType);
 }

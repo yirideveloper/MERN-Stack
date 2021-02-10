@@ -159,9 +159,9 @@ export const GlobalSetting = props => {
               <option value="">Choose type</option>
               {types &&
                 types.length > 0 &&
-                types.map((each, index) => (
-                  <option value={each} key={`ty-${index}`}>
-                    {each}
+                types.map(each => (
+                  <option value={each.name} key={each._id}>
+                    {each.name}
                   </option>
                 ))}
             </select>
@@ -187,9 +187,9 @@ export const GlobalSetting = props => {
 
                   {sub_types &&
                     sub_types.length > 0 &&
-                    sub_types.map((each, index) => (
-                      <option value={each} key={index}>
-                        {each}
+                    sub_types.map(each => (
+                      <option value={each.name} key={each._id}>
+                        {each.name}
                       </option>
                     ))}
                 </>
