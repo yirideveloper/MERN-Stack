@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
-
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { loadSlideRequest } from '../../containers/App/actions';
@@ -36,51 +35,17 @@ class SlickSlider extends React.PureComponent {
     const { slideObj, show_link, show_caption } = this.props;
     const slide = slideObj[this.props.slideKey];
     let settings = {
-      dots: true,
-      infinite: true,
-      adaptiveHeight: true,
-      speed: 500,
-      slidesToShow: 1,
+      slidesToShow: 2,
       slidesToScroll: 1,
-      initialSlide: 0,
-      responsive: [
-        {
-          breakpoint: 1100,
-          settings: {
-            arrows: false,
-            dots: false,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            infinite: true,
-          },
-        },
-        {
-          breakpoint: 768,
-          settings: {
-            arrows: false,
-            dots: false,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            arrows: false,
-            dots: false,
-            adaptiveHeight: false,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-          },
-        },
-      ],
+      dots: true,
+      centerMode: true,
+      centerPadding: '40px',
+      autoplay: true,
+      autoplaySpeed: 2000,
+      focusOnSelect: true,
     };
     try {
-      if (
-        slide.settings &&
-        typeof slide.settings === 'string' &&
-        slide.settings !== ''
-      ) {
+      if (slide.settings && typeof slide.settings === 'string') {
         settings = JSON.parse(slide.settings);
       }
     } catch (err) {
@@ -88,7 +53,7 @@ class SlickSlider extends React.PureComponent {
     }
     if (!slide) return null; // maybe add a loader here
     return (
-      <div>
+      <div className="slider">
         <Slider {...settings}>
           {slide.images.map(image => (
             <LinkBoth to={show_link ? `${image.link}` : ''} key={image._id}>
@@ -116,6 +81,9 @@ const mapDispatchToProps = dispatch => ({
   loadSlide: payload => dispatch(loadSlideRequest(payload)),
 });
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default compose(withConnect)(SlickSlider);
