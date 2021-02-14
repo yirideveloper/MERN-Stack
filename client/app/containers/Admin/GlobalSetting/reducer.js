@@ -17,11 +17,11 @@ export const initialState = {
   query: {},
   one: {
     key: '',
-    value_type: 'Boolean',
-    value: 'true',
+    value: '',
     type: '',
     sub_type: '',
     description: '',
+    email_setting: '',
     is_active: true,
   },
   types: [],

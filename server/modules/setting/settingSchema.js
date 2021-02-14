@@ -7,7 +7,7 @@ const settingSchema = new schema({
   type: { type: String, required: true },
   sub_type: { type: String },
   description: { type: String },
-  value_type: { type: String, enum: ['Boolean', 'Free text', 'Number'] },
+  email_setting: { type: schema.Types.Mixed },
   is_active: { type: Boolean, default: true },
   is_deleted: { type: Boolean, default: false },
   added_by: { type: schema.Types.ObjectId, required: true, ref: 'users' },

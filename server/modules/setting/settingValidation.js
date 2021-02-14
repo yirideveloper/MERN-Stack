@@ -20,16 +20,6 @@ settingValidation.validate = async (req, res, next) => {
         }
       ],
     },
-    {
-      field: 'value_type',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: settingConfig.validate.empty,
-          option: ['Boolean', 'Free text', 'Number'],
-        }
-      ],
-    },
   ]
   let errors = validateHelper.validation(data, validateArray);
 

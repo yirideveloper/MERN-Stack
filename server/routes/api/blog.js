@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const uploadHelper = require('../../helper/upload.helper')
+const fileUpload = require('../../helper/upload.helper')('public/blog/');
+const uploader = fileUpload.uploader;
+
 const blogModule = require('../../modules/blog/blogController');
 const { authentication, authorization } = require('../../middleware/auth.middleware');
 const { catSanitize, catValidate, sanitize, validate, countValidate, countSanitize } = require('../../modules/blog/blogValidation');
@@ -24,8 +26,8 @@ router.get('/blogbytag/:tag', blogModule.GetBlogByTag);
 router.get('/blogbyauthor/:author', blogModule.GetBlogByAuthor);
 router.get('/blogbytime', blogModule.GetBlogArchives);
 router.get('/blogbytime/:time', blogModule.GetBlogByDate);
-router.post('/', authentication, authorization, uploadHelper.uploadFiles('public/blog/', 'single', 'file'), sanitize, validate, blogModule.SaveBlog);
-router.post('/category', authentication, authorization, uploadHelper.uploadFiles('public/blog/', 'single', 'file'), catSanitize, catValidate, blogModule.SaveBlogCategory);
+router.post('/', authentication, authorization, uploader.single('file'), sanitize, validate, blogModule.SaveBlog);
+router.post('/category', authentication, authorization, uploader.single('file'), catSanitize, catValidate, blogModule.SaveBlogCategory);
 router.delete('/:id', authentication, authorization, blogModule.DeleteBlog);
 router.delete('/category/:id', authentication, authorization, blogModule.DeleteBlogCat);
 router.get('/htmlblog/:id', blogModule.getstaticBlog);
