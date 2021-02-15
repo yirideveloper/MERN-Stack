@@ -190,6 +190,12 @@ export const GlobalSetting = props => {
                   </option>
                 ))}
             </select>
+            <span
+              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+              onClick={handleSearch}
+            >
+              <FaSearch />
+            </span>
           </div>
           <div className="flex relative mr-2">
             <select
@@ -213,9 +219,15 @@ export const GlobalSetting = props => {
                     ))}
                 </>
               ) : (
-                  <option value="">Choose type first</option>
-                )}
+                <option value="">Choose type first</option>
+              )}
             </select>
+            <span
+              className=" inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
+              onClick={handleSearch}
+            >
+              <FaSearch />
+            </span>
           </div>
 
           <div className="flex relative">
