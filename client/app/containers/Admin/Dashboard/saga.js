@@ -85,18 +85,6 @@ function* loadRecentUser(action) {
   );
 }
 
-function* loadUserByDays(action) {
-  const token = yield select(makeSelectToken());
-  yield call(
-    Api.get(
-      'dashboard/user/days/30',
-      actions.loadUserByDaysSuccess,
-      actions.loadUserByDaysFailure,
-      token,
-    ),
-  );
-}
-
 export default function* defaultSaga() {
   yield takeLatest(types.LOAD_USER_REQUEST, loadUser);
   yield takeLatest(types.LOAD_ERROR_REQUEST, loadErrors);
@@ -105,5 +93,4 @@ export default function* defaultSaga() {
   yield takeLatest(types.LOAD_USER_BY_REGISTER_REQUEST, loadUserByRegister);
   yield takeLatest(types.LOAD_BLOGS_BY_USER_REQUEST, loadBlogsByUser);
   yield takeLatest(types.LOAD_RECENT_USER_REQUEST, loadRecentUser);
-  yield takeLatest(types.LOAD_USER_BY_DAYS_REQUEST, loadUserByDays);
 }

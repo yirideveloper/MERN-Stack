@@ -21,7 +21,6 @@ import {
   makeSelectUserByRegister,
   makeSelectBlogsByUser,
   makeSelectRecentUser,
-  makeSelectUserByDays,
 } from './selectors';
 import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
@@ -37,8 +36,6 @@ import {
   FaNewspaper,
 } from 'react-icons/fa';
 
-import LineChart from './Charts/LineChart';
-
 /* eslint-disable react/prefer-stateless-function */
 export class Dashboard extends React.PureComponent {
   componentDidMount() {
@@ -49,7 +46,6 @@ export class Dashboard extends React.PureComponent {
     this.props.loadUserByRegisterRequest();
     this.props.loadBlogsByUserRequest();
     this.props.loadRecentUserRequest();
-    this.props.loadUserByDaysRequest();
   }
 
   state = { open: false };
@@ -72,7 +68,6 @@ export class Dashboard extends React.PureComponent {
       userByRegister,
       blogsByUser,
       recentUser,
-      userByDays,
     } = this.props;
     return (
       <>
@@ -324,7 +319,6 @@ const mapStateToProps = createStructuredSelector({
   userByRegister: makeSelectUserByRegister(),
   blogsByUser: makeSelectBlogsByUser(),
   recentUser: makeSelectRecentUser(),
-  userByDays: makeSelectUserByDays(),
 });
 
 const withConnect = connect(mapStateToProps, { ...mapDispatchToProps, push });
