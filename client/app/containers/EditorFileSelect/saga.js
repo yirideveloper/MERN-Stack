@@ -7,7 +7,6 @@ import {
   makeSelectChosenFolders,
   makeSelectAll,
   makeSelectRenameFile,
-  makeSelectQuery,
 } from './selectors';
 import * as types from './constants';
 import * as actions from './actions';
@@ -19,18 +18,13 @@ function* loadFolders() {
 
 function* loadFiles(action) {
   const token = yield select(makeSelectToken());
-  let query = '';
-  const searchParams = yield select(makeSelectQuery());
-  if (searchParams) {
-    Object.keys(searchParams).map(each => {
-      query = `${query}&${each}=${searchParams[each]}`;
-      return null;
-    });
+  let query = 'root';
+  if (action.payload) {
+    query = action.payload;
   }
-  // console.log('from saga', query);
   yield call(
     Api.get(
-      `files/folder/${action.payload.path}?${query}`,
+      `files/folder/${query}`,
       actions.loadFilesSuccess,
       actions.loadFilesFailure,
       token,

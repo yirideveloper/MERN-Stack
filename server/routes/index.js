@@ -54,5 +54,5 @@ const teamRoutes = require('./api/team');
 router.use('/team', teamRoutes);
 
 const adminDashboard = require('./api/adminDashboard');
-router.use('/dashboard', adminDashboard);
+router.use('/admin-dashboard', adminDashboard);
 module.exports = router;
