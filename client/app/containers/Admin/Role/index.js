@@ -13,8 +13,7 @@ import {
   FaKey,
   FaPencilAlt,
   FaPlus,
-  FaSearch,
-  FaTrashAlt,
+  FaSearch, FaTrashAlt
 } from 'react-icons/fa';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -31,9 +30,12 @@ import saga from './saga';
 import { makeSelectAll, makeSelectLoading, makeSelectQuery } from './selectors';
 import lid from '../../../assets/img/lid.svg';
 
+
+
 /* eslint-disable react/prefer-stateless-function */
 export class AdminRole extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object.isRequired,
     loadAllRequest: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
@@ -209,9 +211,16 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
 });
 
-const withConnect = connect(mapStateToProps, { ...mapDispatchToProps, push });
+const withConnect = connect(
+  mapStateToProps,
+  { ...mapDispatchToProps, push },
+);
 
 const withReducer = injectReducer({ key: 'adminRole', reducer });
 const withSaga = injectSaga({ key: 'adminRole', saga });
 
-export default compose(withReducer, withSaga, withConnect)(AdminRole);
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(AdminRole);
