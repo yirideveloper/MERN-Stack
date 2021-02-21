@@ -11,24 +11,29 @@
 
 import React from 'react';
 import SlickSlider from '../../components/SlickSlider';
-import { Helmet } from 'react-helmet';
 import StaticContentDiv from '../../components/StaticContentDiv';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
+  state = { open: false };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     const { classes, category } = this.props;
 
     return (
       <>
-        <Helmet>
-          <title>
-            Home
-          </title>
-        </Helmet>
         <div className="container mx-auto">
-          <SlickSlider slideKey="homeslider" /></div>
+          <SlickSlider slideKey="homeslider" />
+          <StaticContentDiv contentKey="test" />
+        </div>
       </>
     );
   }
