@@ -4,26 +4,25 @@
  *
  */
 
-import { push } from 'connected-react-router';
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
-import { Helmet } from 'react-helmet';
 
 import { createStructuredSelector } from 'reselect';
-import injectReducer from 'utils/injectReducer';
+import { compose } from 'redux';
+import { push } from 'connected-react-router';
 import injectSaga from 'utils/injectSaga';
-import WECkEditior from '../../../components/CkEditor';
-import Loading from '../../../components/Loading';
-import PageContent from '../../../components/PageContent/PageContent';
-import PageHeader from '../../../components/PageHeader/PageHeader';
-import * as mapDispatchToProps from './actions';
+import injectReducer from 'utils/injectReducer';
+import { makeSelectAll, makeSelectOne, makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectAll, makeSelectLoading, makeSelectOne } from './selectors';
+import * as mapDispatchToProps from './actions';
+import PageHeader from '../../../components/PageHeader/PageHeader';
+import PageContent from '../../../components/PageContent/PageContent';
+import Loading from '../../../components/Loading';
+import WECkEditior from '../../../components/CkEditor';
+import { FaArrowLeft } from 'react-icons/fa';
 
 export function Template({
   classes,
@@ -69,9 +68,6 @@ export function Template({
   };
   return (
     <>
-      <Helmet>
-        <title>Email Template Manage</title>
-      </Helmet>
       <div className="flex justify-between my-3">
         {loading && loading == true ? <Loading /> : <></>}
 
@@ -99,7 +95,7 @@ export function Template({
               {all.map(each => (
                 <option value={each.template_key} key={each._id}>
                   {each.template_key}
-                </option>‚
+                </option>
               ))}
             </select>
           </div> */}

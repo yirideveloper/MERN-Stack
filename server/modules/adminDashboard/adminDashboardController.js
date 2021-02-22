@@ -109,7 +109,7 @@ adminDashboardController.getNoOfBlogByBlogWriter = async (req, res, next) => {
                   { $project: { author: '$author.name', amt: '$amt' } },
                   { $unwind: '$author' },
             ]);
-            const count = await blogSch.countDocuments();
+            const count = await blogSch.count();
             return otherHelper.sendResponse(res, httpStatus.OK, true, { blog: data, count: count }, null, 'Get User by Day', null);
       } catch (err) {
             next(err);

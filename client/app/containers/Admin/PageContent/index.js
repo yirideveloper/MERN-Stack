@@ -60,11 +60,11 @@ export class ContentsListingPage extends React.Component {
 
   handleAdd = () => {
     this.props.clearOne();
-    this.props.push('/admin/page-content/add');
+    this.props.push('/admin/page-manage/add');
   };
 
   handleEdit = id => {
-    this.props.push(`/admin/page-content/edit/${id}`);
+    this.props.push(`/admin/page-manage/edit/${id}`);
   };
 
   handleQueryChange = e => {

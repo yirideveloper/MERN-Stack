@@ -31,6 +31,7 @@ import { FaPencilAlt, FaPlus, FaSearch } from 'react-icons/fa';
 /* eslint-disable react/prefer-stateless-function */
 export class User extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object.isRequired,
     loadAllRequest: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
@@ -162,6 +163,7 @@ export class User extends React.PureComponent {
             <span
               className="inline-flex border-l absolute right-0 top-0 h-8 px-2 mt-1 items-center cursor-pointer text-blue-500"
               onClick={this.handleSearch}
+
             >
               <FaSearch />
             </span>
@@ -185,9 +187,16 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
 });
 
-const withConnect = connect(mapStateToProps, { ...mapDispatchToProps, push });
+const withConnect = connect(
+  mapStateToProps,
+  { ...mapDispatchToProps, push },
+);
 
 const withReducer = injectReducer({ key: 'adminUserManagePage', reducer });
 const withSaga = injectSaga({ key: 'adminUserManagePage', saga });
 
-export default compose(withReducer, withSaga, withConnect)(User);
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(User);

@@ -30,5 +30,3 @@ export const ADD_TWO_FACTOR_SUCCESS =
   'app/LoginUserPage/ADD_TWO_FACTOR_SUCCESS';
 export const ADD_TWO_FACTOR_FAILURE =
   'app/LoginUserPage/ADD_TWO_FACTOR_FAILURE';
-
-export const SET_OPEN = 'app/LoginAdminPage/SET_OPEN';

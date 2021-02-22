@@ -15,6 +15,7 @@ import { createStructuredSelector } from 'reselect';
 import DeleteDialog from '../../../components/DeleteDialog';
 import Dialog from '../../../components/Dialog/index';
 import Loading from '../../../components/Loading';
+import Modal from '../../../components/Modal';
 import PageContent from '../../../components/PageContent/PageContent';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import injectReducer from '../../../utils/injectReducer';
@@ -37,7 +38,7 @@ import {
   makeSelectQuery,
   makeSelectTag,
   makeSelectUpateCalled,
-  makeSelectUsers
+  makeSelectUsers,
 } from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -100,7 +101,7 @@ export class BlogManagePage extends React.Component {
   };
 
   handleView = slug_url => {
-    this.props.push(`/blog/${slug_url}`);
+    this.props.push(`/news/${slug_url}`);
   };
 
   handleOpen = id => {
@@ -357,7 +358,7 @@ export class BlogManagePage extends React.Component {
       }) => [
           <>
             <Link
-              to={`/blog/${moment(added_at).format('YYYY/MM/DD')}/${_id}`}
+              to={`/news/${moment(added_at).format('YYYY/MM/DD')}/${_id}`}
               target="_blank"
               className="block font-bold text-base text-blue-500 cursor-pointer hover:underline"
             >
@@ -431,7 +432,7 @@ export class BlogManagePage extends React.Component {
           doDelete={() => this.handleDeleteBlog(this.state.deleteId)}
         />
         <Helmet>
-          <title>Blogs</title>
+          <title>News Listing</title>
         </Helmet>
         <Dialog
           open={showQuickEdit}
@@ -483,7 +484,7 @@ export class BlogManagePage extends React.Component {
         <div className="flex justify-between my-3">
           {loading && loading == true ? <Loading /> : <></>}
           <PageHeader>
-            Blog
+            News
             <span className="text-sm border-r-1 p-2 m-2 ml-6">
               Published({msg && msg.published ? msg.published : null})
             </span>
@@ -515,7 +516,7 @@ export class BlogManagePage extends React.Component {
                 type="text"
                 name="find_title"
                 id="blog-title"
-                placeholder="Search Blog Title"
+                placeholder="Search News Title"
                 className="inputbox"
                 value={query.find_title}
                 onChange={this.handleQueryChange}
@@ -637,7 +638,7 @@ export class BlogManagePage extends React.Component {
             handlePagination={this.handlePagination}
             activeData={activeData}
             loading={loading}
-            emptyDataMsg="No Blog Found"
+            emptyDataMsg="No News Found"
           />
         </PageContent>
       </>

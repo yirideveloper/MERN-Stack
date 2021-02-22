@@ -14,18 +14,16 @@ import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import {
-  makeSelectContactDetail,
-  makeSelectErrorMsg,
-  makeSelectIsRequesting,
-  makeSelectError,
-  makeSelectSuccess,
+  makeSelectContactDetail, makeSelectErrorMsg, makeSelectIsRequesting,  makeSelectError,
+  makeSelectSuccess
 } from './selectors';
+
 
 const recaptchaRef = React.createRef();
 class ContactUs extends React.Component {
   state = { name: '', email: '', subject: '', message: '', reCaptcha: '' };
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -55,7 +53,7 @@ class ContactUs extends React.Component {
   };
 
   render() {
-    const { isRequesting, contactDetail, errors, errorMsg } = this.props;
+    const { isRequesting, contactDetail,  errors } = this.props;
     const { name, email, subject, message } = this.state;
 
     return (
@@ -69,8 +67,9 @@ class ContactUs extends React.Component {
         <div className="container mx-auto my-10">
           <div className="flex flex-wrap">
             <div className="w-full sm:w-full md:w-1/2">
-              <h2 class="text-xl font-bold">Get In Touch With Us</h2>
-              <div className="flex flex-wrap justify-start lg:justify-between lg:px-2">
+              
+        <h2 class="text-xl font-bold">Get In Touch With Us</h2>
+            <div className="flex flex-wrap justify-start lg:justify-between lg:px-2">
                 <div className="w-full lg:w-1/2 pb-4 m-0 lg:-ml-2">
                   <label
                     className="block uppercase tracking-wide text-grey-darker text-xs mb-2 text-black"
@@ -86,9 +85,7 @@ class ContactUs extends React.Component {
                     type="text"
                   />
                   {errors && errors.name && (
-                    <div className="text-red-400" id="component-error-text">
-                      {errors.name}
-                    </div>
+                    <div id="component-error-text">{errors.name}</div>
                   )}
                 </div>
                 <div className="w-full lg:w-1/2 pb-4 m-0 lg:-mr-2">
@@ -106,9 +103,7 @@ class ContactUs extends React.Component {
                     type="text"
                   />
                   {errors && errors.email && (
-                    <div className="text-red-400" id="component-error-text">
-                      {errors.email}
-                    </div>
+                    <div id="component-error-text">{errors.email}</div>
                   )}
                 </div>
               </div>
@@ -127,9 +122,7 @@ class ContactUs extends React.Component {
                   type="text"
                 />
                 {errors && errors.subject && (
-                  <div className="text-red-400" id="component-error-text">
-                    {errors.subject}
-                  </div>
+                  <div id="component-error-text">{errors.subject}</div>
                 )}
               </div>
               <div className="w-full pb-4">
@@ -148,28 +141,21 @@ class ContactUs extends React.Component {
                   type="text"
                 />
                 {errors && errors.message && (
-                  <div className="text-red-400" id="component-error-text">
-                    {errors.message}
-                  </div>
+                  <div id="component-error-text">{errors.message}</div>
                 )}
               </div>
 
               {isRequesting && isRequesting == true ? (
-                <>Loading</>
+               <>Loading</>
               ) : (
-                <form onSubmit={this.onSubmit}>
-                  <ReCAPTCHA
-                    ref={recaptchaRef}
-                    sitekey={RECAPTCHA_SITE_KEY}
-                    onChange={this.onChange}
-                  />
-                </form>
-              )}
-              {errorMsg && errorMsg !== '' && (
-                <div className="text-red-400" id="component-error-text">
-                  {errorMsg}
-                </div>
-              )}
+                  <form onSubmit={this.onSubmit}>
+                    <ReCAPTCHA
+                      ref={recaptchaRef}
+                      sitekey={RECAPTCHA_SITE_KEY}
+                      onChange={this.onChange}
+                    />
+                  </form>
+                )}
 
               <button
                 type="button"
@@ -202,12 +188,15 @@ ContactUs.propTypes = {
 const mapStateToProps = createStructuredSelector({
   isRequesting: makeSelectIsRequesting(),
   success: makeSelectSuccess(),
-  errorMsg: makeSelectErrorMsg(),
+  error: makeSelectErrorMsg(),
   errors: makeSelectError(),
   contactDetail: makeSelectContactDetail(),
 });
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'contactUs', reducer });
 const withSaga = injectSaga({ key: 'contactUs', saga });

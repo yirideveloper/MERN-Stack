@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
 import { push } from 'connected-react-router';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -78,11 +77,6 @@ const AddEdit = props => {
     <Loading />
   ) : (
       <>
-        <Helmet>
-          <title>{match && match.params && match.params.id
-            ? 'Edit Group Module'
-            : 'Add Group Module'}</title>
-        </Helmet>
         <div>
           <div className="flex justify-between my-3">
             <PageHeader>
@@ -90,8 +84,8 @@ const AddEdit = props => {
                 <FaArrowLeft className="text-xl" />
               </span>
               {match && match.params && match.params.id
-                ? 'Edit Group Module'
-                : 'Add Group Module'}
+                ? 'Edit Sub Module'
+                : 'Add Sub Module'}
             </PageHeader>
           </div>
           <PageContent>
@@ -121,6 +115,7 @@ const AddEdit = props => {
 
             <div className="w-full md:w-1/2">
               <label
+                className="block uppercase tracking-wide text-grey-darker text-xs mb-2"
                 htmlFor="grid-country-code-2"
               >
                 Description
@@ -149,7 +144,7 @@ const AddEdit = props => {
 
             <button
               type="button"
-              className="bg-blue-500 border border-blue-600 px-3 py-2 leading-none inline-flex items-center cursor-pointer hover:bg-blue-600 transition-all duration-100 ease-in text-sm text-white rounded mt-5"
+              className="text-white py-2 px-4 rounded mt-4 bg-primary uppercase btn-theme"
               onClick={handleSave}
             >
               Save

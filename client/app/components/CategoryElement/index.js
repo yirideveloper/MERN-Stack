@@ -114,7 +114,7 @@ const CategoryElement = props => {
           </h2>
           <Link
             className="bg-secondary text-xl w-7 h-7 rounded-full text-white ml-10 relative chevron-right"
-            to={`/blog/category/${latestBlogs[cat_id] &&
+            to={`/news/category/${latestBlogs[cat_id] &&
               latestBlogs[cat_id].category &&
               latestBlogs[cat_id].category.slug_url}`}
           >
@@ -128,6 +128,7 @@ const CategoryElement = props => {
               latestBlogs[cat_id].blogs &&
               latestBlogs[cat_id].blogs.map((each, index) => (
                 <div
+                  // onClick={() => push(`/news/${each.slug_url}`)}
                   key={each._id}
                   className={`px-2 pb-5 mb-5 border-b md:border-0 h-full item-${index +
                     1}`}
@@ -135,7 +136,7 @@ const CategoryElement = props => {
                   <div className="article-container bg-gray-100 h-full">
                     <div className="article-img-container">
                       <Link
-                        to={`/blog/${moment(each.added_at).format(
+                        to={`/news/${moment(each.added_at).format(
                           'YYYY/MM/DD',
                         )}/${each._id}`}
                       >
@@ -150,7 +151,7 @@ const CategoryElement = props => {
                     </div>
                     <div className="p-4 textpart">
                       <Link
-                        to={`/blog/${moment(each.added_at).format(
+                        to={`/news/${moment(each.added_at).format(
                           'YYYY/MM/DD',
                         )}/${each._id}`}
                         className="text-xl leading-normal hover:text-blue-500 pointer no-underline article-title font-mukta font-bold md:font-normal"
@@ -186,6 +187,7 @@ const CategoryElement = props => {
               latestBlogs[cat_id].blogs &&
               latestBlogs[cat_id].blogs.map((each, index) => (
                 <div
+                  // onClick={() => push(`/news/${each.slug_url}`)}
                   key={each._id}
                   className={`px-2 pb-5 mb-5 border-b md:border-0 h-full item-${index +
                     1}`}
@@ -193,7 +195,7 @@ const CategoryElement = props => {
                   <div className="article-container bg-gray-100 h-full">
                     <div className="article-img-container">
                       <Link
-                        to={`/blog/${moment(each.added_at).format(
+                        to={`/news/${moment(each.added_at).format(
                           'YYYY/MM/DD',
                         )}/${each._id}`}
                       >
@@ -208,7 +210,7 @@ const CategoryElement = props => {
                     </div>
                     <div className="p-4 textpart">
                       <Link
-                        to={`/blog/${moment(each.added_at).format(
+                        to={`/news/${moment(each.added_at).format(
                           'YYYY/MM/DD',
                         )}/${each._id}`}
                         className="text-xl leading-normal hover:text-blue-500 pointer no-underline article-title font-mukta font-bold md:font-normal"

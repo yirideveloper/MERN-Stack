@@ -12,7 +12,6 @@ import { compose } from 'redux';
 import { push } from 'connected-react-router';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { Helmet } from 'react-helmet';
 import { makeSelectAll, makeSelectOne, makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -82,12 +81,9 @@ export function Template({
   ]);
   return (
     <>
-      <Helmet>
-        <title>Email Template</title>
-      </Helmet>
       <div className="flex justify-between my-3">
         {loading && loading == true ? <Loading /> : <></>}
-        <PageHeader>Email Template</PageHeader>
+        <PageHeader>Email Template List</PageHeader>
         <div className="flex items-center">
           <button
             className="bg-blue-500 border border-blue-600 px-3 py-2 leading-none inline-flex items-center cursor-pointer hover:bg-blue-600 transition-all duration-100 ease-in text-sm text-white rounded"
@@ -102,7 +98,7 @@ export function Template({
         <Table
           tableData={tableData}
           tableHead={['Name', 'Key', 'Edit']}
-          pagination={{ totaldata: all.length, page: 1, size: all.length }}
+          pagination={{ totaldata: all.length }}
         />
       </PageContent>
     </>

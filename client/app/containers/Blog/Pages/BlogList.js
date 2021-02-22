@@ -55,7 +55,7 @@ export class BlogListPage extends React.Component {
     return (
       <React.Fragment>
         <Helmet>
-          <title>Blogs</title>
+          <title>News</title>
         </Helmet>
 
         <HighLightList
