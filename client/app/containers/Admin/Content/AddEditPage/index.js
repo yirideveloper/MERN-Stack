@@ -45,7 +45,11 @@ class AddEdit extends React.PureComponent {
 
   componentDidMount() {
     this.props.clearErrors();
-    if (this.props.match.params && this.props.match.params.id !== '') {
+    if (
+      this.props.match.params &&
+      this.props.match.params.id !== undefined &&
+      this.props.match.params.id !== ''
+    ) {
       this.props.loadOneRequest(this.props.match.params.id);
     }
   }
@@ -73,7 +77,7 @@ class AddEdit extends React.PureComponent {
   };
 
   handleGoBack = () => {
-    this.props.push('/admin/content-manage');
+    this.props.push('/admin/section-content');
   };
 
   handleSave = () => {
@@ -87,12 +91,14 @@ class AddEdit extends React.PureComponent {
 
   insertMetaTags = event => {
     event.preventDefault();
-    if (this.props.one.meta_tag.indexOf(this.props.tempMetaTag) === -1) {
-      this.props.setOneValue({
-        key: 'meta_tag',
-        value: [...this.props.one.meta_tag, this.props.tempMetaTag],
-      });
-      this.props.setMetaTagValue('');
+    if (this.props.tempMetaTag.trim() !== '') {
+      if (this.props.one.meta_tag.indexOf(this.props.tempMetaTag) === -1) {
+        this.props.setOneValue({
+          key: 'meta_tag',
+          value: [...this.props.one.meta_tag, this.props.tempMetaTag],
+        });
+        this.props.setMetaTagValue('');
+      }
     }
     return { tempMetaTag: this.props.setMetaTagValue('') };
   };
@@ -132,8 +138,8 @@ class AddEdit extends React.PureComponent {
               <FaArrowLeft className="text-xl" />
             </span>
             {match && match.params && match.params.id
-              ? 'Edit Static Content'
-              : 'Add Static Content'}
+              ? 'Edit Section Content'
+              : 'Add Section Content'}
           </PageHeader>
         </div>
 
@@ -237,6 +243,7 @@ class AddEdit extends React.PureComponent {
             <input
               checked={one.is_active || false}
               onClick={this.handleCheckedChange('is_active')}
+              onChange={this.handleCheckedChange('is_active')}
               id="is_active"
               type="checkbox"
             />
