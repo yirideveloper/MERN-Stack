@@ -32,7 +32,6 @@ import {
 import lid from '../../../../assets/img/lid.svg';
 
 import Dialog from '../../../../components/Dialog/index';
-import CKEditor from 'react-ckeditor-component';
 
 const DragHandle = SortableHandle(() => (
   <span className="hover:shadow-lg ease-in-out cursor-move">
@@ -94,18 +93,14 @@ const SortableImageList = SortableContainer(({ items, _this }) => (
                 />
               </div>
               <div className="flex-1 text-center">
-                <CKEditor
-                  name="Answer"
-                  content={value && value.caption}
-                  config={{
-                    allowedContent: true,
-                    toolbar_Basic: [['Source', '-', 'Bold', 'Italic']],
-                    toolbar: 'Basic',
-                  }}
-                  events={{
-                    change: e => _this.handleEditorChange(e, index, 'caption'),
-                    value: (value && value.caption) || '',
-                  }}
+                <textarea
+                  className="inputbox"
+                  id={`slider-caption-${index}`}
+                  type="text"
+                  value={value.caption || ''}
+                  placeholder="Caption"
+                  onChange={_this.handleImageCaptionChange(index)}
+                  style={{ background: '#FFF', height: '100%' }}
                 />
               </div>
               <div className="w-auto -mr-8 text-center">
@@ -243,14 +238,6 @@ class AddEdit extends React.PureComponent {
       key: 'images',
       value: arrayMove(this.props.one.images, oldIndex, newIndex),
     });
-  };
-
-  handleEditorChange = (e, index, name) => {
-    const newContent = e.editor.getData();
-    const tempImages = [...this.props.one.images];
-    tempImages[index] = { ...tempImages[index], caption: newContent };
-    this.props.setOneValue({ key: name, value: tempImages });
-    // this.props.setOneValue({ key: name, value: newContent });
   };
 
   render() {

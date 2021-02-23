@@ -11,8 +11,6 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { Helmet } from 'react-helmet';
-
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -24,6 +22,7 @@ import * as mapDispatchToProps from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import { makeSelectAll, makeSelectLoading, makeSelectOne } from './selectors';
+
 
 export function Template({
   classes,
@@ -69,9 +68,6 @@ export function Template({
   };
   return (
     <>
-      <Helmet>
-        <title>Email Template Manage</title>
-      </Helmet>
       <div className="flex justify-between my-3">
         {loading && loading == true ? <Loading /> : <></>}
 
