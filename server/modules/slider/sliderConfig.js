@@ -9,6 +9,6 @@ module.exports = {
     inputErrors: 'Invalid Inputs',
   },
   get: 'Slider get successful!!',
-  save: 'Slider saved successful!!',
+  save: 'Slider save successful!!',
   delete: 'Slider delete successful!!',
 };
