@@ -28,7 +28,7 @@ export default class HomePage extends React.PureComponent {
           </title>
         </Helmet>
         <div className="container mx-auto">
-          <SlickSlider slideKey="testslider" /></div>
+          <SlickSlider slideKey="homeslider" /></div>
       </>
     );
   }
