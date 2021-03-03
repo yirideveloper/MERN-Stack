@@ -34,8 +34,6 @@ export default class DateInput extends React.PureComponent {
         text: `${each - index}`,
       }));
 
-    this.dateOptions.shift();
-
     const numberOfDayOptions = 31;
     this.dayOptions = Array(numberOfDayOptions)
       .fill(1)

@@ -49,7 +49,7 @@ export const SubModules = props => {
 
   useEffect(() => {
     loadAllRequest(query);
-  }, [query.page, query.size]);
+  }, []);
 
   const handleAdd = () => {
     clearOne();
@@ -75,8 +75,7 @@ export const SubModules = props => {
   };
 
   const handlePagination = ({ page, size }) => {
-    setQueryValue({ key: 'page', value: page });
-    setQueryValue({ key: 'size', value: size });
+    loadAllRequest({ page, size });
   };
 
   const handleSearch = () => {

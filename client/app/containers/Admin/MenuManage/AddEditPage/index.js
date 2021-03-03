@@ -202,6 +202,8 @@ const AddEdit = props => {
     );
   };
 
+  console.log(subMenu);
+
   return loading && loading == true ? (
     <Loading />
   ) : (
@@ -525,7 +527,7 @@ AddEdit.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.object,
   }),
-  //
+  // classes: PropTypes.object.isRequired,
   one: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   push: PropTypes.func.isRequired,

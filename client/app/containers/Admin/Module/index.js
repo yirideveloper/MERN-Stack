@@ -33,7 +33,7 @@ import lid from '../../../assets/img/lid.svg';
 import { FaPlus, FaSearch, FaPencilAlt, FaKey } from 'react-icons/fa';
 
 /* eslint-disable react/prefer-stateless-function */
-export class AdminModuleManage extends React.Component {
+export class AdminModuleManage extends React.PureComponent {
   static propTypes = {
     loadAllRequest: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
@@ -52,20 +52,6 @@ export class AdminModuleManage extends React.Component {
   componentDidMount() {
     this.props.loadAllRequest(this.props.query);
     this.props.loadSubModuleRequest();
-  }
-
-  shouldComponentUpdate(props) {
-    if (this.state.cleared) {
-      this.setState({ cleared: false });
-      props.loadAllRequest(props.query);
-    }
-    if (
-      props.query.size != this.props.query.size ||
-      props.query.page != this.props.query.page
-    ) {
-      props.loadAllRequest(props.query);
-    }
-    return true;
   }
 
   handleAdd = () => {
@@ -98,8 +84,7 @@ export class AdminModuleManage extends React.Component {
   };
 
   handlePagination = paging => {
-    this.props.setQueryValue({ key: 'page', value: paging.page });
-    this.props.setQueryValue({ key: 'size', value: paging.size });
+    this.props.loadAllRequest(paging);
   };
 
   handleDropdown = event => {

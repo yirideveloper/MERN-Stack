@@ -79,7 +79,7 @@ function CustomTable({ ...props }) {
                   handlePagination({ ...pagination, size: e.target.value });
                 }}
               >
-                {[5, 10, 25, 50, 100].map(each => (
+                {[10, 25, 50, 100].map(each => (
                   <option value={each} key={each}>
                     {each}
                   </option>
