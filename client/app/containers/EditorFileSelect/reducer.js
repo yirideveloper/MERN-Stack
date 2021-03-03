@@ -38,7 +38,6 @@ export const initialState = {
   showRename: false,
   fileRenameLoading: false,
   query: { search: '' },
-  errors: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -88,7 +87,6 @@ const editorFileSelectReducer = (state = initialState, action) =>
         break;
       case types.RENAME_FOLDER_FAILURE:
         draft.folderRename = false;
-        draft.errors = action.payload.errors;
         break;
       case types.LOAD_NEW_FOLDER_FAILURE:
         draft.folderAddRequest = false;

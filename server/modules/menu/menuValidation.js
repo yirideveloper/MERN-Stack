@@ -14,8 +14,12 @@ validation.sanitize = (req, res, next) => {
       sanitize: {
         trim: true,
       },
-    },
-    {
+    }, {
+      field: 'order',
+      sanitize: {
+        trim: true,
+      },
+    }, {
       field: 'key',
       sanitize: {
         trim: true,
@@ -139,6 +143,19 @@ validation.itemValidate = (req, res, next) => {
         },
         {
           condition: 'IsMongoId',
+          msg: menuConfig.validate.invalid,
+        },
+      ],
+    },
+    {
+      field: 'order',
+      validate: [
+        {
+          condition: 'IsEmpty',
+          msg: menuConfig.validate.empty,
+        },
+        {
+          condition: 'IsInt',
           msg: menuConfig.validate.invalid,
         },
       ],
