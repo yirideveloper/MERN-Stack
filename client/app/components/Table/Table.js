@@ -52,7 +52,7 @@ function CustomTable({ ...props }) {
             <tbody>
               <tr>
                 <td colSpan={tableHead.length} className="py-2 text-center">
-                  <div className="circular_loader waftloader"></div>
+                  <div class="circular_loader waftloader"></div>
                 </td>
               </tr>
             </tbody>
@@ -79,7 +79,7 @@ function CustomTable({ ...props }) {
                   handlePagination({ ...pagination, size: e.target.value });
                 }}
               >
-                {[5, 10, 25, 50, 100].map(each => (
+                {[10, 25, 50, 100].map(each => (
                   <option value={each} key={each}>
                     {each}
                   </option>

@@ -8,7 +8,6 @@ const faqController = {};
 faqController.PostFaq = async (req, res, next) => {
   try {
     const faqs = req.body;
-    console.log('post faq', faqs)
     if (faqs && faqs._id) {
       faqs.updated_at = new Date();
       faqs.updated_by = req.user.id;
@@ -48,8 +47,6 @@ faqController.GetFaq = async (req, res, next) => {
   try {
     let { page, size, populate, selectQuery, searchQuery, sortQuery } = otherHelper.parseFilters(req, 10, false);
 
-    searchQuery = { is_active: true, ...searchQuery };
-    console.log('aaaa', req.query)
     if (req.query.find_title) {
       searchQuery = {
         title: {
@@ -60,7 +57,13 @@ faqController.GetFaq = async (req, res, next) => {
       };
     }
     if (req.query.find_category) {
-      searchQuery = { category: req.query.find_category, ...searchQuery };
+      searchQuery = {
+        category: {
+          $regex: req.query.find_category,
+          $options: 'i',
+        },
+        ...searchQuery,
+      };
     }
     if (req.query.find_question) {
       searchQuery = {
@@ -89,7 +92,7 @@ faqController.GetFaqCat = async (req, res, next) => {
     if (req.query.page && req.query.page == 0) {
       selectQuery = 'title is_active';
       const faqCats = await faqCatSch.find({ searchQuery }).select(selectQuery);
-      return otherHelper.sendResponse(res, httpStatus.OK, true, faqCats, null, 'all faq category get success!!', null);
+      return otherHelper.sendResponse(res, httpStatus.OK, true, faqCats, null, 'all faq cats get success!!', null);
     }
     if (req.query.find_title) {
       searchQuery = {
@@ -102,15 +105,6 @@ faqController.GetFaqCat = async (req, res, next) => {
     }
     let faqCat = await otherHelper.getQuerySendResponse(faqCatSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
     return otherHelper.paginationSendResponse(res, httpStatus.OK, true, faqCat.data, faqConfig.catGet, page, size, faqCat.totalData);
-  } catch (err) {
-    next(err);
-  }
-};
-faqController.GetFaqCatDropDown = async (req, res, next) => {
-  try {
-    let selectQuery = 'title is_active';
-    const faqCats = await faqCatSch.find({ is_deleted: false, is_active: true }).select(selectQuery);
-    return otherHelper.sendResponse(res, httpStatus.OK, true, faqCats, null, 'all faq category get success!!', null);
   } catch (err) {
     next(err);
   }
@@ -176,12 +170,7 @@ faqController.DeleteFaqCat = async (req, res, next) => {
         deleted_at: new Date(),
       },
     });
-    await faqSch.updateMany({ category: id }, {
-      $set: {
-        is_active: false
-      }
-    })
-    return otherHelper.sendResponse(res, httpStatus.OK, true, delCat, null, 'faq category deleted!!', null);
+    return otherHelper.sendResponse(res, httpStatus.OK, true, delCat, null, 'faq cat deleted!!', null);
   } catch (err) {
     next(err);
   }

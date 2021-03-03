@@ -66,25 +66,6 @@ export class ContentsListingPage extends React.Component {
     this.props.loadAllRequest(this.props.query);
   }
 
-  shouldComponentUpdate(props) {
-    if (this.state.cleared) {
-      this.setState({ cleared: false });
-      props.loadAllRequest(props.query);
-    }
-    if (
-      props.query.size != this.props.query.size ||
-      props.query.page != this.props.query.page
-    ) {
-      props.loadAllRequest(props.query);
-    }
-    return true;
-  }
-
-  handlePagination = paging => {
-    this.props.setQueryValue({ key: 'page', value: paging.page });
-    this.props.setQueryValue({ key: 'size', value: paging.size });
-  };
-
   handleAdd = () => {
     this.props.clearOne();
     this.props.push('/admin/section-content/add');
@@ -129,6 +110,10 @@ export class ContentsListingPage extends React.Component {
     this.setState({ open: false });
   };
 
+  handlePagination = paging => {
+    this.props.loadAllRequest(paging);
+  };
+
   toggleHelp = () => {
     this.setState({ help: !this.state.help });
   };
@@ -150,8 +135,8 @@ export class ContentsListingPage extends React.Component {
           {is_active ? (
             <span className="label-active">active</span>
           ) : (
-            <span className="label-inactive">inactive</span>
-          )}
+              <span className="label-inactive">inactive</span>
+            )}
         </>,
         <>
           <div className="flex">
@@ -221,8 +206,9 @@ export class ContentsListingPage extends React.Component {
               </span>
               <br />
               <br />
-              &lt;
-              <span style={{ color: '#529BD8' }}>StaticContentDiv</span>{' '}
+              &lt;<span style={{ color: '#529BD8' }}>
+                StaticContentDiv
+              </span>{' '}
               <span style={{ color: '#9ADCFF' }} />
               contentKey=
               <span style={{ color: '#CE9076' }}>"about"</span> /&gt;
@@ -272,7 +258,12 @@ export class ContentsListingPage extends React.Component {
           </div>
 
           <Table
-            tableHead={['Name', 'Key', 'Is Active', 'Action']}
+            tableHead={[
+              'Name',
+              'Key',
+              'Is Active',
+              'Action',
+            ]}
             tableData={tableData}
             pagination={tablePagination}
             handlePagination={this.handlePagination}

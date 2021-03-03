@@ -32,7 +32,7 @@ import { makeSelectAll, makeSelectLoading, makeSelectQuery } from './selectors';
 import lid from '../../../assets/img/lid.svg';
 
 /* eslint-disable react/prefer-stateless-function */
-export class AdminRole extends React.Component {
+export class AdminRole extends React.PureComponent {
   static propTypes = {
     loadAllRequest: PropTypes.func.isRequired,
     setQueryValue: PropTypes.func.isRequired,
@@ -55,25 +55,6 @@ export class AdminRole extends React.Component {
   componentDidMount() {
     this.props.loadAllRequest(this.props.query);
   }
-
-  shouldComponentUpdate(props) {
-    if (this.state.cleared) {
-      this.setState({ cleared: false });
-      props.loadAllRequest(props.query);
-    }
-    if (
-      props.query.size != this.props.query.size ||
-      props.query.page != this.props.query.page
-    ) {
-      props.loadAllRequest(props.query);
-    }
-    return true;
-  }
-
-  handlePagination = paging => {
-    this.props.setQueryValue({ key: 'page', value: paging.page });
-    this.props.setQueryValue({ key: 'size', value: paging.size });
-  };
 
   handleAdd = () => {
     this.props.clearOne();
@@ -104,6 +85,10 @@ export class AdminRole extends React.Component {
     if (e.key === 'Enter') {
       this.handleSearch();
     }
+  };
+
+  handlePagination = paging => {
+    this.props.loadAllRequest(paging);
   };
 
   handleOpen = id => {

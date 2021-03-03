@@ -8,7 +8,6 @@ const faqSchema = new schema({
   added_at: { type: Date, default: Date.now },
   added_by: { type: schema.Types.ObjectId, ref: 'users' },
   is_deleted: { type: Boolean, required: true, default: false },
-  is_active: { type: Boolean, required: true, default: true },
   updated_at: { type: Date, default: Date.now },
   deleted_at: { type: Date, default: Date.now },
 });

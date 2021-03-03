@@ -26,13 +26,7 @@ import reducer from './reducer';
 import saga from './saga';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import {
-  FaPencilAlt,
-  FaPlus,
-  FaArrowLeft,
-  FaCheck,
-  FaTimes,
-} from 'react-icons/fa';
+import { FaPencilAlt, FaPlus, FaArrowLeft, FaCheck } from 'react-icons/fa';
 import { enqueueSnackbar } from '../../App/actions';
 import CKEditor from 'react-ckeditor-component';
 
@@ -52,7 +46,6 @@ export const GlobalSetting = props => {
   useInjectSaga({ key, saga });
 
   const [errors, setError] = useState('');
-  const [tempVal, setTempVal] = useState('');
 
   useEffect(() => {
     if (props.match.params && props.match.params.id) {
@@ -66,14 +59,7 @@ export const GlobalSetting = props => {
     if (name === 'value_type' && event.target.value === 'Boolean') {
       setOneValue({ key: 'value', value: 'true' });
     }
-    if (name === 'value_type' && event.target.value === 'Array') {
-      setOneValue({ key: 'value', value: [] });
-    }
-    if (
-      name === 'value_type' &&
-      event.target.value !== 'Boolean' &&
-      event.target.value !== 'Array'
-    ) {
+    if (name === 'value_type' && event.target.value !== 'Boolean') {
       setOneValue({ key: 'value', value: '' });
     }
   };
@@ -105,33 +91,6 @@ export const GlobalSetting = props => {
     } else {
       saveRequest();
     }
-  };
-
-  const handleTempValue = event => {
-    setTempVal(event.target.value);
-  };
-
-  const insertTags = event => {
-    event.preventDefault();
-    if (tempVal.trim() !== '') {
-      if (one.value.indexOf(tempVal) === -1) {
-        setOneValue({
-          key: 'value',
-          value: [...one.value, tempVal],
-        });
-        setTempVal('');
-      }
-    }
-    return { tempVal: setTempVal('') };
-  };
-
-  const handleDelete = index => () => {
-    const chipData = [...one.value];
-    chipData.splice(index, 1);
-    setOneValue({
-      key: 'value',
-      value: chipData,
-    });
   };
 
   return (
@@ -173,7 +132,6 @@ export const GlobalSetting = props => {
             <option value="Free text">Free text</option>
             <option value="Number">Number</option>
             <option value="ck_editor">Ck editor</option>
-            <option value="Array">Array</option>
           </select>
         </div>
         {one.value_type === 'Boolean' && (
@@ -232,30 +190,6 @@ export const GlobalSetting = props => {
             />
           </div>
         )}
-
-        {one.value_type === 'Array' && (
-          <div className="w-full md:w-1/2 pb-4">
-            <label htmlFor="blog-tags">Value</label>
-            <form onSubmit={insertTags}>
-              <input
-                className="inputbox"
-                id="blog-tags"
-                type="text"
-                value={tempVal || ''}
-                name="val"
-                onChange={handleTempValue}
-              />
-            </form>
-            {one.value.map((val, index) => (
-              <label className="tag" key={`${val}-${index}`}>
-                {val}
-                <span>
-                  <FaTimes onClick={handleDelete(index)} />
-                </span>
-              </label>
-            ))}
-          </div>
-        )}
         <div className="w-full md:w-1/2 pb-4">
           <label>Type</label>
           <input
@@ -299,7 +233,6 @@ export const GlobalSetting = props => {
             checked={one.is_active || false}
             id="is_active"
             type="checkbox"
-            onChange={null}
           />
           <label htmlFor="is_active">
             <span className="box">
@@ -314,7 +247,6 @@ export const GlobalSetting = props => {
             checked={one.is_removable || false}
             id="is_removable"
             type="checkbox"
-            onChange={null}
           />
           <label htmlFor="is_removable">
             <span className="box">

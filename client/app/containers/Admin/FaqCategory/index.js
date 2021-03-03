@@ -31,8 +31,9 @@ import lid from '../../../assets/img/lid.svg';
 import { FaPencilAlt, FaSearch, FaPlus } from 'react-icons/fa';
 
 /* eslint-disable react/prefer-stateless-function */
-export class FaqCategory extends React.Component {
+export class FaqCategory extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object,
     loadAllRequest: PropTypes.func.isRequired,
     deleteCatRequest: PropTypes.func.isRequired,
     all: PropTypes.shape({
@@ -52,31 +53,9 @@ export class FaqCategory extends React.Component {
     this.props.loadAllRequest(this.props.query);
   }
 
-  shouldComponentUpdate(props) {
-    if (this.state.cleared) {
-      this.setState({ cleared: false });
-      props.loadAllRequest(props.query);
-    }
-    if (
-      props.query.size != this.props.query.size ||
-      props.query.page != this.props.query.page
-    ) {
-      props.loadAllRequest(props.query);
-    }
-    return true;
-  }
-
-  handlePagination = paging => {
-    this.props.setQueryValue({ key: 'page', value: paging.page });
-    this.props.setQueryValue({ key: 'size', value: paging.size });
-  };
-
   handleQueryChange = e => {
     e.persist();
-    this.props.setQueryValue({
-      key: e.target.name,
-      value: e.target.value,
-    });
+    this.props.setQueryValue({ key: e.target.name, value: e.target.value });
   };
 
   handleSearch = () => {
@@ -104,6 +83,10 @@ export class FaqCategory extends React.Component {
   handleDelete = id => {
     this.props.deleteCatRequest(id);
     this.setState({ open: false });
+  };
+
+  handlePagination = paging => {
+    this.props.loadAllRequest(paging);
   };
 
   handleAdd = () => {

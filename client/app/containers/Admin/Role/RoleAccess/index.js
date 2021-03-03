@@ -26,6 +26,7 @@ import './style.css';
 
 const RoleAccess = props => {
   const {
+    classes,
     module_data,
     match,
     loaders,

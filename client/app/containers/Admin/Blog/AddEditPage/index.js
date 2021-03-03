@@ -49,6 +49,7 @@ class AddEdit extends React.PureComponent {
     match: PropTypes.shape({
       params: PropTypes.object,
     }),
+    classes: PropTypes.object.isRequired,
     one: PropTypes.object.isRequired,
     category: PropTypes.array,
     tempTag: PropTypes.string,
