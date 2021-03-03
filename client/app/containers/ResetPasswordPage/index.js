@@ -61,7 +61,7 @@ export const ResetPasswordPage = props => {
   return (
     <div className="max-w-lg mx-auto p-16">
       <h1 className="text-2xl font-bold">
-        Reset your password
+        Reset your password with the help of code sent to your email...
       </h1>
       <input
         className="inputbox w-full"
@@ -89,7 +89,7 @@ export const ResetPasswordPage = props => {
         className="inputbox w-full mt-4"
         id="password"
         name="password"
-        type="text"
+        type="password"
         value={defaultData.password}
         placeholder="Enter password"
         onChange={handleChange}
@@ -99,7 +99,7 @@ export const ResetPasswordPage = props => {
         className="inputbox w-full mt-4"
         id="confirm-password"
         name="confirm_password"
-        type="text"
+        type="password"
         value={defaultData.confirm_password}
         placeholder="Confirm password"
         onChange={handleChange}
@@ -128,11 +128,5 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
-export default compose(
-  withConnect,
-  memo,
-)(ResetPasswordPage);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+export default compose(withConnect, memo)(ResetPasswordPage);
