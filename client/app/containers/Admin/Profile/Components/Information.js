@@ -87,15 +87,18 @@ class UserPersonalInformationPage extends React.PureComponent {
 
         <div className="w-full md:w-1/2">
           <label>Date Of Birth</label>
-          <DateInput
-            onDateChange={date => {
-              this.props.setOneValue({
-                key: 'date_of_birth',
-                value: moment(date).format('YYYY-MM-DD'),
-              });
-            }}
-            birth_date={moment(one.date_of_birth).format('YYYY-MM-D')}
-          />
+
+          <div className="border-2 p-2 mb-2 rounded">
+            <DateInput
+              onDateChange={date => {
+                this.props.setOneValue({
+                  key: 'date_of_birth',
+                  value: moment(date).format('YYYY-MM-DD'),
+                });
+              }}
+              birth_date={moment(one.date_of_birth).format('YYYY-MM-D')}
+            />
+          </div>
         </div>
 
         <div className="checkbox pb-4">
@@ -113,8 +116,8 @@ class UserPersonalInformationPage extends React.PureComponent {
         </div>
 
         <div className="w-full mb-2 ">
-          <label>Roles</label>
-          <span className="rounded-full px-2 py-1 ml-2 text-xs border">
+          Role:
+          <span className="ml-2 inline-flex btn margin-none text-blue-500 bg-blue-100 border border-blue-200 mr-2">
             {one.roles.map(each => `${each.role_title} `)}
           </span>
         </div>
