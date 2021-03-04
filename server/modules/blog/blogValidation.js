@@ -118,19 +118,6 @@ validation.catValidate = async (req, res, next) => {
       ],
     },
     {
-      field: 'slug_url',
-      validate: [
-        {
-          condition: 'IsEmpty',
-          msg: blogConfig.validate.empty,
-        },
-        {
-          condition: 'IsProperKey',
-          msg: 'not Valid Input',
-        },
-      ],
-    },
-    {
       field: 'description',
       validate: [
         {

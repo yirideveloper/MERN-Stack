@@ -46,11 +46,7 @@ validations.validate = async (req, res, next) => {
         {
           condition: 'IsEmpty',
           msg: sliderConfig.validate.empty,
-        },
-        {
-          condition: 'IsProperKey',
-          msg: 'not Valid Input',
-        },
+        }
       ],
     },
   ]
