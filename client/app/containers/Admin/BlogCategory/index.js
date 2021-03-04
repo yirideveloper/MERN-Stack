@@ -179,8 +179,6 @@ export class BlogCategory extends React.Component {
           doClose={this.handleClose}
           doDelete={() => this.handleConfirmOpen()}
           body={`You have ${count} with this blog category, if you delete this category all blogs including this category will be deleted. are you sure to delete?`}
-          closeButton="No"
-          confirmButton="Yes"
         />
         <DeleteDialog
           open={this.state.confirmOpen}
