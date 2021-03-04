@@ -9,7 +9,7 @@ import Dropzone from 'react-dropzone';
 
 import Dialog from '../../../components/Dialog/index';
 import PageContent from '../../../components/PageContent/PageContent';
-import { FaCheck } from 'react-icons/fa';
+import { FaCheck, FaFolderOpen } from 'react-icons/fa';
 
 import * as mapDispatchToProps from '../actions';
 import {
@@ -410,7 +410,7 @@ const FileList = ({
       <Dialog
         open={dialogOpen}
         onClose={handleDialogClose}
-        title={`Cant Upload here`}
+        title={`Cant Ulpoad here`}
         body={`Create sub folder first and then ony you can upload image`}
         actions={
           <>
@@ -502,23 +502,23 @@ const FileList = ({
             <span>Rename</span>
           </button>
           {selectedButton === 'Delete' &&
-          (chosen_files.length > 0 || chosen_folders.length > 0) ? (
-            <button
-              onClick={confirmDelete}
-              className="blink items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
-            >
-              <FaTrash className="text-base mr-2" />
-              <span>Confirm Delete</span>
-            </button>
-          ) : (
-            <button
-              onClick={handleDeleteButton}
-              className="items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
-            >
-              <FaTrash className="text-base mr-2" />
-              <span>Delete</span>
-            </button>
-          )}
+            (chosen_files.length > 0 || chosen_folders.length > 0) ? (
+              <button
+                onClick={confirmDelete}
+                className="blink items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
+              >
+                <FaTrash className="text-base mr-2" />
+                <span>Confirm Delete</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleDeleteButton}
+                className="items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
+              >
+                <FaTrash className="text-base mr-2" />
+                <span>Delete</span>
+              </button>
+            )}
         </div>
       </div>
       <div className="my-auto">
@@ -648,9 +648,8 @@ const FileList = ({
               </div>
               <div
                 // data-tooltip={each.name}
-                className={`${
-                  selected === each._id ? 'folder_media' : ''
-                } flex flex-col w-full h-36 text-center cursor-pointer overflow-hidden mt-10`}
+                className={`${selected === each._id ? 'folder_media' : ''
+                  } flex flex-col w-full h-36 text-center cursor-pointer overflow-hidden mt-10`}
                 onClick={() => handleSingleClick(each._id)}
                 onDoubleClick={() => handleFolderLink(each._id)}
                 onKeyDown={() => handleFolderLink(each._id)}
@@ -722,9 +721,8 @@ const FileList = ({
               </div>
               <div
                 // data-tooltip={each.filename}
-                className={`${
-                  selected === each._id ? 'folder_media' : ''
-                } flex flex-col w-full h-36 text-center cursor-pointer overflow-hidden mt-10`}
+                className={`${selected === each._id ? 'folder_media' : ''
+                  } flex flex-col w-full h-36 text-center cursor-pointer overflow-hidden mt-10`}
               >
                 <div className="flex">
                   <img
@@ -743,8 +741,9 @@ const FileList = ({
           </div>
         ))}
         {folders.data.length < 1 && files.data.length < 1 && (
-          <div className="text-center w-full text-sm h-64">
-            This Folder is Empty
+          <div className="h-64 flex items-center justify-center flex-col w-full">
+            <FaFolderOpen style={{ fontSize: '6rem' }} className="mb-5 opacity-10 mx-auto" />
+            <p className="text-gray-400">This folder is empty.</p>
           </div>
         )}
       </div>
