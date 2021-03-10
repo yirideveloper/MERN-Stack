@@ -11,8 +11,6 @@ import {
   makeSelectContent,
   makeSelectUserIsAdmin
 } from '../../containers/App/selectors';
-import './module.css';
-
 /* eslint-disable react/no-danger */
 class StaticContent extends React.PureComponent {
   static propTypes = {

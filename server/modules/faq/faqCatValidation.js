@@ -55,11 +55,7 @@ faqCatValidation.Validation = async (req, res, next) => {
                 {
                     condition: 'IsEmpty',
                     msg: faqConfig.validate.isEmpty,
-                },
-                {
-                    condition: 'IsProperKey',
-                    msg: 'not Valid Input',
-                },
+                }
             ],
         },
     ];
