@@ -17,11 +17,7 @@ settingValidation.validate = async (req, res, next) => {
         {
           condition: 'IsEmpty',
           msg: settingConfig.validate.empty,
-        },
-        {
-          condition: 'IsProperKey',
-          msg: 'not Valid Input',
-        },
+        }
       ],
     },
     {

@@ -58,10 +58,6 @@ validations.validation = async (req, res, next) => {
           condition: 'IsLength',
           msg: contentConfig.validation.keyLength,
         },
-        {
-          condition: 'IsProperKey',
-          msg: 'not Valid Input',
-        },
       ],
     },
     {
