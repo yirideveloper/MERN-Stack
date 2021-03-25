@@ -12,7 +12,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import StaticContentDiv from '../../components/StaticContentDiv';
-import Slider from '../../components/SlickSlider';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
@@ -28,7 +27,6 @@ export default class HomePage extends React.PureComponent {
           </title>
         </Helmet>
         <div className="container mx-auto">
-          <Slider slideKey="temp" />
           <StaticContentDiv contentKey="about" /></div>
       </>
     );
