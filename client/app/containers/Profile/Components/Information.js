@@ -2,17 +2,15 @@
 import { push } from 'connected-react-router';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
-import Dropzone from 'react-dropzone';
-
 import 'react-datepicker/dist/react-datepicker.css';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { DATE_FORMAT, IMAGE_BASE } from '../../App/constants';
+import { DATE_FORMAT } from '../../App/constants';
 import * as mapDispatchToProps from '../actions';
 // core components
 import reducer from '../reducer';
@@ -24,69 +22,45 @@ import {
 } from '../selectors';
 import DateInput from '../../../components/DateInput';
 
-const UserPersonalInformationPage = props => {
-  const {
-    classes,
-    one,
-    errors,
-    loading,
-    clearError,
-    loadOneRequest,
-    setOneValue,
-    addEditRequest,
-  } = props;
-
-  useEffect(() => {
-    clearError();
-    loadOneRequest();
-  }, []);
-
-  useEffect(() => {
-    if (one.image && one.image.path) {
-      setImage(`${IMAGE_BASE}${one.image.path}`);
-    }
-  }, [one]);
-
-  const [image, setImage] = useState('');
-
-  const handleChange = name => event => {
-    event.persist();
-    setOneValue({ key: name, value: event.target.value });
+class UserPersonalInformationPage extends React.Component {
+  static propTypes = {
+    loadOneRequest: PropTypes.func.isRequired,
+    addEditRequest: PropTypes.func.isRequired,
+    setOneValue: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.object,
+    }),
+    one: PropTypes.object.isRequired,
+    errors: PropTypes.object,
   };
 
-  const handleDateChange = name => date => {
-    setOneValue({
+  componentDidMount() {
+    this.props.clearError();
+    this.props.loadOneRequest();
+  }
+
+  handleChange = name => event => {
+    event.persist();
+    this.props.setOneValue({ key: name, value: event.target.value });
+  };
+
+  handleDateChange = name => date => {
+    this.props.setOneValue({
       key: name,
       value: moment(date).format('YYYY-MM-DD'),
     });
   };
 
-  const handleSave = () => {
-    addEditRequest();
+  handleSave = () => {
+    this.props.addEditRequest();
   };
 
-  const onHandleUpload = files => {
-    setOneValue({
-      key: 'image',
-      value: files[0],
-    });
-    const reader = new FileReader();
-    reader.addEventListener(
-      'load',
-      () => {
-        setImage(reader.result);
-      },
-      false,
-    );
-    reader.readAsDataURL(files[0]);
-  };
-
-  return loading ? (
-    <div className="circular_loader waftloader"></div>
-  ) : (
-    <React.Fragment>
-      <div className="flex flex-wrap">
-        <div className="w-full lg:flex-1">
+  render() {
+    const { classes, one, errors, loading } = this.props;
+    return loading ? (
+      <div className="circular_loader waftloader"></div>
+    ) : (
+        <React.Fragment>
           <div className="w-full md:w-1/2 pb-4">
             <label>Name</label>
             <input
@@ -95,7 +69,7 @@ const UserPersonalInformationPage = props => {
               type="text"
               name="Name"
               value={one.name || ''}
-              onChange={handleChange('name')}
+              onChange={this.handleChange('name')}
             />
             <div className="error">{errors.name}</div>
           </div>
@@ -108,7 +82,7 @@ const UserPersonalInformationPage = props => {
               type="text"
               name="Email"
               value={one.email || ''}
-              onChange={handleChange('name')}
+              onChange={this.handleChange('name')}
             />
             <div className="error">{errors.email}</div>
           </div>
@@ -117,7 +91,7 @@ const UserPersonalInformationPage = props => {
             <label className="text-sm">Date Of Birth</label>
             <DateInput
               onDateChange={date => {
-                props.setOneValue({
+                this.props.setOneValue({
                   key: 'date_of_birth',
                   value: moment(date).format('YYYY-MM-DD'),
                 });
@@ -130,10 +104,7 @@ const UserPersonalInformationPage = props => {
             <div>
               <label className="text-sm">Role :</label>{' '}
               {one.roles.map(each => (
-                <span
-                  key={each._id}
-                  className="rounded-full px-2 py-1 mr-2 text-xs border"
-                >
+                <span key={each._id} className="rounded-full px-2 py-1 mr-2 text-xs border">
                   {each.role_title}{' '}
                 </span>
               ))}
@@ -143,54 +114,17 @@ const UserPersonalInformationPage = props => {
           {/* <div className="w-full  pb-4">
           Your account created at {moment(one.added_at).format(DATE_FORMAT)}
         </div> */}
-        </div>
-        <div
-          style={{
-            display: 'flex',
-          }}
-        >
-          <Dropzone onDrop={onHandleUpload}>
-            {({ getRootProps, getInputProps }) => (
-              <section
-                style={{ width: '100%' }}
-                className="text-black  hover:text-primary text-center self-start  border border-gray-500 rounded-lg border-solid cursor-pointer"
-              >
-                <div {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  {image ? (
-                    <img className=" w-full " src={image} alt="profile" />
-                  ) : (
-                    <div className="p-6">
-                      <p>Choose Profile picture</p>
-                    </div>
-                  )}
-                </div>
-              </section>
-            )}
-          </Dropzone>
-        </div>
-      </div>
 
-      <button
-        className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
-        onClick={handleSave}
-      >
-        Save Changes
-      </button>
-    </React.Fragment>
-  );
-};
-
-UserPersonalInformationPage.propTypes = {
-  loadOneRequest: PropTypes.func.isRequired,
-  addEditRequest: PropTypes.func.isRequired,
-  setOneValue: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }),
-  one: PropTypes.object.isRequired,
-  errors: PropTypes.object,
-};
+          <button
+            className="block btn text-white bg-blue-500 border border-blue-600 hover:bg-blue-600"
+            onClick={this.handleSave}
+          >
+            Save Changes
+        </button>
+        </React.Fragment>
+      );
+  }
+}
 
 const mapStateToProps = createStructuredSelector({
   one: makeSelectOne(),
