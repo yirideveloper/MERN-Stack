@@ -7,7 +7,6 @@ const validateHelper = require('../../helper/validate.helper');
 const roleConfig = require('./roleConfig');
 const moduleGroupSch = require('./moduleGroupSchema');
 const moduleAccessSch = require('./moduleSchema')
-const roleSch = require('./roleSchema');
 const validations = {};
 
 validations.validateRole = async (req, res, next) => {

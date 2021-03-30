@@ -33,14 +33,14 @@ Since anything in our codebase can be extended, overwritten, or installed as a p
   - `npm install`
 - Import Default data into MongoDB server from `database` folder
   - `cd ../database`
-  -  `run 'mongorestore' to import all BSON/json files`
+  - `run mongoimport command for all json file`
 - Configure Server
   - Create `.env` file in `server`
   - Update `.env` file with `MONGODB_URI=mongodb://localhost:27017/waft-engine` 
 - Running the application in development mode
   - Development Mode (Client only): `cd client` then `npm run start` then open `http://localhost:5051` in a browser
   - Development Mode (Server only): `cd server` then `npm run start` then open `http://localhost:5050` in a browser
-- Default Credentials : Email : admin@waftengine.org , Password : Test@1234
+- Default Credentials : Email : admin+we@wafttech.com , Password : Test@1234
 - For more [Getting started](https://waftengine.org/documentation/2019-7-1-getting-started-with-waftengine)
 
 ## Get involved
