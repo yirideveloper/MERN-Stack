@@ -16,8 +16,6 @@ function useComponentVisible(initialIsVisible, setShowList) {
   );
   const ref = useRef(null);
 
-
-
   const handleClickOutside = event => {
     // uses ref to check if outside of Div is clicked
     if (ref.current && !ref.current.contains(event.target)) {
@@ -31,6 +29,7 @@ function useComponentVisible(initialIsVisible, setShowList) {
   };
 
   const handleHideDropdown = event => {
+    // console.log('key', event.key);
     if (event.key === 'Escape') {
       setShowList(false);
     }
@@ -54,8 +53,6 @@ const Dialog = ({ open, onClose, className, title, body, actions }) => {
     setIsComponentVisible,
   } = useComponentVisible(open, onClose);
 
-  const dialogHeight = { maxHeight: 'calc(100vh - 100px)' }
-
   return open ? (
     <>
       <div
@@ -63,7 +60,7 @@ const Dialog = ({ open, onClose, className, title, body, actions }) => {
         onClick={onClose}
       />
       <div
-        className={`fixed left-2/4 top-2/4 z-50 shadow-lg transform -translate-x-2/4 -translate-y-2/4 rounded-lg bg-white slide-dialog ${className && className !== '' ? className : 'max-w-xl'
+        className={`fixed overflow-auto left-2/4 top-2/4 z-50 shadow-lg transform -translate-x-2/4 -translate-y-2/4 rounded-lg bg-white slide-dialog ${className && className !== '' ? className : 'max-w-xl'
           } `}
       >
         {title !== undefined && (
@@ -78,7 +75,7 @@ const Dialog = ({ open, onClose, className, title, body, actions }) => {
             </button>
           </div>
         )}
-        {body !== undefined && <div style={dialogHeight} className="overflow-auto p-4">{body}</div>}
+        {body !== undefined && <div className="p-4">{body}</div>}
         {actions !== undefined && (
           <div className="border-t p-2 flex justify-end">{actions}</div>
         )}

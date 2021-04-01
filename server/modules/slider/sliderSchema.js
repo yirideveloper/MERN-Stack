@@ -13,7 +13,6 @@ const sliderSchema = new schema({
     },
   ],
   settings: { type: schema.Types.Mixed },
-  is_removal: { type: Boolean, default: true },
   is_deleted: { type: Boolean, required: true, default: false },
   added_by: { type: schema.Types.ObjectId, ref: 'users' },
   added_at: { type: Date, default: Date.now },
