@@ -92,7 +92,7 @@ const appReducer = (state = initialState, action = { type: '' }) =>
             [action.payload.data.key]: action.payload.data._id,
           },
           is_page: {
-            ...draft.content.is_page,
+            ...draft.content.ids,
             [action.payload.data.key]: action.payload.data.is_page,
           },
         };
@@ -125,6 +125,7 @@ const appReducer = (state = initialState, action = { type: '' }) =>
         break;
       case types.ENQUEUE_SNACKBAR:
         draft.notifications = [...draft.notifications, { ...action.payload }];
+        // console.log('action.paylod', action.payload);
 
         break;
       case types.REMOVE_SNACKBAR:

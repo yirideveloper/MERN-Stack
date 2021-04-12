@@ -16,4 +16,6 @@ module.exports = {
   accessSave: 'access saved successful',
   accessGet: 'access get successful',
   gModuleDelete: 'group module delete successfully!!',
+
+
 };

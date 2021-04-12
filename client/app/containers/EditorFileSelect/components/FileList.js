@@ -340,6 +340,7 @@ const FileList = ({
   };
 
   const onChooseFile = image => {
+    console.log('here', image);
     addChosenFile(image);
   };
 
@@ -463,7 +464,8 @@ const FileList = ({
             </button>
           )} */}
 
-          {self.name === 'root' ? (
+          {window.location.pathname.includes('media-manage') &&
+          self.name === 'root' ? (
             <div
               onClick={() => handleDialogOpen()}
               className="items-center flex btn text-green-500 bg-green-100 border border-green-200 hover:bg-green-500 hover:border-green-500 mr-2 hover:text-white cursor-pointer"
@@ -501,22 +503,22 @@ const FileList = ({
           </button>
           {selectedButton === 'Delete' &&
             (chosen_files.length > 0 || chosen_folders.length > 0) ? (
-            <button
-              onClick={confirmDelete}
-              className="blink items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
-            >
-              <FaTrash className="text-base mr-2" />
-              <span>Confirm Delete</span>
-            </button>
-          ) : (
-            <button
-              onClick={handleDeleteButton}
-              className="items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
-            >
-              <FaTrash className="text-base mr-2" />
-              <span>Delete</span>
-            </button>
-          )}
+              <button
+                onClick={confirmDelete}
+                className="blink items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
+              >
+                <FaTrash className="text-base mr-2" />
+                <span>Confirm Delete</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleDeleteButton}
+                className="items-center flex btn bg-red-100 border border-red-200 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white"
+              >
+                <FaTrash className="text-base mr-2" />
+                <span>Delete</span>
+              </button>
+            )}
         </div>
       </div>
       <div className="my-auto">
@@ -611,7 +613,7 @@ const FileList = ({
         {folders.data.map(each => (
           <div className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5" key={each._id}>
             <div
-              className="h-48 mediaCont p-4 text-center border -ml-px -mb-px relative"
+              className="h-48 mediaCont p-4 text-center border -ml-px -mb-px opacity-75 hover:opacity-100 relative"
               onMouseOver={() => handleMouseOver(each._id)}
               onMouseLeave={() => handleMouseOver('')}
             >
@@ -667,7 +669,7 @@ const FileList = ({
         {files.data.map((each, index) => (
           <div className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5">
             <div
-              className="h-48 mediaCont p-4 text-center border -ml-px -mb-px relative"
+              className="h-48 mediaCont p-4 text-center border -ml-px -mb-px opacity-75 hover:opacity-100 relative"
               key={each._id}
               onMouseOver={() => handleMouseOverFile(each._id)}
               onMouseLeave={() => handleMouseOverFile('')}
