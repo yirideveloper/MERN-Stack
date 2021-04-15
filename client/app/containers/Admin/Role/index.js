@@ -210,7 +210,6 @@ export class AdminRole extends React.Component {
             tableData={tableData}
             pagination={tablePagination}
             handlePagination={this.handlePagination}
-            loading={loading}
           />
         </PageContent>
       </React.Fragment>

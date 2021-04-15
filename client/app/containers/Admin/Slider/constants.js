@@ -32,5 +32,3 @@ export const DELETE_ONE_SUCCESS = 'app/SliderPage/DELETE_ONE_SUCCESS';
 export const DELETE_ONE_FAILURE = 'app/SliderPage/DELETE_ONE_FAILURE';
 
 export const CLEAR_ERRORS = 'app/SliderPage/CLEAR_ERRORS';
-export const SET_SLIDER_VALUE = 'app/SliderPage/SET_SLIDER_VALUE';
-
