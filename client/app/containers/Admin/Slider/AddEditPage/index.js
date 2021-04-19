@@ -382,7 +382,9 @@ class AddEdit extends React.PureComponent {
               <thead>
                 <tr>
                   <th className="border px-2 py-1">Arrow</th>
+                  <th className="border px-2 py-1">Arrow Position</th>
                   <th className="border px-2 py-1">Dots</th>
+                  <th className="border px-2 py-1">Dots Position</th>
                   <th className="border px-2 py-1">Slides To Show</th>
                   <th className="border px-2 py-1">Slides To Scroll</th>
                   <th className="border px-2 py-1">Slides Per Row</th>
@@ -409,7 +411,17 @@ class AddEdit extends React.PureComponent {
                       </label>
                     </div>
                   </td>
-
+                  <td className="border px-2 py-1">
+                    {' '}
+                    <input
+                      className="inputbox"
+                      id="arrow_position"
+                      type="text"
+                      value={one.slider_setting.arrow_position}
+                      name="arrow_position"
+                      onChange={this.handleSliderChange('arrow_position')}
+                    />
+                  </td>
                   <td className="align-middle text-center border px-2 py-1">
                     <div className="checkbox" style={{ marginRight: '0px' }}>
                       <input
@@ -426,7 +438,17 @@ class AddEdit extends React.PureComponent {
                       </label>
                     </div>
                   </td>
-
+                  <td className="border px-2 py-1">
+                    <input
+                      className="inputbox"
+                      id="dot_position"
+                      type="text"
+                      value={one.slider_setting.dot_position}
+                      name="dot_position"
+                      onChange={this.handleSliderChange('dot_position')}
+                    // error={errors.dot_position}
+                    />
+                  </td>
                   <td className="border px-2 py-1">
                     <input
                       className="inputbox"

@@ -121,9 +121,8 @@ export const Testimonial = props => {
     setQueryValue({ key: 'sort', value: `${name}:${value}` });
   };
 
-  const tablePagination = { page, size, totaldata: totalData };
-  debugger
-  const tableData = data.map(
+  const tablePagination = { page, size, totalData };
+  const tableData = data && data.map(
     ({ _id, name, designation, company, description, date }) => [
       name,
       designation,
@@ -158,6 +157,7 @@ export const Testimonial = props => {
   );
   const handleSliderSettings = name => event => {
     const value = event.target.value
+    debugger
     if (event.target.type === 'number') {
       sliderSettingChange({
         key: name,

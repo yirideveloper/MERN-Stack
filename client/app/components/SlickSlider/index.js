@@ -14,9 +14,9 @@ import { loadSlideRequest } from '../../containers/App/actions';
 import { IMAGE_BASE } from '../../containers/App/constants';
 import { makeSelectSlide } from '../../containers/App/selectors';
 import LinkBoth from '../LinkBoth';
-import './index.css'
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { FaChevronCircleRight, FaChevronCircleLeft } from 'react-icons/fa';
+import './slick.css';
+
 /* eslint-disable react/prefer-stateless-function */
 class SlickSlider extends React.PureComponent {
   static propTypes = {
@@ -35,7 +35,48 @@ class SlickSlider extends React.PureComponent {
   render() {
     const { slideObj, show_link, show_caption } = this.props;
     const slide = slideObj[this.props.slideKey];
-    let settings
+    let settings = {
+      dots: true,
+      infinite: true,
+      adaptiveHeight: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      nextArrow: <FaChevronCircleRight />,
+      prevArrow: <FaChevronCircleLeft />,
+      responsive: [
+        {
+          breakpoint: 1100,
+          settings: {
+            arrows: false,
+            dots: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            arrows: false,
+            dots: false,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            arrows: false,
+            dots: false,
+            adaptiveHeight: false,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+      ],
+    };
     try {
       if (slide.settings && typeof slide.settings === 'string') {
         settings = JSON.parse(`${slide.settings}`);
@@ -43,21 +84,11 @@ class SlickSlider extends React.PureComponent {
     } catch (err) {
       console.log('something went wrong!', err);
     }
-    let combined;
-    if (!slide) return null; // maybe add a loader here
-    if (slide && slide.settings !== undefined) {
-      combined = { ...slide.slider_setting, ...settings };
-    } else {
-      combined = {
-        ...slide.slider_setting
-      };
-    }
-    console.log("slider", combined)
 
     if (!slide) return null; // maybe add a loader here
     return (
       <div>
-        <Slider {...combined}>
+        <Slider {...settings}>
           {slide.images.map(image => (
             <LinkBoth to={`${image.link ? image.link : ''}`} key={image._id}>
               <>
