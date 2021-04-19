@@ -33,12 +33,12 @@ class SlickSlider extends React.PureComponent {
   }
 
   render() {
-    const { slideObj } = this.props;
+    const { slideObj, show_link, show_caption } = this.props;
     const slide = slideObj[this.props.slideKey];
     let settings = {
       nextArrow: <FaChevronCircleRight />,
       prevArrow: <FaChevronCircleLeft />,
-    }
+    };
     try {
       if (slide.settings && typeof slide.settings === 'string') {
         settings = JSON.parse(`${slide.settings}`);

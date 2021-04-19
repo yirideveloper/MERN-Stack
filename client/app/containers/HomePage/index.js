@@ -13,7 +13,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import StaticContentDiv from '../../components/StaticContentDiv';
 import Slider from '../../components/SlickSlider';
-import Testimonials from './Testimonials';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
@@ -29,7 +28,6 @@ export default class HomePage extends React.PureComponent {
           </title>
         </Helmet>
         <Slider slideKey="home-slider" />
-        <Testimonials />
         <StaticContentDiv contentKey="about" />
       </>
     );
