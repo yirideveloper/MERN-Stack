@@ -20,6 +20,5 @@ router.delete('/cat/:id', authentication, authorization, faqModule.DeleteFaqCat)
 router.delete('/:id', authentication, authorization, faqModule.DeleteFaq);
 
 router.get('/count/category/:id', authentication, authorization, faqModule.CountFaqByCat)
-router.post('/multiple', authentication, authorization, faqModule.selectMultipleData);
 
 module.exports = router;
