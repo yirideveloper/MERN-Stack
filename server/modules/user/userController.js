@@ -17,7 +17,7 @@ const userController = {};
 
 userController.PostUser = async (req, res, next) => {
   try {
-    const user = req.body;
+    let user = req.body;
     if (user && user._id) {
       const update = await userSch.findByIdAndUpdate(user._id, {
         $set: user,
@@ -25,6 +25,7 @@ userController.PostUser = async (req, res, next) => {
       });
       return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, 'user update success!!', null);
     } else {
+      user.email = user.email.toLowerCase();
       const newUser = new userSch(user);
       const userSave = await newUser.save();
       return otherHelper.sendResponse(res, httpStatus.OK, true, userSave, null, 'user add success!!', null);
@@ -38,7 +39,7 @@ userController.PostUserPwd = async (req, res, next) => {
   try {
     let user = {};
     const { email, name, email_verified, roles, bio } = req.body;
-    user = { email, name, email_verified, roles, bio };
+    user = { email: email.toLowerCase(), name, email_verified, roles, bio };
     let salt = await bcrypt.genSalt(10);
     let hashPwd = await bcrypt.hash(req.body.password, salt);
     if (req.body && req.body._id) {
@@ -464,7 +465,6 @@ userController.ForgotPassword = async (req, res, next) => {
       },
       user.email,
     );
-    console.log('inside forgot password controller:', renderedMail)
 
     if (renderMail.error) {
       console.log('render mail error: ', renderMail.error);
@@ -766,4 +766,47 @@ userController.loginGOath = async (req, res, next) => {
   const { token, payload } = await userController.validLoginResponse(req, user, next);
   return otherHelper.sendResponse(res, httpStatus.OK, true, payload, null, 'Register Successfully', token);
 };
+
+
+userController.selectMultipleData = async (req, res, next) => {
+  try {
+    const { user_id, type } = req.body;
+    if (type == 'is_active') {
+      const Data = await userSch.updateMany(
+        { _id: { $in: user_id } },
+        [{
+          $set: {
+            is_active: { $not: "$is_active" }
+          },
+        }],
+      );
+      return otherHelper.sendResponse(res, httpStatus.OK, true, Data, null, 'Status Change Success', null);
+    }
+    else if (type == 'email_verified') {
+      const User = await userSch.updateMany(
+        { _id: { $in: user_id } },
+        [{
+          $set: {
+            email_verified: { $not: "$email_verified" }
+          },
+        }],
+      );
+      return otherHelper.sendResponse(res, httpStatus.OK, true, User, null, 'Status Change Success', null);
+    }
+    else {
+      const User = await userSch.updateMany(
+        { _id: { $in: user_id } },
+        {
+          $set: {
+            is_deleted: true,
+            deleted_at: new Date(),
+          },
+        },
+      );
+      return otherHelper.sendResponse(res, httpStatus.OK, true, User, null, 'Multiple Data Delete Success', null);
+    };
+  } catch (err) {
+    next(err);
+  }
+}
 module.exports = userController;

@@ -8,7 +8,6 @@ const faqController = {};
 faqController.PostFaq = async (req, res, next) => {
   try {
     const faqs = req.body;
-    console.log('post faq', faqs)
     if (faqs && faqs._id) {
       faqs.updated_at = new Date();
       faqs.updated_by = req.user.id;
@@ -48,7 +47,6 @@ faqController.GetFaq = async (req, res, next) => {
   try {
     let { page, size, populate, selectQuery, searchQuery, sortQuery } = otherHelper.parseFilters(req, 10, false);
 
-    console.log('aaaa', req.query)
     if (req.query.find_title) {
       searchQuery = {
         title: {
@@ -211,4 +209,32 @@ faqController.CountFaqByCat = async (req, res, next) => {
   return otherHelper.sendResponse(res, httpStatus.OK, true, faqCount, null, 'faq count by category', null);
 };
 
+
+faqController.selectMultipleData = async (req, res, next) => {
+  const { faq_id, type } = req.body;
+
+  if (type == 'is_active') {
+    const Data = await faqSch.updateMany(
+      { _id: { $in: faq_id } },
+      [{
+        $set: {
+          is_active: { $not: "$is_active" }
+        },
+      }],
+    );
+    return otherHelper.sendResponse(res, httpStatus.OK, true, Data, null, 'Status Change Success', null);
+  }
+  else {
+    const Data = await faqSch.updateMany(
+      { _id: { $in: faq_id } },
+      {
+        $set: {
+          is_deleted: true,
+          deleted_at: new Date(),
+        },
+      },
+    );
+    return otherHelper.sendResponse(res, httpStatus.OK, true, Data, null, 'Multiple Data Delete Success', null);
+  };
+}
 module.exports = faqController;
