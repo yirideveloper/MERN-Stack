@@ -141,8 +141,7 @@ const appReducer = (state = initialState, action = { type: '' }) =>
         break;
 
       case types.LOAD_FAQ_SUCCESS:
-        const tempKey = action.payload.data.cat.key;
-        draft.faqData = { ...draft.faqData, [tempKey]: action.payload.data };
+        draft.faqData = action.payload.data;
     }
   });
 

@@ -15,7 +15,8 @@ import { IMAGE_BASE } from '../../containers/App/constants';
 import { makeSelectSlide } from '../../containers/App/selectors';
 import LinkBoth from '../LinkBoth';
 import './index.css';
-
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 /* eslint-disable react/prefer-stateless-function */
 class SlickSlider extends React.PureComponent {
   static propTypes = {
@@ -48,10 +49,10 @@ class SlickSlider extends React.PureComponent {
       combined = { ...slide.slider_setting, ...settings };
     } else {
       combined = {
-        ...slide.slider_setting,
+        ...slide.slider_setting
       };
     }
-    console.log('slider', combined);
+    console.log("slider", combined);
 
     if (!slide) return null; // maybe add a loader here
     if (slide && slide.settings !== undefined) {

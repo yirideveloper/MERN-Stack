@@ -36,7 +36,6 @@ const App = ({ location }) => (
         <AdminRoute path="/admin" component={RoutesAdmin} />
         <Route path="/" component={RoutesPublic} />
       </Switch>
-      <div id="modal-root" />
     </div>
   </ErrorBoundary>
 );
